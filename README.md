@@ -15,9 +15,18 @@ Live: https://social-theory-model-builder.netlify.app
 
 Supported paper types: critical theoretical analysis, theoretical comparison (one figure per theory), theoretical elaboration (borrowed concepts and new propositions marked), theoretical integration/synthesis (end-to-end, side-by-side, or up-and-down), theoretical integrative review, and the 6-point theoretical analysis.
 
+## For instructors
+
+The [instructor guide](https://social-theory-model-builder.netlify.app/guide.html) (`guide.html`) covers a seven-session teaching sequence, the six paper types, an assessment rubric, reviewing student files, discussion prompts, customization, and suggested syllabus language. "See a finished example" on the home page opens a completed model with every step available to browse.
+
+## AI credit and disclosure
+
+D. L. Schuman designed the tool, its teaching approach, and its coaching content, and directed its development. The code, interface text, automated tests, and instructor guide were drafted and revised with generative AI assistants: Grok (xAI) and Claude (Anthropic; Claude Opus 5.5). The author reviewed and tested the result and is responsible for it. The app itself contains no AI and sends nothing a student types to any service.
+
 ## Technical notes
 
-- No build step: Netlify publishes `index.html` from the repo root.
+- No build step: Netlify publishes the repo root (`index.html`, `guide.html`, `styles.css`, `fonts/`).
+- Fonts are self-hosted under the SIL Open Font License (see `fonts/`): Atkinson Hyperlegible Next (body) and Bricolage Grotesque (headings and numerals).
 - No data leaves the browser. Work saves in the browser and in "Save my work" JSON files. Files saved by version 1.0 open in 1.1 with every reason, direction, style, and link attached to the right arrow.
 - Accessibility: every drag action has a keyboard alternative (move buttons, menus, arrow keys on figure boxes). Automated axe-core checks against WCAG 2.2 AA report no violations on any screen.
 

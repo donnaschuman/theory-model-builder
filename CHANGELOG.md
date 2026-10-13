@@ -18,7 +18,15 @@
 - Live **Your model** panel beside each step, with progress counts and a draft research question.
 
 ### Design
-- Step list with progress, layered cards, segmented controls, and responsive layouts for phone, tablet, and desktop.
+- New color system: indigo ink, ultramarine actions, highlighter yellow for what is selected or current, and one color per theory (A pink, B cyan, C lime, D amber, E violet) on badges, chips, and on-screen figure labels. Exported figures stay black and white for APA.
+- Raised, pressable chips, segmented controls, badges, and buttons.
+- Self-hosted Atkinson Hyperlegible Next (body) and Bricolage Grotesque (headings); no external font requests.
+- Step list with progress, layered cards, and responsive layouts for phone, tablet, and desktop.
+
+### Finished example, instructor guide, and AI disclosure
+- "See a finished example" opens a fully completed model (critical theoretical analysis, Theory of Planned Behavior, post-9/11 veterans) on the results page with every step open. A student's own work is set aside and restored with "Back to my model."
+- New instructor guide (`guide.html`), linked from the app bar, footer, and README.
+- AI credit and disclosure on the home page, in the footer, in the guide, and in the README.
 - Video slots on four steps, hidden until a link is set.
 
 ### Fixes
@@ -26,6 +34,7 @@
 - Progress started at "Step 2 of 14"; it now starts at step 1.
 - Pressing Enter in a page-number or construct field no longer tries to advance the step.
 - Returning to the old Start step and choosing "own topic" no longer erases the demo without warning (the step is retired).
+- Moderation hypotheses were labeled "exploratory" because moderator arrows are dashed by default; dashed on a moderator now means moderation only.
 - Moderator arrows aimed at the same path no longer land on one point over the H-number tag.
 - The research question and hypotheses boxes grow to fit their text.
 - Home page "How it works" now matches the steps.
