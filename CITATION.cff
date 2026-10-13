@@ -1,0 +1,17 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+title: "Social Theory Model Builder"
+version: 1.0.0
+date-released: 2026-10-13
+url: "https://social-theory-model-builder.netlify.app"
+license: MIT
+type: software
+authors:
+  - family-names: "Schuman"
+    given-names: "D. L."
+    affiliation: "The University of Texas at Arlington"
+keywords:
+  - social work
+  - theory
+  - path model
+  - doctoral education

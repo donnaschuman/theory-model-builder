@@ -1,0 +1,15 @@
+{
+  "title": "Social Theory Model Builder",
+  "version": "1.0.0",
+  "upload_type": "software",
+  "publication_date": "2026-10-13",
+  "description": "A single-page web application that guides students from a theory, population, and outcome to a plain-language research question, numbered hypotheses, and an editable path figure. Live at https://social-theory-model-builder.netlify.app",
+  "creators": [
+    {"name": "Schuman, D. L.", "affiliation": "The University of Texas at Arlington"}
+  ],
+  "license": "MIT",
+  "keywords": ["social work", "theory", "path model", "doctoral education"],
+  "related_identifiers": [
+    {"identifier": "https://social-theory-model-builder.netlify.app", "relation": "isDocumentedBy", "resource_type": "software"}
+  ]
+}
