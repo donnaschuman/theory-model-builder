@@ -822,7 +822,7 @@ function hypList(){
   return H;
 }
 function hypText(){ return hypList().map(function(h){ return h.text + (h.src ? "\n   " + h.src : "") + "\n   Reason: " + ((h.reason || "").trim() || "[not yet written]"); }).join("\n"); }
-function titleCase(s){ var small = /^(a|an|and|as|at|but|by|for|in|of|on|or|the|to|vs\.?|via|among)$/; return s.split(" ").map(function(w, i){ return i && small.test(w) ? w : w.charAt(0).toUpperCase() + w.slice(1); }).join(" "); }
+function titleCase(s){ var small = /^(a|an|and|as|at|but|by|for|if|in|nor|of|off|on|or|per|so|the|to|up|via|vs\.?|yet)$/; /* APA 7: lowercase only minor words of three letters or fewer */ return s.split(" ").map(function(w, i){ return i && small.test(w) ? w : w.charAt(0).toUpperCase() + w.slice(1); }).join(" "); }
 function autoCaption(){
   var tn = theoryNames() || "[theory]";
   var title = titleCase("Conceptual model of " + (S.outcome.trim() || "the outcome") + " among " + (S.who.trim() || "the population")) + ", Based on " + tn;
