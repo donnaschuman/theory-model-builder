@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.2.0 (2026-10-13)
+
+### Simplified
+- Removed the Paper approach step and the six paper types. They did not help students learn to build a conceptual model and made the app harder to follow in class. Students go from Define outcome straight to Theory and can still add a second theory.
+- Removed paper-type-specific fields (the case field and integration type) and references in the instructor guide and README.
+- Saved files that recorded a paper type still open; the choice is ignored.
+
 ## 1.1.0 (2026-10-13)
 
 ### Built for the theoretical paper

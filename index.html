@@ -110,14 +110,12 @@ var PROPOSITIONS_VIDEO_URL = ''; // older setting; used for the propositions slo
     <h2>How it works</h2>
     <ol class="timeline">
       <li><b>Question</b><span>Population, outcome, and what counts as the outcome</span></li>
-      <li><b>Theory</b><span>Paper type, one or more theories, key propositions</span></li>
+      <li><b>Theory</b><span>A theory, its seminal source, and its key propositions</span></li>
       <li><b>Model</b><span>Causes (including social determinants), mediators, moderators</span></li>
       <li><b>Concepts</b><span>A conceptual definition and source for every box</span></li>
       <li><b>Arrows</b><span>Direction, line style, and a reason for each one</span></li>
       <li><b>Paper kit</b><span>Figure, caption, hypotheses, concepts table, notes</span></li>
     </ol>
-    <h2 style="margin-top:22px">Supports six kinds of theory papers</h2>
-    <ul class="ptypes"><li>Critical theoretical analysis</li><li>Theoretical comparison</li><li>Theoretical elaboration</li><li>Integration / synthesis</li><li>Integrative review</li><li>6-point theoretical analysis</li></ul>
     <p class="small" style="margin-top:14px"><strong>Who it's for:</strong> doctoral and master's students and early researchers in social work and related fields.</p>
   </div>
 
@@ -174,7 +172,7 @@ var PROPOSITIONS_VIDEO_URL = ''; // older setting; used for the propositions slo
 <script>
 (function(){
 "use strict";
-var KEY = "theoryModelApp.v1", VERSION = "1.1.0", SCHEMA = 4;
+var KEY = "theoryModelApp.v1", VERSION = "1.2.0", SCHEMA = 4;
 var APP_URL = "https://social-theory-model-builder.netlify.app";
 var CITE = "Schuman, D. L. (2026). Social theory model builder (Version " + VERSION + ") [Web application]. The University of Texas at Arlington. " + APP_URL;
 var CITE_HTML = "Schuman, D. L. (2026). <i>Social theory model builder</i> (Version " + VERSION + ") [Web application]. The University of Texas at Arlington. " + APP_URL;
@@ -182,7 +180,6 @@ var CITE_HTML = "Schuman, D. L. (2026). <i>Social theory model builder</i> (Vers
 /* ======================= Content ======================= */
 var TIPS = {
   who: "You are naming the people and the change you care about. Everything else hangs off that.",
-  approach: "The paper type decides the figure. A comparison needs two theories side by side; an elaboration marks what you borrowed; an integration shows how propositions from different theories connect.",
   theory: "Choose a theory you can defend in a literature review.",
   props: "Quote or paraphrase the theorist, not a textbook. A proposition with a page number is a claim you can defend; one without is a claim a reviewer will question.",
   path: "What comes first, what comes next, and what might strengthen or weaken that link.",
@@ -205,22 +202,6 @@ var SEMINAL = {
   HBM: "Rosenstock, I. M. (1966). Why people use health services. The Milbank Memorial Fund Quarterly, 44(3, Pt. 2), 94–127.",
   SCT: "Bandura, A. (1986). Social foundations of thought and action: A social cognitive theory. Prentice-Hall."
 };
-/* [id, name, description, minTheories, maxTheories] */
-var APPROACHES = [
-  ["critical", "Critical theoretical analysis", "One theory applied to a social problem in your population, through a case.", 1, 1],
-  ["comparison", "Theoretical comparison", "Two theories, models, or perspectives applied to the same question.", 2, 2],
-  ["elaboration", "Theoretical elaboration", "Expand a base theory with concepts and propositions borrowed from others.", 2, 4],
-  ["integration", "Theoretical integration / synthesis", "Combine logically related propositions from two or more theories.", 2, 4],
-  ["review", "Theoretical integrative review", "Synthesize how theories have been applied across studies.", 1, 5],
-  ["sixpoint", "6-point theoretical analysis", "Evaluate one theory using the Robbins et al. (2019) framework.", 1, 1],
-  ["model", "Just building a model", "Not for a theory paper right now.", 1, 5]
-];
-var INTEG = [
-  ["end", "End-to-end (sequential)", "One theory's outcome becomes another theory's cause."],
-  ["side", "Side-by-side (horizontal)", "Each theory explains a different part of the problem or a different subgroup."],
-  ["updown", "Up-and-down (deductive)", "One theory's propositions are absorbed into a broader, more abstract one."],
-  ["unsure", "Not sure yet", "Decide after you map the propositions."]
-];
 var PARADIGMS = ["Positivist", "Postpositivist", "Critical / transformative", "Constructivist / interpretivist", "Pragmatist", "Not sure yet"];
 var MODS = ["Age", "Sex", "Gender", "Race/ethnicity", "Veteran/military status", "Disability/chronic illness", "Relationship/marital status"];
 var MODS_SDOH = ["Income/financial strain", "Education", "Employment/student status", "Housing stability", "Food security", "Neighborhood safety/conditions", "Discrimination/racism", "Location/access (urban-rural, transportation)", "Social support", "Health insurance/coverage"];
@@ -235,7 +216,7 @@ var KIND = {cause: "Cause", med: "In-between", out: "Outcome", mod: "Moderator"}
 var DEMO = {
   who: "Post-9/11 U.S. veterans enrolled in VA mental health care", outcome: "Treatment engagement",
   outcomeDef: "Attending at least 8 psychotherapy sessions within 14 weeks of intake (from clinic records)",
-  approach: "critical", theory: "TPB", seminal: SEMINAL.TPB,
+  theory: "TPB", seminal: SEMINAL.TPB,
   causes: ["Attitude toward the behavior", "Subjective norm", "Perceived behavioral control"],
   medYN: "yes", mediator: "Intention to stay in treatment", modYN: "yes", modPicked: ["Stigma/help-seeking norms", "Distance to care"],
   modDetails: {"Stigma/help-seeking norms": {groups: "High vs. low perceived military stigma (median split)", path: "med>out"}, "Distance to care": {groups: "Under 30 miles vs. 30+ miles from clinic", path: "med>out"}},
@@ -269,8 +250,7 @@ var DEMO = {
     phenomenon: "Many post-9/11 veterans who begin VA psychotherapy stop before completing an adequate course of care.",
     typical: "Usually defined as dropout or nonadherence, a property of the individual veteran, because clinics track attendance patient by patient.",
     alternative: "It can be defined as a mismatch between how care is delivered and veterans' lives: distance, work schedules, and military norms about help-seeking. This moves attention from the veteran to the system and makes room for structural explanations alongside individual ones.",
-    need: "This example asks whether the theory's individual focus is enough to explain engagement when access barriers such as distance and stigma are present.",
-    caseDesc: "A composite, de-identified case: an Army veteran who intends to finish therapy, lives 45 miles from the clinic, and attends 3 of 8 scheduled sessions."
+    need: "This example asks whether the theory's individual focus is enough to explain engagement when access barriers such as distance and stigma are present."
   },
   assume: {A: {
     paradigm: "Postpositivist",
@@ -351,7 +331,7 @@ function $(id){ return document.getElementById(id); }
 function announce(m){ var l = $("live"); l.textContent = ""; setTimeout(function(){ l.textContent = m; }, 30); }
 function clone(x){ return JSON.parse(JSON.stringify(x)); }
 function lc(x){ return (x || "").trim().toLowerCase(); }
-function approach(){ for(var i = 0; i < APPROACHES.length; i++) if(APPROACHES[i][0] === S.approach) return APPROACHES[i]; return ["", "", "", 1, 5]; }
+function approach(){ return ["", "", "", 1, 5]; } /* paper types removed; up to 5 theories */
 function theoryList(){
   var l = [];
   if(S.theory) l.push({id: "A", pick: S.theory, custom: S.theoryCustom, seminal: S.seminal, idx: -1});
@@ -362,7 +342,7 @@ function theoryById(id){ return theoryList().filter(function(t){ return t.id ===
 function tName(t){ if(!t) return ""; return t.pick === "custom" ? (t.custom.trim() || "Theory " + t.id) : (THEORIES[t.pick] ? THEORIES[t.pick].name : ""); }
 function theoryName(){ return theoryList().map(tName).join(" and ") || ""; }
 function theoryNames(){ var n = theoryList().map(tName); return n.length > 2 ? n.slice(0, -1).join(", ") + ", and " + n[n.length - 1] : n.join(" and "); }
-function roleOf(i){ var a = S.approach; if(a === "elaboration") return i === 0 ? "Base theory" : "Borrowed theory"; if(a === "comparison") return "Theory " + String.fromCharCode(65 + i); return "Theory " + String.fromCharCode(65 + i); }
+function roleOf(i){ return "Theory " + String.fromCharCode(65 + i); }
 function tagLabel(tg){ if(!tg) return ""; if(tg === "new") return "New concept (my addition)"; if(tg === "none") return "Not from a theory"; var t = theoryById(tg); return t ? tg + ": " + tName(t) : ""; }
 function tc(L){ return /^[A-E]$/.test(L || "") ? " t" + L : L === "N" || L === "new" ? " tN" : ""; }
 function showLetters(){ return theoryList().length > 1 || nodes().some(function(n){ return S.ctag[n.id] === "new"; }); }
@@ -539,8 +519,6 @@ function checks(){
   var miss = E.filter(function(e){ return !(S.reasons[e.id] || "").trim() && !ask(e.id); });
   c.push({ok: !miss.length, text: miss.length ? "Missing a reason for: " + miss.map(function(e){ return e.label; }).join("; ") + ". Each arrow is a claim you will need to defend." : "Every path has a reason.", fix: "Why this arrow?"});
   askHs().forEach(function(q){ c.push({ok: false, soft: true, text: q, fix: "Why this arrow?"}); });
-  var a = approach(), tl = theoryList();
-  if(S.approach && tl.length < a[3]) c.push({ok: false, text: "A " + a[1].toLowerCase() + " needs at least " + a[3] + " theories; you have " + tl.length + ".", fix: "Theory"});
   var nl = paths().filter(function(p){ var b = S.bases[p.id]; return linkOf(p.id) < 0 && b !== "research" && b !== "practice"; });
   c.push({ok: !nl.length, soft: true, text: nl.length ? "Not linked to a theory proposition: " + nl.map(pathLabel).join("; ") + ". Link one, or note it rests on prior research or practice." : "Every path is tied to a proposition or to research/practice.", fix: "Why this arrow?"});
   var mm = paths().filter(function(p){ return mismatch(p.id); });
@@ -647,7 +625,7 @@ var STEPS = [
 /* 4 */ {t: "Theory", g: "Theory", r: function(){
     var a = approach(), max = a[4], o = Object.keys(THEORIES).map(function(k){ return [k, THEORIES[k].name, THEORIES[k].desc]; });
     o.push(["custom", "Type my own", "Use a theory from your course or field."]);
-    var h = '<h2 id="stepTitle">' + (max > 1 ? "Which theories explain why this happens?" : "Which theory explains why this happens?") + '</h2><p class="lede">' + (S.approach && S.approach !== "model" ? "For a " + esc(a[1].toLowerCase()) + ", add " + (a[3] === a[4] ? a[3] : a[3] + " to " + a[4]) + " theor" + (a[4] > 1 ? "ies" : "y") + "." : "Start with the theory that names the mechanism you care about.") + '</p>';
+    var h = '<h2 id="stepTitle">Which theory explains why this happens?</h2><p class="lede">Start with the theory that names the mechanism you care about. Add a second theory only if your model needs one.</p>';
     h += '<div class="item"><div class="item-h"><span class="tbadge tA">A</span><strong>' + esc(roleOf(0)) + '</strong></div>' + choices("theory", o) + (S.theory === "custom" ? '<label for="f_th">Theory name</label><input type="text" id="f_th" data-bind="theoryCustom" placeholder="e.g., Self-Determination Theory" value="' + esc(S.theoryCustom) + '">' : '') + '</div>';
     S.more.forEach(function(t, i){
       var L = String.fromCharCode(66 + i);
@@ -656,17 +634,16 @@ var STEPS = [
         (t.pick === "custom" ? '<label for="mtc' + i + '">Theory name</label><input type="text" id="mtc' + i + '" data-mt="' + i + '" data-mf="custom" placeholder="e.g., Minority Stress Theory" value="' + esc(t.custom || "") + '">' : (THEORIES[t.pick] ? '<p class="small" style="margin:8px 0 0">' + esc(THEORIES[t.pick].desc) + '</p>' : '')) + '</div>';
     });
     h += '<p class="panel" id="mechInfo"><strong>Mechanism or topic?</strong> A topic is what you study (veteran suicide risk). A mechanism is how or why it happens (isolation thwarts belongingness, which raises suicidal desire). Choose a theory that names mechanisms; they become your arrows.</p>';
-    if(1 + S.more.length < max) h += '<p><button type="button" class="btn sec" id="addTheory">+ Add ' + (S.approach === "elaboration" ? "a borrowed theory" : "theory " + String.fromCharCode(66 + S.more.length)) + '</button></p>';
+    if(1 + S.more.length < max) h += '<p><button type="button" class="btn sec" id="addTheory">+ Add another theory</button></p>';
     return h + tip("theory");
   }, v: function(){
     if(!S.theory) return "Pick a theory.";
     if(S.theory === "custom" && !S.theoryCustom.trim()) return "Type your theory's name.";
     for(var i = 0; i < S.more.length; i++){ if(!S.more[i].pick) return "Choose theory " + String.fromCharCode(66 + i) + ", or remove it."; if(S.more[i].pick === "custom" && !(S.more[i].custom || "").trim()) return "Type the name of theory " + String.fromCharCode(66 + i) + "."; }
-    var a = approach(); if(S.approach && theoryList().length < a[3]) return "A " + a[1].toLowerCase() + " needs " + a[3] + " theories. Add theory B.";
     return "";
   }},
 /* 5 */ {t: "Key propositions", g: "Theory", r: function(){
-    var tl = theoryList(), co = constructOpts(), multi = tl.length > 1, newOK = S.approach === "elaboration" || S.approach === "integration";
+    var tl = theoryList(), co = constructOpts(), multi = tl.length > 1, newOK = multi;
     var h = '<h2 id="stepTitle">Key propositions</h2><p class="lede">Ground your model in what ' + esc(theoryNames() || "your theory") + (multi ? " actually claim." : " actually claims.") + '</p>' + videoSlot("propositions", "How to find key propositions");
     h += '<div class="panel"><h3><span class="num">1</span> Find the seminal source' + (multi ? "s" : "") + '</h3><ul class="small" style="margin:4px 0 8px 1.2em;padding:0"><li>The seminal source is the work where the theorist first introduces or formally states the theory, often a book or major article.</li><li>Check what recent papers cite when they name the theory; the most-cited common source is usually it.</li><li>Prefer the original or the theorist’s own major revision over textbook summaries.</li></ul>';
     tl.forEach(function(t){
@@ -766,13 +743,7 @@ var STEPS = [
     return '<h2 id="stepTitle">Self-check</h2><p class="lede">' + (bad ? bad + ' thing' + (bad > 1 ? 's' : '') + ' to fix' + (q ? ' and ' + q + ' question' + (q > 1 ? 's' : '') + ' to consider' : '') + '. You can fix them or continue anyway.' : q ? 'Nothing blocking. ' + q + ' question' + (q > 1 ? 's' : '') + ' worth a look.' : 'Everything looks ready.') + '</p>' + checkHTML(c, true);
   }, v: function(){ return ""; }, next: function(){ return checks().some(function(x){ return !x.ok && !x.soft; }) ? "Continue anyway →" : "See my results →"; }},
 /* 13 */ {t: "Results", g: "Finish", r: function(){ return renderResults(); }, v: function(){ return ""; }},
-/* 14 */ {t: "Paper approach", g: "Theory", r: function(){
-    var h = '<h2 id="stepTitle">What kind of theory paper is this model for?</h2><p class="lede">Your choice sets how many theories you can add and what the results page gives you for the manuscript.</p>' + choices("approach", APPROACHES.map(function(a){ return [a[0], a[1], a[2]]; }));
-    if(S.approach === "integration") h += '<div class="panel"><h3>Type of integration</h3><p class="small">Three widely used types of propositional integration. Muftić (2009) reviews integration approaches, including macro-micro integration; choose the one that fits your area.</p>' + choices("integType", INTEG, "compact") + '</div>';
-    if(S.approach === "review") h += '<p class="small">For an integrative review, add the theories you find applied across your sample of studies, and cite the study each proposition comes from.</p>';
-    if(S.approach === "sixpoint") h += '<p class="small">The Paper notes step collects each theory’s assumptions and history to support the six-point analysis.</p>';
-    return h + tip("approach");
-  }, v: function(){ return S.approach ? "" : "Pick one, or choose Just building a model."; }},
+/* 14 */ {t: "Paper approach", skip: function(){ return true; }, r: function(){ return ""; }, v: function(){ return ""; }}, /* retired; kept so saved files keep their step numbers */
 /* 15 */ {t: "Define concepts", g: "Model", r: function(){
     var tl = theoryList(), h = '<h2 id="stepTitle">Define your concepts</h2><p class="lede">Your paper needs a conceptual definition for each key concept: what it means in the theory, in a sentence or two, with a source. Tag where each concept comes from; the tags label the figure.</p>' + videoSlot("concepts", "Writing conceptual definitions");
     nodes().forEach(function(n, i){
@@ -789,18 +760,17 @@ var STEPS = [
     var n = S.notes, h = '<h2 id="stepTitle">Paper notes <span class="opt">Optional</span></h2><p class="lede">Notes for the parts of the manuscript that are not in the figure. Everything here goes into the paper notes download on the results page.</p>';
     function ta(key, lab, ph){ return '<label for="n_' + key + '">' + lab + '</label><textarea id="n_' + key + '" class="auto" data-note="' + key + '" placeholder="' + esc(ph || "") + '">' + esc(n[key] || "") + '</textarea>'; }
     h += '<div class="panel"><h3>Target journal</h3><label for="n_journal" class="sr">Target journal</label><input type="text" id="n_journal" data-note="journal" placeholder="A journal that publishes conceptual or theoretical articles" value="' + esc(n.journal || "") + '"></div>';
-    h += '<div class="panel"><h3>The problem</h3>' + ta("phenomenon", "Social phenomenon or problem", "What is happening, and for whom?") + ta("typical", "How the problem is typically defined, and why", "") + ta("alternative", "Alternative ways to define or conceptualize it, with your rationale", "") + ta("need", "Why the theory needs analysis now, based on new research", "") + (S.approach === "critical" ? ta("caseDesc", "The case you will analyze", "A specific event, policy, program, or person that illustrates the problem") : '') + '</div>';
+    h += '<div class="panel"><h3>The problem</h3>' + ta("phenomenon", "Social phenomenon or problem", "What is happening, and for whom?") + ta("typical", "How the problem is typically defined, and why", "") + ta("alternative", "Alternative ways to define or conceptualize it, with your rationale", "") + ta("need", "Why the theory needs analysis now, based on new research", "") + '</div>';
     theoryList().forEach(function(t){
       var a = S.assume[t.id] || {};
       function af(key, lab){ return '<label for="a_' + t.id + key + '">' + lab + '</label><textarea id="a_' + t.id + key + '" class="auto" data-as="' + t.id + '" data-af="' + key + '">' + esc(a[key] || "") + '</textarea>'; }
       h += '<div class="panel"><h3><span class="tbadge' + tc(t.id) + '">' + t.id + '</span> ' + esc(tName(t)) + '</h3><label for="a_' + t.id + 'par">Paradigm</label><select id="a_' + t.id + 'par" data-as="' + t.id + '" data-af="paradigm"><option value="">Choose…</option>' + PARADIGMS.map(function(p){ return '<option ' + (a.paradigm === p ? "selected" : "") + '>' + p + '</option>'; }).join("") + '</select>' +
         af("ontology", "Core ontological assumption (what is real?)") + af("epistemology", "Core epistemological assumption (how can it be known?)") + af("history", "Ideas or historical trends that shaped it") + af("limits", "What it makes visible, and what it limits or leaves out") + af("practice", "Links to social work practice, policy, and research") + '</div>';
     });
-    if(S.approach === "sixpoint") h += '<p class="small">Use these notes alongside the six-point framework in Robbins et al. (2019).</p>';
     return h + tip("notes");
   }, v: function(){ return ""; }}
 ];
-var ORDER = [1, 2, 3, 14, 4, 5, 6, 7, 8, 9, 15, 10, 11, 16, 12, 13];
+var ORDER = [1, 2, 3, 4, 5, 6, 7, 8, 9, 15, 10, 11, 16, 12, 13];
 function chipRow(list){ var have = causes().map(lc); return list.map(function(c){ var used = have.indexOf(lc(c)) >= 0; return '<button type="button" class="chip' + (used ? " used" : "") + '" data-chip="' + esc(c) + '" ' + (used ? 'aria-disabled="true"' : 'data-drag="chip"') + '>' + (used ? "✓ " : "+ ") + esc(c) + '</button>'; }).join(""); }
 function stepIdx(t){ for(var i = 0; i < STEPS.length; i++) if(STEPS[i].t === t) return i; return 1; }
 function visible(){ return ORDER.filter(function(i){ return !(STEPS[i].skip && STEPS[i].skip()); }); }
@@ -823,7 +793,7 @@ function render(){
   var vis = visible(), pos = vis.indexOf(S.step), st = STEPS[S.step], res = isResults();
   $("app").classList.toggle("wide", res);
   var eb = $("exBanner"); eb.hidden = !S.demoLoaded;
-  if(S.demoLoaded) eb.innerHTML = '<p><strong>Finished example.</strong> A completed model for a critical theoretical analysis of treatment engagement among post-9/11 veterans. Open any step in the list to see how it was filled in.</p>' + (hasBackup() ? '<button type="button" class="btn sec sm" id="exBack">Back to my model</button>' : '') + '<button type="button" class="btn yel sm" id="exNew">Start my own model</button>';
+  if(S.demoLoaded) eb.innerHTML = '<p><strong>Finished example.</strong> A completed model of treatment engagement among post-9/11 veterans. Open any step in the list to see how it was filled in.</p>' + (hasBackup() ? '<button type="button" class="btn sec sm" id="exBack">Back to my model</button>' : '') + '<button type="button" class="btn yel sm" id="exNew">Start my own model</button>';
   var pct = Math.round(100 * (pos + 1) / vis.length);
   $("mbar").style.width = pct + "%"; $("mtext").textContent = "Step " + (pos + 1) + " of " + vis.length + ": " + st.t;
   renderRail(vis, pos, pct);
@@ -987,8 +957,7 @@ function summary(){
   paths().forEach(function(p){ if(style(p.id, "solid") === "dashed") ds.push(pathLabel(p)); });
   modEdges().forEach(function(e){ if(style(e.id, "dashed") === "dashed") ds.push(e.name + " (moderation)"); });
   var me = modEdges().map(function(e){ var d = S.modDetails[e.name] || {}, p = paths().filter(function(x){ return x.id === e.path; })[0]; return e.name + (d.groups ? " (" + d.groups + ")" : "") + (p ? "; changes " + pathLabel(p) : ""); });
-  var a = approach();
-  return [["Paper type", a[1] ? a[1] + (S.approach === "integration" && S.integType ? " (" + INTEG.filter(function(x){ return x[0] === S.integType; })[0][1] + ")" : "") : "Not chosen"], ["Who", S.who], ["Outcome", S.outcome + (S.outcomeDef ? "; counts as: " + S.outcomeDef : "")], ["Theory", theoryList().map(function(t){ return t.id + ": " + tName(t); }).join("; ")], ["Causes", causes().join("; ")], ["In-between (mediator)", hasMed() ? S.mediator : "None for now"], ["Moderators", me.length ? me.join(" | ") : "None"], ["Dashed paths", ds.length ? ds.join("; ") : "None"]]
+  return [["Who", S.who], ["Outcome", S.outcome + (S.outcomeDef ? "; counts as: " + S.outcomeDef : "")], ["Theory", theoryList().map(function(t){ return t.id + ": " + tName(t); }).join("; ")], ["Causes", causes().join("; ")], ["In-between (mediator)", hasMed() ? S.mediator : "None for now"], ["Moderators", me.length ? me.join(" | ") : "None"], ["Dashed paths", ds.length ? ds.join("; ") : "None"]]
     .concat(allEdges().map(function(e){ return ["Reason: " + e.label, (ask(e.id) ? "[Needs a source] " : "") + (basisLabel(e.id) ? "(Based on: " + basisLabel(e.id) + ") " : "") + ((S.reasons[e.id] || "").trim() || "⚠ not yet written")]; }));
 }
 function sumHTML(){ return summary().map(function(r){ return "<li><strong>" + esc(r[0]) + ":</strong> " + esc(r[1]) + "</li>"; }).join(""); }
@@ -1010,10 +979,9 @@ function conceptsTable(forWord){
 }
 function conceptsText(){ return ["Concept\tRole in model\tSource theory\tConceptual definition"].concat(conceptRows().map(function(r){ return [r.name, r.role, r.from, r.def ? r.def + (r.src ? " (" + r.src + ")" : "") : "Not yet defined"].join("\t"); })).join("\n"); }
 function notesHTML(){
-  var n = S.notes, a = approach(), parts = [];
+  var n = S.notes, parts = [];
   function p(lab, v){ if((v || "").trim()) parts.push('<p><strong>' + esc(lab) + ':</strong> ' + esc(v) + '</p>'); }
-  p("Paper type", a[1] + (S.approach === "integration" && S.integType ? " (" + INTEG.filter(function(x){ return x[0] === S.integType; })[0][1] + ")" : ""));
-  p("Target journal", n.journal); p("Social phenomenon", n.phenomenon); p("How the problem is typically defined", n.typical); p("Alternative definitions and rationale", n.alternative); p("Why the theory needs analysis now", n.need); p("Case", n.caseDesc);
+  p("Target journal", n.journal); p("Social phenomenon", n.phenomenon); p("How the problem is typically defined", n.typical); p("Alternative definitions and rationale", n.alternative); p("Why the theory needs analysis now", n.need);
   theoryList().forEach(function(t){
     var x = S.assume[t.id] || {}, q = [];
     [["paradigm", "Paradigm"], ["ontology", "Ontological assumption"], ["epistemology", "Epistemological assumption"], ["history", "Shaping ideas and history"], ["limits", "What it makes visible and what it limits"], ["practice", "Links to practice, policy, and research"]].forEach(function(f){ if((x[f[0]] || "").trim()) q.push('<li><strong>' + f[1] + ':</strong> ' + esc(x[f[0]]) + '</li>'); });
@@ -1248,11 +1216,10 @@ document.addEventListener("click", function(ev){
   if(ds.video){ var f = document.createElement("iframe"); f.src = ds.video; f.title = ds.vtitle; f.allow = "autoplay; fullscreen; picture-in-picture"; f.allowFullscreen = true; t.parentNode.replaceChild(f, t); f.focus(); return; }
   if(ds.set){
     S[ds.set] = ds.val;
-    if(ds.set === "approach"){ var mx = approach()[4]; if(S.more.length > mx - 1){ S.more.length = Math.max(0, mx - 1); } }
-    if(ds.set === "theory" || ds.set === "approach"){ if(!S.rqEdited) S.rq = ""; }
+    if(ds.set === "theory"){ if(!S.rqEdited) S.rq = ""; }
     render();
     var fb = $("screen").querySelector('[data-set="' + ds.set + '"][data-val="' + ds.val + '"]'), inp = $("screen").querySelector('.choices ~ input[type=text]');
-    (inp && ds.val !== "no" && ds.set !== "approach" ? inp : fb).focus();
+    (inp && ds.val !== "no" ? inp : fb).focus();
     return;
   }
   if(id === "addTheory"){ S.more.push({pick: "", custom: "", seminal: ""}); render(); $("mt" + (S.more.length - 1)).focus(); return; }

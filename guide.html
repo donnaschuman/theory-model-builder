@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src data:;">
-<meta name="description" content="Instructor guide for the Social Theory Model Builder: a teaching sequence, paper types, assessment, customization, and AI disclosure.">
+<meta name="description" content="Instructor guide for the Social Theory Model Builder: a teaching sequence, assessment, customization, and AI disclosure.">
 <meta name="theme-color" content="#1d2340">
 <title>Instructor Guide | Social Theory Model Builder</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%231d2340'/%3E%3Crect x='5' y='7' width='8' height='6' rx='1.5' fill='%23fff'/%3E%3Crect x='5' y='19' width='8' height='6' rx='1.5' fill='%23fff'/%3E%3Crect x='19' y='13' width='9' height='6' rx='1.5' fill='%23ffd93d'/%3E%3Cpath d='M13 10l6 5M13 22l6-5' stroke='%23fff' stroke-width='1.6'/%3E%3C/svg%3E">
@@ -25,8 +25,8 @@
 <main id="main" class="guide">
   <div class="ghero">
     <h1>Teaching social theory and model building with the Model Builder</h1>
-    <p>A companion for instructors of doctoral and master's courses in social work and related fields. It covers what students produce, a session-by-session teaching sequence, how the app supports six kinds of theory papers, assessment, customization, and the tool's AI credit and disclosure.</p>
-    <p>D. L. Schuman, The University of Texas at Arlington. Guide for version 1.1.0.</p>
+    <p>A companion for instructors of doctoral and master's courses in social work and related fields. It covers what students produce, a session-by-session teaching sequence, assessment, customization, and the tool's AI credit and disclosure.</p>
+    <p>D. L. Schuman, The University of Texas at Arlington. Guide for version 1.2.0.</p>
   </div>
 
   <section aria-labelledby="toc">
@@ -36,7 +36,6 @@
       <li><a href="#produce">What students produce</a></li>
       <li><a href="#start">Before the first class</a></li>
       <li><a href="#sequence">A teaching sequence</a></li>
-      <li><a href="#types">The six paper types</a></li>
       <li><a href="#assess">Assessment</a></li>
       <li><a href="#review">Reviewing student work</a></li>
       <li><a href="#prompts">Discussion prompts</a></li>
@@ -77,7 +76,7 @@
     <ul>
       <li><strong>No accounts.</strong> Students open <a href="index.html">the app</a> in a current browser (Chrome, Edge, Firefox, or Safari). Nothing to install.</li>
       <li><strong>Saving.</strong> Work saves automatically in the browser on that device. To move between computers or to submit, students press <em>Save my work</em>, which downloads a <code>.json</code> file, and <em>Open saved work</em> to load it again. Tell students to save a file at the end of every session; clearing browser data erases the automatic copy.</li>
-      <li><strong>Look at the finished example first.</strong> <em>See a finished example</em> on the home page opens a completed model (a critical theoretical analysis of treatment engagement among post-9/11 veterans using the Theory of Planned Behavior) on the results page, with every step open for browsing. If a student already has work in progress, the app sets it aside and offers <em>Back to my model</em>.</li>
+      <li><strong>Look at the finished example first.</strong> <em>See a finished example</em> on the home page opens a completed model (treatment engagement among post-9/11 veterans using the Theory of Planned Behavior) on the results page, with every step open for browsing. If a student already has work in progress, the app sets it aside and offers <em>Back to my model</em>.</li>
       <li><strong>Decide what students submit.</strong> The saved <code>.json</code> file lets you open their full model in the app. The Word notes file and the PNG are what they use in the manuscript.</li>
     </ul>
   </section>
@@ -87,7 +86,7 @@
     <p>Seven sessions that track the app's steps. Each can be a 30- to 60-minute in-class workshop or a homework module. Adjust the order to your syllabus.</p>
     <h3>1. Orientation: read a finished model</h3>
     <p>Project the finished example. Ask students to pick one arrow, find its proposition and page number, read its reason, and decide whether the reason actually explains the mechanism. Then open the Self-check step and discuss why every arrow is treated as a claim that needs a defense.</p>
-    <p><em>Homework:</em> start a model; complete Who, Outcome, and Define outcome; choose a paper approach.</p>
+    <p><em>Homework:</em> start a model; complete Who, Outcome, and Define outcome.</p>
     <h3>2. Choosing a theory and finding the seminal source</h3>
     <p>Students identify the work where the theorist first stated the theory, using what recent papers cite and the "Cited by" count in Google Scholar to confirm it. For three built-in theories the app suggests a starting citation and labels it for students to verify.</p>
     <p>Before students choose, teach the difference between a <strong>topic</strong> (what you study, such as veteran suicide risk) and a <strong>mechanism</strong> (how or why it happens, such as isolation thwarting belongingness, which raises suicidal desire). Theories that name mechanisms supply the arrows.</p>
@@ -106,22 +105,6 @@
     <p>Students complete the optional Paper notes step (target journal, problem definitions, each theory's assumptions and history, links to practice), run the Self-check, and download the figure, caption, concepts table, and Word notes. For peer review, students exchange <code>.json</code> files; the reviewer opens the file in the app and comments on arrows that lack reasons or rest on weak propositions.</p>
   </section>
 
-  <section id="types" aria-labelledby="types-h">
-    <h2 id="types-h">The six paper types</h2>
-    <p>Students choose a paper approach early. It sets how many theories they can add and what the results page produces.</p>
-    <table>
-      <thead><tr><th>Paper type</th><th>Theories</th><th>What the app adds</th></tr></thead>
-      <tbody>
-        <tr><td>Critical theoretical analysis</td><td>1</td><td>A field for the case in Paper notes; one figure</td></tr>
-        <tr><td>Theoretical comparison</td><td>2</td><td>Concepts tagged A or B; the figure can show both theories or one at a time, and each view exports separately for side-by-side figures</td></tr>
-        <tr><td>Theoretical elaboration</td><td>Base theory plus 1 to 3 borrowed</td><td>Propositions and concepts can be marked new; the figure labels new concepts N, and new propositions carry an asterisk</td></tr>
-        <tr><td>Theoretical integration / synthesis</td><td>2 to 4</td><td>Integration type (end-to-end, side-by-side, or up-and-down, three widely used types of propositional integration; Muftić, 2009, reviews integration approaches more broadly); new propositions marked</td></tr>
-        <tr><td>Theoretical integrative review</td><td>1 to 5</td><td>Each proposition can cite the study it came from instead of the seminal source</td></tr>
-        <tr><td>6-point theoretical analysis</td><td>1</td><td>Paper notes collect the theory's assumptions, history, and limits to support the six-point framework (Robbins et al., 2019)</td></tr>
-      </tbody>
-    </table>
-    <p>What the app does not do: it does not evaluate the quality of a theory, choose the journal, or write the critical analysis. Those remain the student's work.</p>
-  </section>
 
   <section id="assess" aria-labelledby="assess-h">
     <h2 id="assess-h">Assessment</h2>
@@ -159,7 +142,7 @@
       <li>Where does a social determinant belong in your model: as a cause, or as a moderator of another path? What does each choice imply about where change happens?</li>
       <li>Which arrow is the weakest claim in your model? What evidence would change your mind about it?</li>
       <li>What does your theory make visible about the problem, and what does it leave out? Does the model you drew inherit those limits?</li>
-      <li>For a comparison paper: which concepts appear in both theories' figures, and do the theories agree on the direction of their effects?</li>
+      <li>If you used two theories: which concepts appear in both, and do the theories agree on the direction of their effects?</li>
     </ul>
   </section>
 
@@ -167,7 +150,7 @@
     <h2 id="access-h">Accessibility and privacy</h2>
     <ul>
       <li>Every drag action has a keyboard alternative: move buttons for reordering causes, menus for linking propositions, and arrow keys for moving figure boxes.</li>
-      <li>Automated checks with axe-core against WCAG 2.2 AA report no violations on any screen of version 1.1.0. Automated checks do not replace testing with assistive technology users.</li>
+      <li>Automated checks with axe-core against WCAG 2.2 AA report no violations on any screen of version 1.2.0. Automated checks do not replace testing with assistive technology users.</li>
       <li>Body text uses Atkinson Hyperlegible Next, a typeface designed by the Braille Institute for low-vision readers.</li>
       <li>The app runs entirely in the browser. Student work is never sent to a server, and the app collects no student data. If the instructor turns on anonymous visit counts (GoatCounter), only page visits are counted, with no cookies and none of the student's work.</li>
     </ul>
@@ -207,15 +190,12 @@
 
   <section id="cite" aria-labelledby="cite-h">
     <h2 id="cite-h">Citing the app</h2>
-    <p class="citeref">Schuman, D. L. (2026). <i>Social theory model builder</i> (Version 1.1.0) [Web application]. The University of Texas at Arlington. https://social-theory-model-builder.netlify.app</p>
+    <p class="citeref">Schuman, D. L. (2026). <i>Social theory model builder</i> (Version 1.2.0) [Web application]. The University of Texas at Arlington. https://social-theory-model-builder.netlify.app</p>
     <p>In-text: (Schuman, 2026). Machine-readable citation metadata is in the repository's <code>CITATION.cff</code>.</p>
-    <h3>References cited in this guide</h3>
-    <p class="citeref">Muftić, L. R. (2009). Macro-micro theoretical integration: An unexplored theoretical frontier. <i>Journal of Theoretical and Philosophical Criminology, 1</i>(2), 33–71.</p>
-    <p class="citeref">Robbins, S. P., Chatterjee, P., Canda, E. R., &amp; Leibowitz, G. S. (2019). <i>Contemporary human behavior theory: A critical perspective for social work</i> (4th ed.). Pearson.</p>
   </section>
 </main>
 <footer>
-  <div class="fl"><p>Social Theory Model Builder, version 1.1.0. Built with AI assistance (Grok, xAI; Claude, Anthropic). The app itself uses no AI.</p></div>
+  <div class="fl"><p>Social Theory Model Builder, version 1.2.0. Built with AI assistance (Grok, xAI; Claude, Anthropic). The app itself uses no AI.</p></div>
   <p><a href="index.html">Open the app</a></p>
 </footer>
 </body>
