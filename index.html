@@ -183,7 +183,7 @@ var CITE_HTML = "Schuman, D. L. (2026). <i>Social theory model builder</i> (Vers
 var TIPS = {
   who: "You are naming the people and the change you care about. Everything else hangs off that.",
   approach: "The paper type decides the figure. A comparison needs two theories side by side; an elaboration marks what you borrowed; an integration shows how propositions from different theories connect.",
-  theory: "Prefer a theory that names mechanisms, not just topics; one you can defend in a lit review.",
+  theory: "Choose a theory you can defend in a literature review.",
   props: "Quote or paraphrase the theorist, not a textbook. A proposition with a page number is a claim you can defend; one without is a claim a reviewer will question.",
   path: "What comes first, what comes next, and what might strengthen or weaken that link.",
   med: "If you cannot name the in-between process in plain words, skip it for now.",
@@ -655,6 +655,7 @@ var STEPS = [
         Object.keys(THEORIES).map(function(k){ return '<option value="' + k + '" ' + (t.pick === k ? "selected" : "") + '>' + esc(THEORIES[k].name) + '</option>'; }).join("") + '<option value="custom" ' + (t.pick === "custom" ? "selected" : "") + '>Type my own…</option></select>' +
         (t.pick === "custom" ? '<label for="mtc' + i + '">Theory name</label><input type="text" id="mtc' + i + '" data-mt="' + i + '" data-mf="custom" placeholder="e.g., Minority Stress Theory" value="' + esc(t.custom || "") + '">' : (THEORIES[t.pick] ? '<p class="small" style="margin:8px 0 0">' + esc(THEORIES[t.pick].desc) + '</p>' : '')) + '</div>';
     });
+    h += '<p class="panel" id="mechInfo"><strong>Mechanism or topic?</strong> A topic is what you study (veteran suicide risk). A mechanism is how or why it happens (isolation thwarts belongingness, which raises suicidal desire). Choose a theory that names mechanisms; they become your arrows.</p>';
     if(1 + S.more.length < max) h += '<p><button type="button" class="btn sec" id="addTheory">+ Add ' + (S.approach === "elaboration" ? "a borrowed theory" : "theory " + String.fromCharCode(66 + S.more.length)) + '</button></p>';
     return h + tip("theory");
   }, v: function(){
