@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src data:;">
+<meta name="description" content="Instructor guide for the Social Theory Model Builder: a teaching sequence, paper types, assessment, customization, and AI disclosure.">
+<meta name="theme-color" content="#1d2340">
+<title>Instructor Guide | Social Theory Model Builder</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%231d2340'/%3E%3Crect x='5' y='7' width='8' height='6' rx='1.5' fill='%23fff'/%3E%3Crect x='5' y='19' width='8' height='6' rx='1.5' fill='%23fff'/%3E%3Crect x='19' y='13' width='9' height='6' rx='1.5' fill='%23ffd93d'/%3E%3Cpath d='M13 10l6 5M13 22l6-5' stroke='%23fff' stroke-width='1.6'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="appbar">
+  <div class="appbar-in">
+    <a class="brand" href="index.html">
+      <svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8" fill="#3d3fd8"/><rect x="5" y="7" width="8" height="6" rx="1.5" fill="#fff"/><rect x="5" y="19" width="8" height="6" rx="1.5" fill="#fff"/><rect x="19" y="13" width="9" height="6" rx="1.5" fill="#ffd93d"/><path d="M13 10l6 5M13 22l6-5" stroke="#fff" stroke-width="1.6"/></svg>
+      <span><b>Social Theory Model Builder</b><small>Instructor guide</small></span>
+    </a>
+    <nav class="bar-actions barnav" aria-label="Guide"><a href="index.html">Open the app</a><a href="#ai">AI disclosure</a></nav>
+  </div>
+</header>
+
+<main id="main" class="guide">
+  <div class="ghero">
+    <h1>Teaching social theory and model building with the Model Builder</h1>
+    <p>A companion for instructors of doctoral and master's courses in social work and related fields. It covers what students produce, a session-by-session teaching sequence, how the app supports six kinds of theory papers, assessment, customization, and the tool's AI credit and disclosure.</p>
+    <p>D. L. Schuman, The University of Texas at Arlington. Guide for version 1.1.0.</p>
+  </div>
+
+  <section aria-labelledby="toc">
+    <h2 id="toc">Contents</h2>
+    <ol class="toc">
+      <li><a href="#what">What the app does</a></li>
+      <li><a href="#produce">What students produce</a></li>
+      <li><a href="#start">Before the first class</a></li>
+      <li><a href="#sequence">A teaching sequence</a></li>
+      <li><a href="#types">The six paper types</a></li>
+      <li><a href="#assess">Assessment</a></li>
+      <li><a href="#review">Reviewing student work</a></li>
+      <li><a href="#prompts">Discussion prompts</a></li>
+      <li><a href="#access">Accessibility and privacy</a></li>
+      <li><a href="#custom">Customizing the app</a></li>
+      <li><a href="#ai">AI credit, disclosure, and academic integrity</a></li>
+      <li><a href="#study">Studying its effect on learning</a></li>
+      <li><a href="#cite">Citing the app</a></li>
+    </ol>
+  </section>
+
+  <section id="what" aria-labelledby="what-h">
+    <h2 id="what-h">What the app does</h2>
+    <p>Students who are new to theory often state a hypothesis and then search for a theory to attach to it. The Model Builder reverses that order. Students name a population and an outcome, choose one or more theories, pull the theory's own propositions from the seminal source with page numbers, and only then draw arrows. Every arrow must say which proposition it comes from, what the reason rests on (the theory, prior research, or practice experience), and why one concept changes the other.</p>
+    <p>The app coaches; it does not write. Students type every proposition, definition, and reason themselves. The app assembles their decisions into a research question, numbered hypotheses or propositions, a path figure, and paper notes, and it runs a self-check that flags gaps: arrows without reasons, concepts without definitions, propositions without page numbers, and arrows whose direction disagrees with the proposition they cite.</p>
+  </section>
+
+  <section id="produce" aria-labelledby="produce-h">
+    <h2 id="produce-h">What students produce</h2>
+    <table>
+      <thead><tr><th>Output</th><th>Where it goes in a theoretical paper</th></tr></thead>
+      <tbody>
+        <tr><td>Research question</td><td>Introduction; the question the paper's analysis answers</td></tr>
+        <tr><td>Problem notes: the phenomenon, how it is typically defined and why, alternative definitions with a rationale, why the theory needs analysis now</td><td>Problem statement</td></tr>
+        <tr><td>Source propositions with page numbers, grouped by theory</td><td>Literature review; critical analysis of each theory's claims</td></tr>
+        <tr><td>Concepts table: each concept's role, source theory, conceptual definition, and citation (pastes into Word as a table)</td><td>Definitions of key theoretical concepts</td></tr>
+        <tr><td>Each theory's paradigm, ontological and epistemological assumptions, shaping ideas and history, and what it makes visible or leaves out</td><td>Assumptions and historical context; discussion of strengths and limitations</td></tr>
+        <tr><td>Path figure (SVG, PNG, or PDF) with an APA 7 caption and note</td><td>Conceptual model figure</td></tr>
+        <tr><td>Numbered hypotheses or propositions, each with its source proposition and reason</td><td>Description of relationships among concepts</td></tr>
+        <tr><td>Links to practice, policy, and research</td><td>Discussion</td></tr>
+      </tbody>
+    </table>
+    <p>The "Download paper notes for Word" button on the results page collects all of these in one file. Students insert the PNG as Figure 1.</p>
+  </section>
+
+  <section id="start" aria-labelledby="start-h">
+    <h2 id="start-h">Before the first class</h2>
+    <ul>
+      <li><strong>No accounts.</strong> Students open <a href="index.html">the app</a> in a current browser (Chrome, Edge, Firefox, or Safari). Nothing to install.</li>
+      <li><strong>Saving.</strong> Work saves automatically in the browser on that device. To move between computers or to submit, students press <em>Save my work</em>, which downloads a <code>.json</code> file, and <em>Open saved work</em> to load it again. Tell students to save a file at the end of every session; clearing browser data erases the automatic copy.</li>
+      <li><strong>Look at the finished example first.</strong> <em>See a finished example</em> on the home page opens a completed model (a critical theoretical analysis of treatment engagement among post-9/11 veterans using the Theory of Planned Behavior) on the results page, with every step open for browsing. If a student already has work in progress, the app sets it aside and offers <em>Back to my model</em>.</li>
+      <li><strong>Decide what students submit.</strong> The saved <code>.json</code> file lets you open their full model in the app. The Word notes file and the PNG are what they use in the manuscript.</li>
+    </ul>
+  </section>
+
+  <section id="sequence" aria-labelledby="seq-h">
+    <h2 id="seq-h">A teaching sequence</h2>
+    <p>Seven sessions that track the app's steps. Each can be a 30- to 60-minute in-class workshop or a homework module. Adjust the order to your syllabus.</p>
+    <h3>1. Orientation: read a finished model</h3>
+    <p>Project the finished example. Ask students to pick one arrow, find its proposition and page number, read its reason, and decide whether the reason actually explains the mechanism. Then open the Self-check step and discuss why every arrow is treated as a claim that needs a defense.</p>
+    <p><em>Homework:</em> start a model; complete Who, Outcome, and Define outcome; choose a paper approach.</p>
+    <h3>2. Choosing a theory and finding the seminal source</h3>
+    <p>Students identify the work where the theorist first stated the theory, using what recent papers cite and the "Cited by" count in Google Scholar to confirm it. For three built-in theories the app suggests a starting citation and labels it for students to verify.</p>
+    <p>Before students choose, teach the difference between a <strong>topic</strong> (what you study, such as veteran suicide risk) and a <strong>mechanism</strong> (how or why it happens, such as isolation thwarting belongingness, which raises suicidal desire). Theories that name mechanisms supply the arrows.</p>
+    <p><em>Activity:</em> pairs swap seminal sources and check each other's APA citation against the publisher's record.</p>
+    <h3>3. Extracting propositions</h3>
+    <p>The step students find hardest. Model it live with one proposition: quote or paraphrase the theorist, record the page, restate it in plain words, then name the "from" and "to" constructs and the direction. Each student enters two to five propositions per theory.</p>
+    <p><em>Check:</em> a partner opens the source to the cited page and confirms the proposition is there. A proposition with no page number shows up on the student's self-check.</p>
+    <h3>4. Building the model</h3>
+    <p>Students add causes (constructs from the propositions fill in automatically, and theory chips can be dragged into the list), decide whether there is an in-between step (mediation), and choose moderators. The app prompts them to consider social determinants of health both as causes and as moderators, which opens a discussion of person-in-environment and structural explanations.</p>
+    <h3>5. Defining concepts</h3>
+    <p>Students write a conceptual definition and a source for every box and tag the theory each concept comes from. The app shows the outcome's operational definition ("what counts") beside the field for its conceptual definition, so the difference is in front of students while they write.</p>
+    <p><em>Activity:</em> collect three definitions anonymously and ask the class which ones slipped into measurement language.</p>
+    <h3>6. Justifying the arrows</h3>
+    <p>For each arrow, students set the direction (+ or −) and line style, link the proposition it comes from (drag a proposition onto the arrow, or choose it from a menu), say what the reason rests on, and write one sentence on how one concept changes the other. Linking a proposition never sets the arrow's direction; students decide it, and the app flags any arrow that disagrees with its proposition. Students who cannot write a reason use "I'm stuck," which walks them through checking their boxes, saying the relationship aloud, or flagging the arrow as needing a source, which becomes a research plan.</p>
+    <h3>7. Paper kit, notes, and peer review</h3>
+    <p>Students complete the optional Paper notes step (target journal, problem definitions, each theory's assumptions and history, links to practice), run the Self-check, and download the figure, caption, concepts table, and Word notes. For peer review, students exchange <code>.json</code> files; the reviewer opens the file in the app and comments on arrows that lack reasons or rest on weak propositions.</p>
+  </section>
+
+  <section id="types" aria-labelledby="types-h">
+    <h2 id="types-h">The six paper types</h2>
+    <p>Students choose a paper approach early. It sets how many theories they can add and what the results page produces.</p>
+    <table>
+      <thead><tr><th>Paper type</th><th>Theories</th><th>What the app adds</th></tr></thead>
+      <tbody>
+        <tr><td>Critical theoretical analysis</td><td>1</td><td>A field for the case in Paper notes; one figure</td></tr>
+        <tr><td>Theoretical comparison</td><td>2</td><td>Concepts tagged A or B; the figure can show both theories or one at a time, and each view exports separately for side-by-side figures</td></tr>
+        <tr><td>Theoretical elaboration</td><td>Base theory plus 1 to 3 borrowed</td><td>Propositions and concepts can be marked new; the figure labels new concepts N, and new propositions carry an asterisk</td></tr>
+        <tr><td>Theoretical integration / synthesis</td><td>2 to 4</td><td>Integration type (end-to-end, side-by-side, or up-and-down, three widely used types of propositional integration; Muftić, 2009, reviews integration approaches more broadly); new propositions marked</td></tr>
+        <tr><td>Theoretical integrative review</td><td>1 to 5</td><td>Each proposition can cite the study it came from instead of the seminal source</td></tr>
+        <tr><td>6-point theoretical analysis</td><td>1</td><td>Paper notes collect the theory's assumptions, history, and limits to support the six-point framework (Robbins et al., 2019)</td></tr>
+      </tbody>
+    </table>
+    <p>What the app does not do: it does not evaluate the quality of a theory, choose the journal, or write the critical analysis. Those remain the student's work.</p>
+  </section>
+
+  <section id="assess" aria-labelledby="assess-h">
+    <h2 id="assess-h">Assessment</h2>
+    <p>Criteria you can adapt into a rubric, with where to find the evidence.</p>
+    <table>
+      <thead><tr><th>Criterion</th><th>Evidence in the app</th></tr></thead>
+      <tbody>
+        <tr><td>The theory's claims are stated in the theorist's own terms, with page numbers</td><td>Source propositions on the results page; Key propositions step</td></tr>
+        <tr><td>Every concept has a conceptual (not operational) definition with a source</td><td>Concepts table; Define concepts step</td></tr>
+        <tr><td>Every arrow traces to a proposition, prior research, or practice experience</td><td>Hypotheses list ("From proposition P1..."); Self-check</td></tr>
+        <tr><td>Each reason names a mechanism, not just an association</td><td>Reasons in the hypotheses and in "What you decided"</td></tr>
+        <tr><td>Directions agree with the source, or the disagreement is argued</td><td>Self-check flag for direction mismatches</td></tr>
+        <tr><td>Structural conditions are considered</td><td>Self-check item on social determinants of health</td></tr>
+        <tr><td>The model is scoped well (four or fewer causes, a nameable mediator)</td><td>The figure; Self-check</td></tr>
+        <tr><td>The figure follows APA 7, with a caption and a note</td><td>Paper kit caption; the student's manuscript</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section id="review" aria-labelledby="review-h">
+    <h2 id="review-h">Reviewing student work</h2>
+    <ol>
+      <li>Open the app and choose <em>Open saved work</em>, then select the student's <code>.json</code> file. (This replaces the model in your browser; save your own first if you have one.)</li>
+      <li>Go to <em>Self-check</em> for a summary of gaps, then <em>Results</em>.</li>
+      <li>On the figure, click any arrow to see its direction, line style, linked proposition, and reason side by side.</li>
+      <li>Use the step list on the left to jump to any step the student completed.</li>
+    </ol>
+  </section>
+
+  <section id="prompts" aria-labelledby="prompts-h">
+    <h2 id="prompts-h">Discussion prompts</h2>
+    <ul>
+      <li>Which of your arrows rests on the theory, and which rests on your practice experience? What would it take to move one from practice to theory?</li>
+      <li>Your outcome's operational definition is how you would count it. Does your conceptual definition say what the theory means by it?</li>
+      <li>Where does a social determinant belong in your model: as a cause, or as a moderator of another path? What does each choice imply about where change happens?</li>
+      <li>Which arrow is the weakest claim in your model? What evidence would change your mind about it?</li>
+      <li>What does your theory make visible about the problem, and what does it leave out? Does the model you drew inherit those limits?</li>
+      <li>For a comparison paper: which concepts appear in both theories' figures, and do the theories agree on the direction of their effects?</li>
+    </ul>
+  </section>
+
+  <section id="access" aria-labelledby="access-h">
+    <h2 id="access-h">Accessibility and privacy</h2>
+    <ul>
+      <li>Every drag action has a keyboard alternative: move buttons for reordering causes, menus for linking propositions, and arrow keys for moving figure boxes.</li>
+      <li>Automated checks with axe-core against WCAG 2.2 AA report no violations on any screen of version 1.1.0. Automated checks do not replace testing with assistive technology users.</li>
+      <li>Body text uses Atkinson Hyperlegible Next, a typeface designed by the Braille Institute for low-vision readers.</li>
+      <li>The app runs entirely in the browser. Student work is never sent to a server, and the app collects no student data. If the instructor turns on anonymous visit counts (GoatCounter), only page visits are counted, with no cookies and none of the student's work.</li>
+    </ul>
+  </section>
+
+  <section id="custom" aria-labelledby="custom-h">
+    <h2 id="custom-h">Customizing the app</h2>
+    <p>The app is open source under the MIT license (<a href="https://github.com/donnaschuman/theory-model-builder">github.com/donnaschuman/theory-model-builder</a>). To adapt it for your course, copy the repository and edit the settings at the top of <code>index.html</code>:</p>
+    <ul>
+      <li><code>VIDEOS</code>: links to short how-to videos for the Key propositions, In-between, Define concepts, and Why this arrow? steps. YouTube and Vimeo links play inside the step; other links open in a new tab. Empty links hide the slot.</li>
+      <li><code>SURVEY_URL</code> and <code>ADOPTION_URL</code>: an optional feedback survey and an instructor adoption form.</li>
+      <li><code>GOATCOUNTER_CODE</code>: optional cookieless visit counts.</li>
+      <li>To add a built-in theory, add an entry to <code>THEORIES</code> (name, one-sentence description, core constructs) and, optionally, to <code>SEMINAL</code> (the citation the app suggests for students to verify).</li>
+    </ul>
+    <p>The site has no build step; any static host (Netlify, GitHub Pages, a university web server) can serve the folder.</p>
+  </section>
+
+  <section id="ai" aria-labelledby="ai-h">
+    <h2 id="ai-h">AI credit, disclosure, and academic integrity</h2>
+    <h3>How the app was made</h3>
+    <p>D. L. Schuman designed the Social Theory Model Builder, its teaching approach, and its coaching content, and directed its development. The code, interface text, automated tests, and this guide were drafted and revised with generative AI assistants: Grok (xAI) and Claude (Anthropic; Claude Opus 5.5). The author reviewed and tested the result and is responsible for its content and any errors.</p>
+    <h3>What the app does and does not do</h3>
+    <ul>
+      <li>The app contains no AI and calls no AI service. Nothing a student types is sent anywhere.</li>
+      <li>It does not generate propositions, definitions, reasons, or hypotheses. Hypothesis and research-question wording is assembled from the student's own entries using fixed sentence templates.</li>
+      <li>"Use a starter" and "I'm stuck" insert fixed fill-in-the-blank sentences, not generated text.</li>
+      <li>Suggested seminal sources for the three built-in theories are fixed citations that students are told to verify.</li>
+    </ul>
+    <h3>Suggested syllabus language</h3>
+    <p class="hl" style="display:inline">Students may use the Social Theory Model Builder to plan their conceptual model. The app does not use artificial intelligence and does not write content; the propositions, definitions, reasons, and analysis in your model must be your own. If you use any generative AI tool for this assignment, follow the course AI policy and disclose that use.</p>
+  </section>
+
+  <section id="study" aria-labelledby="study-h">
+    <h2 id="study-h">Studying its effect on learning</h2>
+    <p>If you plan to report outcomes from your course (for example, pre and post rubric scores on proposition extraction or model quality, or usability ratings), obtain IRB approval or an exemption determination before you collect data. Saved <code>.json</code> files record each student's decisions in a structured form that can be scored, with the student's consent.</p>
+  </section>
+
+  <section id="cite" aria-labelledby="cite-h">
+    <h2 id="cite-h">Citing the app</h2>
+    <p class="citeref">Schuman, D. L. (2026). <i>Social theory model builder</i> (Version 1.1.0) [Web application]. The University of Texas at Arlington. https://social-theory-model-builder.netlify.app</p>
+    <p>In-text: (Schuman, 2026). Machine-readable citation metadata is in the repository's <code>CITATION.cff</code>.</p>
+    <h3>References cited in this guide</h3>
+    <p class="citeref">Muftić, L. R. (2009). Macro-micro theoretical integration: An unexplored theoretical frontier. <i>Journal of Theoretical and Philosophical Criminology, 1</i>(2), 33–71.</p>
+    <p class="citeref">Robbins, S. P., Chatterjee, P., Canda, E. R., &amp; Leibowitz, G. S. (2019). <i>Contemporary human behavior theory: A critical perspective for social work</i> (4th ed.). Pearson.</p>
+  </section>
+</main>
+<footer>
+  <div class="fl"><p>Social Theory Model Builder, version 1.1.0. Built with AI assistance (Grok, xAI; Claude, Anthropic). The app itself uses no AI.</p></div>
+  <p><a href="index.html">Open the app</a></p>
+</footer>
+</body>
+</html>

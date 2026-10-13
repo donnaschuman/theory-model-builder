@@ -1,7 +1,7 @@
 cff-version: 1.2.0
 message: "If you use this software, please cite it as below."
 title: "Social Theory Model Builder"
-version: 1.0.0
+version: 1.1.0
 date-released: 2026-10-13
 url: "https://social-theory-model-builder.netlify.app"
 license: MIT
