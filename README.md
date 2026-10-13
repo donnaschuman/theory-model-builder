@@ -1,4 +1,4 @@
-# Theory Model Builder (student app)
+# Social Theory Model Builder
 
 A single-page, offline web app that walks students from a theory + population + outcome to one plain-language research question, numbered hypotheses, and an editable path figure (solid and dashed lines).
 
