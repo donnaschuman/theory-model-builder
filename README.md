@@ -6,12 +6,16 @@ Live: https://social-theory-model-builder.netlify.app
 
 ## What students do
 
-1. **Question.** Population, outcome, and what counts as the outcome.
-2. **Theory.** One theory (or a second if the model needs it), the seminal source for each, and 2 to 12 key propositions with page numbers.
+1. **Question.** Population (with guidance on making it specific), outcome, and what counts as the outcome.
+2. **Theory.** One theory from the theory library of 23 common theories, or one the student types (and a second if the model needs it), the seminal source for each, and 2 to 12 key propositions with page numbers.
 3. **Model.** Causes (including social determinants of health), an in-between step (mediator), and moderators. Causes can be dragged in from theory chips and reordered.
 4. **Concepts.** A conceptual definition and source for every box, tagged by source theory or marked as a new concept.
 5. **Arrows.** Direction (+/−), line style, the proposition each arrow comes from (drag a proposition onto an arrow), and a one-sentence reason. Students set every arrow's direction themselves; the app flags any arrow whose direction differs from its linked proposition.
 6. **Results.** Research question, hypotheses or propositions, the figure (SVG, PNG, Mermaid, PDF), an APA 7 figure caption, a concepts table that pastes into Word as a table, and a Word file of paper notes (problem definitions, each theory's ontology, epistemology, history, and limits).
+
+## Theory library
+
+The [theory library](https://social-theory-model-builder.netlify.app/library.html) (`library.html`, data in `theories.js`) lists 23 common theories in social work and the social sciences with each one's seminal source, substantial revisions, paraphrased common propositions, and key concepts. To add or correct a theory, edit `theories.js`; the app and the library page both read it.
 
 ## For instructors
 
@@ -19,11 +23,11 @@ The [instructor guide](https://social-theory-model-builder.netlify.app/guide.htm
 
 ## AI credit and disclosure
 
-D. L. Schuman designed the tool, its teaching approach, and its coaching content, and directed its development. The code, interface text, automated tests, and instructor guide were drafted and revised with generative AI assistants: Grok (xAI) and Claude (Anthropic; Claude Opus 5.5). The author reviewed and tested the result and is responsible for it. The app itself contains no AI and sends nothing a student types to any service.
+D. L. Schuman designed the tool, its teaching approach, and its coaching content, and directed its development. The code, interface text, theory library entries, automated tests, and instructor guide were drafted and revised with generative AI assistants: Grok (xAI) and Claude (Anthropic; Claude Opus 5.5). The author reviewed and tested the result and is responsible for it. The app itself contains no AI and sends nothing a student types to any service.
 
 ## Technical notes
 
-- No build step: Netlify publishes the repo root (`index.html`, `guide.html`, `styles.css`, `fonts/`).
+- No build step: Netlify publishes the repo root (`index.html`, `guide.html`, `library.html`, `theories.js`, `styles.css`, `fonts/`).
 - Fonts are self-hosted under the SIL Open Font License (see `fonts/`): Atkinson Hyperlegible Next (body) and Bricolage Grotesque (headings and numerals).
 - No data leaves the browser. Work saves in the browser and in "Save my work" JSON files. Files saved by version 1.0 open in 1.2 with every reason, direction, style, and link attached to the right arrow.
 - Accessibility: every drag action has a keyboard alternative (move buttons, menus, arrow keys on figure boxes). Automated axe-core checks against WCAG 2.2 AA report no violations on any screen.

@@ -27,7 +27,7 @@ var PROPOSITIONS_VIDEO_URL = ''; // older setting; used for the propositions slo
   var frames=[];
   if(/youtu\.?be/i.test(vids))frames.push("https://www.youtube-nocookie.com");
   if(/vimeo\.com/i.test(vids))frames.push("https://player.vimeo.com");
-  var csp="default-src 'none'; style-src 'self' 'unsafe-inline'; font-src 'self'; script-src 'unsafe-inline'"+(gc?" https://gc.zgo.at":"")+
+  var csp="default-src 'none'; style-src 'self' 'unsafe-inline'; font-src 'self'; script-src 'self' 'unsafe-inline'"+(gc?" https://gc.zgo.at":"")+
     "; img-src data: blob:"+(gc?" https://"+gc+".goatcounter.com":"")+
     (gc?"; connect-src https://"+gc+".goatcounter.com":"")+
     (frames.length?"; frame-src "+frames.join(" "):"")+";";
@@ -53,7 +53,7 @@ var PROPOSITIONS_VIDEO_URL = ''; // older setting; used for the propositions slo
       <button class="btn yel sm filebtn" type="button" id="saveFile"><span aria-hidden="true">&#8681;</span><span>Save<span class="lbl-long"> my work</span></span></button>
       <button class="btn sec sm filebtn" type="button" id="openFile"><span>Open<span class="lbl-long"> saved work</span></span></button>
       <input type="file" id="fileIn" accept=".json,application/json" class="sr" tabindex="-1" aria-hidden="true">
-      <nav class="barnav" aria-label="App"><button type="button" id="homeLink">Home</button><a href="guide.html">For instructors</a><button type="button" id="aboutLink">About<span class="lbl-long"> &amp; cite</span></button></nav>
+      <nav class="barnav" aria-label="App"><button type="button" id="homeLink">Home</button><a href="library.html"><span class="nl">Theory library</span><span class="ns">Library</span></a><a href="guide.html"><span class="nl">For instructors</span><span class="ns">Instructors</span></a><button type="button" id="aboutLink">About<span class="lbl-long"> &amp; cite</span></button></nav>
     </div>
   </div>
 </header>
@@ -119,7 +119,7 @@ var PROPOSITIONS_VIDEO_URL = ''; // older setting; used for the propositions slo
     <p class="citeref" data-citehtml></p>
     <p class="small">In-text: (Schuman, 2026) <button type="button" class="btn sec sm" data-copycite="1" style="margin-left:8px">Copy citation</button> <span class="small" role="status" data-citestatus></span></p>
     <h3 id="aiNote" style="font-size:1.05rem;margin:16px 0 4px">AI disclosure</h3>
-    <p class="small">D. L. Schuman designed the tool and its teaching content. The code, interface text, and tests were drafted and revised with Grok (xAI) and Claude (Anthropic; Claude Opus 5.5). The author reviewed and tested the result and is responsible for it. The app does not use AI. It does not generate propositions, definitions, reasons, or hypotheses; it assembles them from what you enter. Sentence starters are fixed templates.</p>
+    <p class="small">D. L. Schuman designed the tool and its teaching content. The code, interface text, theory library entries, and tests were drafted and revised with Grok (xAI) and Claude (Anthropic; Claude Opus 5.5). The author reviewed and tested the result and is responsible for it. The app does not use AI. It does not generate propositions, definitions, reasons, or hypotheses; it assembles them from what you enter. Sentence starters are fixed templates.</p>
     <p class="small"><a href="guide.html">Instructor guide</a><span id="aboutSurvey" hidden> · <a class="extlink" target="_blank" rel="noopener">Feedback survey</a></span><span id="adoptLink" hidden> · <a class="extlink" target="_blank" rel="noopener">Instructors: tell us you use it</a></span></p>
   </div>
 </section>
@@ -152,6 +152,7 @@ var PROPOSITIONS_VIDEO_URL = ''; // older setting; used for the propositions slo
 </footer>
 <div class="sr" id="live" role="status" aria-live="polite"></div>
 
+<script src="theories.js"></script>
 <script>
 (function(){
 "use strict";
@@ -178,16 +179,11 @@ var TIPS = {
   notes: "Record how the problem is usually defined and what that definition leaves out.",
   close: "The research question should be specific enough for someone else to design a study from it."
 };
-var THEORIES = {
-  TPB: {name: "Theory of Planned Behavior", desc: "People act when they intend to, and intention grows from their attitudes, what important others expect, and how in-control they feel.", chips: ["Attitude toward the behavior", "Subjective norm", "Perceived behavioral control", "Intention"]},
-  HBM: {name: "Health Belief Model", desc: "People take a health action when they feel at risk, see the problem as serious, and believe the action's benefits outweigh its barriers.", chips: ["Perceived susceptibility", "Perceived severity", "Perceived benefits", "Perceived barriers", "Cues to action", "Self-efficacy"]},
-  SCT: {name: "Social Cognitive Theory", desc: "People learn and act through confidence in their own ability, expected results, watching others, and support around them.", chips: ["Self-efficacy", "Outcome expectations", "Observational learning / modeling", "Social support"]}
-};
-var SEMINAL = {
-  TPB: "Ajzen, I. (1991). The theory of planned behavior. Organizational Behavior and Human Decision Processes, 50(2), 179–211. https://doi.org/10.1016/0749-5978(91)90020-T",
-  HBM: "Rosenstock, I. M. (1966). Why people use health services. The Milbank Memorial Fund Quarterly, 44(3, Pt. 2), 94–127.",
-  SCT: "Bandura, A. (1986). Social foundations of thought and action: A social cognitive theory. Prentice-Hall."
-};
+/* Theory library (theories.js). THEORIES and SEMINAL keep their old shape; keys TPB, HBM, SCT are unchanged so old files still open. */
+var LIB = window.THEORY_LIB || {}, LIBG = window.THEORY_GROUPS || [], TL = window.TheoryLib;
+var plainCite = TL.plainCite, revisedLine = TL.revisedLine, libCard = TL.card, theoryOptions = TL.options;
+var THEORIES = {}, SEMINAL = {};
+Object.keys(LIB).forEach(function(k){ THEORIES[k] = {name: LIB[k].name, desc: LIB[k].desc, chips: LIB[k].chips}; SEMINAL[k] = plainCite(LIB[k].seminal); });
 var PARADIGMS = ["Positivist", "Postpositivist", "Critical / transformative", "Constructivist / interpretivist", "Pragmatist", "Not sure yet"];
 var MODS = ["Age", "Sex", "Gender", "Race/ethnicity", "Veteran/military status", "Disability/chronic illness", "Relationship/marital status"];
 var MODS_SDOH = ["Income/financial strain", "Education", "Employment/student status", "Housing stability", "Food security", "Neighborhood safety/conditions", "Discrimination/racism", "Location/access (urban-rural, transportation)", "Social support", "Health insurance/coverage"];
@@ -314,10 +310,10 @@ var save = function(){ rawSave(); showSaved(); };
 
 /* Short directions shown at the top of each step. Plain words, short sentences. */
 var TODO = {
-  "Who": ["Type the group of people you want to study in the box below.", "Be specific: who they are and where they are.", "Press Next."],
+  "Who": ["Read the box How to make a population specific.", "Type the group of people you want to study in the box below, as one phrase.", "Check that it names who they are and where they are. Add age or a qualifying condition if it matters for your question.", "Press Next."],
   "Outcome": ["Type the result you want to explain for this group.", "Use a short name of 2 to 5 words.", "Press Next."],
   "Define outcome": ["Write how you will know the outcome happened.", "Say what you will count or measure, over what time, and where the information comes from.", "Press Next."],
-  "Theory": ["Click one theory card, or click Type my own and type the theory name.", "Add a second theory only if your model needs it.", "Press Next."],
+  "Theory": ["Choose a theory from the Theory menu. The theories are grouped by topic.", "Read the panel that opens: what the theory says, its seminal source, its common propositions, and whether it was substantially revised.", "If your theory is not in the menu, choose Type my own at the bottom and type its name.", "Add a second theory only if your model needs it.", "Press Next."],
   "Key propositions": ["In box 1, type the APA reference for the work where each theory was first stated. You can click Use this to copy a suggested reference, but check it first.", "In box 2, press Add a proposition. Copy one sentence from the source that says how two concepts relate, and type its page number.", "Fill in the other boxes for that proposition: your own words, the From and To concepts, and the direction.", "Add 2 to 5 propositions for each theory. You can skip this step and come back later."],
   "Causes": ["Add 2 or 3 causes of the outcome (4 at most).", "To add a cause, click a button with a + sign below, or type in an empty box.", "Use the \u2191 and \u2193 buttons, or drag \u283f, to change the order. The order here is the order in the figure.", "Press Next."],
   "In-between": ["Ask yourself: why does each cause lead to the outcome?", "If your answer is one thing that the causes change first, click Yes and type it in the box.", "If you cannot name one thing, click No or Not sure.", "If you clicked Yes: for each cause, check the box if it also affects the outcome directly (partial mediation). Leave it empty if it works only through the in-between step.", "Press Next."],
@@ -582,6 +578,8 @@ function checks(){
   c.push({ok: !dup.length, text: dup.length ? "“" + dup[0] + "” is listed as both a cause and the outcome. A box can't cause itself." : "No box is both a cause and the outcome.", fix: "Causes"});
   var md = hasMed() && lc(S.mediator) === o;
   c.push({ok: !md, text: md ? "The in-between is the same as the outcome. It should be a separate step that comes before the outcome." : (hasMed() ? "The in-between differs from the outcome." : "No in-between (fine)."), fix: "In-between"});
+  var wh = (S.who || "").trim(), vague = /^(the\s+)?(people|persons|individuals|adults|clients|patients|students|participants|population|community|communities|families|youth|children|women|men|veterans|older adults|everyone)$/i.test(wh);
+  c.push({ok: !!wh && wh.split(/\s+/).length > 2 && !vague, soft: true, text: !wh ? "No population entered yet." : vague || wh.split(/\s+/).length <= 2 ? "Your population (“" + wh + "”) is very general. Name who they are and where they are, for example “Post-9/11 U.S. veterans enrolled in VA mental health care.”" : "Your population names a specific group.", fix: "Who"});
   c.push({ok: causes().length <= 4, text: causes().length <= 4 ? "4 or fewer causes." : "More than 4 causes makes the figure hard to explain.", fix: "Causes"});
   var ms = modEdges(), bm = ms.filter(function(e){ var d = S.modDetails[e.name] || {}; return !(d.groups || "").trim() || !e.path; });
   c.push({ok: !bm.length, text: !ms.length ? "No moderators (fine)." : bm.length ? "Describe the groups compared (and the path changed) for: " + bm.map(function(e){ return e.name; }).join(", ") + "." : "Each moderator has groups described and is linked to a path.", fix: "Moderator details"});
@@ -672,7 +670,12 @@ function linkBlock(e, i){
 var STEPS = [
 /* 0 */ {t: "Start", skip: function(){ return true; }, r: function(){ return ""; }, v: function(){ return ""; }},
 /* 1 */ {t: "Who", g: "Question", r: function(){
-    return '<h2 id="stepTitle">Who are the people you want to study?</h2><p class="lede">Describe the population in plain words.</p><label for="f_who">Population<span class="hint">Type the group of people you will study.</span></label><input type="text" id="f_who" data-bind="who" placeholder="e.g., First-generation college students at community colleges" value="' + esc(S.who) + '">';
+    return '<h2 id="stepTitle">Who are the people you want to study?</h2><p class="lede">Describe the population in plain words.</p>' +
+      '<div class="concept"><h4>How to make a population specific</h4><p>A specific population usually names these four things:</p>' +
+      '<ul style="margin:0 0 10px 1.2em;padding:0"><li><strong>Who:</strong> the group, by role or shared condition (post-9/11 U.S. veterans).</li><li><strong>Age or life stage,</strong> if it matters (ages 18 to 34).</li><li><strong>Where:</strong> the setting or place (enrolled in VA mental health care; in rural Texas).</li><li><strong>When or what qualifies them,</strong> if it matters (within 6 months of discharge).</li></ul>' +
+      '<p style="margin-bottom:4px"><strong>Weak:</strong> Veterans<br><strong>Better:</strong> Post-9/11 veterans<br><strong>Strong:</strong> Post-9/11 U.S. veterans enrolled in VA mental health care</p>' +
+      '<p style="margin:10px 0 0"><strong>Keep it to one phrase.</strong> It becomes part of your research question and your figure title.<br><strong>Leave out the outcome and the causes.</strong> “Veterans who drop out of treatment” already assumes the result your model explains. Write “Veterans in treatment” and make dropout the outcome.</p></div>' +
+      '<label for="f_who">Population<span class="hint">Type one phrase that names who they are and where they are.</span></label><input type="text" id="f_who" data-bind="who" placeholder="e.g., First-generation students at Texas community colleges" value="' + esc(S.who) + '">';
   }, v: function(){ return S.who.trim() ? "" : "Name who you are studying."; }},
 /* 2 */ {t: "Outcome", g: "Question", r: function(){
     return '<h2 id="stepTitle">What change or result do you care about for them?</h2><p class="lede">This is the outcome your model explains.</p><label for="f_out">Outcome name<span class="hint">Type a short name, 2 to 5 words, for the result you want to explain.</span></label><input type="text" id="f_out" data-bind="outcome" placeholder="e.g., Treatment engagement, exercise, course completion" value="' + esc(S.outcome) + '">' + tip("who");
@@ -681,15 +684,13 @@ var STEPS = [
     return '<h2 id="stepTitle">What counts as &ldquo;' + esc(S.outcome) + '&rdquo;?</h2><p class="lede">Say how you would know it happened, so someone else could count it the same way.</p><label for="f_def">What counts<span class="hint">Say what you will count or measure, over what time, and where the information comes from.</span></label><textarea id="f_def" class="auto" data-bind="outcomeDef" placeholder="e.g., Attending 8+ sessions in 14 weeks (clinic records); OR 150+ minutes of activity per week (self-report); OR passing all fall courses (transcript)">' + esc(S.outcomeDef) + '</textarea>';
   }, v: function(){ return S.outcomeDef.trim() ? "" : "Describe what counts."; }},
 /* 4 */ {t: "Theory", g: "Theory", r: function(){
-    var a = approach(), max = a[4], o = Object.keys(THEORIES).map(function(k){ return [k, THEORIES[k].name, THEORIES[k].desc]; });
-    o.push(["custom", "Type my own", "Use a theory from your course or field."]);
-    var h = '<h2 id="stepTitle">Which theory explains why this happens?</h2><p class="lede">Choose the theory that explains your outcome. Add a second theory only if the model needs one.</p>';
-    h += '<div class="item"><div class="item-h"><span class="tbadge tA">A</span><strong>' + esc(roleOf(0)) + '</strong></div>' + choices("theory", o) + (S.theory === "custom" ? '<label for="f_th">Theory name<span class="hint">Type the full name of the theory.</span></label><input type="text" id="f_th" data-bind="theoryCustom" placeholder="e.g., Self-Determination Theory" value="' + esc(S.theoryCustom) + '">' : '') + '</div>';
+    var a = approach(), max = a[4];
+    var h = '<h2 id="stepTitle">Which theory explains why this happens?</h2><p class="lede">Choose the theory that explains your outcome. Add a second theory only if the model needs one. <a href="library.html" target="_blank" rel="noopener">Browse the theory library</a> to compare theories first.</p>';
+    h += '<div class="item"><div class="item-h"><span class="tbadge tA">A</span><strong>' + esc(roleOf(0)) + '</strong></div><label for="f_theory">Theory<span class="hint">Choose a theory from the library, or choose Type my own. The panel below shows its seminal source and common propositions.</span></label><select id="f_theory" data-theorya="1"><option value="">Choose a theory…</option>' + theoryOptions(S.theory) + '</select>' + (LIB[S.theory] ? libCard(S.theory) : '') + (S.theory === "custom" ? '<label for="f_th">Theory name<span class="hint">Type the full name of the theory.</span></label><input type="text" id="f_th" data-bind="theoryCustom" placeholder="e.g., Social Exchange Theory" value="' + esc(S.theoryCustom) + '">' : '') + '</div>';
     S.more.forEach(function(t, i){
       var L = String.fromCharCode(66 + i);
-      h += '<div class="item"><div class="item-h"><span class="tbadge' + tc(L) + '">' + L + '</span><strong>' + esc(roleOf(i + 1)) + '</strong><span class="sp"><button type="button" class="btn ghost sm danger" data-rmtheory="' + i + '">Remove</button></span></div><label for="mt' + i + '">Theory<span class="hint">Choose the theory from the list, or choose Type my own.</span></label><select id="mt' + i + '" data-mt="' + i + '" data-mf="pick"><option value="">Choose a theory…</option>' +
-        Object.keys(THEORIES).map(function(k){ return '<option value="' + k + '" ' + (t.pick === k ? "selected" : "") + '>' + esc(THEORIES[k].name) + '</option>'; }).join("") + '<option value="custom" ' + (t.pick === "custom" ? "selected" : "") + '>Type my own…</option></select>' +
-        (t.pick === "custom" ? '<label for="mtc' + i + '">Theory name<span class="hint">Type the full name of the theory.</span></label><input type="text" id="mtc' + i + '" data-mt="' + i + '" data-mf="custom" placeholder="e.g., Minority Stress Theory" value="' + esc(t.custom || "") + '">' : (THEORIES[t.pick] ? '<p class="small" style="margin:8px 0 0">' + esc(THEORIES[t.pick].desc) + '</p>' : '')) + '</div>';
+      h += '<div class="item"><div class="item-h"><span class="tbadge' + tc(L) + '">' + L + '</span><strong>' + esc(roleOf(i + 1)) + '</strong><span class="sp"><button type="button" class="btn ghost sm danger" data-rmtheory="' + i + '">Remove</button></span></div><label for="mt' + i + '">Theory<span class="hint">Choose the theory from the list, or choose Type my own.</span></label><select id="mt' + i + '" data-mt="' + i + '" data-mf="pick"><option value="">Choose a theory…</option>' + theoryOptions(t.pick) + '</select>' +
+        (t.pick === "custom" ? '<label for="mtc' + i + '">Theory name<span class="hint">Type the full name of the theory.</span></label><input type="text" id="mtc' + i + '" data-mt="' + i + '" data-mf="custom" placeholder="e.g., Social Exchange Theory" value="' + esc(t.custom || "") + '">' : (LIB[t.pick] ? libCard(t.pick) : '')) + '</div>';
     });
     h += '<p class="panel" id="mechInfo"><strong>Mechanism or topic?</strong> A topic is what you study (veteran suicide risk). A mechanism is how or why it happens (isolation thwarts belongingness, which raises suicidal desire). Choose a theory that names mechanisms; they become your arrows.</p>';
     if(1 + S.more.length < max) h += '<p><button type="button" class="btn sec" id="addTheory">+ Add another theory</button></p>';
@@ -707,7 +708,7 @@ var STEPS = [
     tl.forEach(function(t){
       var sug = SEMINAL[t.pick], fid = "sem_" + t.id;
       h += '<div class="item" style="margin:10px 0"><div class="item-h"><span class="tbadge' + tc(t.id) + '">' + t.id + '</span><strong>' + esc(tName(t)) + '</strong></div>' +
-        (sug ? '<p class="small" style="background:var(--tint-2);padding:8px 12px;border-radius:10px;margin:8px 0 0"><strong>Starting point; verify it yourself:</strong> ' + esc(sug) + ' <button type="button" class="linkbtn" data-usesem="' + t.id + '">Use this</button></p>' : '') +
+        (sug ? '<p class="small" style="background:var(--tint-2);padding:8px 12px;border-radius:10px;margin:8px 0 0"><strong>Starting point; verify it yourself:</strong> ' + esc(sug) + ' <button type="button" class="linkbtn" data-usesem="' + t.id + '">Use this</button></p>' + (revisedLine(t.pick) ? '<p class="small lib-rev" style="margin:8px 0 0"><strong>Note:</strong> ' + esc(revisedLine(t.pick)) + ' If you use the revised version, cite it as your source. The theory library lists the full references.</p>' : '') : '') +
         '<label for="' + fid + '">APA citation of the seminal source<span class="hint">Type the full APA reference for the work where the theory was first stated.</span></label><textarea id="' + fid + '" class="auto oneline" ' + (t.id === "A" ? 'data-bind="seminal"' : 'data-mt="' + t.idx + '" data-mf="seminal"') + ' placeholder="Author, A. A. (Year). Title. Publisher or Journal, vol(issue), pages.">' + esc(t.seminal) + '</textarea></div>';
     });
     h += '</div><div class="panel"><h3><span class="num">2</span> Pull out propositions</h3><p class="small">A <strong>proposition</strong> is the theory’s claim about how two concepts relate, for example “the more X, the more Y.” Add 2 to 5.' + (newOK ? ' Mark any proposition that is your own addition as <strong>new</strong>.' : '') + '</p><datalist id="constructs">' + co.map(function(c){ return '<option value="' + esc(c) + '">'; }).join("") + '</datalist>';
@@ -1445,6 +1446,7 @@ document.addEventListener("change", function(ev){
   if(t.id === "modSkip"){ S.modSkip = t.checked; if(t.checked) S.modPicked = []; render(); $("modSkip").focus(); return; }
   if(ds.mp){ (S.modDetails[ds.mp] = S.modDetails[ds.mp] || {}).path = t.value; save(); schedulePreview(); return; }
   if(ds.partial){ if(t.checked) S.partial[ds.partial] = true; else delete S.partial[ds.partial]; if(!S.hypsEdited) S.hyps = ""; if(!S.rqEdited) S.rq = ""; var yp = window.scrollY; render(); window.scrollTo(0, yp); var pp = $("screen").querySelector('[data-partial="' + ds.partial + '"]'); if(pp) pp.focus(); announce(t.checked ? "Partial mediation: direct arrow added." : "Direct arrow removed."); return; }
+  if(ds.theorya){ S.theory = t.value; if(!S.rqEdited) S.rq = ""; render(); $("f_theory").focus(); return; }
   if(ds.mt && ds.mf === "pick"){ S.more[+ds.mt].pick = t.value; render(); $("mt" + ds.mt).focus(); return; }
   if(ds.ctag){ if(t.value) S.ctag[ds.ctag] = t.value; else delete S.ctag[ds.ctag]; save(); schedulePreview(); var y2 = window.scrollY; render(); window.scrollTo(0, y2); var c2 = $("screen").querySelector('[data-ctag="' + ds.ctag + '"]'); if(c2) c2.focus(); return; }
 });

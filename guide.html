@@ -90,8 +90,9 @@
     <p>Project the finished example. Ask students to pick one arrow, find its proposition and page number, read its reason, and decide whether the reason actually explains the mechanism. Then open the Self-check step and discuss why each arrow needs a reason.</p>
     <p><em>Homework:</em> start a model; complete Who, Outcome, and Define outcome.</p>
     <h3>2. Choosing a theory and finding the seminal source</h3>
-    <p>Students identify the work where the theorist first stated the theory, using what recent papers cite and the "Cited by" count in Google Scholar to confirm it. For three built-in theories the app suggests a starting citation and labels it for students to verify.</p>
+    <p>Students identify the work where the theorist first stated the theory, using what recent papers cite and the "Cited by" count in Google Scholar to confirm it. The <a href="library.html">theory library</a> lists 23 common theories with the seminal source, a note when the theory was substantially revised and by whom, paraphrased common propositions, and key concepts. The app suggests the library citation as a starting point and labels it for students to verify. Students still find each proposition's exact wording and page number in the source.</p>
     <p>Before students choose, teach the difference between a <strong>topic</strong> (what you study, such as veteran suicide risk) and a <strong>mechanism</strong> (how or why it happens, such as isolation thwarting belongingness, which raises suicidal desire). Theories that name mechanisms supply the arrows.</p>
+    <p>When a theory was revised (for example, the theory of planned behavior restated as the reasoned action approach by Fishbein and Ajzen in 2010), ask students which version their model uses and to cite that version.</p>
     <p><em>Activity:</em> pairs swap seminal sources and check each other's APA citation against the publisher's record.</p>
     <h3>3. Extracting propositions</h3>
     <p>Students find this step the hardest. Demonstrate one proposition in class: quote or paraphrase the theorist, record the page, restate it in plain words, then name the "from" and "to" constructs and the direction. Each student enters two to five propositions per theory.</p>
@@ -167,7 +168,7 @@
       <li><code>VIDEOS</code>: links to short how-to videos for the Key propositions, In-between, Define concepts, and Why this arrow? steps. YouTube and Vimeo links play inside the step; other links open in a new tab. Empty links hide the slot.</li>
       <li><code>SURVEY_URL</code> and <code>ADOPTION_URL</code>: an optional feedback survey and an instructor adoption form.</li>
       <li><code>GOATCOUNTER_CODE</code>: optional cookieless visit counts.</li>
-      <li>To add a built-in theory, add an entry to <code>THEORIES</code> (name, one-sentence description, core constructs) and, optionally, to <code>SEMINAL</code> (the citation the app suggests for students to verify).</li>
+      <li>To add or correct a theory in the library, edit <code>theories.js</code>: group, name, one-sentence description, key concepts, seminal source, revisions (each tagged Revised, Extended, Restated, Challenged, or similar), origins, and paraphrased propositions. Text between asterisks is set in italics. The app and the library page both read this file.</li>
     </ul>
     <p>The site has no build step; any static host (Netlify, GitHub Pages, a university web server) can serve the folder.</p>
   </section>
@@ -175,13 +176,13 @@
   <section id="ai" aria-labelledby="ai-h">
     <h2 id="ai-h">AI credit, disclosure, and academic integrity</h2>
     <h3>How the app was made</h3>
-    <p>D. L. Schuman designed the Social Theory Model Builder, its teaching approach, and its coaching content, and directed its development. The code, interface text, automated tests, and this guide were drafted and revised with generative AI assistants: Grok (xAI) and Claude (Anthropic; Claude Opus 5.5). The author reviewed and tested the result and is responsible for its content and any errors.</p>
+    <p>D. L. Schuman designed the Social Theory Model Builder, its teaching approach, and its coaching content, and directed its development. The code, interface text, theory library entries, automated tests, and this guide were drafted and revised with generative AI assistants: Grok (xAI) and Claude (Anthropic; Claude Opus 5.5). The author reviewed and tested the result and is responsible for its content and any errors.</p>
     <h3>What the app does and does not do</h3>
     <ul>
       <li>The app contains no AI and calls no AI service. Nothing a student types is sent anywhere.</li>
       <li>It does not generate propositions, definitions, reasons, or hypotheses. Hypothesis and research-question wording is assembled from the student's own entries using fixed sentence templates.</li>
       <li>"Use a starter" and "I'm stuck" insert fixed fill-in-the-blank sentences, not generated text.</li>
-      <li>Suggested seminal sources for the three built-in theories are fixed citations that students are told to verify.</li>
+      <li>The theory library is fixed text. Its references were checked against CrossRef, PubMed, publisher pages, and library catalogs, and its propositions are paraphrases that students must locate in the source.</li>
     </ul>
     <h3>Suggested syllabus language</h3>
     <p class="hl" style="display:inline">Students may use the Social Theory Model Builder to plan their conceptual model. The app does not use artificial intelligence and does not write content; the propositions, definitions, reasons, and analysis in your model must be your own. If you use any generative AI tool for this assignment, follow the course AI policy and disclose that use.</p>
