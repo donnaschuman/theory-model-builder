@@ -443,8 +443,16 @@ function moveCause(from, to){
   if(!S.rqEdited) S.rq = "";
 }
 function propCite(q){ var src = (q.src || "").trim(); if(src) return src; var t = theoryById(q.theory || "A"); return t ? t.seminal : S.seminal; }
-function shortCite(c){ var m = (c || "").match(/^\s*([^,(]+)[^(]*\((\d{4})/); return m ? m[1].trim() + ", " + m[2] : "source not yet entered"; }
-function propShort(k){ var q = S.props[k]; if(!q) return ""; var pg = (q.page || "").trim(); return "P" + (k + 1) + ((q.src || "").trim() ? " (" + shortCite(q.src) + (pg ? ", p. " + pg : "") + ")" : pg ? ", p. " + pg : ""); }
+/* APA 7 in-text citation from a full reference: 1 author "Ajzen, 1991"; 2 "Fishbein & Ajzen, 1975"; 3+ "Smith et al., 2020". */
+function shortCite(c){
+  var m = (c || "").match(/^\s*([^(]+?)\s*\((\d{4}[a-z]?|n\.d\.)/); if(!m) return "source not yet entered";
+  var names = m[1].replace(/\s*&\s*/g, ", ").split(/\s*,\s*/).map(function(x){ return x.trim().replace(/\.$/, ""); })
+    .filter(function(x){ return x && !/^(?:[A-Z]\.?\s*-?\s*)+$/.test(x + ".") && !/^(Jr|Sr|II|III|IV|Eds?)$/.test(x); });
+  if(!names.length) return "source not yet entered";
+  return (names.length === 1 ? names[0] : names.length === 2 ? names[0] + " & " + names[1] : names[0] + " et al.") + ", " + m[2];
+}
+function pageCite(pg){ pg = (pg || "").trim().replace(/^pp?\.\s*/i, ""); return pg ? (/[-\u2013,]/.test(pg) ? ", pp. " : ", p. ") + pg.replace(/-/g, "\u2013") : ""; }
+function propShort(k){ var q = S.props[k]; if(!q) return ""; if(q.isNew && !(q.src || "").trim()) return "P" + (k + 1) + " (new proposition)"; return "P" + (k + 1) + " (" + shortCite(propCite(q)) + pageCite(q.page) + ")"; }
 function propRef(k){ var q = S.props[k]; if(!q) return ""; return "From proposition P" + (k + 1) + (q.isNew ? " (new)" : "") + " (" + shortCite(propCite(q)) + ((q.page || "").trim() ? ", p. " + q.page.trim() : "") + ")"; }
 function linkOf(id){ var v = S.propLinks[id]; return typeof v === "number" && S.props[v] ? v : -1; }
 /* Link an arrow to the proposition that names the same two constructs. The arrow's + or −
@@ -534,21 +542,24 @@ function hypRows(){
 }
 function hypTable(forWord){
   var st = forWord ? ' style="border:1px solid #000;padding:4px 6px;vertical-align:top;text-align:left"' : '';
-  return '<table class="ctab"' + (forWord ? ' style="border-collapse:collapse;width:100%"' : '') + '><thead><tr><th' + st + '>' + (S.hypWord === "P" ? "Proposition" : "Hypothesis") + '</th><th' + st + '>Comes from</th><th' + st + '>Reason</th></tr></thead><tbody>' +
-    hypRows().map(function(r){ return '<tr><td' + st + '>' + esc(r.h) + '</td><td' + st + '>' + esc(r.src) + '</td><td' + st + '>' + esc(r.reason) + '</td></tr>'; }).join("") + '</tbody></table>';
+  return '<table class="ctab"' + (forWord ? ' style="border-collapse:collapse;width:100%"' : '') + '><thead><tr><th' + st + '>' + (S.hypWord === "P" ? "Proposition" : "Hypothesis") + '</th><th' + (forWord ? st : ' style="min-width:13em"') + '>Comes from</th><th' + st + '>Reason</th></tr></thead><tbody>' +
+    hypRows().map(function(r){ return '<tr><td' + st + '>' + esc(r.h) + '</td><td' + st + '>' + esc(r.src) + '</td><td' + st + '>' + esc(r.reason) + '</td></tr>'; }).join("") + '</tbody></table>' + hypRefs(forWord);
+}
+/* Full APA references for every source cited in the Comes from column, alphabetical. */
+function hypRefs(forWord){
+  var R = [];
+  allEdges().forEach(function(e){ var k = linkOf(e.id); if(k < 0) return; var q = S.props[k]; if(q.isNew && !(q.src || "").trim()) return; var c = (propCite(q) || "").trim(); if(c && R.indexOf(c) < 0) R.push(c); });
+  if(!R.length) return "";
+  R.sort(function(a, b){ return a.localeCompare(b); });
+  var ps = forWord ? ' style="padding-left:.5in;text-indent:-.5in;margin:0 0 6px"' : ' class="citeref"';
+  return '<p style="margin:14px 0 4px"><strong>' + (R.length > 1 ? "References" : "Reference") + '</strong></p>' + R.map(function(c){ return '<p' + ps + '>' + esc(c) + '</p>'; }).join("");
 }
 function titleCase(s){ var small = /^(a|an|and|as|at|but|by|for|if|in|nor|of|off|on|or|per|so|the|to|up|via|vs\.?|yet)$/; /* APA 7: lowercase only minor words of three letters or fewer */ return s.split(" ").map(function(w, i){ return i && small.test(w) ? w : w.charAt(0).toUpperCase() + w.slice(1); }).join(" "); }
 function autoCaption(){
   var tn = theoryNames() || "[theory]";
   var title = titleCase("Conceptual model of " + (S.outcome.trim() || "the outcome") + " among " + (S.who.trim() || "the population")) + ", Based on " + tn;
-  var note = "Note. Boxes are concepts. Solid arrows show hypothesized relationships; dashed arrows show moderation or exploratory relationships";
-  if(modEdges().length) note += ", and a dashed arrow that ends on another arrow means the moderator changes the strength of that relationship";
-  note += ". A plus (+) means more of one concept leads to more of the next; a minus (−) means more leads to less.";
-  if(partialIds().length) note += " A curved arrow shows a direct effect that does not pass through the in-between concept (partial mediation).";
-  if(showLetters()){ var ls = theoryList().map(function(t){ return t.id + " = " + tName(t); }); if(nodes().some(function(n){ return S.ctag[n.id] === "new"; })) ls.push("N = new concept"); note += " Letters show each concept's source: " + ls.join("; ") + "."; }
-  if(S.tagMode === "H") note += " " + (S.hypWord === "P" ? "Numbers on arrows match the numbered propositions in the text." : "H numbers on arrows match the hypotheses in the text.");
-  if(S.tagMode === "P") note += " P numbers on arrows identify the source proposition" + (S.props.some(function(q){ return q.isNew; }) ? "; an asterisk marks a new proposition" : "") + ".";
-  return "Figure 1\n" + title + "\n" + note;
+  /* No automatic note: the figure's legend already explains lines, signs, letters, and labels. Students add a Note only for what the figure does not show. */
+  return "Figure 1\n" + title;
 }
 
 /* ======================= Checks ======================= */
@@ -1172,8 +1183,8 @@ function renderResults(){
       '<div class="btnrow noprint" style="margin-top:14px"><button class="btn" type="button" id="dlSVG">Download SVG</button><button class="btn" type="button" id="dlPNG">Download PNG</button><button class="btn sec" type="button" id="cpMer">Copy Mermaid</button><button class="btn sec" type="button" id="print">Print / Save as PDF</button><button class="btn ghost" type="button" id="resetLayout">Reset layout</button></div>' +
       '<details class="noprint"><summary>Show Mermaid text</summary><pre id="mer" class="mer">' + esc(mermaid()) + '</pre></details>') +
     rsec("For your paper", "",
-      '<h4 style="margin:0 0 4px">Figure caption and note</h4><p class="small noprint" style="margin:0 0 10px">How Figure 1 looks in an APA 7 paper.</p>' +
-      editable("cap", "Figure caption and note", S.caption, capHTML(S.caption, true), '<button class="btn sec sm" type="button" id="copyCap">Copy caption</button><button class="btn ghost sm" type="button" id="resetCap">Regenerate</button>') +
+      '<h4 style="margin:0 0 4px">Figure caption</h4><p class="small noprint" style="margin:0 0 10px">How Figure 1 looks in an APA 7 paper. The legend inside the figure explains the lines, signs, and labels, so no note is added. To add one, click Edit and type a last line that starts with <strong>Note.</strong> Use a note only for what the figure does not show, such as an abbreviation or a permission statement (“Adapted from …”).</p>' +
+      editable("cap", "Figure caption", S.caption, capHTML(S.caption, true), '<button class="btn sec sm" type="button" id="copyCap">Copy caption</button><button class="btn ghost sm" type="button" id="resetCap">Regenerate</button>') +
       '<h4 style="margin:20px 0 8px">Key concepts and definitions</h4><div class="tablewrap" id="ctab">' + conceptsTable(false) + '</div><div class="btnrow noprint"><button class="btn sec sm" type="button" id="copyTab">Copy table for Word</button><button class="btn ghost sm" type="button" data-fix="' + stepIdx("Define concepts") + '">Edit definitions</button></div>' +
       (notesHTML() ? '<h4 style="margin:20px 0 8px">Paper notes</h4><div id="notesOut" class="fv">' + notesHTML() + '</div>' : '<p class="small">No paper notes yet. <button type="button" class="linkbtn" data-fix="' + stepIdx("Paper notes") + '">Add paper notes</button></p>') +
       '<div class="btnrow noprint" style="margin-top:14px"><button class="btn" type="button" id="dlDoc">Download paper notes for Word</button></div><p class="small noprint">The Word file collects the question, ' + hw.toLowerCase() + ', caption, concepts table, propositions, and notes. Insert the PNG as Figure 1.</p>', "kit") +
@@ -1217,7 +1228,7 @@ function wordDoc(){
   var body = '<h1>' + esc(title) + '</h1><p><em>Generated ' + esc(new Date().toLocaleDateString()) + ' with the Social Theory Model Builder.</em></p>' +
     '<h2>Research question</h2>' + fmtLines(S.rq || autoRQ()) +
     '<h2>' + (S.hypWord === "P" ? "Propositions" : "Hypotheses") + '</h2>' + fmtLines(S.hyps || hypText()) + hypTable(true) +
-    '<h2>Figure caption and note</h2>' + capHTML(S.caption || autoCaption(), false) +
+    '<h2>Figure caption</h2>' + capHTML(S.caption || autoCaption(), false) +
     '<h2>Key concepts and definitions</h2>' + conceptsTable(true) +
     '<h2>Source propositions</h2>' + propGroups().map(function(g){ return '<p><b>' + g.t.id + ': ' + esc(tName(g.t)) + '.</b> ' + esc(g.t.seminal) + (g.shared ? ' Propositions below: p. ' + esc(g.shared) + '.' : '') + '</p><ul>' + g.ps.map(function(x){ var L = propLine(x[0], x[1], g.shared); return '<li>' + esc(L.head) + ': ' + esc(L.words) + (L.rel ? ' (' + esc(L.rel) + ')' : '') + '</li>'; }).join("") + '</ul>'; }).join("") +
     '<h2>Paper notes</h2>' + (notesHTML() || '<p>None yet.</p>') +

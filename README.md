@@ -11,7 +11,7 @@ Live: https://social-theory-model-builder.netlify.app
 3. **Model.** Causes (including social determinants of health), an in-between step (mediator), and moderators. Causes can be dragged in from theory chips and reordered.
 4. **Concepts.** A conceptual definition and source for every box, tagged by source theory or marked as a new concept.
 5. **Arrows.** Direction (+/−), line style, the proposition each arrow comes from (drag a proposition onto an arrow), and a one-sentence reason. Students set every arrow's direction themselves; the app flags any arrow whose direction differs from its linked proposition.
-6. **Results.** Research question, hypotheses or propositions, the figure (SVG, PNG, Mermaid, PDF), an APA 7 figure caption and note, a concepts table that pastes into Word as a table, and a Word file of paper notes (problem definitions, each theory's ontology, epistemology, history, and limits).
+6. **Results.** Research question, hypotheses or propositions, the figure (SVG, PNG, Mermaid, PDF), an APA 7 figure caption, a concepts table that pastes into Word as a table, and a Word file of paper notes (problem definitions, each theory's ontology, epistemology, history, and limits).
 
 ## For instructors
 
