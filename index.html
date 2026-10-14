@@ -595,7 +595,7 @@ function checks(){
   var both = modList().filter(function(m){ return causes().some(function(c){ return lc(c) === lc(m); }); });
   if(both.length) c.push({ok: false, soft: true, text: "“" + both.join("”, “") + "” is both a cause and a moderator. Keep both only if you can explain why; otherwise choose one role.", fix: "Moderation"});
   var sd = causes().concat(modList()).some(function(x){ return SDOH_RE.test(x) || MODS_SDOH.indexOf(x) >= 0; });
-  c.push({ok: sd, soft: true, text: sd ? "At least one social determinant of health is in your model." : "Have you considered a social determinant of health? Person-in-environment thinking asks what conditions around people shape this outcome.", fix: "Causes"});
+  c.push({ok: sd, soft: true, text: sd ? "At least one social determinant is in your model." : "Have you considered a social determinant, such as income, housing, discrimination, or access to services? Person-in-environment thinking asks what conditions around people shape this outcome.", fix: "Causes"});
   c.push({ok: !!S.outcomeDef.trim(), text: S.outcomeDef.trim() ? "Outcome definition is filled in." : "Say what counts as the outcome so others could measure it the same way.", fix: "Define outcome"});
   return c;
 }
@@ -771,7 +771,7 @@ var STEPS = [
     if(S.modYN === "yes") h += jargon("That\'s called <strong>moderation</strong>. The thing that changes the strength is a <strong>moderator</strong>.");
     function cb(m, lab){ return '<label><input type="checkbox" data-mod="' + esc(m) + '" ' + (S.modPicked.indexOf(m) >= 0 ? "checked" : "") + '> <span>' + esc(lab || m) + (MHINT[m] ? '<span class="hint">' + esc(MHINT[m]) + '</span>' : '') + '</span></label>'; }
     if(S.modYN === "yes" || S.modYN === "unsure"){
-      h += '<fieldset><legend>Pick any that might change a path:</legend><h3 class="subh">Personal characteristics</h3><div class="checkgrid">' + MODS.map(function(m){ return cb(m); }).join("") + '</div><h3 class="subh">Social determinants of health</h3><div class="checkgrid">' + MODS_SDOH.map(function(m){ return cb(m); }).join("") + '</div>';
+      h += '<fieldset><legend>Pick any that might change a path:</legend><h3 class="subh">Personal characteristics</h3><div class="checkgrid">' + MODS.map(function(m){ return cb(m); }).join("") + '</div><h3 class="subh">Social determinants</h3><p class="small" style="margin:0 0 8px">Conditions where people are born, live, learn, work, and age. They shape health and many other outcomes, such as education, housing, and justice involvement.</p><div class="checkgrid">' + MODS_SDOH.map(function(m){ return cb(m); }).join("") + '</div>';
       if(engageish()) h += '<h3 class="subh">Care-specific (optional, for treatment/care outcomes)</h3><div class="checkgrid">' + MODS2.map(function(m){ return cb(m); }).join("") + '</div>';
       h += '<div class="checkgrid" style="margin-top:10px">' + cb("__other", "Other (type your own)") + '<label><input type="checkbox" id="modSkip" ' + (S.modSkip ? "checked" : "") + '> <span>Skip</span></label></div></fieldset>';
       if(S.modPicked.indexOf("__other") >= 0){
@@ -1196,7 +1196,7 @@ function renderResults(){
   var aq = askHs(), hw = S.hypWord === "P" ? "Propositions" : "Hypotheses", hyps = S.hyps || hypText();
   return '<h2 id="stepTitle">Your results</h2><p class="lede">Your research question, ' + hw.toLowerCase() + ', figure, and materials for your paper. Use Edit to change any text; changes save as you type.</p>' +
     (aq.length ? '<div class="warn"><strong>📚 Open questions</strong><ul style="margin:4px 0 0 1.2em;padding:0">' + aq.map(function(q){ return "<li>" + esc(q) + "</li>"; }).join("") + '</ul></div>' : '') +
-    rsec("Research question", "", editable("rq", "Research question", S.rq, fmtLines(S.rq), '<button class="btn sec sm" type="button" id="copyRQ">Copy</button><button class="btn ghost sm" type="button" id="resetRQ">Regenerate</button>')) +
+    rsec("Research question", "", '<p class="small noprint" style="margin:0 0 10px">One main question. A subquestion is added for an in-between step and for each moderator. One question usually has several hypotheses: one for each arrow in your figure.</p>' + editable("rq", "Research question", S.rq, fmtLines(S.rq), '<button class="btn sec sm" type="button" id="copyRQ">Copy</button><button class="btn ghost sm" type="button" id="resetRQ">Regenerate</button>')) +
     rsec(hw, '<div class="noprint">' + seg("data-hword", "w", S.hypWord, [["H", "Hypotheses"], ["P", "Propositions"]], "Write as") + '</div>',
       '<p class="small noprint" style="margin:0 0 10px">Empirical papers state hypotheses; conceptual papers often state numbered propositions. <strong>Direct</strong> = one concept affects another; <strong>mediation</strong> = the effect passes through the in-between concept; <strong>moderation</strong> = the strength of a link depends on a third concept.</p>' +
       editable("hyps", hw, hyps, fmtLines(hyps), '<button class="btn sec sm" type="button" id="copyH">Copy</button><button class="btn ghost sm" type="button" id="resetH">Regenerate</button>') +

@@ -7,15 +7,15 @@ Live: https://social-theory-model-builder.netlify.app
 ## What students do
 
 1. **Question.** Population (with guidance on making it specific), outcome, and what counts as the outcome.
-2. **Theory.** One entry from the library of 88 common theories, models, and frameworks, or one the student types (and a second if the model needs it), the seminal source for each, and 2 to 12 key propositions with page numbers.
-3. **Model.** Causes (including social determinants of health), an in-between step (mediator), and moderators. Causes can be dragged in from theory chips and reordered.
+2. **Theory.** One entry from the library of 112 common theories, models, and frameworks, or one the student types (and a second if the model needs it), the seminal source for each, and 2 to 12 key propositions with page numbers.
+3. **Model.** Causes (including social determinants), an in-between step (mediator), and moderators. Causes can be dragged in from theory chips and reordered.
 4. **Concepts.** A conceptual definition and source for every box, tagged by source theory or marked as a new concept.
 5. **Arrows.** Direction (+/−), line style, the proposition each arrow comes from (drag a proposition onto an arrow), and a one-sentence reason. Students set every arrow's direction themselves; the app flags any arrow whose direction differs from its linked proposition.
 6. **Results.** Research question, hypotheses or propositions, the figure (SVG, PNG, Mermaid, PDF), an APA 7 figure caption, a concepts table that pastes into Word as a table, and a Word file of paper notes (problem definitions, each theory's ontology, epistemology, history, and limits).
 
 ## Theories, models, and frameworks
 
-The [library of theories, models, and frameworks](https://social-theory-model-builder.netlify.app/library.html) (`library.html`, data in `theories.js`) lists 88 common theories, models, and frameworks in social work and the social sciences with each one's seminal source, substantial revisions, paraphrased common propositions, and key concepts. To add or correct a theory, edit `theories.js`; the app and the library page both read it.
+The [library of theories, models, and frameworks](https://social-theory-model-builder.netlify.app/library.html) (`library.html`, data in `theories.js`) lists 112 common theories, models, and frameworks in social work and the social sciences with each one's seminal source, substantial revisions, paraphrased common propositions, and key concepts. To add or correct a theory, edit `theories.js`; the app and the library page both read it.
 
 ## For instructors
 

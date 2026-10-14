@@ -5,13 +5,17 @@
 /* Groups are listed in alphabetical order. */
 window.THEORY_GROUPS = [
   ["aging", "Aging"],
+  ["child", "Child maltreatment and family violence"],
   ["crime", "Crime and deviance"],
   ["power", "Critical and empowerment perspectives"],
+  ["disab", "Disability, stigma, and recovery"],
   ["health", "Health behavior and service use"],
+  ["indig", "Historical trauma, racism, and Indigenous perspectives"],
   ["develop", "Human development and family"],
   ["migration", "Immigration and forced migration"],
   ["lonely", "Loneliness, isolation, and social exclusion"],
   ["military", "Military service, veterans, and trauma"],
+  ["macro", "Organizations, policy, and macro practice"],
   ["poverty", "Poverty, inequality, and homelessness"],
   ["resil", "Resilience"],
   ["capital", "Social capital and neighborhoods"],
@@ -1429,6 +1433,371 @@ window.THEORY_LIB = {
       "People with few weak ties are cut off from information beyond their close circle.",
       "Weak ties help most when they reach higher-status contacts; strong ties matter more for support under insecurity (1983)."
     ]
+  },
+  ACE: {
+    type: "Framework", group: "child", name: "Adverse Childhood Experiences (ACE) Framework",
+    desc: "Childhood abuse, neglect, and household dysfunction are common and show a dose–response link with adult health and early death.",
+    chips: ["Adverse childhood experiences", "Disrupted neurodevelopment", "Social, emotional, and cognitive impairment", "Health-risk behaviors", "Disease and early death"],
+    seminal: "Felitti, V. J., Anda, R. F., Nordenberg, D., Williamson, D. F., Spitz, A. M., Edwards, V., Koss, M. P., & Marks, J. S. (1998). Relationship of childhood abuse and household dysfunction to many of the leading causes of death in adults: The Adverse Childhood Experiences (ACE) Study. *American Journal of Preventive Medicine, 14*(4), 245–258. https://doi.org/10.1016/S0749-3797(98)00017-8",
+    origins: [],
+    revisions: [
+      {tag: "Extended", cite: "Anda, R. F., Felitti, V. J., Bremner, J. D., Walker, J. D., Whitfield, C., Perry, B. D., Dube, S. R., & Giles, W. H. (2006). The enduring effects of abuse and related adverse experiences in childhood: A convergence of evidence from neurobiology and epidemiology. *European Archives of Psychiatry and Clinical Neuroscience, 256*(3), 174–186. https://doi.org/10.1007/s00406-005-0624-4", note: "Linked the dose–response findings to neurobiology; the source of the neurodevelopment pathway."},
+      {tag: "Extended", cite: "Cronholm, P. F., Forke, C. M., Wade, R., Bair-Merritt, M. H., Davis, M., Harkins-Schwarz, M., Pachter, L. M., & Fein, J. A. (2015). Adverse childhood experiences: Expanding the concept of adversity. *American Journal of Preventive Medicine, 49*(3), 354–361. https://doi.org/10.1016/j.amepre.2015.02.001", note: "Added community-level adversities: witnessing violence, discrimination, unsafe neighborhoods, bullying, foster care."},
+      {tag: "Challenged", cite: "Anda, R. F., Porter, L. E., & Brown, D. W. (2020). Inside the adverse childhood experience score: Strengths, limitations, and misapplications. *American Journal of Preventive Medicine, 59*(2), 293–295. https://doi.org/10.1016/j.amepre.2020.01.009", note: "The original investigators: the ACE score is for population surveillance, not individual screening or diagnosis."}
+    ],
+    props: [
+      "Childhood abuse, neglect, and household dysfunction are common and tend to occur together.",
+      "The number of ACE categories shows a graded, dose–response link with health-risk behaviors, disease, and early death.",
+      "ACEs lead to disrupted neurodevelopment, then social, emotional, and cognitive impairment, then health-risk behaviors, then disease and early death (the ACE pyramid; the neurodevelopment level was added after 2006).",
+      "The ACE score counts types of exposure, not severity, timing, or duration, so it estimates population risk and is not an individual diagnostic tool."
+    ]
+  },
+  COERCION: {
+    type: "Theory", group: "child", name: "Coercive Family Process (Patterson)",
+    desc: "Parents and children train each other into escalating coercion, which leads to conduct problems and later delinquency.",
+    chips: ["Ineffective discipline", "Poor monitoring", "Coercive exchanges", "Conduct problems", "Peer rejection", "Deviant peers", "Delinquency"],
+    seminal: "Patterson, G. R. (1982). *Coercive family process*. Castalia.",
+    origins: [],
+    revisions: [
+      {tag: "Extended", cite: "Patterson, G. R., DeBaryshe, B. D., & Ramsey, E. (1989). A developmental perspective on antisocial behavior. *American Psychologist, 44*(2), 329–335. https://doi.org/10.1037/0003-066X.44.2.329", note: "Placed coercion in a developmental progression from early childhood to delinquency."},
+      {tag: "Extended", cite: "Patterson, G. R., Reid, J. B., & Dishion, T. J. (1992). *Antisocial boys*. Castalia.", note: "Tested the model in the Oregon Youth Study; added deviant peer training in adolescence."}
+    ],
+    props: [
+      "When a parent gives in to a child's aversive behavior, the child is negatively reinforced, and the child's stopping reinforces the parent's giving in.",
+      "When the parent does not give in, both escalate; occasional parental harshness is reinforced when the child complies.",
+      "Ineffective discipline and poor monitoring train conduct problems in the child.",
+      "Conduct problems lead to school failure and rejection by peers, then deviant peers, then delinquency (a developmental progression, later called a cascade)."
+    ]
+  },
+  CYCLEVIOL: {
+    type: "Hypothesis", group: "child", name: "Cycle of Violence (Intergenerational Transmission)",
+    desc: "Childhood abuse, neglect, or witnessing violence raises the risk of later violence and victimization, but most maltreated children do not become violent.",
+    chips: ["Childhood maltreatment", "Witnessing family violence", "Social learning", "Emotion regulation", "Later violence"],
+    seminal: "Widom, C. S. (1989a). The cycle of violence. *Science, 244*(4901), 160–166. https://doi.org/10.1126/science.2704995",
+    origins: [{cite: "Straus, M. A., Gelles, R. J., & Steinmetz, S. K. (1980). *Behind closed doors: Violence in the American family*. Anchor Press/Doubleday.", note: "National survey evidence and the social learning argument (violence begets violence)."}],
+    revisions: [
+      {tag: "Extended", cite: "Widom, C. S. (1989b). Does violence beget violence? A critical examination of the literature. *Psychological Bulletin, 106*(1), 3–28. https://doi.org/10.1037/0033-2909.106.1.3", note: "Showed that earlier support rested on weak retrospective and clinical designs."},
+      {tag: "Challenged", cite: "Kaufman, J., & Zigler, E. (1987). Do abused children become abusive parents? *American Journal of Orthopsychiatry, 57*(2), 186–192. https://doi.org/10.1111/j.1939-0025.1987.tb03528.x", note: "Estimated that about 30% of abused children later abuse their own children."}
+    ],
+    props: [
+      "Being abused or neglected, or witnessing violence between parents, in childhood raises the risk of later violent behavior and later victimization.",
+      "The link is probabilistic: most maltreated children do not become violent or abusive (about one-third, Kaufman & Zigler).",
+      "Proposed mechanisms include social learning, effects on emotion regulation and attachment, and shared family and neighborhood risk (mediation)."
+    ]
+  },
+  BELSKY: {
+    type: "Model", group: "child", name: "Ecological Model of Child Maltreatment (Belsky)",
+    desc: "Maltreatment comes from factors at several nested levels, from the parent's own history to culture; no single factor is necessary or sufficient.",
+    chips: ["Parent's developmental history", "Family stress", "Social support and neighborhood", "Cultural values", "Child maltreatment"],
+    seminal: "Belsky, J. (1980). Child maltreatment: An ecological integration. *American Psychologist, 35*(4), 320–335. https://doi.org/10.1037/0003-066X.35.4.320",
+    origins: [],
+    revisions: [
+      {tag: "Revised", cite: "Belsky, J. (1993). Etiology of child maltreatment: A developmental-ecological analysis. *Psychological Bulletin, 114*(3), 413–434. https://doi.org/10.1037/0033-2909.114.3.413", note: "Reorganized the levels into three contexts and stated that no single factor is necessary or sufficient."},
+      {tag: "Extended", cite: "Cicchetti, D., & Lynch, M. (1993). Toward an ecological/transactional model of community violence and child maltreatment: Consequences for children's development. *Psychiatry, 56*(1), 96–118. https://doi.org/10.1080/00332747.1993.11024624", note: "Turned to effects on children; added community violence and potentiating versus compensatory factors."}
+    ],
+    props: [
+      "Maltreatment arises from factors at four nested levels: the parent's own history, the family, the community (work, neighborhood, social support), and culture.",
+      "No single factor is necessary or sufficient; maltreatment occurs when stressors outweigh supports (Belsky, 1993).",
+      "Risk (potentiating) and protective (compensatory) factors at every level interact over time with the child's development (Cicchetti & Lynch)."
+    ]
+  },
+  DEVPSYCH: {
+    type: "Framework", group: "child", name: "Developmental Psychopathology",
+    desc: "Normal and atypical development are studied together; one risk can lead to many outcomes, and effects spread across domains over time.",
+    chips: ["Early adversity", "Multifinality", "Equifinality", "Developmental cascades", "Later outcomes"],
+    seminal: "Cicchetti, D. (1984). The emergence of developmental psychopathology. *Child Development, 55*(1), 1–7. https://doi.org/10.2307/1129830",
+    origins: [{cite: "Sroufe, L. A., & Rutter, M. (1984). The domain of developmental psychopathology. *Child Development, 55*(1), 17–29. https://doi.org/10.2307/1129832", note: "Co-founding statement of the field's scope."}],
+    revisions: [
+      {tag: "Extended", cite: "Cicchetti, D., & Rogosch, F. A. (1996). Equifinality and multifinality in developmental psychopathology. *Development and Psychopathology, 8*(4), 597–600. https://doi.org/10.1017/S0954579400007318", note: "Formal statement of multifinality and equifinality."},
+      {tag: "Extended", cite: "Masten, A. S., & Cicchetti, D. (2010). Developmental cascades. *Development and Psychopathology, 22*(3), 491–495. https://doi.org/10.1017/S0954579410000222", note: "Defined developmental cascades."}
+    ],
+    props: [
+      "Normal and atypical development inform each other, so they are studied together.",
+      "Multifinality: one risk, such as maltreatment, leads to many different outcomes. Equifinality: many pathways lead to the same outcome.",
+      "Through developmental cascades, effects in one domain spread to other domains and later periods; cascades can be harmful or protective."
+    ]
+  },
+  JOHNSONIPV: {
+    type: "Typology", group: "child", name: "Typology of Intimate Partner Violence (Johnson)",
+    desc: "Intimate partner violence is not one thing: violence embedded in coercive control differs from violence arising from particular conflicts.",
+    chips: ["Coercive control", "Intimate terrorism", "Situational couple violence", "Escalation"],
+    seminal: "Johnson, M. P. (1995). Patriarchal terrorism and common couple violence: Two forms of violence against women. *Journal of Marriage and the Family, 57*(2), 283–294. https://doi.org/10.2307/353683",
+    origins: [],
+    revisions: [],
+    props: [
+      "Intimate partner violence includes distinct types that differ in how central control is.",
+      "Intimate terrorism (originally patriarchal terrorism) is violence within a general pattern of coercive control; it escalates, is mostly perpetrated by men, and appears in shelter and agency samples.",
+      "Situational couple violence (originally common couple violence) arises from particular conflicts; it is less frequent, less likely to escalate, and roughly gender-symmetric in general population surveys.",
+      "The type a study samples explains why shelter-based and population-survey research reached different conclusions about gender."
+    ]
+  },
+  TRAUMAGENIC: {
+    type: "Model", group: "child", name: "Traumagenic Dynamics of Child Sexual Abuse",
+    desc: "Child sexual abuse harms through four dynamics: traumatic sexualization, betrayal, powerlessness, and stigmatization.",
+    chips: ["Traumatic sexualization", "Betrayal", "Powerlessness", "Stigmatization", "Later difficulties"],
+    seminal: "Finkelhor, D., & Browne, A. (1985). The traumatic impact of child sexual abuse: A conceptualization. *American Journal of Orthopsychiatry, 55*(4), 530–541. https://doi.org/10.1111/j.1939-0025.1985.tb02703.x",
+    origins: [],
+    revisions: [],
+    props: [
+      "Child sexual abuse affects children through four traumagenic dynamics: traumatic sexualization, betrayal, powerlessness, and stigmatization.",
+      "Each dynamic alters the child's view of self, others, and the world.",
+      "Each dynamic is linked to particular later difficulties (mediation)."
+    ]
+  },
+  SOCMODEL: {
+    type: "Model", group: "disab", name: "Social Model of Disability",
+    desc: "Disability is produced by social barriers, not by impairment itself; removing barriers reduces disability.",
+    chips: ["Impairment", "Environmental barriers", "Attitudes", "Institutional exclusion", "Disability (exclusion)", "Participation"],
+    seminal: "Oliver, M. (1990). *The politics of disablement*. Macmillan. https://doi.org/10.1007/978-1-349-20895-1",
+    origins: [{cite: "Union of the Physically Impaired Against Segregation. (1976). *Fundamental principles of disability*. Union of the Physically Impaired Against Segregation.", note: "First separated impairment (the body) from disability (social exclusion)."}],
+    revisions: [
+      {tag: "Extended", cite: "Oliver, M. (1983). *Social work with disabled people*. Macmillan. https://doi.org/10.1007/978-1-349-86058-6", note: "Applied the model to social work practice."},
+      {tag: "Restated", cite: "Oliver, M. (2013). The social model of disability: Thirty years on. *Disability & Society, 28*(7), 1024–1026. https://doi.org/10.1080/09687599.2013.818773", note: "Defends the model as a practical tool for political action and answers critics."},
+      {tag: "Challenged", cite: "Shakespeare, T. (2006). *Disability rights and wrongs*. Routledge. https://doi.org/10.4324/9780203640098", note: "Argues impairment itself (pain, fatigue) also disadvantages people; proposes an interactional approach."},
+      {tag: "Extended", cite: "World Health Organization. (2001). *International classification of functioning, disability and health: ICF*. World Health Organization.", note: "Biopsychosocial classification: functioning results from health condition, activities, participation, and environmental and personal factors."}
+    ],
+    props: [
+      "Impairment is a difference in body or mind; disability is the exclusion and disadvantage society imposes on people with impairments.",
+      "Inaccessible environments, discriminatory attitudes, and exclusionary institutions produce disability.",
+      "Removing social barriers, rather than treating or normalizing the person, reduces disability; disabled people should control that change.",
+      "Critics argue impairment effects also disadvantage people (Shakespeare), and the ICF treats disability as an interaction of body and environment."
+    ]
+  },
+  STIGMA: {
+    type: "Theory", group: "disab", name: "Stigma (Goffman; Link & Phelan)",
+    desc: "Stigma is a deeply discrediting attribute; it exists when labeling, stereotyping, separation, status loss, and discrimination occur together under unequal power.",
+    chips: ["Labeling", "Stereotyping", "Separation", "Status loss", "Discrimination", "Power"],
+    seminal: "Goffman, E. (1963). *Stigma: Notes on the management of spoiled identity*. Prentice-Hall.",
+    origins: [],
+    revisions: [{tag: "Revised", cite: "Link, B. G., & Phelan, J. C. (2001). Conceptualizing stigma. *Annual Review of Sociology, 27*, 363–385. https://doi.org/10.1146/annurev.soc.27.1.363", note: "Defined stigma as co-occurring components and made the exercise of power a necessary condition."}],
+    props: [
+      "Stigma is an attribute that is deeply discrediting; it reduces a person from a whole person to a tainted, discounted one (Goffman).",
+      "People with a visible difference (the discredited) manage tension in interaction; people with a hidden difference (the discreditable) manage information, for example by passing.",
+      "Stigma exists when labeling, stereotyping, separation, status loss, and discrimination occur together in a situation of unequal power (Link & Phelan)."
+    ]
+  },
+  MODLABEL: {
+    type: "Theory", group: "disab", name: "Modified Labeling Theory",
+    desc: "Once labeled with a mental illness, people expect rejection; their ways of coping shrink networks, jobs, and self-esteem.",
+    chips: ["Psychiatric label", "Expected rejection", "Secrecy and withdrawal", "Social networks", "Self-esteem", "Relapse risk"],
+    seminal: "Link, B. G., Cullen, F. T., Struening, E., Shrout, P. E., & Dohrenwend, B. P. (1989). A modified labeling theory approach to mental disorders: An empirical assessment. *American Sociological Review, 54*(3), 400–423. https://doi.org/10.2307/2095613",
+    origins: [{cite: "Scheff, T. J. (1966). *Being mentally ill: A sociological theory*. Aldine.", note: "Original labeling theory, which held that labeling causes stable mental illness."}],
+    revisions: [],
+    props: [
+      "Through socialization, people learn that most people devalue and discriminate against those with a psychiatric label.",
+      "After a label (for example, through treatment), those beliefs become personally relevant, and the person expects rejection.",
+      "The person copes through secrecy, withdrawal, or educating others; these responses and expected rejection shrink networks, lower employment, and erode self-esteem (mediation).",
+      "These consequences raise vulnerability to new or longer episodes."
+    ]
+  },
+  RECOVERY: {
+    type: "Framework", group: "disab", name: "Recovery Framework (Mental Health)",
+    desc: "Recovery is a personal process of building a hopeful, meaningful life, with or without full symptom remission.",
+    chips: ["Connectedness", "Hope and optimism", "Identity", "Meaning in life", "Empowerment", "Personal recovery"],
+    seminal: "Anthony, W. A. (1993). Recovery from mental illness: The guiding vision of the mental health service system in the 1990s. *Psychosocial Rehabilitation Journal, 16*(4), 11–23. https://doi.org/10.1037/h0095655",
+    origins: [],
+    revisions: [{tag: "Extended", cite: "Leamy, M., Bird, V., Le Boutillier, C., Williams, J., & Slade, M. (2011). Conceptual framework for personal recovery in mental health: Systematic review and narrative synthesis. *British Journal of Psychiatry, 199*(6), 445–452. https://doi.org/10.1192/bjp.bp.110.083733", note: "Synthesized 97 studies into the CHIME processes of personal recovery."}],
+    props: [
+      "Recovery is a personal process of changing attitudes, values, goals, and roles to live a satisfying, hopeful, contributing life even with limitations from illness.",
+      "Recovery can occur without professional help, but it needs people who believe in the person; it can continue when symptoms recur.",
+      "Recovery is not linear and addresses the consequences of illness (disability, stigma, lost roles), not only symptoms.",
+      "Personal recovery involves five processes: connectedness, hope and optimism, identity, meaning in life, and empowerment (CHIME)."
+    ]
+  },
+  SELFSTIGMA: {
+    type: "Model", group: "disab", name: "Progressive Model of Self-Stigma",
+    desc: "Self-stigma develops in stages, from knowing stereotypes to applying them to oneself, and leads to the 'why try' effect.",
+    chips: ["Awareness of stereotypes", "Agreement", "Application to self", "Self-esteem", "Self-efficacy", "Why try effect"],
+    seminal: "Corrigan, P. W., Rafacz, J., & Rüsch, N. (2011). Examining a progressive model of self-stigma and its impact on people with serious mental illness. *Psychiatry Research, 189*(3), 339–343. https://doi.org/10.1016/j.psychres.2011.05.024",
+    origins: [{cite: "Corrigan, P. W., & Watson, A. C. (2002). The paradox of self-stigma and mental illness. *Clinical Psychology: Science and Practice, 9*(1), 35–53. https://doi.org/10.1093/clipsy.9.1.35", note: "Self-stigma can lead to lower self-esteem, to righteous anger, or to indifference."}],
+    revisions: [{tag: "Extended", cite: "Corrigan, P. W., Larson, J. E., & Rüsch, N. (2009). Self-stigma and the “why try” effect: Impact on life goals and evidence-based practices. *World Psychiatry, 8*(2), 75–81. https://doi.org/10.1002/j.2051-5545.2009.tb00218.x", note: "Linked self-stigma to giving up on life goals."}],
+    props: [
+      "Awareness: the person knows the public stereotypes about mental illness.",
+      "Agreement: the person endorses those stereotypes.",
+      "Application: the person applies them to themselves.",
+      "Harm: lower self-esteem and self-efficacy, less hope, and the why try effect, giving up on life goals."
+    ]
+  },
+  LIPSKY: {
+    type: "Theory", group: "macro", name: "Street-Level Bureaucracy",
+    desc: "Front-line workers such as social workers use discretion under heavy demand, and their coping routines become policy as clients experience it.",
+    chips: ["Worker discretion", "Inadequate resources", "Coping routines", "Rationing of services", "Policy as delivered"],
+    seminal: "Lipsky, M. (1980). *Street-level bureaucracy: Dilemmas of the individual in public services*. Russell Sage Foundation.",
+    origins: [],
+    revisions: [{tag: "Extended", cite: "Lipsky, M. (2010). *Street-level bureaucracy: Dilemmas of the individual in public service* (30th anniversary expanded ed.). Russell Sage Foundation.", note: "Adds a chapter on managing street-level bureaucracy, looking back at accountability and performance reforms."}],
+    props: [
+      "Front-line public workers (social workers, police, teachers) use real discretion under inadequate resources and vague, conflicting goals.",
+      "Because demand rises to meet supply, workers cope by building routines, rationing services, controlling clients, and simplifying how they see clients.",
+      "Added together, these decisions become the agency's policy as citizens experience it."
+    ]
+  },
+  KINGDON: {
+    type: "Framework", group: "macro", name: "Multiple Streams Framework (Kingdon)",
+    desc: "Policy change happens when problems, solutions, and politics come together in a brief window, often pushed by policy entrepreneurs.",
+    chips: ["Problem stream", "Policy stream", "Politics stream", "Policy window", "Policy entrepreneurs", "Agenda change"],
+    seminal: "Kingdon, J. W. (1984). *Agendas, alternatives, and public policies*. Little, Brown.",
+    origins: [],
+    revisions: [
+      {tag: "Revised", cite: "Kingdon, J. W. (2011). *Agendas, alternatives, and public policies* (Updated 2nd ed.). Longman.", note: "Current edition, with an epilogue applying the streams to health care reform."},
+      {tag: "Extended", cite: "Herweg, N., Huß, C., & Zohlnhöfer, R. (2015). Straightening the three streams: Theorising extensions of the multiple streams framework. *European Journal of Political Research, 54*(3), 435–449. https://doi.org/10.1111/1475-6765.12089", note: "Separates agenda coupling from decision coupling."}
+    ],
+    props: [
+      "Three largely independent streams run through government: problems, policies (solutions), and politics (national mood, interest groups, turnover).",
+      "A policy window opens briefly, usually through a focusing event or a change in administration.",
+      "Policy entrepreneurs attach their solutions to problems and political conditions while the window is open; an item reaches the decision agenda when all three streams are joined."
+    ]
+  },
+  INSTITUTIONAL: {
+    type: "Theory", group: "macro", name: "Institutional Theory",
+    desc: "Organizations adopt structures to look legitimate, not only to be efficient, and organizations in the same field become alike.",
+    chips: ["Legitimacy", "Coercive pressure", "Mimetic pressure", "Normative pressure", "Isomorphism", "Decoupling"],
+    seminal: "Meyer, J. W., & Rowan, B. (1977). Institutionalized organizations: Formal structure as myth and ceremony. *American Journal of Sociology, 83*(2), 340–363. https://doi.org/10.1086/226550",
+    origins: [],
+    revisions: [
+      {tag: "Extended", cite: "DiMaggio, P. J., & Powell, W. W. (1983). The iron cage revisited: Institutional isomorphism and collective rationality in organizational fields. *American Sociological Review, 48*(2), 147–160. https://doi.org/10.2307/2095101", note: "Added coercive, mimetic, and normative isomorphism."},
+      {tag: "Extended", cite: "Scott, W. R. (1995). *Institutions and organizations*. SAGE.", note: "Regulative, normative, and cultural-cognitive pillars of institutions."}
+    ],
+    props: [
+      "Organizations adopt structures and practices their environment treats as rational and appropriate, to gain legitimacy and resources.",
+      "Organizations in the same field become alike through coercive (laws, funders), mimetic (copying peers under uncertainty), and normative (professional) pressures.",
+      "To protect legitimacy, organizations often decouple formal structure from day-to-day work (Meyer & Rowan)."
+    ]
+  },
+  DIFFUSION: {
+    type: "Theory", group: "macro", name: "Diffusion of Innovations",
+    desc: "New ideas and practices spread through social systems over time, faster when they are seen as advantageous, compatible, simple, and visible.",
+    chips: ["Relative advantage", "Compatibility", "Complexity", "Trialability", "Observability", "Adoption"],
+    seminal: "Rogers, E. M. (1962). *Diffusion of innovations*. Free Press.",
+    origins: [],
+    revisions: [{tag: "Revised", cite: "Rogers, E. M. (2003). *Diffusion of innovations* (5th ed.). Free Press.", note: "Current edition."}],
+    props: [
+      "Diffusion is how an innovation is communicated through certain channels over time among members of a social system.",
+      "Relative advantage, compatibility, trialability, and observability speed adoption; complexity slows it.",
+      "People move through five stages: knowledge, persuasion, decision, implementation, confirmation.",
+      "Adopters range from innovators to laggards, and cumulative adoption follows an S-shaped curve."
+    ]
+  },
+  CFIR: {
+    type: "Framework", group: "macro", name: "Consolidated Framework for Implementation Research (CFIR)",
+    desc: "Whether a practice is implemented well depends on the practice, the outer and inner settings, the people involved, and the process.",
+    chips: ["Innovation characteristics", "Outer setting", "Inner setting", "Individuals", "Implementation process", "Implementation outcomes"],
+    seminal: "Damschroder, L. J., Aron, D. C., Keith, R. E., Kirsh, S. R., Alexander, J. A., & Lowery, J. C. (2009). Fostering implementation of health services research findings into practice: A consolidated framework for advancing implementation science. *Implementation Science, 4*, Article 50. https://doi.org/10.1186/1748-5908-4-50",
+    origins: [],
+    revisions: [{tag: "Revised", cite: "Damschroder, L. J., Reardon, C. M., Widerquist, M. A. O., & Lowery, J. (2022). The updated Consolidated Framework for Implementation Research based on user feedback. *Implementation Science, 17*, Article 75. https://doi.org/10.1186/s13012-022-01245-0", note: "Renamed and added constructs and separated implementation outcomes from innovation outcomes."}],
+    props: [
+      "Implementation depends on five domains: the innovation, the outer setting, the inner setting, the individuals involved, and the implementation process.",
+      "Each domain has constructs (for example, adaptability, implementation climate, leadership engagement) used to assess barriers and facilitators.",
+      "The framework predicts implementation outcomes; whether the innovation itself works is a separate question (2022)."
+    ]
+  },
+  RESDEP: {
+    type: "Theory", group: "macro", name: "Resource Dependence Theory",
+    desc: "Organizations depend on outside actors for resources, so those actors shape their goals and services.",
+    chips: ["Resource scarcity", "Funder power", "Dependence", "Compliance", "Mission drift", "Funding diversification"],
+    seminal: "Pfeffer, J., & Salancik, G. R. (1978). *The external control of organizations: A resource dependence perspective*. Harper & Row.",
+    origins: [],
+    revisions: [{tag: "Restated", cite: "Pfeffer, J., & Salancik, G. R. (2003). *The external control of organizations: A resource dependence perspective*. Stanford University Press.", note: "Reissue with a new introduction."}],
+    props: [
+      "Organizations cannot generate all the resources they need, so they depend on outside actors (funders, governments, partners).",
+      "The more critical and scarce a resource, and the fewer its sources, the more power its provider has.",
+      "Organizations comply with the actors they depend on most, which shapes their goals and services (for example, funder-driven mission drift).",
+      "Organizations manage dependence by diversifying funding, co-opting, partnering, merging, and political action."
+    ]
+  },
+  HISTTRAUMA: {
+    type: "Theory", group: "indig", name: "Historical Trauma (Brave Heart)",
+    desc: "Massive group trauma such as colonization causes cumulative wounding across generations, with a recognizable historical trauma response.",
+    chips: ["Historical trauma exposure", "Historical trauma response", "Historical unresolved grief", "Current structural stressors", "Cultural reconnection", "Well-being"],
+    seminal: "Brave Heart, M. Y. H. (2003). The historical trauma response among Natives and its relationship with substance abuse: A Lakota illustration. *Journal of Psychoactive Drugs, 35*(1), 7–13. https://doi.org/10.1080/02791072.2003.10399988",
+    origins: [{cite: "Brave Heart, M. Y. H., & DeBruyn, L. M. (1998). The American Indian holocaust: Healing historical unresolved grief. *American Indian and Alaska Native Mental Health Research, 8*(2), 60–82. https://doi.org/10.5820/aian.0802.1998.60", note: "Introduced historical unresolved grief."}],
+    revisions: [
+      {tag: "Extended", cite: "Walters, K. L., Mohammed, S. A., Evans-Campbell, T., Beltrán, R. E., Chae, D. H., & Duran, B. (2011). Bodies don't just tell stories, they tell histories: Embodiment of historical trauma among American Indians and Alaska Natives. *Du Bois Review: Social Science Research on Race, 8*(1), 179–189. https://doi.org/10.1017/S1742058X1100018X", note: "Historical trauma becomes embodied in present-day physical health."},
+      {tag: "Challenged", cite: "Kirmayer, L. J., Gone, J. P., & Moses, J. (2014). Rethinking historical trauma. *Transcultural Psychiatry, 51*(3), 299–319. https://doi.org/10.1177/1363461514536358", note: "Current suffering reflects ongoing structural violence as much as past trauma; emphasizes resilience."}
+    ],
+    props: [
+      "Historical trauma is cumulative emotional and psychological wounding over the lifespan and across generations from massive group trauma (colonization, forced relocation, boarding schools).",
+      "The historical trauma response includes depression, self-destructive behavior, suicidal thoughts, anxiety, anger, and substance use to numb pain.",
+      "Historical unresolved grief accompanies the response.",
+      "Effects pass across generations through psychological, family, community, and biological pathways (Walters et al., 2011).",
+      "Healing involves collective remembering, reconnecting with culture and ceremony, and resolving grief."
+    ],
+    use: "Treat historical trauma exposure as a background cause and the trauma response or unresolved grief as a mediator. Add current structural stressors as a separate path (Kirmayer et al., 2014)."
+  },
+  INDIGENIST: {
+    type: "Model", group: "indig", name: "Indigenist Stress-Coping Model",
+    desc: "Traumatic stressors harm Native health, and cultural factors buffer that harm.",
+    chips: ["Historical trauma", "Discrimination", "Traumatic life events", "Identity attitudes", "Enculturation", "Spiritual coping", "Traditional healing practices", "Health outcomes"],
+    seminal: "Walters, K. L., & Simoni, J. M. (2002). Reconceptualizing Native women's health: An “indigenist” stress-coping model. *American Journal of Public Health, 92*(4), 520–524. https://doi.org/10.2105/AJPH.92.4.520",
+    origins: [],
+    revisions: [],
+    props: [
+      "Native women's health sits within their status as a colonized people.",
+      "Traumatic stressors (historical trauma, discrimination, traumatic life events) affect physical health, mental health, and substance use.",
+      "Cultural factors (identity attitudes, enculturation, spiritual coping, traditional healing practices) buffer the stressor–health link (moderation).",
+      "The model centers cultural strengths rather than deficits."
+    ]
+  },
+  EVANSCAMP: {
+    type: "Framework", group: "indig", name: "Multilevel Framework of Historical Trauma (Evans-Campbell)",
+    desc: "Historical trauma affects individuals, families, and communities, and interacts with current stressors.",
+    chips: ["Historically traumatic events", "Individual impacts", "Family impacts", "Community impacts", "Contemporary stressors"],
+    seminal: "Evans-Campbell, T. (2008). Historical trauma in American Indian/Native Alaska communities: A multilevel framework for exploring impacts on individuals, families, and communities. *Journal of Interpersonal Violence, 23*(3), 316–338. https://doi.org/10.1177/0886260507312290",
+    origins: [],
+    revisions: [],
+    props: [
+      "A historically traumatic event is widespread in a group, carried out by outsiders with destructive intent, and produces high collective distress.",
+      "Such events can be discrete or chronic and accumulate across generations.",
+      "Impacts occur at three linked levels: individual, family, and community.",
+      "Historical trauma interacts with contemporary stressors to shape current well-being (moderation)."
+    ]
+  },
+  RBTS: {
+    type: "Model", group: "indig", name: "Race-Based Traumatic Stress (Carter)",
+    desc: "Experiences of racism that are painful, sudden, and uncontrollable can cause trauma-like injury.",
+    chips: ["Racism encounters", "Race-based traumatic stress", "Intrusion", "Avoidance", "Arousal", "Depression and anger"],
+    seminal: "Carter, R. T. (2007). Racism and psychological and emotional injury: Recognizing and assessing race-based traumatic stress. *The Counseling Psychologist, 35*(1), 13–105. https://doi.org/10.1177/0011000006292033",
+    origins: [],
+    revisions: [{tag: "Extended", cite: "Comas-Díaz, L., Hall, G. N., & Neville, H. A. (2019). Racial trauma: Theory, research, and healing: Introduction to the special issue. *American Psychologist, 74*(1), 1–5. https://doi.org/10.1037/amp0000442", note: "Introduces a special issue that builds on racial trauma theory."}],
+    props: [
+      "A racism encounter is traumatic when it is experienced as emotionally painful, sudden, and uncontrollable.",
+      "Reactions include intrusion, arousal, and avoidance, along with depression, anger, guilt or shame, and low self-esteem.",
+      "Race-based traumatic stress is an injury, not a mental disorder.",
+      "Assessment links specific racism encounters to the reactions that follow."
+    ],
+    use: "Racism encounters are the cause; race-based traumatic stress is a mediator or outcome. Do not treat it as a psychiatric diagnosis."
+  },
+  DECOLON: {
+    type: "Critical perspective", group: "indig", name: "Decolonizing and Indigenous Research Methodologies", critical: true,
+    desc: "Research has served colonization; Indigenous peoples should control research about them, guided by relational accountability.",
+    chips: ["Indigenous data sovereignty", "Relational accountability", "Community control of research"],
+    seminal: "Smith, L. T. (1999). *Decolonizing methodologies: Research and Indigenous peoples*. Zed Books.",
+    origins: [],
+    revisions: [
+      {tag: "Revised", cite: "Smith, L. T. (2021). *Decolonizing methodologies: Research and Indigenous peoples* (3rd ed.). Zed Books. https://doi.org/10.5040/9781350225282", note: "Current edition."},
+      {tag: "Extended", cite: "Wilson, S. (2008). *Research is ceremony: Indigenous research methods*. Fernwood Publishing.", note: "An Indigenous research paradigm built on relational accountability."}
+    ],
+    props: [
+      "Western research has been tied to imperialism and colonization.",
+      "Indigenous peoples should set research agendas and control research about their communities, including who owns the data.",
+      "Knowledge is relational; research is accountable to those relationships (Wilson).",
+      "Indigenous knowledge systems are legitimate ways of knowing, not just data sources."
+    ],
+    use: "These are tenets, not arrows. They guide who defines concepts and outcomes and who interprets findings, and they support community-based participatory designs, tribal approval, and Indigenous data sovereignty."
+  },
+  SETTLER: {
+    type: "Critical perspective", group: "indig", name: "Settler Colonialism", critical: true,
+    desc: "Settler colonialism is a continuing structure, not a past event, aimed at replacing Indigenous peoples on the land.",
+    chips: ["Land dispossession", "Assimilation policy", "Child removal", "Structural violence"],
+    seminal: "Wolfe, P. (2006). Settler colonialism and the elimination of the native. *Journal of Genocide Research, 8*(4), 387–409. https://doi.org/10.1080/14623520601056240",
+    origins: [],
+    revisions: [{tag: "Extended", cite: "Fortier, C., & Wong, E. H.-S. (2019). The settler colonialism of social work and the social work of settler colonialism. *Settler Colonial Studies, 9*(4), 437–456. https://doi.org/10.1080/2201473X.2018.1519962", note: "Examines social work's role in settler colonialism, including child removal."}],
+    props: [
+      "Invasion is a structure, not an event (Wolfe, 2006, p. 388).",
+      "Settler colonialism follows a logic of elimination aimed at gaining land: it destroys to replace.",
+      "Elimination works through removal, assimilation, and legal and land regimes, not only killing.",
+      "Because it is a structure, it continues through law, land policy, and institutions, including welfare and child removal systems."
+    ],
+    use: "These are tenets, not arrows. Use settler colonialism as the macro-level context that explains why stressors persist, and pair it with measurable concepts such as current structural stressors."
   },
   EMPOWER: {
     type: "Theory",
