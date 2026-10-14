@@ -19,6 +19,9 @@
 - Results page: each section has a colored header band and tinted body; the research question and hypotheses display with bold labels ("Main question:", "Subquestions:", "H1 (direct):"), with an Edit button for the text. Copy keeps the bold labels when pasted into Word.
 - Figure caption displays as in an APA 7 paper: bold figure number, italic title, the figure, and an italic "Note." The Word download and Copy caption keep that formatting.
 - Concept names are bold in the key concepts table.
+- Every step opens with a short numbered "What to do" box in simple English, and every field has a one-line direction under its label, with an example where useful.
+- The "Your model" panel says it is for viewing only.
+- "Construct" is now "concept" throughout the propositions step, to match the rest of the app.
 
 ## 1.1.0 (2026-10-13)
 

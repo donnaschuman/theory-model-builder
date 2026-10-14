@@ -135,6 +135,7 @@ var PROPOSITIONS_VIDEO_URL = ''; // older setting; used for the propositions slo
   <aside id="preview" class="noprint" aria-label="Your model so far">
     <details class="pv" id="pvDetails" open>
       <summary><h2>Your model</h2></summary>
+      <p class="pv-note">This panel draws your model as you build it. It is for viewing only; you do not type here.</p>
       <div class="pv-body" id="pvBody"></div>
     </details>
   </aside>
@@ -308,6 +309,30 @@ try { S = upgrade(JSON.parse(localStorage.getItem(KEY))); } catch(e){ S = fresh(
 function rawSave(){ try { localStorage.setItem(KEY, JSON.stringify(S)); } catch(e){} }
 var save = function(){ rawSave(); showSaved(); };
 
+/* Short directions shown at the top of each step. Plain words, short sentences. */
+var TODO = {
+  "Who": ["Type the group of people you want to study in the box below.", "Be specific: who they are and where they are.", "Press Next."],
+  "Outcome": ["Type the result you want to explain for this group.", "Use a short name of 2 to 5 words.", "Press Next."],
+  "Define outcome": ["Write how you will know the outcome happened.", "Say what you will count or measure, over what time, and where the information comes from.", "Press Next."],
+  "Theory": ["Click one theory card, or click Type my own and type the theory name.", "Add a second theory only if your model needs it.", "Press Next."],
+  "Key propositions": ["In box 1, type the APA reference for the work where the theory was first stated. You can click Use this to copy the suggested reference, but check it first.", "In box 2, press Add a proposition. Copy one sentence from the source that says how two concepts relate, and type its page number.", "Fill in the other boxes for that proposition: your own words, the From and To concepts, and the direction.", "Add 2 to 5 propositions. You can skip this step and come back later."],
+  "Causes": ["Add 2 or 3 causes of the outcome (4 at most).", "To add a cause, click a button with a + sign below, or type in an empty box.", "Use the \u2191 and \u2193 buttons, or drag \u283f, to change the order. The order here is the order in the figure.", "Press Next."],
+  "In-between": ["Ask yourself: why does each cause lead to the outcome?", "If your answer is one thing that the causes change first, click Yes and type it in the box.", "If you cannot name one thing, click No or Not sure.", "Press Next."],
+  "Moderation": ["Ask yourself: is any link stronger for some people, places, or times than for others?", "Click Yes, No, or Not sure.", "If you clicked Yes or Not sure, check the box for each group or condition that might change a link. Check Other to type your own.", "Press Next."],
+  "Moderator details": ["For each moderator, type the two groups you will compare.", "Choose the link that the moderator makes stronger or weaker.", "Press Next."],
+  "Define concepts": ["Each card is one box in your figure.", "Choose where the concept comes from.", "Write what the concept means in one or two sentences. Then type the source: author, year, and page.", "Press Next."],
+  "Line styles": ["Each card is one arrow in your figure.", "Click + if more of the first concept leads to more of the second. Click \u2212 if it leads to less.", "Click Solid if you will test the arrow. Click Dashed for a moderator or an arrow you will not test.", "Press Next."],
+  "Why this arrow?": ["Each card is one arrow in your figure.", "Click what your reason is based on. This is required.", "Choose the proposition the arrow comes from, or drag a proposition from the box at the top onto the card.", "In the large box, write one sentence that explains how the first concept changes the second. Click I\u2019m stuck if you need help.", "Press Next."],
+  "Paper notes": ["This step is optional.", "Type notes in any box that will help you write your paper. You can leave boxes empty.", "Your notes go into the Word file on the results page.", "Press Next."],
+  "Self-check": ["Read each item.", "Green items are done. Yellow items need attention.", "Click Fix this to go to the step that needs work, or press the Next button to see your results."],
+  "Results": ["Read your research question, hypotheses, and figure.", "Click Edit under any text to change it.", "Click Download PNG for the figure, and Download paper notes for Word for the text.", "Click Save my work at the top of the page to keep a copy of your model."]
+};
+function todoHTML(list){ return '<div class="todo" role="note"><h3>What to do</h3><ol>' + list.map(function(x){ return '<li>' + esc(x) + '</li>'; }).join("") + '</ol></div>'; }
+function withTodo(title, body){
+  var td = TODO[title]; if(!td) return body;
+  var li = body.indexOf('<p class="lede">'), at = li >= 0 ? body.indexOf('</p>', li) + 4 : body.indexOf('</h2>') + 5;
+  return body.slice(0, at) + todoHTML(td) + body.slice(at);
+}
 /* ======================= Helpers ======================= */
 function esc(s){ return String(s == null ? "" : s).replace(/[&<>"']/g, function(c){ return {"&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"}[c]; }); }
 function $(id){ return document.getElementById(id); }
@@ -605,7 +630,7 @@ function linkBlock(e, i){
   var k = linkOf(e.id), mm = mismatch(e.id);
   return (k >= 0 ? '<p style="margin:10px 0 4px"><span class="link-badge"><span class="badge' + tc(S.props[k].isNew ? "N" : S.props[k].theory) + '">P' + (k + 1) + '</span> Linked proposition <button type="button" class="btn ghost sm" data-unlink="' + esc(e.id) + '" aria-label="Unlink P' + (k + 1) + ' from this arrow">✕</button></span></p>' : '<p class="dropzone-note noprint">Drop a proposition here</p>') +
     (mm ? '<div class="warn" role="note">P' + (k + 1) + ' says <strong>' + signChar(mm) + '</strong> (' + (mm === "-" ? "more → less" : "more → more") + '), but this arrow is set to <strong>' + signChar(sign(e.id)) + '</strong>. Check the source. If P' + (k + 1) + ' is right, <button type="button" class="btn sec sm" data-setsign="' + esc(e.id) + '" data-val="' + mm + '">set this arrow to ' + signChar(mm) + '</button></div>' : '') +
-    '<label for="pl' + i + '" class="small">Comes from proposition</label><select id="pl' + i + '" data-plink="' + esc(e.id) + '"><option value="">None</option>' + S.props.map(function(q, kk){ return '<option value="' + kk + '" ' + (k === kk ? "selected" : "") + '>P' + (kk + 1) + ': ' + esc(((q.own || q.text || "").trim() || "(untitled)").slice(0, 70)) + '</option>'; }).join("") + '</select>';
+    '<label for="pl' + i + '" class="small">Comes from proposition<span class="hint">Choose the proposition this arrow is based on.</span></label><select id="pl' + i + '" data-plink="' + esc(e.id) + '"><option value="">None</option>' + S.props.map(function(q, kk){ return '<option value="' + kk + '" ' + (k === kk ? "selected" : "") + '>P' + (kk + 1) + ': ' + esc(((q.own || q.text || "").trim() || "(untitled)").slice(0, 70)) + '</option>'; }).join("") + '</select>';
 }
 
 /* ======================= Steps =======================
@@ -614,24 +639,24 @@ function linkBlock(e, i){
 var STEPS = [
 /* 0 */ {t: "Start", skip: function(){ return true; }, r: function(){ return ""; }, v: function(){ return ""; }},
 /* 1 */ {t: "Who", g: "Question", r: function(){
-    return '<h2 id="stepTitle">Who are the people you want to study?</h2><p class="lede">Describe the population in plain words.</p><label for="f_who">Population</label><input type="text" id="f_who" data-bind="who" placeholder="e.g., First-generation college students at community colleges" value="' + esc(S.who) + '">';
+    return '<h2 id="stepTitle">Who are the people you want to study?</h2><p class="lede">Describe the population in plain words.</p><label for="f_who">Population<span class="hint">Type the group of people you will study.</span></label><input type="text" id="f_who" data-bind="who" placeholder="e.g., First-generation college students at community colleges" value="' + esc(S.who) + '">';
   }, v: function(){ return S.who.trim() ? "" : "Name who you are studying."; }},
 /* 2 */ {t: "Outcome", g: "Question", r: function(){
-    return '<h2 id="stepTitle">What change or result do you care about for them?</h2><p class="lede">This is the outcome your model explains.</p><label for="f_out">Outcome name</label><input type="text" id="f_out" data-bind="outcome" placeholder="e.g., Treatment engagement, exercise, course completion" value="' + esc(S.outcome) + '">' + tip("who");
+    return '<h2 id="stepTitle">What change or result do you care about for them?</h2><p class="lede">This is the outcome your model explains.</p><label for="f_out">Outcome name<span class="hint">Type a short name, 2 to 5 words, for the result you want to explain.</span></label><input type="text" id="f_out" data-bind="outcome" placeholder="e.g., Treatment engagement, exercise, course completion" value="' + esc(S.outcome) + '">' + tip("who");
   }, v: function(){ return S.outcome.trim() ? "" : "Name the outcome."; }},
 /* 3 */ {t: "Define outcome", g: "Question", r: function(){
-    return '<h2 id="stepTitle">What counts as &ldquo;' + esc(S.outcome) + '&rdquo;?</h2><p class="lede">Say how you would know it happened, so someone else could count it the same way.</p><label for="f_def">What counts</label><textarea id="f_def" class="auto" data-bind="outcomeDef" placeholder="e.g., Attending 8+ sessions in 14 weeks (clinic records); OR 150+ minutes of activity per week (self-report); OR passing all fall courses (transcript)">' + esc(S.outcomeDef) + '</textarea>';
+    return '<h2 id="stepTitle">What counts as &ldquo;' + esc(S.outcome) + '&rdquo;?</h2><p class="lede">Say how you would know it happened, so someone else could count it the same way.</p><label for="f_def">What counts<span class="hint">Say what you will count or measure, over what time, and where the information comes from.</span></label><textarea id="f_def" class="auto" data-bind="outcomeDef" placeholder="e.g., Attending 8+ sessions in 14 weeks (clinic records); OR 150+ minutes of activity per week (self-report); OR passing all fall courses (transcript)">' + esc(S.outcomeDef) + '</textarea>';
   }, v: function(){ return S.outcomeDef.trim() ? "" : "Describe what counts."; }},
 /* 4 */ {t: "Theory", g: "Theory", r: function(){
     var a = approach(), max = a[4], o = Object.keys(THEORIES).map(function(k){ return [k, THEORIES[k].name, THEORIES[k].desc]; });
     o.push(["custom", "Type my own", "Use a theory from your course or field."]);
     var h = '<h2 id="stepTitle">Which theory explains why this happens?</h2><p class="lede">Choose the theory that explains your outcome. Add a second theory only if the model needs one.</p>';
-    h += '<div class="item"><div class="item-h"><span class="tbadge tA">A</span><strong>' + esc(roleOf(0)) + '</strong></div>' + choices("theory", o) + (S.theory === "custom" ? '<label for="f_th">Theory name</label><input type="text" id="f_th" data-bind="theoryCustom" placeholder="e.g., Self-Determination Theory" value="' + esc(S.theoryCustom) + '">' : '') + '</div>';
+    h += '<div class="item"><div class="item-h"><span class="tbadge tA">A</span><strong>' + esc(roleOf(0)) + '</strong></div>' + choices("theory", o) + (S.theory === "custom" ? '<label for="f_th">Theory name<span class="hint">Type the full name of the theory.</span></label><input type="text" id="f_th" data-bind="theoryCustom" placeholder="e.g., Self-Determination Theory" value="' + esc(S.theoryCustom) + '">' : '') + '</div>';
     S.more.forEach(function(t, i){
       var L = String.fromCharCode(66 + i);
-      h += '<div class="item"><div class="item-h"><span class="tbadge' + tc(L) + '">' + L + '</span><strong>' + esc(roleOf(i + 1)) + '</strong><span class="sp"><button type="button" class="btn ghost sm danger" data-rmtheory="' + i + '">Remove</button></span></div><label for="mt' + i + '">Theory</label><select id="mt' + i + '" data-mt="' + i + '" data-mf="pick"><option value="">Choose a theory…</option>' +
+      h += '<div class="item"><div class="item-h"><span class="tbadge' + tc(L) + '">' + L + '</span><strong>' + esc(roleOf(i + 1)) + '</strong><span class="sp"><button type="button" class="btn ghost sm danger" data-rmtheory="' + i + '">Remove</button></span></div><label for="mt' + i + '">Theory<span class="hint">Choose the theory from the list, or choose Type my own.</span></label><select id="mt' + i + '" data-mt="' + i + '" data-mf="pick"><option value="">Choose a theory…</option>' +
         Object.keys(THEORIES).map(function(k){ return '<option value="' + k + '" ' + (t.pick === k ? "selected" : "") + '>' + esc(THEORIES[k].name) + '</option>'; }).join("") + '<option value="custom" ' + (t.pick === "custom" ? "selected" : "") + '>Type my own…</option></select>' +
-        (t.pick === "custom" ? '<label for="mtc' + i + '">Theory name</label><input type="text" id="mtc' + i + '" data-mt="' + i + '" data-mf="custom" placeholder="e.g., Minority Stress Theory" value="' + esc(t.custom || "") + '">' : (THEORIES[t.pick] ? '<p class="small" style="margin:8px 0 0">' + esc(THEORIES[t.pick].desc) + '</p>' : '')) + '</div>';
+        (t.pick === "custom" ? '<label for="mtc' + i + '">Theory name<span class="hint">Type the full name of the theory.</span></label><input type="text" id="mtc' + i + '" data-mt="' + i + '" data-mf="custom" placeholder="e.g., Minority Stress Theory" value="' + esc(t.custom || "") + '">' : (THEORIES[t.pick] ? '<p class="small" style="margin:8px 0 0">' + esc(THEORIES[t.pick].desc) + '</p>' : '')) + '</div>';
     });
     h += '<p class="panel" id="mechInfo"><strong>Mechanism or topic?</strong> A topic is what you study (veteran suicide risk). A mechanism is how or why it happens (isolation thwarts belongingness, which raises suicidal desire). Choose a theory that names mechanisms; they become your arrows.</p>';
     if(1 + S.more.length < max) h += '<p><button type="button" class="btn sec" id="addTheory">+ Add another theory</button></p>';
@@ -650,18 +675,18 @@ var STEPS = [
       var sug = SEMINAL[t.pick], fid = "sem_" + t.id;
       h += '<div class="item" style="margin:10px 0"><div class="item-h"><span class="tbadge' + tc(t.id) + '">' + t.id + '</span><strong>' + esc(tName(t)) + '</strong></div>' +
         (sug ? '<p class="small" style="background:var(--tint-2);padding:8px 12px;border-radius:10px;margin:8px 0 0"><strong>Starting point; verify it yourself:</strong> ' + esc(sug) + ' <button type="button" class="linkbtn" data-usesem="' + t.id + '">Use this</button></p>' : '') +
-        '<label for="' + fid + '">APA citation of the seminal source</label><input type="text" id="' + fid + '" ' + (t.id === "A" ? 'data-bind="seminal"' : 'data-mt="' + t.idx + '" data-mf="seminal"') + ' placeholder="Author, A. A. (Year). Title. Publisher or Journal, vol(issue), pages." value="' + esc(t.seminal) + '"></div>';
+        '<label for="' + fid + '">APA citation of the seminal source<span class="hint">Type the full APA reference for the work where the theory was first stated.</span></label><input type="text" id="' + fid + '" ' + (t.id === "A" ? 'data-bind="seminal"' : 'data-mt="' + t.idx + '" data-mf="seminal"') + ' placeholder="Author, A. A. (Year). Title. Publisher or Journal, vol(issue), pages." value="' + esc(t.seminal) + '"></div>';
     });
-    h += '</div><div class="panel"><h3><span class="num">2</span> Pull out propositions</h3><p class="small">A <strong>proposition</strong> is the theory’s claim about how two constructs relate, e.g., “the more X, the more Y” or “X affects Y through Z.” Add 2–12.' + (newOK ? ' Mark any proposition that is your own addition as <strong>new</strong>.' : '') + '</p><datalist id="constructs">' + co.map(function(c){ return '<option value="' + esc(c) + '">'; }).join("") + '</datalist>';
+    h += '</div><div class="panel"><h3><span class="num">2</span> Pull out propositions</h3><p class="small">A <strong>proposition</strong> is the theory’s claim about how two concepts relate, for example “the more X, the more Y.” Add 2 to 5.' + (newOK ? ' Mark any proposition that is your own addition as <strong>new</strong>.' : '') + '</p><datalist id="constructs">' + co.map(function(c){ return '<option value="' + esc(c) + '">'; }).join("") + '</datalist>';
     S.props.forEach(function(q, k){
       h += '<div class="item"><div class="item-h"><span class="badge' + tc(q.isNew ? "N" : q.theory) + '">P' + (k + 1) + '</span>' + (q.isNew ? '<span class="kind">New</span>' : '') + '<span class="sp"><button type="button" class="btn ghost sm danger" data-rmprop="' + k + '" aria-label="Remove proposition P' + (k + 1) + '">Remove</button></span></div>' +
-        (multi ? '<label for="pt' + k + '">From which theory?</label><select id="pt' + k + '" data-prop="' + k + '" data-pf="theory">' + tl.map(function(t){ return '<option value="' + t.id + '" ' + (q.theory === t.id ? "selected" : "") + '>' + t.id + ': ' + esc(tName(t)) + '</option>'; }).join("") + '</select>' : '') +
+        (multi ? '<label for="pt' + k + '">From which theory?<span class="hint">Choose the theory this proposition comes from.</span></label><select id="pt' + k + '" data-prop="' + k + '" data-pf="theory">' + tl.map(function(t){ return '<option value="' + t.id + '" ' + (q.theory === t.id ? "selected" : "") + '>' + t.id + ': ' + esc(tName(t)) + '</option>'; }).join("") + '</select>' : '') +
         (newOK ? '<label style="display:flex;gap:10px;align-items:center;font-weight:500"><input type="checkbox" data-propnew="' + k + '" ' + (q.isNew ? "checked" : "") + '> This is a <strong>new</strong> proposition I am proposing (not stated by the theory)</label>' : '') +
-        '<label for="pq' + k + '">' + (q.isNew ? "The new proposition" : "Quote or paraphrase from the source") + '</label><textarea id="pq' + k + '" class="auto" data-prop="' + k + '" data-pf="text" style="min-height:52px">' + esc(q.text || "") + '</textarea>' +
-        '<div class="row"><div style="flex:0 0 9em;min-width:0"><label for="pp' + k + '">Page</label><input type="text" id="pp' + k + '" data-prop="' + k + '" data-pf="page" value="' + esc(q.page || "") + '"></div><div><label for="po' + k + '">In my own words</label><input type="text" id="po' + k + '" data-prop="' + k + '" data-pf="own" value="' + esc(q.own || "") + '"></div></div>' +
-        '<details style="margin-top:8px"><summary class="small">Cited from a different source than the seminal work?</summary><label for="ps' + k + '">Source (APA)</label><input type="text" id="ps' + k + '" data-prop="' + k + '" data-pf="src" placeholder="Leave blank to use the seminal source" value="' + esc(q.src || "") + '"></details>' +
-        '<p class="small" style="margin:12px 0 2px"><strong>Put it in the model</strong> (pick or type a construct; new ones are added to Causes or In-between for you)</p><div class="row"><div><label for="pfr' + k + '">From construct</label><input type="text" list="constructs" id="pfr' + k + '" data-prop="' + k + '" data-pf="from" value="' + esc(q.from || "") + '"></div><div><label for="pto' + k + '">To construct</label><input type="text" list="constructs" id="pto' + k + '" data-prop="' + k + '" data-pf="to" value="' + esc(q.to || "") + '"></div></div>' +
-        '<div class="segrow"><span class="lbl">Direction</span>' + seg("data-psign", k, q.sign === "-" ? "-" : "+", SIGN_OPTS, "Direction for P" + (k + 1)) + '</div></div>';
+        '<label for="pq' + k + '">' + (q.isNew ? "The new proposition<span class=\"hint\">Write your new proposition in one sentence.</span>" : "Quote or paraphrase from the source<span class=\"hint\">Copy the sentence from the source that says how two concepts relate.</span>") + '</label><textarea id="pq' + k + '" class="auto" data-prop="' + k + '" data-pf="text" style="min-height:52px">' + esc(q.text || "") + '</textarea>' +
+        '<div class="row"><div style="flex:0 0 9em;min-width:0"><label for="pp' + k + '">Page<span class="hint">The page number of that sentence.</span></label><input type="text" id="pp' + k + '" data-prop="' + k + '" data-pf="page" value="' + esc(q.page || "") + '"></div><div><label for="po' + k + '">In my own words<span class="hint">Say the same idea in one simple sentence.</span></label><input type="text" id="po' + k + '" data-prop="' + k + '" data-pf="own" value="' + esc(q.own || "") + '"></div></div>' +
+        '<details style="margin-top:8px"><summary class="small">Cited from a different source than the seminal work?</summary><label for="ps' + k + '">Source (APA)<span class="hint">Fill this in only if the proposition came from a different paper.</span></label><input type="text" id="ps' + k + '" data-prop="' + k + '" data-pf="src" placeholder="Leave blank to use the seminal source" value="' + esc(q.src || "") + '"></details>' +
+        '<p class="small" style="margin:12px 0 2px"><strong>Put it in the model</strong> (new concepts are added to Causes or In-between for you)</p><div class="row"><div><label for="pfr' + k + '">From concept<span class="hint">The concept that causes the change. Pick from the list or type it.</span></label><input type="text" list="constructs" id="pfr' + k + '" data-prop="' + k + '" data-pf="from" value="' + esc(q.from || "") + '"></div><div><label for="pto' + k + '">To concept<span class="hint">The concept that changes. Pick from the list or type it.</span></label><input type="text" list="constructs" id="pto' + k + '" data-prop="' + k + '" data-pf="to" value="' + esc(q.to || "") + '"></div></div>' +
+        '<div class="segrow"><span class="lbl">Direction</span>' + seg("data-psign", k, q.sign === "-" ? "-" : "+", SIGN_OPTS, "Direction for P" + (k + 1)) + '<span class="hint" style="flex-basis:100%">Click + if more of the From concept leads to more of the To concept. Click \u2212 if it leads to less.</span></div></div>';
     });
     if(S.props.length < 12) h += '<p><button type="button" class="btn sec" id="addProp">+ Add a proposition</button></p>';
     return h + '</div>' + tip("props");
@@ -685,7 +710,7 @@ var STEPS = [
   }, v: function(){ return causes().length ? "" : "List at least one cause."; }},
 /* 7 */ {t: "In-between", g: "Model", r: function(){
     var h = '<h2 id="stepTitle">Is there an in-between step?</h2><p class="lede">Something the causes change first, which then changes ' + esc(S.outcome.toLowerCase()) + '.</p>' + videoSlot("inbetween", "Mediators and moderators") + choices("medYN", [["yes", "Yes", "I can name it."], ["no", "No", "Causes link straight to the outcome."], ["unsure", "Not sure", "Skip it for now."]]);
-    if(S.medYN === "yes") h += jargon("That\'s called <strong>mediation</strong>. The in-between is the <strong>mediator</strong>.") + '<label for="f_med">Name the in-between</label><input type="text" id="f_med" data-bind="mediator" placeholder="e.g., Intention to stay in treatment" value="' + esc(S.mediator) + '">';
+    if(S.medYN === "yes") h += jargon("That\'s called <strong>mediation</strong>. The in-between is the <strong>mediator</strong>.") + '<label for="f_med">Name the in-between<span class="hint">Type the one thing the causes change first.</span></label><input type="text" id="f_med" data-bind="mediator" placeholder="e.g., Intention to stay in treatment" value="' + esc(S.mediator) + '">';
     return h + tip("med");
   }, v: function(){ if(!S.medYN) return "Pick one."; if(S.medYN === "yes" && !S.mediator.trim()) return "Name the in-between, or choose No."; return ""; }},
 /* 8 */ {t: "Moderation", g: "Model", r: function(){
@@ -699,7 +724,7 @@ var STEPS = [
       if(S.modPicked.indexOf("__other") >= 0){
         if(!S.modOthers.length) S.modOthers.push(S.modOther || "");
         h += '<p class="small" style="margin-top:12px">Name each moderator you want to add.</p>';
-        S.modOthers.forEach(function(o, i){ h += '<label for="f_mo' + i + '">Other moderator ' + (i + 1) + '</label><div class="row"><input type="text" id="f_mo' + i + '" data-mo="' + i + '" placeholder="e.g., Years since discharge" value="' + esc(o) + '">' + (S.modOthers.length > 1 ? '<button type="button" class="btn sec" style="flex:0" data-rmmo="' + i + '" aria-label="Remove other moderator ' + (i + 1) + '">Remove</button>' : '') + '</div>'; });
+        S.modOthers.forEach(function(o, i){ h += '<label for="f_mo' + i + '">Other moderator ' + (i + 1) + '<span class="hint">Type the name of the group or condition.</span></label><div class="row"><input type="text" id="f_mo' + i + '" data-mo="' + i + '" placeholder="e.g., Years since discharge" value="' + esc(o) + '">' + (S.modOthers.length > 1 ? '<button type="button" class="btn sec" style="flex:0" data-rmmo="' + i + '" aria-label="Remove other moderator ' + (i + 1) + '">Remove</button>' : '') + '</div>'; });
         h += '<p><button type="button" class="btn sec" id="addOther">+ Add another</button></p>';
       }
     }
@@ -707,7 +732,7 @@ var STEPS = [
   }, v: function(){ return S.modYN ? "" : "Pick one."; }},
 /* 9 */ {t: "Moderator details", g: "Model", skip: function(){ return !modList().length && !S.addedAnother; }, r: function(){
     var ps = paths(), h = '<h2 id="stepTitle">Tell us about each moderator</h2><p class="lede">Name the groups you will compare and the path each moderator changes.</p>';
-    modList().forEach(function(m, i){ var d = S.modDetails[m] || {}; h += '<div class="item"><div class="item-h"><span class="kind">Moderator</span><strong>' + esc(m) + '</strong></div><label for="g' + i + '">Which groups are compared?</label><input type="text" id="g' + i + '" data-mg="' + esc(m) + '" placeholder="e.g., ' + esc(GHINT[m] || "Group A vs. group B") + '" value="' + esc(d.groups || "") + '"><label for="p' + i + '">Which path does it change?</label><select id="p' + i + '" data-mp="' + esc(m) + '">' + ps.map(function(p){ return '<option value="' + p.id + '" ' + ((d.path || ps[ps.length - 1].id) === p.id ? "selected" : "") + '>' + esc(pathLabel(p)) + '</option>'; }).join("") + '</select></div>'; });
+    modList().forEach(function(m, i){ var d = S.modDetails[m] || {}; h += '<div class="item"><div class="item-h"><span class="kind">Moderator</span><strong>' + esc(m) + '</strong></div><label for="g' + i + '">Which groups are compared?<span class="hint">Type the two groups. Example: under 30 miles vs. 30 or more miles.</span></label><input type="text" id="g' + i + '" data-mg="' + esc(m) + '" placeholder="e.g., ' + esc(GHINT[m] || "Group A vs. group B") + '" value="' + esc(d.groups || "") + '"><label for="p' + i + '">Which link does it change?<span class="hint">Choose the link this moderator makes stronger or weaker.</span></label><select id="p' + i + '" data-mp="' + esc(m) + '">' + ps.map(function(p){ return '<option value="' + p.id + '" ' + ((d.path || ps[ps.length - 1].id) === p.id ? "selected" : "") + '>' + esc(pathLabel(p)) + '</option>'; }).join("") + '</select></div>'; });
     if(!S.addedAnother) h += '<p><button type="button" class="btn sec" id="addMod">+ Add another moderator</button></p>';
     else h += '<label for="f_xm">Another moderator (leave blank if none)</label><input type="text" id="f_xm" data-bind="extraMod" value="' + esc(S.extraMod) + '"><p class="small">Press Next to add details for it, or come Back here.</p>';
     return h + tip("mod");
@@ -749,10 +774,10 @@ var STEPS = [
     nodes().forEach(function(n, i){
       var d = S.cdef[n.id] || {}, tg = S.ctag[n.id] || "";
       h += '<div class="item ccard"><div class="item-h"><span class="kind">' + KIND[n.kind] + '</span><strong>' + esc(n.label) + '</strong>' + (letterOf(n.id) ? '<span class="tbadge' + tc(letterOf(n.id)) + '">' + letterOf(n.id) + '</span>' : '') + '</div>' +
-        '<label for="ct' + i + '">Comes from</label><select id="ct' + i + '" data-ctag="' + esc(n.id) + '"><option value="">Choose…</option>' + tl.map(function(t){ return '<option value="' + t.id + '" ' + (tg === t.id ? "selected" : "") + '>' + t.id + ': ' + esc(tName(t)) + '</option>'; }).join("") + '<option value="new" ' + (tg === "new" ? "selected" : "") + '>New concept (my addition)</option><option value="none" ' + (tg === "none" ? "selected" : "") + '>Not from a theory (e.g., a social determinant)</option></select>' +
+        '<label for="ct' + i + '">Comes from<span class="hint">Choose the theory this concept belongs to, New if you added it, or Not from a theory.</span></label><select id="ct' + i + '" data-ctag="' + esc(n.id) + '"><option value="">Choose…</option>' + tl.map(function(t){ return '<option value="' + t.id + '" ' + (tg === t.id ? "selected" : "") + '>' + t.id + ': ' + esc(tName(t)) + '</option>'; }).join("") + '<option value="new" ' + (tg === "new" ? "selected" : "") + '>New concept (my addition)</option><option value="none" ' + (tg === "none" ? "selected" : "") + '>Not from a theory (e.g., a social determinant)</option></select>' +
         (n.kind === "out" && S.outcomeDef.trim() ? '<p class="small" style="margin:8px 0 0"><strong>How you will count it:</strong> ' + esc(S.outcomeDef) + ' <span class="small">(that is the operational definition; write the conceptual one below)</span></p>' : '') +
-        '<label for="cd' + i + '">Conceptual definition</label><textarea id="cd' + i + '" class="auto" data-cdef="' + esc(n.id) + '" data-cf="def" placeholder="What does ' + esc(n.label.toLowerCase()) + ' mean in this theory?">' + esc(d.def || "") + '</textarea>' +
-        '<label for="cs' + i + '">Source for the definition</label><input type="text" id="cs' + i + '" data-cdef="' + esc(n.id) + '" data-cf="src" placeholder="e.g., Ajzen, 1991, p. 188" value="' + esc(d.src || "") + '"></div>';
+        '<label for="cd' + i + '">Conceptual definition<span class="hint">Write what the concept means in one or two sentences. Do not say how you will measure it.</span></label><textarea id="cd' + i + '" class="auto" data-cdef="' + esc(n.id) + '" data-cf="def" placeholder="What does ' + esc(n.label.toLowerCase()) + ' mean in this theory?">' + esc(d.def || "") + '</textarea>' +
+        '<label for="cs' + i + '">Source for the definition<span class="hint">Author, year, and page. Example: Ajzen, 1991, p. 188.</span></label><input type="text" id="cs' + i + '" data-cdef="' + esc(n.id) + '" data-cf="src" placeholder="e.g., Ajzen, 1991, p. 188" value="' + esc(d.src || "") + '"></div>';
     });
     return h + tip("concepts");
   }, v: function(){ return ""; }},
@@ -764,7 +789,7 @@ var STEPS = [
     theoryList().forEach(function(t){
       var a = S.assume[t.id] || {};
       function af(key, lab){ return '<label for="a_' + t.id + key + '">' + lab + '</label><textarea id="a_' + t.id + key + '" class="auto" data-as="' + t.id + '" data-af="' + key + '">' + esc(a[key] || "") + '</textarea>'; }
-      h += '<div class="panel"><h3><span class="tbadge' + tc(t.id) + '">' + t.id + '</span> ' + esc(tName(t)) + '</h3><label for="a_' + t.id + 'par">Paradigm</label><select id="a_' + t.id + 'par" data-as="' + t.id + '" data-af="paradigm"><option value="">Choose…</option>' + PARADIGMS.map(function(p){ return '<option ' + (a.paradigm === p ? "selected" : "") + '>' + p + '</option>'; }).join("") + '</select>' +
+      h += '<div class="panel"><h3><span class="tbadge' + tc(t.id) + '">' + t.id + '</span> ' + esc(tName(t)) + '</h3><label for="a_' + t.id + 'par">Paradigm<span class="hint">Choose the research paradigm the theory fits best.</span></label><select id="a_' + t.id + 'par" data-as="' + t.id + '" data-af="paradigm"><option value="">Choose…</option>' + PARADIGMS.map(function(p){ return '<option ' + (a.paradigm === p ? "selected" : "") + '>' + p + '</option>'; }).join("") + '</select>' +
         af("ontology", "Core ontological assumption (what is real?)") + af("epistemology", "Core epistemological assumption (how can it be known?)") + af("history", "Ideas or historical trends that shaped it") + af("limits", "What it makes visible, and what it limits or leaves out") + af("practice", "Links to social work practice, policy, and research") + '</div>';
     });
     return h + tip("notes");
@@ -801,7 +826,7 @@ function render(){
   var nav = '<div class="nav noprint"><button class="btn sec" type="button" id="back" ' + (pos === 0 ? "disabled" : "") + '>← Back</button><div class="r">' +
     (S.returnTo >= 0 && S.returnTo !== S.step ? '<button class="btn sec" type="button" id="retWhy">↩ Return to Why this arrow?</button>' : '') +
     (res ? '' : '<button class="btn" type="button" id="next">' + (st.next ? st.next() : "Next →") + '</button>') + '</div></div>';
-  $("screen").innerHTML = '<p class="eyebrow"><span class="pill">Step ' + (pos + 1) + ' of ' + vis.length + '</span>' + esc(st.g || "") + '</p>' + st.r() + '<p class="err" id="err" role="alert"></p>' + nav;
+  $("screen").innerHTML = '<p class="eyebrow"><span class="pill">Step ' + (pos + 1) + ' of ' + vis.length + '</span>' + esc(st.g || "") + '</p>' + withTodo(st.t, st.r()) + '<p class="err" id="err" role="alert"></p>' + nav;
   if(res){ wireResults(); if(!window._gcFin){ window._gcFin = 1; gcEvent("model-finished"); } }
   growAll($("screen"));
   updatePreview();
@@ -1011,10 +1036,10 @@ function inspHTML(){
   if(!e.mod) h += '<div class="segrow"><span class="lbl">Direction</span>' + seg("data-isign", e.id, sign(e.id), [["+", "<strong>+</strong>"], ["-", "<strong>−</strong>"]], "Direction") + '</div>';
   h += '<div class="segrow"><span class="lbl">Line</span>' + seg("data-istyle", e.id, style(e.id, e.mod ? "dashed" : "solid"), [["solid", "Solid"], ["dashed", "Dashed"]], "Line style") + '</div>';
   if(!e.mod && S.props.length){
-    h += '<label for="iplink">Comes from proposition</label><select id="iplink" data-plink="' + esc(e.id) + '"><option value="">None</option>' + S.props.map(function(q, kk){ return '<option value="' + kk + '" ' + (k === kk ? "selected" : "") + '>P' + (kk + 1) + ': ' + esc(((q.own || q.text || "").trim() || "(untitled)").slice(0, 50)) + '</option>'; }).join("") + '</select>';
+    h += '<label for="iplink">Comes from proposition<span class="hint">Choose the proposition this arrow is based on.</span></label><select id="iplink" data-plink="' + esc(e.id) + '"><option value="">None</option>' + S.props.map(function(q, kk){ return '<option value="' + kk + '" ' + (k === kk ? "selected" : "") + '>P' + (kk + 1) + ': ' + esc(((q.own || q.text || "").trim() || "(untitled)").slice(0, 50)) + '</option>'; }).join("") + '</select>';
     if(mm) h += '<div class="warn" role="note">P' + (k + 1) + ' says ' + signChar(mm) + '; this arrow is ' + signChar(sign(e.id)) + '. Check the source.</div>';
   }
-  h += '<label for="ireason">Reason</label><textarea id="ireason" class="auto" data-reason="' + esc(e.id) + '" placeholder="' + esc(starter(e)) + '">' + esc(S.reasons[e.id] || "") + '</textarea>';
+  h += '<label for="ireason">Reason<span class="hint">One sentence: how does the first concept change the second?</span></label><textarea id="ireason" class="auto" data-reason="' + esc(e.id) + '" placeholder="' + esc(starter(e)) + '">' + esc(S.reasons[e.id] || "") + '</textarea>';
   return h + '<p style="margin:10px 0 0"><button type="button" class="btn sec sm" id="ideselect">Close</button></p>';
 }
 function viewBar(){
