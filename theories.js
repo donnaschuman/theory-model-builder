@@ -2,22 +2,27 @@
    References were checked against CrossRef, PubMed, publisher pages, and library catalogs (October 2026).
    Text between asterisks (*like this*) is italic in APA 7. Propositions are paraphrased; students find the
    exact wording and page number in the source. Shared by index.html and library.html. */
+/* Groups are listed in alphabetical order. */
 window.THEORY_GROUPS = [
+  ["aging", "Aging"],
+  ["crime", "Crime and deviance"],
+  ["power", "Empowerment and critical theories"],
   ["health", "Health behavior"],
-  ["stress", "Stress, coping, and support"],
   ["services", "Health services and inequality"],
   ["develop", "Human development and family"],
-  ["crime", "Crime and deviance"],
-  ["substance", "Substance use"],
-  ["poverty", "Poverty and homelessness"],
   ["migration", "Immigration and forced migration"],
+  ["lonely", "Loneliness, isolation, and social exclusion"],
   ["military", "Military and veterans"],
-  ["suicide", "Suicide"],
+  ["poverty", "Poverty and homelessness"],
   ["resil", "Resilience"],
-  ["power", "Empowerment and critical theories"]
+  ["capital", "Social capital and neighborhoods"],
+  ["stress", "Stress, coping, and support"],
+  ["substance", "Substance use"],
+  ["suicide", "Suicide"]
 ];
 window.THEORY_LIB = {
   TPB: {
+    type: "Theory",
     group: "health", name: "Theory of Planned Behavior",
     desc: "People act when they intend to, and intention grows from their attitudes, what important others expect, and how in control they feel.",
     chips: ["Attitude toward the behavior", "Subjective norm", "Perceived behavioral control", "Intention"],
@@ -34,6 +39,7 @@ window.THEORY_LIB = {
     ]
   },
   HBM: {
+    type: "Model",
     group: "health", name: "Health Belief Model",
     desc: "People take a health action when they feel at risk, see the problem as serious, and believe the action's benefits outweigh its barriers.",
     chips: ["Perceived susceptibility", "Perceived severity", "Perceived benefits", "Perceived barriers", "Cues to action", "Self-efficacy"],
@@ -50,6 +56,7 @@ window.THEORY_LIB = {
     ]
   },
   SCT: {
+    type: "Theory",
     group: "health", name: "Social Cognitive Theory",
     desc: "People learn and act through confidence in their own ability, the results they expect, watching others, and the setting around them.",
     chips: ["Self-efficacy", "Outcome expectations", "Observational learning / modeling", "Social support"],
@@ -68,6 +75,7 @@ window.THEORY_LIB = {
     ]
   },
   TTM: {
+    type: "Model",
     group: "health", name: "Transtheoretical Model (Stages of Change)",
     desc: "People change a behavior by moving through stages, from not thinking about change to keeping it up.",
     chips: ["Stage of change", "Decisional balance", "Self-efficacy", "Temptation", "Processes of change"],
@@ -86,6 +94,7 @@ window.THEORY_LIB = {
     use: "This is a stage model. Arrows usually show what predicts moving to the next stage, or how stage relates to an outcome."
   },
   STRESSCOPE: {
+    type: "Model",
     group: "stress", name: "Transactional Model of Stress and Coping",
     desc: "Stress depends on how a person appraises an event and their resources to handle it, and on how they cope.",
     chips: ["Stressor", "Primary appraisal (threat)", "Secondary appraisal (coping resources)", "Problem-focused coping", "Emotion-focused coping", "Distress"],
@@ -103,6 +112,7 @@ window.THEORY_LIB = {
     ]
   },
   MINSTRESS: {
+    type: "Theory",
     group: "stress", name: "Minority Stress Theory",
     desc: "Members of stigmatized minority groups face extra, socially based stress that harms mental health.",
     chips: ["Prejudice events (distal stress)", "Expected rejection", "Concealment", "Internalized stigma", "Social support", "Psychological distress"],
@@ -121,6 +131,7 @@ window.THEORY_LIB = {
     ]
   },
   BUFFER: {
+    type: "Hypothesis",
     group: "stress", name: "Social Support Buffering Hypothesis",
     desc: "Social support protects people from the harm of stress, and social connection is good for health in general.",
     chips: ["Stress", "Perceived social support", "Social integration", "Health"],
@@ -134,6 +145,7 @@ window.THEORY_LIB = {
     ]
   },
   STRESSPROC: {
+    type: "Model",
     group: "stress", name: "Stress Process Model",
     desc: "Life events create ongoing strains that wear down mastery and self-esteem, which leads to depression; social position shapes each step.",
     chips: ["Life events", "Chronic role strains", "Mastery", "Self-esteem", "Coping", "Social support", "Depression"],
@@ -148,6 +160,7 @@ window.THEORY_LIB = {
     ]
   },
   COR: {
+    type: "Theory",
     group: "stress", name: "Conservation of Resources Theory",
     desc: "People work to get, keep, and protect resources; stress comes from losing them or the threat of losing them.",
     chips: ["Resource loss", "Resource gain", "Stress", "Resource investment"],
@@ -165,6 +178,7 @@ window.THEORY_LIB = {
     ]
   },
   ANDERSEN: {
+    type: "Model",
     group: "services", name: "Andersen Behavioral Model of Health Services Use",
     desc: "Whether people use health services depends on what predisposes them, what enables them, and how much they need care.",
     chips: ["Predisposing characteristics", "Enabling resources", "Perceived need", "Evaluated need", "Health services use", "Health outcomes"],
@@ -183,6 +197,7 @@ window.THEORY_LIB = {
     ]
   },
   FUNDCAUSE: {
+    type: "Theory",
     group: "services", name: "Fundamental Cause Theory",
     desc: "Socioeconomic status keeps causing health inequality because people with more resources can avoid new risks and use new protections.",
     chips: ["Socioeconomic status", "Flexible resources", "Health"],
@@ -197,6 +212,7 @@ window.THEORY_LIB = {
     ]
   },
   ECOL: {
+    type: "Theory",
     group: "develop", name: "Ecological Systems Theory (Bioecological Model)",
     desc: "Development happens through everyday interactions in nested settings, from family to culture, over time.",
     chips: ["Proximal processes", "Microsystem", "Mesosystem", "Exosystem", "Macrosystem", "Chronosystem"],
@@ -211,6 +227,7 @@ window.THEORY_LIB = {
     ]
   },
   ATTACH: {
+    type: "Theory",
     group: "develop", name: "Attachment Theory",
     desc: "Early bonds with caregivers shape how people regulate emotion and relate to others across life.",
     chips: ["Caregiver sensitivity", "Attachment security", "Internal working models", "Emotion regulation", "Relationship quality"],
@@ -229,6 +246,7 @@ window.THEORY_LIB = {
     ]
   },
   LIFECOURSE: {
+    type: "Theory",
     group: "develop", name: "Life Course Theory",
     desc: "Lives are shaped by historical time and place, by when events happen, by linked lives, and by people's own choices.",
     chips: ["Historical time and place", "Timing of events", "Linked lives", "Human agency", "Cumulative disadvantage"],
@@ -243,6 +261,7 @@ window.THEORY_LIB = {
     ]
   },
   DIATHESIS: {
+    type: "Model",
     group: "stress", name: "Diathesis–Stress Model",
     desc: "Disorder develops when stress meets an existing vulnerability. A standard example of moderation.",
     chips: ["Stress", "Vulnerability (diathesis)", "Disorder"],
@@ -260,6 +279,7 @@ window.THEORY_LIB = {
     use: "No single seminal statement exists. Monroe and Simons (1991) is the review most often cited for the model."
   },
   BOWEN: {
+    type: "Theory",
     group: "develop", name: "Bowen Family Systems Theory",
     desc: "The family is an emotional unit; how well members separate thinking from feeling shapes anxiety and symptoms.",
     chips: ["Differentiation of self", "Chronic anxiety", "Triangles", "Multigenerational transmission", "Symptoms"],
@@ -274,6 +294,7 @@ window.THEORY_LIB = {
     ]
   },
   STRAIN: {
+    type: "Theory",
     group: "crime", name: "General Strain Theory",
     desc: "Strain causes negative emotions such as anger, which can lead to crime and delinquency.",
     chips: ["Strain", "Anger / negative emotion", "Coping resources", "Delinquent peers", "Delinquency"],
@@ -288,6 +309,7 @@ window.THEORY_LIB = {
     ]
   },
   BOND: {
+    type: "Theory",
     group: "crime", name: "Social Control (Social Bond) Theory",
     desc: "People avoid delinquency when they are bonded to conventional society.",
     chips: ["Attachment", "Commitment", "Involvement", "Belief", "Delinquency"],
@@ -302,6 +324,7 @@ window.THEORY_LIB = {
     ]
   },
   SOCLEARN: {
+    type: "Theory",
     group: "crime", name: "Social Learning Theory of Crime (Akers)",
     desc: "Crime and deviance are learned through the people one associates with, their definitions, reinforcement, and imitation.",
     chips: ["Differential association", "Definitions favorable to deviance", "Differential reinforcement", "Imitation", "Deviance"],
@@ -317,6 +340,7 @@ window.THEORY_LIB = {
     ]
   },
   SDT: {
+    type: "Theory",
     group: "health", name: "Self-Determination Theory",
     desc: "People are more motivated and well when their needs for autonomy, competence, and relatedness are met.",
     chips: ["Autonomy support", "Autonomy", "Competence", "Relatedness", "Autonomous motivation", "Well-being"],
@@ -334,6 +358,7 @@ window.THEORY_LIB = {
     ]
   },
   MILTRANS: {
+    type: "Theory",
     group: "military", name: "Military Transition Theory",
     desc: "Leaving the military is a cultural transition; how it goes depends on what veterans bring to separation and the resources they have while managing it.",
     chips: ["Military culture and experiences", "Type of discharge", "Individual factors", "Organizational factors", "Community factors", "Transition outcomes"],
@@ -352,6 +377,7 @@ window.THEORY_LIB = {
     ]
   },
   MORALINJ: {
+    type: "Model",
     group: "military", name: "Moral Injury",
     desc: "Acts that violate deeply held moral beliefs, or betrayal by trusted leaders, can cause lasting guilt, shame, and self-condemnation.",
     chips: ["Potentially morally injurious events", "Self-blaming attributions", "Guilt", "Shame", "Withdrawal", "Self-condemnation", "Suicidality"],
@@ -371,6 +397,7 @@ window.THEORY_LIB = {
     ]
   },
   FAMSTRESS: {
+    type: "Theory",
     group: "military", name: "Family Stress Theory (ABC-X and Double ABC-X)",
     desc: "Whether a stressor becomes a family crisis depends on the family's resources and how it defines the event. Built from studies of war separation and reunion.",
     chips: ["Stressor event (A)", "Family resources (B)", "Family definition of the event (C)", "Crisis (X)", "Pile-up of demands", "Coping", "Family adaptation"],
@@ -388,6 +415,7 @@ window.THEORY_LIB = {
     ]
   },
   MILTURN: {
+    type: "Theory",
     group: "military", name: "Military Service as a Life Course Turning Point",
     desc: "Military service can redirect a life, especially for young people from disadvantaged backgrounds; its effect depends on when in life it comes.",
     chips: ["Age at entry", "Military service", "GI Bill education", "Socioeconomic achievement", "Disadvantaged background"],
@@ -407,6 +435,7 @@ window.THEORY_LIB = {
     use: "The evidence comes mostly from World War II and Korea-era cohorts of men. Check whether it applies to the all-volunteer force and to women."
   },
   EPT: {
+    type: "Theory",
     group: "military", name: "Emotional Processing Theory (PTSD)",
     desc: "PTSD persists when the trauma memory is avoided; recovery comes from activating the memory and taking in corrective information. The basis of prolonged exposure therapy.",
     chips: ["Trauma memory (fear structure)", "Avoidance", "Corrective information", "Beliefs about danger and incompetence", "PTSD symptoms"],
@@ -425,6 +454,7 @@ window.THEORY_LIB = {
     ]
   },
   IPTS: {
+    type: "Theory",
     group: "suicide", name: "Interpersonal Theory of Suicide",
     desc: "Suicidal desire comes from feeling one does not belong and is a burden; acting on it requires an acquired capability for suicide.",
     chips: ["Thwarted belongingness", "Perceived burdensomeness", "Hopelessness", "Suicidal desire", "Capability for suicide", "Suicide attempt"],
@@ -440,6 +470,7 @@ window.THEORY_LIB = {
     ]
   },
   THREESTEP: {
+    type: "Theory",
     group: "suicide", name: "Three-Step Theory (3ST)",
     desc: "Suicidal ideation comes from pain plus hopelessness; connectedness protects; capability decides whether ideation becomes an attempt.",
     chips: ["Psychological pain", "Hopelessness", "Connectedness", "Suicidal ideation", "Capability for suicide", "Suicide attempt"],
@@ -456,6 +487,7 @@ window.THEORY_LIB = {
     ]
   },
   IMV: {
+    type: "Model",
     group: "suicide", name: "Integrated Motivational–Volitional (IMV) Model",
     desc: "Defeat leads to entrapment, entrapment to suicidal ideation, and ideation to behavior; different factors strengthen or weaken each step.",
     chips: ["Defeat / humiliation", "Entrapment", "Suicidal ideation", "Suicidal behavior", "Threat-to-self moderators", "Motivational moderators", "Volitional moderators"],
@@ -472,6 +504,7 @@ window.THEORY_LIB = {
     use: "A strong teaching example: it combines mediation (defeat to entrapment to ideation) with a moderator at every step."
   },
   FVT: {
+    type: "Theory",
     group: "suicide", name: "Fluid Vulnerability Theory",
     desc: "Each person has a stable baseline level of suicide risk; acute risk rises above it in response to triggers and then falls.",
     chips: ["Baseline (chronic) risk", "Triggers", "Acute risk", "Prior suicide attempts", "Suicidal mode"],
@@ -486,6 +519,7 @@ window.THEORY_LIB = {
     ]
   },
   DURKHEIM: {
+    type: "Theory",
     group: "suicide", name: "Durkheim\u2019s Theory of Suicide",
     desc: "Suicide rates depend on how strongly groups integrate and regulate their members.",
     chips: ["Social integration", "Social regulation", "Suicide rate"],
@@ -501,6 +535,7 @@ window.THEORY_LIB = {
     use: "The theory explains suicide rates in groups (communities, occupations, nations), not one person's risk. Use it for group-level outcomes."
   },
   MASTEN: {
+    type: "Framework",
     group: "resil", name: "Developmental Resilience (Ordinary Magic)",
     desc: "Resilience is common: it comes from ordinary human adaptive systems, such as caring relationships and self-regulation, that keep working under adversity.",
     chips: ["Adversity", "Caring adults", "Self-regulation", "Positive view of self", "Mastery motivation", "Positive adaptation"],
@@ -516,6 +551,7 @@ window.THEORY_LIB = {
     ]
   },
   RUTTER: {
+    type: "Framework",
     group: "resil", name: "Protective Mechanisms (Rutter)",
     desc: "What matters is not a list of protective factors but the processes by which they change a person's response to risk.",
     chips: ["Risk", "Protective processes", "Negative chain reactions", "Self-esteem and self-efficacy", "Opportunities", "Outcome"],
@@ -531,6 +567,7 @@ window.THEORY_LIB = {
     ]
   },
   UNGAR: {
+    type: "Framework",
     group: "resil", name: "Social-Ecological Resilience (Ungar)",
     desc: "Resilience depends on people finding resources and on their environments providing those resources in culturally meaningful ways.",
     chips: ["Adversity", "Navigation to resources", "Negotiation for resources", "Environmental resources", "Culture and context", "Well-being"],
@@ -546,6 +583,7 @@ window.THEORY_LIB = {
     use: "Close to social work's person-in-environment view. Environmental resources often enter a model as causes or moderators."
   },
   BONANNO: {
+    type: "Model",
     group: "resil", name: "Resilience Trajectories after Loss and Trauma (Bonanno)",
     desc: "After loss or trauma, most people stay steadily healthy; resilience is common and different from recovery.",
     chips: ["Potentially traumatic event", "Resilience trajectory", "Recovery trajectory", "Delayed trajectory", "Chronic trajectory"],
@@ -564,6 +602,7 @@ window.THEORY_LIB = {
     use: "Trajectories are usually outcomes identified with longitudinal data. Causes and moderators predict which trajectory a person follows."
   },
   HARDINESS: {
+    type: "Theory",
     group: "resil", name: "Hardiness",
     desc: "People with commitment, control, and challenge attitudes stay healthier under stress. Widely used in military research.",
     chips: ["Commitment", "Control", "Challenge", "Hardiness", "Life stress", "Health"],
@@ -581,6 +620,7 @@ window.THEORY_LIB = {
     ]
   },
   FAMRESIL: {
+    type: "Framework",
     group: "resil", name: "Family Resilience (Walsh)",
     desc: "Families cope with crisis through key processes in their beliefs, organization, and communication.",
     chips: ["Belief systems", "Organizational patterns", "Communication and problem solving", "Family adaptation"],
@@ -598,6 +638,7 @@ window.THEORY_LIB = {
     ]
   },
   PTG: {
+    type: "Model",
     group: "resil", name: "Posttraumatic Growth",
     desc: "Struggling with a traumatic event that shakes core beliefs can lead to positive change, alongside distress.",
     chips: ["Challenge to core beliefs", "Intrusive rumination", "Deliberate rumination", "Supportive self-disclosure", "Posttraumatic growth"],
@@ -613,6 +654,7 @@ window.THEORY_LIB = {
     ]
   },
   PSYCHACHE: {
+    type: "Theory",
     group: "suicide", name: "Psychache (Shneidman)",
     desc: "Suicide is caused by psychache, intense psychological pain from frustrated psychological needs, when the pain is judged unbearable.",
     chips: ["Frustrated psychological needs", "Psychache", "Perturbation", "Press (stressors)", "Suicide risk"],
@@ -630,6 +672,7 @@ window.THEORY_LIB = {
     ]
   },
   SELFMED: {
+    type: "Hypothesis",
     group: "substance", name: "Self-Medication Hypothesis",
     desc: "People use substances to relieve painful emotional states, and they prefer the drug that fits their main distress.",
     chips: ["Painful emotional states", "Self-regulation difficulties", "Drug of choice", "Substance use"],
@@ -643,6 +686,7 @@ window.THEORY_LIB = {
     ]
   },
   BRAINDIS: {
+    type: "Model",
     group: "substance", name: "Brain Disease Model of Addiction",
     desc: "Repeated drug use changes brain circuits for reward, stress, and self-control, which drives compulsive use.",
     chips: ["Repeated drug use", "Reward circuit changes", "Stress system changes", "Impaired self-control", "Compulsive use"],
@@ -660,6 +704,7 @@ window.THEORY_LIB = {
     ]
   },
   INCENTIVE: {
+    type: "Theory",
     group: "substance", name: "Incentive-Sensitization Theory",
     desc: "Repeated drug use makes the brain 'want' drugs more and more, even when 'liking' does not grow.",
     chips: ["Repeated drug use", "Incentive salience (wanting)", "Drug cues", "Craving", "Relapse"],
@@ -674,6 +719,7 @@ window.THEORY_LIB = {
     ]
   },
   PROBBEH: {
+    type: "Theory",
     group: "substance", name: "Problem Behavior Theory",
     desc: "Adolescent problem behaviors cluster together and come from personality, the perceived environment, and behavior.",
     chips: ["Personality system", "Perceived environment system", "Behavior system", "Risk factors", "Protective factors", "Problem behavior"],
@@ -687,6 +733,7 @@ window.THEORY_LIB = {
     ]
   },
   RISKPROT: {
+    type: "Framework",
     group: "substance", name: "Risk and Protective Factor Framework",
     desc: "Substance problems are predicted by risk factors across life domains and buffered by protective factors. The basis of Communities That Care.",
     chips: ["Individual and peer risk", "Family risk", "School risk", "Community risk", "Protective factors", "Substance use"],
@@ -701,6 +748,7 @@ window.THEORY_LIB = {
     ]
   },
   RELAPSE: {
+    type: "Model",
     group: "substance", name: "Relapse Prevention Model",
     desc: "Relapse depends on how a person copes with high-risk situations and how they interpret a first lapse.",
     chips: ["High-risk situation", "Coping response", "Self-efficacy", "Outcome expectancies", "Lapse", "Abstinence violation effect", "Relapse"],
@@ -716,6 +764,7 @@ window.THEORY_LIB = {
     ]
   },
   CULTPOV: {
+    type: "Theory",
     group: "poverty", name: "Culture of Poverty", critical: false,
     desc: "Lewis argued that long-term poverty produces shared adaptations that can pass across generations. Widely criticized and later revised.",
     chips: ["Long-term poverty", "Present-time orientation", "Fatalism", "Weak ties to institutions", "Structural conditions"],
@@ -730,6 +779,7 @@ window.THEORY_LIB = {
     use: "Critics argue the original thesis blames poor people and hides structural causes. If you use it, say which version and engage the critique."
   },
   WILSON: {
+    type: "Theory",
     group: "poverty", name: "Concentrated Poverty (Wilson)",
     desc: "The loss of urban jobs and the departure of working families concentrate poverty and isolate residents from mainstream networks.",
     chips: ["Job loss (deindustrialization)", "Joblessness", "Out-migration of working families", "Social isolation", "Concentrated poverty", "Neighborhood outcomes"],
@@ -744,6 +794,7 @@ window.THEORY_LIB = {
     ]
   },
   CUMINEQ: {
+    type: "Theory",
     group: "poverty", name: "Cumulative Inequality Theory",
     desc: "Advantage and disadvantage build up over the life course and shape health and survival in later life.",
     chips: ["Early disadvantage", "Exposure to risk", "Resources", "Human agency", "Perceived trajectory", "Later-life health"],
@@ -759,6 +810,7 @@ window.THEORY_LIB = {
     ]
   },
   SCARCITY: {
+    type: "Theory",
     group: "poverty", name: "Scarcity (Cognitive Load of Poverty)",
     desc: "Having too little captures attention and taxes mental bandwidth, which can lead to choices that deepen poverty.",
     chips: ["Financial scarcity", "Tunneling", "Cognitive bandwidth", "Decision making"],
@@ -777,6 +829,7 @@ window.THEORY_LIB = {
     use: "The size and robustness of these effects are contested (O’Donnell et al., 2021)."
   },
   CAPABILITY: {
+    type: "Approach",
     group: "poverty", name: "Capability Approach",
     desc: "Poverty is the lack of real freedom to be and do what one values, not only low income.",
     chips: ["Resources", "Conversion factors", "Capabilities", "Functionings", "Well-being"],
@@ -791,6 +844,7 @@ window.THEORY_LIB = {
     ]
   },
   RANK: {
+    type: "Model",
     group: "poverty", name: "Structural Vulnerability Model of Poverty (Rank)",
     desc: "Individual deficits explain who is poor; structural failings explain why poverty exists. Poverty is a mainstream life course risk.",
     chips: ["Human capital", "Labor market opportunities", "Safety net", "Poverty"],
@@ -805,6 +859,7 @@ window.THEORY_LIB = {
     ]
   },
   HOMELESS: {
+    type: "Framework",
     group: "poverty", name: "Structural and Individual Causes of Homelessness",
     desc: "Homelessness results from structural conditions interacting with individual vulnerabilities; no single cause is necessary or sufficient.",
     chips: ["Housing costs", "Labor market", "Welfare policy", "Individual vulnerabilities", "Homelessness"],
@@ -821,6 +876,7 @@ window.THEORY_LIB = {
     ]
   },
   SHELTER: {
+    type: "Typology",
     group: "poverty", name: "Typology of Homelessness by Shelter Use (Kuhn & Culhane)",
     desc: "People who use shelters fall into transitional, episodic, and chronic groups that need different help. The basis of 'chronic homelessness' and Housing First targeting.",
     chips: ["Transitional homelessness", "Episodic homelessness", "Chronic homelessness", "Disability", "Shelter use"],
@@ -836,6 +892,7 @@ window.THEORY_LIB = {
     use: "An empirical typology. The groups often serve as an outcome or as groups to compare (moderation)."
   },
   FEMSTAND: {
+    type: "Critical perspective",
     group: "power", name: "Feminist Standpoint Theory", critical: true,
     desc: "Knowledge comes from social position; starting from women's and other marginalized groups' lives reveals how power works.",
     chips: ["Gender as social structure", "Gendered division of labor", "Caregiving labor", "Women's everyday experience"],
@@ -856,6 +913,7 @@ window.THEORY_LIB = {
     use: "These are tenets, not arrows. In a model, the theory frames gender as a structural cause or context (for example, the gendered division of caregiving labor) rather than only a demographic moderator, and it justifies using women's own accounts to define concepts and paths."
   },
   QUEER: {
+    type: "Critical perspective",
     group: "power", name: "Queer Theory", critical: true,
     desc: "Gender and sexuality are socially produced, and categories of identity are unstable and should be questioned.",
     chips: ["Heteronormativity", "Gender performativity", "Identity categories"],
@@ -875,6 +933,7 @@ window.THEORY_LIB = {
     use: "These are tenets, not arrows. Queer theory guides how sexual orientation and gender are measured, and whether to use fixed categories at all. Pair it with minority stress theory, which supplies testable paths. It often supports qualitative or critical designs."
   },
   CONFLICT: {
+    type: "Critical perspective",
     group: "power", name: "Conflict Theory", critical: true,
     desc: "Society is made up of groups competing for scarce resources and power; inequality and conflict drive social change.",
     chips: ["Class position", "Income inequality", "Authority", "Policy"],
@@ -890,6 +949,7 @@ window.THEORY_LIB = {
     use: "These are tenets, not arrows. In a model, conflict theory frames outcomes as products of unequal power and guides the choice of structural causes (income inequality, class or employment position, policy). Power differences can enter as moderators."
   },
   AOP: {
+    type: "Critical perspective",
     group: "power", name: "Anti-Oppressive and Structural Social Work", critical: true,
     desc: "Many personal problems come from social structures; practice must change structures as well as help individuals.",
     chips: ["Personal-level oppression", "Cultural-level oppression", "Structural-level oppression", "Privilege and power"],
@@ -910,6 +970,7 @@ window.THEORY_LIB = {
     use: "These are tenets, not arrows. In a model, they frame the problem structurally and guide the choice of causes and outcomes at more than one level (discrimination, institutional access, policy). They support participatory designs."
   },
   PUSHPULL: {
+    type: "Theory",
     group: "migration", name: "Push–Pull Theory of Migration (Lee)",
     desc: "The decision to migrate depends on factors at the origin and destination, the obstacles between them, and personal factors.",
     chips: ["Factors at origin", "Factors at destination", "Intervening obstacles", "Personal factors", "Migration"],
@@ -925,6 +986,7 @@ window.THEORY_LIB = {
     ]
   },
   ACCULT: {
+    type: "Model",
     group: "migration", name: "Acculturation Strategies (Berry)",
     desc: "Immigrants adapt by keeping or letting go of their heritage culture and by seeking or avoiding contact with the larger society.",
     chips: ["Heritage culture maintenance", "Contact with larger society", "Acculturation strategy", "Acculturative stress", "Receiving society attitudes", "Adaptation"],
@@ -942,6 +1004,7 @@ window.THEORY_LIB = {
     ]
   },
   SEGASSIM: {
+    type: "Theory",
     group: "migration", name: "Segmented Assimilation",
     desc: "Children of immigrants assimilate into different segments of society, depending on family resources and how their group is received.",
     chips: ["Parents' human capital", "Family structure", "Mode of incorporation", "Discrimination", "Second-generation outcomes"],
@@ -955,6 +1018,7 @@ window.THEORY_LIB = {
     ]
   },
   TRANSNAT: {
+    type: "Framework",
     group: "migration", name: "Transnationalism",
     desc: "Migrants live across borders, building social fields that link their country of origin and their new country.",
     chips: ["Transnational ties", "Remittances", "Incorporation in host country", "Adaptation"],
@@ -972,6 +1036,7 @@ window.THEORY_LIB = {
     ]
   },
   KUNZ: {
+    type: "Model",
     group: "migration", name: "Kinetic Model of Refugee Flight (Kunz)",
     desc: "Refugees are pushed out rather than pulled; how they flee and how they relate to their home society shape resettlement.",
     chips: ["Anticipatory flight", "Acute flight", "Identification with home society", "Host-society factors", "Resettlement"],
@@ -985,6 +1050,7 @@ window.THEORY_LIB = {
     ]
   },
   DAILYSTR: {
+    type: "Model",
     group: "migration", name: "Daily Stressors Model (Miller & Rasmussen)",
     desc: "In war and displacement, ongoing daily stressors explain much of the distress, alongside past trauma.",
     chips: ["War exposure", "Daily stressors", "Displacement-related stressors", "Mental health"],
@@ -998,6 +1064,7 @@ window.THEORY_LIB = {
     ]
   },
   ADAPT: {
+    type: "Model",
     group: "migration", name: "ADAPT Model (Silove)",
     desc: "Mass conflict disrupts five core adaptive systems; rebuilding them in the social environment supports recovery.",
     chips: ["Safety and security", "Bonds and networks", "Justice", "Roles and identities", "Existential meaning", "Recovery"],
@@ -1011,6 +1078,7 @@ window.THEORY_LIB = {
     ]
   },
   INTEGRATION: {
+    type: "Framework",
     group: "migration", name: "Indicators of Integration (Ager & Strang)",
     desc: "Refugee integration has ten domains, from rights and citizenship to jobs and housing, linked by social connections.",
     chips: ["Rights and citizenship", "Language and cultural knowledge", "Safety and stability", "Social bonds, bridges, and links", "Employment, housing, education, health"],
@@ -1024,7 +1092,347 @@ window.THEORY_LIB = {
       "Integration is two-way and multidimensional; success in one domain does not by itself mean integration."
     ]
   },
+  ETL: {
+    type: "Theory",
+    group: "lonely", name: "Evolutionary Theory of Loneliness",
+    desc: "Loneliness is an inherited warning signal, like hunger, that social connections are threatened; when chronic, it becomes self-reinforcing and harms health.",
+    chips: ["Loneliness", "Hypervigilance for social threat", "Negative social bias", "Social withdrawal", "Stress physiology", "Health"],
+    seminal: "Cacioppo, J. T., & Cacioppo, S. (2018). Loneliness in the modern age: An evolutionary theory of loneliness (ETL). *Advances in Experimental Social Psychology, 58*, 127–197. https://doi.org/10.1016/bs.aesp.2018.03.003",
+    origins: [
+      {cite: "Cacioppo, J. T., & Patrick, W. (2008). *Loneliness: Human nature and the need for social connection*. W. W. Norton.", note: "Loneliness as a biological signal that prompts reconnection."},
+      {cite: "Cacioppo, J. T., & Hawkley, L. C. (2009). Perceived social isolation and cognition. *Trends in Cognitive Sciences, 13*(10), 447–454. https://doi.org/10.1016/j.tics.2009.06.005", note: "Added the cognitive mechanism: sensitivity to social threat and a self-defeating confirmatory bias."}
+    ],
+    revisions: [{tag: "Extended", cite: "Hawkley, L. C., & Cacioppo, J. T. (2010). Loneliness matters: A theoretical and empirical review of consequences and mechanisms. *Annals of Behavioral Medicine, 40*(2), 218–227. https://doi.org/10.1007/s12160-010-9210-8", note: "Integrated the self-reinforcing loop and its health pathways."}],
+    props: [
+      "Loneliness is an inherited, unpleasant signal, like hunger, that valued social connections are threatened; it motivates people to repair or replace them.",
+      "Loneliness triggers short-term self-preservation: nonconscious hypervigilance for social threat and greater self-centeredness.",
+      "Hypervigilance biases attention and memory toward negative social information, which shapes behavior that brings the expected rejection (a self-reinforcing loop).",
+      "Chronic loneliness harms health through stress physiology, fragmented sleep, inflammation, and poorer cognitive function."
+    ]
+  },
+  DISCREP: {
+    type: "Model",
+    group: "lonely", name: "Cognitive Discrepancy Model of Loneliness",
+    desc: "Loneliness is the gap between the relationships a person has and the relationships they want.",
+    chips: ["Actual relationships", "Desired relationships", "Discrepancy", "Attributions", "Loneliness"],
+    seminal: "Perlman, D., & Peplau, L. A. (1981). Toward a social psychology of loneliness. In S. Duck & R. Gilmour (Eds.), *Personal relationships: Vol. 3. Personal relationships in disorder* (pp. 31–56). Academic Press.",
+    origins: [],
+    revisions: [{tag: "Extended", cite: "Peplau, L. A., & Perlman, D. (Eds.). (1982). *Loneliness: A sourcebook of current theory, research and therapy*. Wiley-Interscience.", note: "Places the model beside competing theories of loneliness."}],
+    props: [
+      "Loneliness is the unpleasant experience that occurs when a person's social relations are deficient in quantity or quality compared with what they want.",
+      "Loneliness is subjective and differs from objective isolation: people can be alone without being lonely, or lonely among others.",
+      "Changes in actual relationships (loss, moving) or in desired relationships (new life stage, new expectations) can trigger loneliness.",
+      "How people explain the gap (attributions) and how much control they feel change how intense and lasting loneliness is (moderation)."
+    ]
+  },
+  WEISS: {
+    type: "Typology",
+    group: "lonely", name: "Emotional and Social Loneliness (Weiss)",
+    desc: "There are two kinds of loneliness: emotional (no close attachment figure) and social (no wider network). Each is relieved only by its own kind of relationship.",
+    chips: ["Close attachment figure", "Social network", "Emotional loneliness", "Social loneliness"],
+    seminal: "Weiss, R. S. (1973). *Loneliness: The experience of emotional and social isolation*. MIT Press.",
+    origins: [],
+    revisions: [],
+    props: [
+      "Emotional loneliness comes from the absence of a close, intimate attachment figure, such as a spouse or partner.",
+      "Social loneliness comes from the absence of an engaging network of friends, peers, or community.",
+      "Each type is relieved only by its matching relationship: new friends do not relieve the loss of a spouse, and a partner does not replace a community."
+    ],
+    use: "Weiss's no-substitution claim conflicts with Baumeister and Leary's (1995) view that relationships can partly replace each other. Good for class discussion."
+  },
+  BERKMAN: {
+    type: "Model",
+    group: "lonely", name: "Social Networks and Health (Berkman)",
+    desc: "Social conditions shape social networks, which affect health through support, influence, engagement, contact, and access to resources.",
+    chips: ["Social-structural conditions", "Social networks", "Social support", "Social influence", "Social engagement", "Health behaviors", "Health"],
+    seminal: "Berkman, L. F., Glass, T., Brissette, I., & Seeman, T. E. (2000). From social integration to health: Durkheim in the new millennium. *Social Science & Medicine, 51*(6), 843–857. https://doi.org/10.1016/S0277-9536(00)00065-4",
+    origins: [],
+    revisions: [{tag: "Extended", cite: "Berkman, L. F., & Krishna, A. (2014). Social network epidemiology. In L. F. Berkman, I. Kawachi, & M. M. Glymour (Eds.), *Social epidemiology* (2nd ed., pp. 234–289). Oxford University Press. https://doi.org/10.1093/med/9780195377903.003.0007", note: "Updates the model with network epidemiology methods and evidence."}],
+    props: [
+      "Upstream conditions (culture, socioeconomic factors, politics, social change) shape the structure and character of social networks.",
+      "Networks act through five mechanisms: social support; social influence; social engagement and attachment; person-to-person contact; and access to resources and material goods.",
+      "These mechanisms affect health through behavioral, psychological, and physiological pathways (a cascading, mediated model)."
+    ]
+  },
+  BELONG: {
+    type: "Hypothesis",
+    group: "lonely", name: "Belongingness Hypothesis",
+    desc: "People have a fundamental need for frequent, pleasant contact within stable, caring relationships; unmet, it harms well-being and health.",
+    chips: ["Need to belong", "Frequent positive contact", "Stable caring relationships", "Well-being", "Health"],
+    seminal: "Baumeister, R. F., & Leary, M. R. (1995). The need to belong: Desire for interpersonal attachments as a fundamental human motivation. *Psychological Bulletin, 117*(3), 497–529. https://doi.org/10.1037/0033-2909.117.3.497",
+    origins: [],
+    revisions: [],
+    props: [
+      "The need to belong requires both frequent, pleasant interactions with a few people and a stable framework of mutual concern; either alone is not enough.",
+      "People form social bonds readily, even under minimal conditions, and resist ending them.",
+      "Unmet belonging needs produce negative emotion and harm well-being and physical and mental health.",
+      "Once a few close bonds exist, the drive for more decreases, and a new relationship can partly replace a lost one."
+    ]
+  },
+  OSTRACISM: {
+    type: "Model",
+    group: "lonely", name: "Temporal Need-Threat Model of Ostracism",
+    desc: "Being ignored or excluded hurts immediately and threatens four basic needs; long-term exclusion leads to resignation.",
+    chips: ["Ostracism", "Belonging", "Self-esteem", "Control", "Meaningful existence", "Resignation"],
+    seminal: "Williams, K. D. (2009). Ostracism: A temporal need-threat model. *Advances in Experimental Social Psychology, 41*, 275–314. https://doi.org/10.1016/S0065-2601(08)00406-1",
+    origins: [{cite: "Williams, K. D. (1997). Social ostracism. In R. M. Kowalski (Ed.), *Aversive interpersonal behaviors* (pp. 133–170). Plenum Press. https://doi.org/10.1007/978-1-4757-9354-3_7", note: "First need-threat model."}],
+    revisions: [{tag: "Extended", cite: "Williams, K. D. (2007). Ostracism. *Annual Review of Psychology, 58*, 425–452. https://doi.org/10.1146/annurev.psych.58.110405.085641", note: "Reviews evidence that the pain is immediate and coping comes later."}],
+    props: [
+      "Reflexive stage: ostracism is detected quickly, even from strangers, and causes immediate pain.",
+      "It threatens four needs: belonging, self-esteem, control, and meaningful existence.",
+      "Reflective stage: people act to restore the most threatened needs, through prosocial behavior (belonging, self-esteem) or controlling or aggressive behavior (control, existence).",
+      "Resignation stage: long-term ostracism leads to alienation, depression, helplessness, and unworthiness."
+    ]
+  },
+  SOCIOMETER: {
+    type: "Theory",
+    group: "lonely", name: "Sociometer Theory",
+    desc: "Self-esteem is an internal gauge of how much others value and include us; exclusion lowers it, which motivates efforts to restore inclusion.",
+    chips: ["Social exclusion", "Relational value", "State self-esteem", "Negative affect", "Efforts to restore inclusion"],
+    seminal: "Leary, M. R., Tambor, E. S., Terdal, S. K., & Downs, D. L. (1995). Self-esteem as an interpersonal monitor: The sociometer hypothesis. *Journal of Personality and Social Psychology, 68*(3), 518–530. https://doi.org/10.1037/0022-3514.68.3.518",
+    origins: [],
+    revisions: [],
+    props: [
+      "Self-esteem is an internal gauge (a sociometer) of a person's relational value: how much others value and include them.",
+      "Signs of exclusion lower state self-esteem and produce negative feelings, even when consciously discounted.",
+      "The drop in self-esteem works as an alarm that motivates behavior to restore inclusion (mediation).",
+      "Trait self-esteem reflects a long-term history of perceived inclusion or rejection."
+    ]
+  },
+  SILVER: {
+    type: "Framework",
+    group: "lonely", name: "Social Exclusion (Silver's Three Paradigms)",
+    desc: "Social exclusion is the weakening of the bond between people and society; three traditions explain it differently.",
+    chips: ["Breakdown of social bonds", "Discrimination and barriers", "Monopoly of resources", "Social exclusion"],
+    seminal: "Silver, H. (1994). Social exclusion and social solidarity: Three paradigms. *International Labour Review, 133*(5–6), 531–578.",
+    origins: [],
+    revisions: [{tag: "Extended", cite: "Levitas, R., Pantazis, C., Fahmy, E., Gordon, D., Lloyd, E., & Patsios, D. (2007). *The multi-dimensional analysis of social exclusion*. University of Bristol. https://repository.uel.ac.uk/item/8666q", note: "An operational, measurable definition: exclusion as a multidimensional process across economic, social, cultural, and political arenas."}],
+    props: [
+      "Social exclusion is the rupture or weakening of the social bond between individuals and society.",
+      "Solidarity paradigm: exclusion is the breakdown of shared moral and cultural bonds.",
+      "Specialization paradigm: exclusion comes from discrimination, market failures, and unenforced rights that create barriers between groups.",
+      "Monopoly paradigm: powerful groups monopolize resources and close off access to outsiders.",
+      "Exclusion is a multidimensional process involving lack of resources, rights, and services and inability to take part in normal activities (Levitas et al., 2007)."
+    ]
+  },
+  SST: {
+    type: "Theory",
+    group: "aging", name: "Socioemotional Selectivity Theory",
+    desc: "How much time people believe they have left shapes their goals; when time feels limited, they put emotional goals and close relationships first.",
+    chips: ["Perceived time left", "Knowledge goals", "Emotional goals", "Close relationships", "Peripheral ties", "Well-being"],
+    seminal: "Carstensen, L. L., Isaacowitz, D. M., & Charles, S. T. (1999). Taking time seriously: A theory of socioemotional selectivity. *American Psychologist, 54*(3), 165–181. https://doi.org/10.1037/0003-066X.54.3.165",
+    origins: [{cite: "Carstensen, L. L. (1992). Social and emotional patterns in adulthood: Support for socioemotional selectivity theory. *Psychology and Aging, 7*(3), 331–338. https://doi.org/10.1037/0882-7974.7.3.331", note: "Early empirical support."}],
+    revisions: [{tag: "Extended", cite: "Mather, M., & Carstensen, L. L. (2005). Aging and motivated cognition: The positivity effect in attention and memory. *Trends in Cognitive Sciences, 9*(10), 496–502. https://doi.org/10.1016/j.tics.2005.08.005", note: "Extends the theory to attention and memory: the positivity effect."}],
+    props: [
+      "How much time people believe they have left shapes which social goals they put first.",
+      "When the future feels open-ended, people put knowledge goals first: information, new people, preparing for the future.",
+      "When the future feels limited, people put emotional goals first and invest in their closest relationships.",
+      "The shift follows perceived time, not age: young people facing a time limit show the same pattern (moderation by time perspective).",
+      "Contact with acquaintances drops from early adulthood while closeness to family and close friends grows."
+    ]
+  },
+  SOC: {
+    type: "Model",
+    group: "aging", name: "Selection, Optimization, and Compensation (SOC)",
+    desc: "People manage gains and losses across life by selecting goals, optimizing their means, and compensating when means are lost.",
+    chips: ["Selection", "Optimization", "Compensation", "Age-related losses", "Well-being"],
+    seminal: "Baltes, P. B., & Baltes, M. M. (1990). Psychological perspectives on successful aging: The model of selective optimization with compensation. In P. B. Baltes & M. M. Baltes (Eds.), *Successful aging: Perspectives from the behavioral sciences* (pp. 1–34). Cambridge University Press. https://doi.org/10.1017/CBO9780511665684.003",
+    origins: [],
+    revisions: [
+      {tag: "Extended", cite: "Baltes, P. B. (1997). On the incomplete architecture of human ontogeny: Selection, optimization, and compensation as foundation of developmental theory. *American Psychologist, 52*(4), 366–380. https://doi.org/10.1037/0003-066X.52.4.366", note: "Recasts SOC as a theory of development across the whole life span."},
+      {tag: "Extended", cite: "Freund, A. M., & Baltes, P. B. (1998). Selection, optimization, and compensation as strategies of life management: Correlations with subjective indicators of successful aging. *Psychology and Aging, 13*(4), 531–543. https://doi.org/10.1037/0882-7974.13.4.531", note: "Links reported SOC use to well-being in old age."}
+    ],
+    props: [
+      "Development at every age involves gains and losses; in old age the balance shifts toward losses.",
+      "Selection: choosing and narrowing goals, both by choice and after a loss.",
+      "Optimization: putting time, effort, and practice into the means that reach the chosen goals.",
+      "Compensation: when a means is lost, using new means (aids, help from others, new strategies) to keep the same goal.",
+      "Older adults who report using SOC strategies report higher well-being (correlational evidence)."
+    ]
+  },
+  SUCCAGING: {
+    type: "Model",
+    group: "aging", name: "Successful Aging (Rowe & Kahn)",
+    desc: "Successful aging means avoiding disease and disability, keeping high function, and staying engaged with life. Widely used and widely criticized.",
+    chips: ["Avoiding disease and disability", "Cognitive and physical function", "Engagement with life", "Lifestyle factors"],
+    seminal: "Rowe, J. W., & Kahn, R. L. (1987). Human aging: Usual and successful. *Science, 237*(4811), 143–149. https://doi.org/10.1126/science.3299702",
+    origins: [],
+    revisions: [
+      {tag: "Revised", cite: "Rowe, J. W., & Kahn, R. L. (1997). Successful aging. *The Gerontologist, 37*(4), 433–440. https://doi.org/10.1093/geront/37.4.433", note: "Turned the usual-versus-successful split into a three-part definition."},
+      {tag: "Revised", cite: "Rowe, J. W., & Kahn, R. L. (2015). Successful aging 2.0: Conceptual expansions for the 21st century. *The Journals of Gerontology, Series B: Psychological Sciences and Social Sciences, 70*(4), 593–596. https://doi.org/10.1093/geronb/gbv025", note: "The authors' response to critics: adds a life course view and more weight on societal and structural factors."},
+      {tag: "Challenged", cite: "Martinson, M., & Berridge, C. (2015). Successful aging and its discontents: A systematic review of the social gerontology literature. *The Gerontologist, 55*(1), 58–69. https://doi.org/10.1093/geront/gnu037", note: "Reviews 67 critiques; concludes that any normative model of aging well excludes some people."}
+    ],
+    props: [
+      "Many losses once blamed on age come from modifiable factors such as diet, exercise, and psychosocial conditions (usual versus successful aging, 1987).",
+      "Successful aging has three parts: avoiding disease and disability, keeping high cognitive and physical function, and active engagement with life (relationships and productive activity) (1997).",
+      "Critics say the model ignores older adults' own views and structural inequality, and labels people with chronic illness or disability as unsuccessful."
+    ]
+  },
+  DISENGAGE: {
+    type: "Theory",
+    group: "aging", name: "Disengagement Theory",
+    desc: "Aging involves mutual withdrawal between older people and society. Largely rejected, but important as the theory others were built against.",
+    chips: ["Role withdrawal", "Societal withdrawal", "Life satisfaction"],
+    seminal: "Cumming, E., & Henry, W. E. (1961). *Growing old: The process of disengagement*. Basic Books.",
+    origins: [],
+    revisions: [{tag: "Challenged", cite: "Hochschild, A. R. (1975). Disengagement theory: A critique and proposal. *American Sociological Review, 40*(5), 553–569. https://doi.org/10.2307/2094195", note: "Argues the theory cannot be falsified and ignores how older adults understand withdrawal."}],
+    props: [
+      "Aging involves gradual, mutual withdrawal between the older person and society.",
+      "The withdrawal is described as inevitable and universal.",
+      "It is described as functional for society, allowing an orderly handover of roles.",
+      "It is described as satisfying for the older person."
+    ],
+    use: "Later research did not support these claims. Teach it as history and as the foil for activity and continuity theories."
+  },
+  ACTIVITY: {
+    type: "Theory",
+    group: "aging", name: "Activity Theory of Aging",
+    desc: "Older adults who stay active and replace lost roles keep higher life satisfaction. Tests gave only partial support.",
+    chips: ["Activity level", "Role loss", "Role replacement", "Self-concept", "Life satisfaction"],
+    seminal: "Havighurst, R. J. (1961). Successful aging. *The Gerontologist, 1*(1), 8–13. https://doi.org/10.1093/geront/1.1.8",
+    origins: [],
+    revisions: [{tag: "Restated", cite: "Lemon, B. W., Bengtson, V. L., & Peterson, J. A. (1972). An exploration of the activity theory of aging: Activity types and life satisfaction among in-movers to a retirement community. *Journal of Gerontology, 27*(4), 511–523. https://doi.org/10.1093/geronj/27.4.511", note: "First formal, testable statement; found only a weak link, and only for informal activity with friends."}],
+    props: [
+      "Older adults who keep up activity and social roles have higher life satisfaction.",
+      "When roles are lost (retirement, widowhood), replacing them with new activities helps keep a positive self-concept and well-being.",
+      "The formal test (Lemon et al., 1972) found only a weak link, and only for informal activity with friends."
+    ]
+  },
+  CONTINUITY: {
+    type: "Theory",
+    group: "aging", name: "Continuity Theory",
+    desc: "People adapt to aging by keeping continuity in who they are and how they live, linking new changes to their past.",
+    chips: ["Internal continuity (identity, beliefs)", "External continuity (relationships, activities)", "Adaptation", "Well-being"],
+    seminal: "Atchley, R. C. (1989). A continuity theory of normal aging. *The Gerontologist, 29*(2), 183–190. https://doi.org/10.1093/geront/29.2.183",
+    origins: [],
+    revisions: [{tag: "Extended", cite: "Atchley, R. C. (1999). *Continuity and adaptation in aging: Creating positive experiences*. Johns Hopkins University Press.", note: "Tests the theory with longitudinal data and fills in internal and external structures."}],
+    props: [
+      "In making adaptive choices, middle-aged and older adults try to keep existing internal structures (identity, beliefs, skills) and external structures (relationships, activities, settings).",
+      "Continuity means new change is linked to the past, not that change is absent.",
+      "Continuity is a main adaptive strategy, supported by personal preference and social approval.",
+      "Too little continuity feels unpredictable; too much feels like a rut. Optimal continuity lies between."
+    ]
+  },
+  CONVOY: {
+    type: "Model",
+    group: "aging", name: "Convoy Model of Social Relations",
+    desc: "People move through life surrounded by a convoy of close relationships that gives and receives support and shapes health.",
+    chips: ["Personal characteristics", "Situational characteristics", "Convoy structure", "Support functions", "Relationship quality", "Health and well-being"],
+    seminal: "Kahn, R. L., & Antonucci, T. C. (1980). Convoys over the life course: Attachment, roles, and social support. In P. B. Baltes & O. G. Brim, Jr. (Eds.), *Life-span development and behavior* (Vol. 3, pp. 253–286). Academic Press.",
+    origins: [],
+    revisions: [{tag: "Restated", cite: "Antonucci, T. C., Ajrouch, K. J., & Birditt, K. S. (2014). The convoy model: Explaining social relations from a multidisciplinary perspective. *The Gerontologist, 54*(1), 82–92. https://doi.org/10.1093/geront/gnt118", note: "Review and update: relationship quality predicts health better than network structure."}],
+    props: [
+      "People move through life surrounded by a convoy of people who give and receive support, pictured as three circles of closeness.",
+      "Personal characteristics (age, gender, race) and situational characteristics (roles, life events, demands) shape the convoy's structure, support, and quality.",
+      "Structure, support, and quality affect health and well-being; quality, including negative quality, matters most.",
+      "Convoys change over the life course but the closest members tend to stay."
+    ]
+  },
+  CAREGIVER: {
+    type: "Model",
+    group: "aging", name: "Caregiver Stress Process Model",
+    desc: "Caregiving stress spreads from the care recipient's needs to other parts of the caregiver's life; coping and support can change the outcome.",
+    chips: ["Background and context", "Primary stressors", "Secondary role strains", "Intrapsychic strains", "Coping", "Social support", "Caregiver depression"],
+    seminal: "Pearlin, L. I., Mullan, J. T., Semple, S. J., & Skaff, M. M. (1990). Caregiving and the stress process: An overview of concepts and their measures. *The Gerontologist, 30*(5), 583–594. https://doi.org/10.1093/geront/30.5.583",
+    origins: [],
+    revisions: [],
+    props: [
+      "Caregiver stress is a process with four parts: background and context, stressors, mediators, and outcomes.",
+      "Primary stressors come directly from caregiving: the care recipient's cognitive status, problem behaviors, and dependency, and the caregiver's overload.",
+      "Secondary stressors spread from the primary ones (stress proliferation): family and work conflict, financial strain, loss of self, role captivity.",
+      "Coping and social support act as mediators at several points.",
+      "Outcomes include depression, anxiety, physical health, and giving up the caregiver role."
+    ]
+  },
+  SOCCAP: {
+    type: "Theory",
+    group: "capital", name: "Social Capital",
+    desc: "Social capital is the resources people can reach through their relationships; it helps some groups and can exclude others.",
+    chips: ["Social networks", "Trust and reciprocity", "Bonding social capital", "Bridging social capital", "Linking social capital", "Outcomes"],
+    seminal: "Coleman, J. S. (1988). Social capital in the creation of human capital. *American Journal of Sociology, 94*(Suppl.), S95–S120. https://doi.org/10.1086/228943",
+    origins: [{cite: "Bourdieu, P. (1986). The forms of capital. In J. G. Richardson (Ed.), *Handbook of theory and research for the sociology of education* (pp. 241–258). Greenwood.", note: "Co-founding statement: social capital as a resource of individuals and classes that helps reproduce class position."}],
+    revisions: [
+      {tag: "Extended", cite: "Putnam, R. D. (2000). *Bowling alone: The collapse and revival of American community*. Simon & Schuster.", note: "Moved social capital to the community level and popularized bonding versus bridging."},
+      {tag: "Extended", cite: "Szreter, S., & Woolcock, M. (2004). Health by association? Social capital, social theory, and the political economy of public health. *International Journal of Epidemiology, 33*(4), 650–667. https://doi.org/10.1093/ije/dyh013", note: "Added linking social capital: ties across power differences."},
+      {tag: "Challenged", cite: "Portes, A. (1998). Social capital: Its origins and applications in modern sociology. *Annual Review of Sociology, 24*, 1–24. https://doi.org/10.1146/annurev.soc.24.1.1", note: "Warns against circular definitions and names its costs: excluding outsiders and constraining members."}
+    ],
+    props: [
+      "Social capital is the resources people can reach through their relationships and group memberships.",
+      "It works through obligations and trust, information channels, and norms with sanctions; closed networks strengthen these (Coleman).",
+      "Bonding (within groups) helps people get by; bridging (across groups) helps them get ahead; linking (to people with formal power) gives access to outside resources.",
+      "Social capital is associated with outcomes such as school completion, health, and civic participation.",
+      "It concentrates among advantaged groups and can reproduce inequality (Bourdieu) and exclude outsiders (Portes)."
+    ],
+    use: "Bourdieu (1986) and Coleman (1988) are co-founding statements from different traditions. Say which version you use."
+  },
+  LIN: {
+    type: "Theory",
+    group: "capital", name: "Social Resources Theory (Lin)",
+    desc: "Social capital is the resources embedded in a person's network; better positions and weak ties give access to better resources.",
+    chips: ["Social position", "Network resources", "Weak ties", "Strong ties", "Instrumental outcomes (jobs)", "Expressive outcomes (support)"],
+    seminal: "Lin, N. (2001). *Social capital: A theory of social structure and action*. Cambridge University Press. https://doi.org/10.1017/CBO9780511815447",
+    origins: [],
+    revisions: [],
+    props: [
+      "Social capital is resources embedded in a social network that people access and use for their goals.",
+      "Better social positions give access to better embedded resources (strength of position).",
+      "Weak ties reach contacts with better resources for instrumental goals such as jobs.",
+      "Strong ties serve expressive goals: keeping resources and emotional support."
+    ]
+  },
+  SOCDISORG: {
+    type: "Theory",
+    group: "capital", name: "Social Disorganization Theory",
+    desc: "Poor, unstable neighborhoods have weaker informal social control, which leads to more delinquency and crime.",
+    chips: ["Neighborhood poverty", "Residential instability", "Family disruption", "Friendship networks", "Informal social control", "Crime"],
+    seminal: "Shaw, C. R., & McKay, H. D. (1942). *Juvenile delinquency and urban areas*. University of Chicago Press.",
+    origins: [],
+    revisions: [
+      {tag: "Revised", cite: "Kornhauser, R. R. (1978). *Social sources of delinquency: An appraisal of analytic models*. University of Chicago Press.", note: "Recast the theory as a control theory: a community's inability to realize shared values and keep effective control."},
+      {tag: "Revised", cite: "Sampson, R. J., & Groves, W. B. (1989). Community structure and crime: Testing social-disorganization theory. *American Journal of Sociology, 94*(4), 774–802. https://doi.org/10.1086/229068", note: "First direct test of the mediating processes; added family disruption."}
+    ],
+    props: [
+      "Delinquency rates are highest in low-income, unstable, mixed areas, and stay high as groups move through, which places the cause in the place, not the group (Shaw & McKay).",
+      "These conditions weaken a community's ability to realize shared values and keep informal social control (Kornhauser).",
+      "Low economic status, ethnic heterogeneity, residential mobility, and family disruption reduce friendship networks, supervision of teen groups, and participation in local organizations.",
+      "Much of the effect of these structural factors on crime works through these processes (mediation; Sampson & Groves)."
+    ]
+  },
+  COLLEFF: {
+    type: "Theory",
+    group: "capital", name: "Collective Efficacy",
+    desc: "Neighbors' trust in each other and willingness to act for the common good reduce violence.",
+    chips: ["Concentrated disadvantage", "Residential instability", "Social cohesion", "Willingness to intervene", "Collective efficacy", "Violence"],
+    seminal: "Sampson, R. J., Raudenbush, S. W., & Earls, F. (1997). Neighborhoods and violent crime: A multilevel study of collective efficacy. *Science, 277*(5328), 918–924. https://doi.org/10.1126/science.277.5328.918",
+    origins: [],
+    revisions: [
+      {tag: "Extended", cite: "Sampson, R. J., Morenoff, J. D., & Gannon-Rowley, T. (2002). Assessing “neighborhood effects”: Social processes and new directions in research. *Annual Review of Sociology, 28*, 443–478. https://doi.org/10.1146/annurev.soc.28.110601.141114", note: "Shifted neighborhood research toward measured social processes."},
+      {tag: "Extended", cite: "Sampson, R. J. (2012). *Great American city: Chicago and the enduring neighborhood effect*. University of Chicago Press.", note: "Book-length synthesis: neighborhood effects are durable and spatially linked."}
+    ],
+    props: [
+      "Collective efficacy is social cohesion among neighbors combined with their willingness to intervene for the common good.",
+      "Concentrated disadvantage, immigrant concentration, and residential instability predict lower collective efficacy.",
+      "Higher collective efficacy is associated with lower violence.",
+      "Collective efficacy largely mediates the links between neighborhood disadvantage and instability and violence."
+    ]
+  },
+  WEAKTIES: {
+    type: "Theory",
+    group: "capital", name: "Strength of Weak Ties",
+    desc: "Acquaintances bridge separate groups and bring new information and opportunities, such as jobs, that close friends cannot.",
+    chips: ["Strong ties", "Weak ties", "Bridging ties", "New information", "Job opportunities"],
+    seminal: "Granovetter, M. S. (1973). The strength of weak ties. *American Journal of Sociology, 78*(6), 1360–1380. https://doi.org/10.1086/225469",
+    origins: [],
+    revisions: [{tag: "Revised", cite: "Granovetter, M. (1983). The strength of weak ties: A network theory revisited. *Sociological Theory, 1*, 201–233. https://doi.org/10.2307/202051", note: "Narrowed the claim to weak ties that act as bridges and noted strong ties matter more under insecurity."}],
+    props: [
+      "Strong ties tend to share friends, so close circles share the same information.",
+      "Weak ties bridge separate groups and bring new information and opportunities, such as job leads.",
+      "People with few weak ties are cut off from information beyond their close circle.",
+      "Weak ties help most when they reach higher-status contacts; strong ties matter more for support under insecurity (1983)."
+    ]
+  },
   EMPOWER: {
+    type: "Theory",
     group: "power", name: "Empowerment Theory (Psychological Empowerment)",
     desc: "People and communities gain control over their lives through participation, critical awareness, and a sense of control.",
     chips: ["Participation", "Perceived control", "Critical awareness", "Psychological empowerment"],
@@ -1042,6 +1450,7 @@ window.THEORY_LIB = {
     ]
   },
   CRT: {
+    type: "Critical perspective",
     group: "power", name: "Critical Race Theory", critical: true,
     desc: "Racism is ordinary and built into laws and institutions, not only individual acts.",
     chips: ["Structural racism", "Experienced discrimination", "Residential segregation"],
@@ -1059,6 +1468,7 @@ window.THEORY_LIB = {
     use: "These are tenets, not arrows. In a model, Critical Race Theory treats racism, not race, as the explanatory concept. It frames the problem and guides the choice of structural causes (residential segregation) and mechanisms (experienced discrimination), which can enter as causes, in-between concepts, or moderators."
   },
   INTERSECT: {
+    type: "Critical perspective",
     group: "power", name: "Intersectionality", critical: true,
     desc: "Social positions such as race, gender, and class combine; their effects are not simply added together.",
     chips: ["Race", "Gender", "Class", "Discrimination"],
@@ -1079,8 +1489,18 @@ window.THEORY_LIB = {
 };
 
 /* Shared display helpers for the app and the library page. */
+window.THEORY_TYPES = [
+  ["Theory", "Explains why something happens. Its propositions become your arrows."],
+  ["Model", "Lays out specific concepts and paths, often narrower than a theory or drawn from one. The paths are usually stated."],
+  ["Framework", "Organizes concepts into categories or domains. It tells you what to look at, not always how the parts affect each other, so you supply the arrows from the source or from research."],
+  ["Hypothesis", "One proposed relationship, often a single arrow or one moderator."],
+  ["Typology", "Sorts people into groups. In a model, the groups are usually an outcome or a moderator."],
+  ["Approach", "A broad way of defining the problem. Use it to frame your model and choose concepts; supply the arrows from research."],
+  ["Critical perspective", "Tenets that frame the problem and question power. It does not supply testable arrows."]
+];
 window.TheoryLib = (function(){
   var LIB = window.THEORY_LIB, G = window.THEORY_GROUPS;
+  var TYPE_NOTE = {Framework: "This is a framework: it names categories. You supply the arrows between them, from the source or from research, and justify each one.", Typology: "This is a typology: it sorts people into groups. Use the groups as an outcome or as a moderator.", Approach: "This is an approach: it frames the problem. You supply the arrows from research.", Hypothesis: "This is a hypothesis: one proposed relationship. Pair it with a theory for the rest of your model."};
   function esc(s){ return String(s == null ? "" : s).replace(/[&<>"']/g, function(c){ return {"&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"}[c]; }); }
   function plainCite(c){ return String(c || "").replace(/\*/g, ""); }
   function citeHTML(c){ return esc(c).replace(/\*([^*]+)\*/g, "<em>$1</em>"); }
@@ -1094,7 +1514,7 @@ window.TheoryLib = (function(){
   function revisedLine(k){
     var L = LIB[k]; if(!L) return "";
     var r = (L.revisions || []).filter(function(x){ return x.tag === "Revised"; }).map(function(x){ return authYear(x.cite); });
-    return r.length ? "This theory was substantially revised by " + (r.length > 2 ? r.slice(0, -1).join(", ") + ", and " + r[r.length - 1] : r.join(" and ")) + "." : "";
+    return r.length ? "Substantially revised by " + (r.length > 2 ? r.slice(0, -1).join(", ") + ", and " + r[r.length - 1] : r.join(" and ")) + "." : "";
   }
   function keysIn(g){ return Object.keys(LIB).filter(function(k){ return LIB[k].group === g; }); }
   function options(sel){
@@ -1104,8 +1524,9 @@ window.TheoryLib = (function(){
   function card(k, full){
     var L = LIB[k]; if(!L) return "";
     var rv = revisedLine(k), h = '<div class="libcard">';
-    h += '<p class="lib-desc">' + esc(L.desc) + '</p>';
-    if(rv) h += '<p class="lib-rev"><strong>Note:</strong> ' + esc(rv) + '</p>';
+    if(!full) h += '<p class="lib-desc"><span class="lib-type" data-type="' + esc(L.type || "Theory") + '">' + esc(L.type || "Theory") + '</span> ' + esc(L.desc) + '</p>';
+    if(TYPE_NOTE[L.type]) h += '<p class="lib-use"><strong>Note:</strong> ' + esc(TYPE_NOTE[L.type]) + '</p>';
+    if(rv) h += '<p class="lib-rev"><strong>Revised:</strong> ' + esc(rv) + '</p>';
     if(L.use) h += '<p class="lib-use"><strong>' + (L.critical ? "How it is used in a model" : "Note") + ':</strong> ' + esc(L.use) + '</p>';
     h += '<p class="lib-h">Seminal source</p><p class="citeref">' + citeHTML(L.seminal) + '</p>';
     h += '<p class="lib-h">' + (L.critical ? "Main tenets" : "Common propositions") + '</p><ol class="lib-props">' + L.props.map(function(x){ return '<li>' + esc(x) + '</li>'; }).join("") + '</ol>';

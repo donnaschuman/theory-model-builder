@@ -4,9 +4,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src data:; script-src 'self' 'unsafe-inline';">
-<meta name="description" content="Theory library for the Social Theory Model Builder: common social science theories with seminal sources, revisions, and common propositions.">
+<meta name="description" content="Theories, models, and frameworks for the Social Theory Model Builder: seminal sources, revisions, and common propositions.">
 <meta name="theme-color" content="#1d2340">
-<title>Theory Library | Social Theory Model Builder</title>
+<title>Theories, Models, and Frameworks | Social Theory Model Builder</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%231d2340'/%3E%3Crect x='5' y='7' width='8' height='6' rx='1.5' fill='%23fff'/%3E%3Crect x='5' y='19' width='8' height='6' rx='1.5' fill='%23fff'/%3E%3Crect x='19' y='13' width='9' height='6' rx='1.5' fill='%23ffd93d'/%3E%3Cpath d='M13 10l6 5M13 22l6-5' stroke='%23fff' stroke-width='1.6'/%3E%3C/svg%3E">
 <link rel="stylesheet" href="styles.css">
 </head>
@@ -16,7 +16,7 @@
   <div class="appbar-in">
     <a class="brand" href="index.html">
       <svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8" fill="#3d3fd8"/><rect x="5" y="7" width="8" height="6" rx="1.5" fill="#fff"/><rect x="5" y="19" width="8" height="6" rx="1.5" fill="#fff"/><rect x="19" y="13" width="9" height="6" rx="1.5" fill="#ffd93d"/><path d="M13 10l6 5M13 22l6-5" stroke="#fff" stroke-width="1.6"/></svg>
-      <span><b>Social Theory Model Builder</b><small>Theory library</small></span>
+      <span><b>Social Theory Model Builder</b><small>Theories, models, and frameworks</small></span>
     </a>
     <nav class="bar-actions barnav" aria-label="Library"><a href="index.html">Open the app</a><a href="guide.html">For instructors</a></nav>
   </div>
@@ -24,40 +24,50 @@
 
 <main id="main" class="guide">
   <div class="ghero">
-    <h1>Theory library</h1>
-    <p>Common theories in social work and the social sciences. Each entry gives what the theory says, its seminal source, whether it was substantially revised and by whom, its common propositions, and its key concepts.</p>
-    <p><strong>How to use it:</strong> Choose a theory that explains <em>why</em> your outcome happens. Then read the seminal source. The propositions here are paraphrased; your paper needs the exact wording and page number from the source. If the theory was revised, decide which version you are using and cite that one.</p>
+    <h1>Theories, models, and frameworks</h1>
+    <p>Common theories, models, and frameworks in social work and the social sciences. Each entry gives its type, what it says, its seminal source, whether it was substantially revised and by whom, its common propositions, and its key concepts.</p>
+    <p><strong>How to use it:</strong> Choose one that explains <em>why</em> your outcome happens. Then read the seminal source. The propositions here are paraphrased; your paper needs the exact wording and page number from the source. If it was revised, decide which version you are using and cite that one.</p>
   </div>
+  <section class="concept typebox" aria-labelledby="types-h">
+    <h2 id="types-h">Theory, model, or framework?</h2>
+    <p>Authors use these words differently. In general (Nilsen, 2015):</p>
+    <dl id="typelist"></dl>
+    <p class="small">The first three definitions are from Nilsen, P. (2015). Making sense of implementation theories, models and frameworks. <em>Implementation Science, 10</em>, Article 53. https://doi.org/10.1186/s13012-015-0242-0. Each entry's type follows what its authors call it.</p>
+  </section>
   <div class="libfilter" role="search">
     <div><label for="libq">Find a theory or concept</label><input type="search" id="libq" placeholder="e.g., stress, self-efficacy, suicide"></div>
+    <div><label for="libtype">Type</label><select id="libtype"><option value="">All types</option></select></div>
     <div class="btnrow" style="margin:0"><button type="button" class="btn sec sm" id="openAll">Open all</button><button type="button" class="btn ghost sm" id="closeAll">Close all</button></div>
     <p class="small" id="libcount" role="status" aria-live="polite" style="margin:0 0 8px"></p>
   </div>
-  <p class="small" style="margin:0 0 12px">Click a group to see its theories. Click a theory to see its details.</p>
+  <p class="small" style="margin:0 0 12px">Click a group to see its entries. Click an entry to see its details.</p>
   <div id="lib"></div>
   <p class="small" style="margin-top:28px">References were checked against CrossRef, PubMed, publisher pages, and library catalogs in October 2026. Report a correction to the instructor.</p>
 </main>
 <script src="theories.js"></script>
 <script>
 (function(){
-  var L = window.THEORY_LIB, G = window.THEORY_GROUPS, T = window.TheoryLib, esc = T.esc, out = "";
+  var L = window.THEORY_LIB, G = window.THEORY_GROUPS, T = window.TheoryLib, esc = T.esc, out = "", TY = window.THEORY_TYPES;
+  var NIL = {Theory: "\u201ca set of analytical principles or statements designed to structure our observation, understanding and explanation of the world.\u201d", Model: "\u201ca deliberate simplification of a phenomenon or a specific aspect of a phenomenon.\u201d", Framework: "\u201ca structure, overview, outline, system or plan consisting of various descriptive categories.\u201d"};
+  document.getElementById("typelist").innerHTML = TY.map(function(t){ var n = Object.keys(L).filter(function(k){ return (L[k].type || "Theory") === t[0]; }).length; return '<dt><span class="lib-type" data-type="' + esc(t[0]) + '">' + esc(t[0]) + '</span> <span class="small">(' + n + ')</span></dt><dd>' + (NIL[t[0]] ? 'Nilsen: ' + esc(NIL[t[0]]) + ' ' : '') + '<strong>For your figure:</strong> ' + esc(t[1]) + '</dd>'; }).join("");
+  var ts = document.getElementById("libtype"); TY.forEach(function(t){ var o = document.createElement("option"); o.value = t[0]; o.textContent = t[0]; ts.appendChild(o); });
   G.forEach(function(g){
     var ks = T.keysIn(g[0]); if(!ks.length) return;
-    out += '<details class="libgrp" data-group="' + g[0] + '"><summary><span class="lg-name">' + esc(g[1]) + '</span><span class="lg-n">' + ks.length + (ks.length === 1 ? " theory" : " theories") + '</span></summary><div class="lg-body">' +
-      ks.map(function(k){ return '<details class="libitem" id="' + k + '"><summary><span class="li-name">' + esc(L[k].name) + '</span><span class="li-desc">' + esc(L[k].desc) + '</span></summary>' + T.card(k, true) + '</details>'; }).join("") + '</div></details>';
+    out += '<details class="libgrp" data-group="' + g[0] + '"><summary><span class="lg-name">' + esc(g[1]) + '</span><span class="lg-n">' + ks.length + (ks.length === 1 ? " entry" : " entries") + '</span></summary><div class="lg-body">' +
+      ks.map(function(k){ return '<details class="libitem" id="' + k + '" data-type="' + esc(L[k].type || "Theory") + '"><summary><span class="li-name">' + esc(L[k].name) + ' <span class="lib-type sm" data-type="' + esc(L[k].type || "Theory") + '">' + esc(L[k].type || "Theory") + '</span></span><span class="li-desc">' + esc(L[k].desc) + '</span></summary>' + T.card(k, true) + '</details>'; }).join("") + '</div></details>';
   });
   var lib = document.getElementById("lib"); lib.innerHTML = out;
   var q = document.getElementById("libq"), cnt = document.getElementById("libcount"), n = Object.keys(L).length;
   function all(sel){ return Array.prototype.slice.call(document.querySelectorAll(sel)); }
   function setAll(open){ all(".libgrp,.libitem").forEach(function(d){ d.open = open; }); }
   function filter(){
-    var v = q.value.trim().toLowerCase(), shown = 0;
-    all(".libitem").forEach(function(a){ var hit = !v || a.textContent.toLowerCase().indexOf(v) >= 0; a.hidden = !hit; if(v) a.open = hit; if(hit) shown++; });
-    all(".libgrp").forEach(function(d){ var any = !!d.querySelector(".libitem:not([hidden])"); d.hidden = !any; if(v) d.open = any; });
-    if(!v) setAll(false);
-    cnt.textContent = v ? shown + " of " + n + " theories match." : n + " theories in " + all(".libgrp").length + " groups.";
+    var v = q.value.trim().toLowerCase(), ty = ts.value, shown = 0;
+    all(".libitem").forEach(function(a){ var hit = (!v || a.textContent.toLowerCase().indexOf(v) >= 0) && (!ty || a.dataset.type === ty); a.hidden = !hit; if(v) a.open = hit; if(hit) shown++; });
+    all(".libgrp").forEach(function(d){ var any = !!d.querySelector(".libitem:not([hidden])"); d.hidden = !any; if(v || ty) d.open = any; });
+    if(!v && !ty) setAll(false);
+    cnt.textContent = (v || ty) ? shown + " of " + n + " entries match." : n + " entries in " + all(".libgrp").length + " groups.";
   }
-  q.addEventListener("input", filter); filter();
+  q.addEventListener("input", filter); ts.addEventListener("change", filter); filter();
   document.getElementById("openAll").onclick = function(){ setAll(true); };
   document.getElementById("closeAll").onclick = function(){ setAll(false); };
   window.addEventListener("beforeprint", function(){ setAll(true); });

@@ -507,3 +507,19 @@ textarea.oneline{min-height:0;height:auto}
 .libitem>summary{flex-wrap:wrap;row-gap:2px}
 .li-name{max-width:none;flex-basis:calc(100% - 30px)}
 .li-desc{flex-basis:100%;padding-left:20px}
+/* Entry types */
+.lib-type{display:inline-block;font-size:.72rem;font-weight:800;letter-spacing:.03em;text-transform:uppercase;border-radius:6px;padding:2px 7px;vertical-align:2px;border:1.5px solid currentColor;background:#fff}
+.lib-type.sm{font-size:.66rem;padding:1px 6px;margin-left:4px}
+.lib-type[data-type="Theory"]{color:#2f31b8}
+.lib-type[data-type="Model"]{color:#0b6b5c}
+.lib-type[data-type="Framework"]{color:#8a4b00}
+.lib-type[data-type="Hypothesis"]{color:#6b2c91}
+.lib-type[data-type="Typology"]{color:#9b1c4b}
+.lib-type[data-type="Approach"]{color:#3d5a00}
+.lib-type[data-type="Critical perspective"]{color:#5a1d1d}
+.typebox{max-width:none;margin:0 0 20px}
+.typebox h2{margin:0 0 8px;font-size:1.2rem}
+.typebox dl{margin:0 0 10px}
+.typebox dt{margin:10px 0 2px}
+.typebox dd{margin:0 0 4px 0}
+.libfilter select{font:inherit;padding:10px 12px;border:1.5px solid var(--line-2);border-radius:10px;background:#fff;color:var(--ink)}
