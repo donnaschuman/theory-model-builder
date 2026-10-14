@@ -1,5 +1,50 @@
 # Changelog
 
+## 1.2.0 (2026-10-13)
+
+### Simplified
+- Removed the Paper approach step and the six paper types. They did not help students learn to build a conceptual model and made the app harder to follow in class. Students go from Define outcome straight to Theory and can still add a second theory.
+- Removed paper-type-specific fields (the case field and integration type) and references in the instructor guide and README.
+- Saved files that recorded a paper type still open; the choice is ignored.
+- Rewrote the home page, coaching tips, and step introductions in plain language. Removed the feature cards and slogan headline.
+- The citation and AI disclosure appear once, in the About section on the home page. Removed the copies from the footer, the results page, and the guide footer.
+- Renamed "Paper kit" to "For your paper" on the results page.
+- The research question is now one main question plus numbered subquestions: one for the mediator and one per moderator.
+- Hypotheses are one plain sentence each. The population is no longer repeated in every hypothesis, the three indirect hypotheses are one mediation hypothesis, and sources and reasons are in a separate "Where each one comes from" table.
+- Source propositions show the seminal citation once per theory, and the page once when all propositions share it.
+- The figure's side panel is now "Change an arrow," with instructions; the proposition tray moved off the results page.
+- The finished example has one moderator (distance to care), for six hypotheses instead of nine.
+- Preview key: adding `?preview` to the address lets instructors move through every step without answering. "Exit preview" turns it off.
+- Hypotheses are labeled by type: direct, mediation, or moderation, with a one-line definition of each.
+- Results page: each section has a colored header band and tinted body; the research question and hypotheses display with bold labels ("Main question:", "Subquestions:", "H1 (direct):"), with an Edit button for the text. Copy keeps the bold labels when pasted into Word.
+- Figure caption displays as in an APA 7 paper: bold figure number, italic title, the figure, and an italic "Note." The Word download and Copy caption keep that formatting.
+- Concept names are bold in the key concepts table.
+- Every step opens with a short numbered "What to do" box in simple English, and every field has a one-line direction under its label, with an example where useful.
+- The "Your model" panel says it is for viewing only.
+- "Construct" is now "concept" throughout the propositions step, to match the rest of the app.
+- Teaching box on the In-between step, "Mediator: how to decide": the why question, a frustration–aggression diagram, mediator vs. moderator, and complete vs. partial mediation.
+- Teaching box on the Moderation step, "Cause or moderator? How to decide": a test for each role, a diagram, and when a social determinant is a moderator (Baron & Kenny, 1986; Cohen & Wills, 1985).
+- With two theories, the Key propositions step explains how to combine them and the directions say "for each theory."
+- Self-check flags a concept used as both a cause and a moderator, and a second theory with no concepts in the model.
+- Partial mediation: on the In-between step, each cause can be marked as also affecting the outcome directly. It gets a curved direct arrow, its own direct hypothesis, and the mediation hypothesis says which links are completely and which are partially mediated. The figure legend and caption explain the curved arrow. The finished example uses partial mediation for perceived behavioral control (P5).
+- Why this arrow?: click a proposition to select it, then click "Link here" on an arrow card. This works on every device; dragging still works. The directions now name the card menu as the first way to link.
+- Each arrow's panel on the Line styles and Why this arrow? steps starts with a visible label (Arrow H1, Arrow H2, and so on) matching the figure and the results page. Directions say "panel" and explain it, instead of the unexplained word "card."
+- Figure caption: no automatic note. The legend inside the figure already explains the lines, signs, letters, and arrow labels, so the note repeated it. Students add a note only for what the figure does not show (an abbreviation or an "Adapted from" statement).
+- Where each one comes from: the Comes from column gives the APA in-text citation with page (for example, P1 (Ajzen, 1991, p. 179)), and the full APA reference for every cited source is listed under the table, alphabetically. Two-author and three-or-more-author sources are cited as "Fishbein & Ajzen, 1975" and "Smith et al., 2020"; page ranges use "pp." The Word download includes the references with a hanging indent.
+- Theories, models, and frameworks library: 112 entries in 18 groups, listed alphabetically (aging; child maltreatment and family violence; crime and deviance; critical and empowerment perspectives; disability, stigma, and recovery; health behavior and service use; historical trauma, racism, and Indigenous perspectives; human development and family; immigration and forced migration; loneliness, isolation, and social exclusion; military service, veterans, and trauma; organizations, policy, and macro practice; poverty, inequality, and homelessness; resilience; social capital and neighborhoods; stress, coping, and support; substance use; suicide). Each entry is labeled by type (theory, model, framework, hypothesis, typology, approach, or critical perspective); a box on the library page defines each type (Nilsen, 2015) and what it means for building a figure, frameworks and typologies note that the student supplies the arrows, and students can filter by type. Each entry gives what the theory says, the seminal source, a note when the theory was substantially revised and by whom, common propositions (paraphrased; students still find the exact wording and page), key concepts, and later revisions, extensions, and origins with full APA references. Critical Race Theory and intersectionality are listed with tenets and a note on how they are used in a model. References were checked against CrossRef, PubMed, publisher pages, and library catalogs.
+- The Theory step uses a grouped menu of library theories (Type my own is still available), and the chosen theory's library panel opens below it. Choosing a theory fills its concept chips and its suggested seminal source; the Key propositions step notes when the theory was revised.
+- New Theory library page (`library.html`), linked from the app bar and the Theory step. Groups and theories open as a two-level accordion (click a group, then a theory), with a search box and Open all / Close all.
+- Population step: a "How to make a population specific" box (who, age or life stage, where, when or what qualifies them), a weak-to-strong example, and two warnings (keep it to one phrase; leave out the outcome and causes). The self-check flags a very general population.
+- Fixed: on phones, an empty yellow banner showed at the top of every step.
+- Fixed: "Start a new model" and "Start over" did nothing in browsers that block pop-up confirmations (some phone and in-app browsers). All confirmations now appear in a box on the page.
+- Green teaching boxes are collapsible. They start closed with their main rule showing, and each box remembers whether it was opened. The "Theory, model, or framework?" box on the library page works the same way.
+- "Social determinants of health" is now "social determinants," with a one-line definition, because the app's outcomes are not only health outcomes.
+- Results: the research question section explains that there is one main question, a subquestion for an in-between step and each moderator, and usually several hypotheses (one per arrow).
+- Outcome and Define outcome steps: green teaching boxes, "How to name an outcome" and "How to say what counts," with rules and weak-to-strong examples, like the population box.
+- Define concepts: the directions explain that panels fill in automatically from the Causes, In-between, and Moderation steps; if no causes have been added yet, a notice says so and links to the Causes step.
+- Key propositions: a new teaching box, "Which propositions do I need?", and revised directions explain that students use only the propositions their model needs, not every proposition in a theory, and can take one proposition from one theory and another from a second theory.
+- Full text is always visible: proposition buttons wrap instead of cutting off, each linked arrow prints its full proposition under the menu, the seminal citation and "In my own words" boxes grow to fit, and long figure labels use smaller type over four lines before shortening.
+
 ## 1.1.0 (2026-10-13)
 
 ### Built for the theoretical paper
