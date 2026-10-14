@@ -523,3 +523,22 @@ textarea.oneline{min-height:0;height:auto}
 .typebox dt{margin:10px 0 2px}
 .typebox dd{margin:0 0 4px 0}
 .libfilter select{font:inherit;padding:10px 12px;border:1.5px solid var(--line-2);border-radius:10px;background:#fff;color:var(--ink)}
+.askdlg{max-width:min(520px,92vw)}
+.askdlg .dlg-b{padding:22px 24px}
+.askdlg h2{margin:0 0 8px;font-size:1.25rem}
+.askdlg p{margin:0 0 16px}
+/* Collapsible teaching boxes */
+details.teach{padding:0}
+details.teach>summary{display:grid;grid-template-columns:1fr auto;gap:2px 12px;align-items:center;cursor:pointer;list-style:none;padding:12px 18px;border-radius:12px}
+details.teach>summary::-webkit-details-marker{display:none}
+details.teach>summary:hover{background:rgba(255,255,255,.55)}
+details.teach>summary:focus-visible{outline:3px solid var(--accent-2);outline-offset:2px}
+.tb-t{font-family:"Bricolage Grotesque",system-ui,sans-serif;font-weight:800;font-size:1.05rem;color:var(--ok-ink,#0b5d45);grid-column:1}
+.tb-g{grid-column:1;color:var(--ink);font-size:.95rem}
+.tb-o{grid-column:2;grid-row:1/span 2;font-size:.85rem;font-weight:800;color:var(--ok-ink,#0b5d45);border:1.5px solid currentColor;border-radius:999px;padding:3px 12px;white-space:nowrap;background:#fff}
+.tb-o::before{content:"Open \25BE"}
+details.teach[open] .tb-o::before{content:"Close \25B4"}
+details.teach[open]>summary{border-bottom:1px solid #b9e3d3;border-radius:12px 12px 0 0}
+.tb-b{padding:12px 18px 14px}
+.typebox .tb-t{font-size:1.2rem}
+@media print{details.teach .tb-b{display:block}}

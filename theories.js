@@ -6,14 +6,13 @@
 window.THEORY_GROUPS = [
   ["aging", "Aging"],
   ["crime", "Crime and deviance"],
-  ["power", "Empowerment and critical theories"],
-  ["health", "Health behavior"],
-  ["services", "Health services and inequality"],
+  ["power", "Critical and empowerment perspectives"],
+  ["health", "Health behavior and service use"],
   ["develop", "Human development and family"],
   ["migration", "Immigration and forced migration"],
   ["lonely", "Loneliness, isolation, and social exclusion"],
-  ["military", "Military and veterans"],
-  ["poverty", "Poverty and homelessness"],
+  ["military", "Military service, veterans, and trauma"],
+  ["poverty", "Poverty, inequality, and homelessness"],
   ["resil", "Resilience"],
   ["capital", "Social capital and neighborhoods"],
   ["stress", "Stress, coping, and support"],
@@ -179,7 +178,7 @@ window.THEORY_LIB = {
   },
   ANDERSEN: {
     type: "Model",
-    group: "services", name: "Andersen Behavioral Model of Health Services Use",
+    group: "health", name: "Andersen Behavioral Model of Health Services Use",
     desc: "Whether people use health services depends on what predisposes them, what enables them, and how much they need care.",
     chips: ["Predisposing characteristics", "Enabling resources", "Perceived need", "Evaluated need", "Health services use", "Health outcomes"],
     seminal: "Andersen, R. M. (1968). *A behavioral model of families' use of health services* (Research Series No. 25). Center for Health Administration Studies, University of Chicago.",
@@ -198,7 +197,7 @@ window.THEORY_LIB = {
   },
   FUNDCAUSE: {
     type: "Theory",
-    group: "services", name: "Fundamental Cause Theory",
+    group: "poverty", name: "Fundamental Cause Theory",
     desc: "Socioeconomic status keeps causing health inequality because people with more resources can avoid new risks and use new protections.",
     chips: ["Socioeconomic status", "Flexible resources", "Health"],
     seminal: "Link, B. G., & Phelan, J. (1995). Social conditions as fundamental causes of disease. *Journal of Health and Social Behavior, 35*(Extra Issue), 80–94. https://doi.org/10.2307/2626958",
@@ -398,8 +397,8 @@ window.THEORY_LIB = {
   },
   FAMSTRESS: {
     type: "Theory",
-    group: "military", name: "Family Stress Theory (ABC-X and Double ABC-X)",
-    desc: "Whether a stressor becomes a family crisis depends on the family's resources and how it defines the event. Built from studies of war separation and reunion.",
+    group: "develop", name: "Family Stress Theory (ABC-X and Double ABC-X)",
+    desc: "Whether a stressor becomes a family crisis depends on the family's resources and how it defines the event. Built from studies of war separation and reunion; widely used with military families.",
     chips: ["Stressor event (A)", "Family resources (B)", "Family definition of the event (C)", "Crisis (X)", "Pile-up of demands", "Coping", "Family adaptation"],
     seminal: "Hill, R. (1949). *Families under stress: Adjustment to the crises of war separation and reunion*. Harper & Brothers.",
     origins: [],
@@ -1530,7 +1529,7 @@ window.TheoryLib = (function(){
     if(L.use) h += '<p class="lib-use"><strong>' + (L.critical ? "How it is used in a model" : "Note") + ':</strong> ' + esc(L.use) + '</p>';
     h += '<p class="lib-h">Seminal source</p><p class="citeref">' + citeHTML(L.seminal) + '</p>';
     h += '<p class="lib-h">' + (L.critical ? "Main tenets" : "Common propositions") + '</p><ol class="lib-props">' + L.props.map(function(x){ return '<li>' + esc(x) + '</li>'; }).join("") + '</ol>';
-    h += '<p class="small lib-warn">These are paraphrased. Find each one in the source and copy its exact wording and page number on the Key propositions step.</p>';
+    h += '<p class="small lib-warn">These are paraphrased. You do not need all of them: use only the ones your model needs, and you can combine them with propositions from another theory. Find each one you use in the source and copy its exact wording and page number on the Key propositions step.</p>';
     h += '<p class="lib-h">Key concepts</p><p class="lib-chips">' + L.chips.map(function(c){ return '<span class="lchip">' + esc(c) + '</span>'; }).join("") + '</p>';
     var more = (L.revisions || []).map(function(x){ return '<li><span class="lib-tag">' + esc(x.tag) + '</span> <span class="citeref" style="display:inline">' + citeHTML(x.cite) + '</span> ' + esc(x.note) + '</li>'; })
       .concat((L.origins || []).map(function(x){ return '<li><span class="lib-tag">Origin</span> <span class="citeref" style="display:inline">' + citeHTML(x.cite) + '</span> ' + esc(x.note) + '</li>'; }));

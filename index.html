@@ -147,6 +147,11 @@ var PROPOSITIONS_VIDEO_URL = ''; // older setting; used for the propositions slo
   <div class="dlg-b" id="dlgBody"></div>
 </dialog>
 
+<dialog id="askDlg" class="askdlg" aria-labelledby="askT" aria-describedby="askM">
+  <div class="dlg-b"><h2 id="askT">Please confirm</h2><p id="askM"></p>
+  <div class="btnrow"><button type="button" class="btn" id="askYes">Yes</button><button type="button" class="btn sec" id="askNo">Cancel</button></div></div>
+</dialog>
+
 <footer>
   <p class="noprint"><button class="btn ghost sm danger" id="startOver" type="button">Start over</button></p>
 </footer>
@@ -310,14 +315,14 @@ var save = function(){ rawSave(); showSaved(); };
 
 /* Short directions shown at the top of each step. Plain words, short sentences. */
 var TODO = {
-  "Who": ["Read the box How to make a population specific.", "Type the group of people you want to study in the box below, as one phrase.", "Check that it names who they are and where they are. Add age or a qualifying condition if it matters for your question.", "Press Next."],
+  "Who": ["Open the green box How to make a population specific and read it.", "Type the group of people you want to study in the box below, as one phrase.", "Check that it names who they are and where they are. Add age or a qualifying condition if it matters for your question.", "Press Next."],
   "Outcome": ["Type the result you want to explain for this group.", "Use a short name of 2 to 5 words.", "Press Next."],
   "Define outcome": ["Write how you will know the outcome happened.", "Say what you will count or measure, over what time, and where the information comes from.", "Press Next."],
   "Theory": ["Choose from the Theory menu. Theories, models, and frameworks are grouped by topic, in alphabetical order.", "Read the panel that opens: its type (theory, model, framework, and so on), what it says, its seminal source, its common propositions, and whether it was substantially revised. A framework or typology does not give you arrows; you supply them.", "If your theory is not in the menu, choose Type my own at the bottom and type its name.", "Add a second theory only if your model needs it.", "Press Next."],
-  "Key propositions": ["In box 1, type the APA reference for the work where each theory was first stated. You can click Use this to copy a suggested reference, but check it first.", "In box 2, press Add a proposition. Copy one sentence from the source that says how two concepts relate, and type its page number.", "Fill in the other boxes for that proposition: your own words, the From and To concepts, and the direction.", "Add 2 to 5 propositions for each theory. You can skip this step and come back later."],
+  "Key propositions": ["In box 1, type the APA reference for the work where each theory was first stated. You can click Use this to copy a suggested reference, but check it first.", "In box 2, press Add a proposition. Copy one sentence from the source that says how two concepts relate, and type its page number.", "Fill in the other boxes for that proposition: your own words, the From and To concepts, and the direction.", "Add only the propositions your model uses, usually 2 to 5 in all. You do not test every proposition in a theory, and you can take one from one theory and one from another. Open the green box Which propositions do I need? for help.", "You can skip this step and come back later."],
   "Causes": ["Add 2 or 3 causes of the outcome (4 at most).", "To add a cause, click a button with a + sign below, or type in an empty box.", "Use the \u2191 and \u2193 buttons, or drag \u283f, to change the order. The order here is the order in the figure.", "Press Next."],
-  "In-between": ["Ask yourself: why does each cause lead to the outcome?", "If your answer is one thing that the causes change first, click Yes and type it in the box.", "If you cannot name one thing, click No or Not sure.", "If you clicked Yes: for each cause, check the box if it also affects the outcome directly (partial mediation). Leave it empty if it works only through the in-between step.", "Press Next."],
-  "Moderation": ["Ask yourself: is any link stronger for some people, places, or times than for others?", "Click Yes, No, or Not sure.", "If you clicked Yes or Not sure, check the box for each group or condition that might change a link. Check Other to type your own.", "Press Next."],
+  "In-between": ["Not sure what a mediator is? Open the green box Mediator: how to decide.", "Ask yourself: why does each cause lead to the outcome?", "If your answer is one thing that the causes change first, click Yes and type it in the box.", "If you cannot name one thing, click No or Not sure.", "If you clicked Yes: for each cause, check the box if it also affects the outcome directly (partial mediation). Leave it empty if it works only through the in-between step.", "Press Next."],
+  "Moderation": ["Not sure whether something is a cause or a moderator? Open the green box Cause or moderator? How to decide.", "Ask yourself: is any link stronger for some people, places, or times than for others?", "Click Yes, No, or Not sure.", "If you clicked Yes or Not sure, check the box for each group or condition that might change a link. Check Other to type your own.", "Press Next."],
   "Moderator details": ["For each moderator, type the two groups you will compare.", "Choose the link that the moderator makes stronger or weaker.", "Press Next."],
   "Define concepts": ["Below, there is one panel for each concept. Each concept is one box in your figure.", "Choose where the concept comes from.", "Write what the concept means in one or two sentences. Then type the source: author, year, and page.", "Press Next."],
   "Line styles": ["Below, there is one panel for each arrow in your figure. Each panel starts with a label: Arrow H1, Arrow H2, and so on. H1 is the hypothesis number on the figure and the results page.", "Click + if more of the first concept leads to more of the second. Click \u2212 if it leads to less.", "Click Solid if you will test the arrow. Click Dashed for a moderator or an arrow you will not test.", "Press Next."],
@@ -671,10 +676,10 @@ var STEPS = [
 /* 0 */ {t: "Start", skip: function(){ return true; }, r: function(){ return ""; }, v: function(){ return ""; }},
 /* 1 */ {t: "Who", g: "Question", r: function(){
     return '<h2 id="stepTitle">Who are the people you want to study?</h2><p class="lede">Describe the population in plain words.</p>' +
-      '<div class="concept"><h4>How to make a population specific</h4><p>A specific population usually names these four things:</p>' +
+      teachBox("pop", "How to make a population specific", "Name who they are and where they are, in one phrase.", '<p>A specific population usually names these four things:</p>' +
       '<ul style="margin:0 0 10px 1.2em;padding:0"><li><strong>Who:</strong> the group, by role or shared condition (post-9/11 U.S. veterans).</li><li><strong>Age or life stage,</strong> if it matters (ages 18 to 34).</li><li><strong>Where:</strong> the setting or place (enrolled in VA mental health care; in rural Texas).</li><li><strong>When or what qualifies them,</strong> if it matters (within 6 months of discharge).</li></ul>' +
       '<p style="margin-bottom:4px"><strong>Weak:</strong> Veterans<br><strong>Better:</strong> Post-9/11 veterans<br><strong>Strong:</strong> Post-9/11 U.S. veterans enrolled in VA mental health care</p>' +
-      '<p style="margin:10px 0 0"><strong>Keep it to one phrase.</strong> It becomes part of your research question and your figure title.<br><strong>Leave out the outcome and the causes.</strong> “Veterans who drop out of treatment” already assumes the result your model explains. Write “Veterans in treatment” and make dropout the outcome.</p></div>' +
+      '<p style="margin:10px 0 0"><strong>Keep it to one phrase.</strong> It becomes part of your research question and your figure title.<br><strong>Leave out the outcome and the causes.</strong> “Veterans who drop out of treatment” already assumes the result your model explains. Write “Veterans in treatment” and make dropout the outcome.</p>') +
       '<label for="f_who">Population<span class="hint">Type one phrase that names who they are and where they are.</span></label><input type="text" id="f_who" data-bind="who" placeholder="e.g., First-generation students at Texas community colleges" value="' + esc(S.who) + '">';
   }, v: function(){ return S.who.trim() ? "" : "Name who you are studying."; }},
 /* 2 */ {t: "Outcome", g: "Question", r: function(){
@@ -711,8 +716,9 @@ var STEPS = [
         (sug ? '<p class="small" style="background:var(--tint-2);padding:8px 12px;border-radius:10px;margin:8px 0 0"><strong>Starting point; verify it yourself:</strong> ' + esc(sug) + ' <button type="button" class="linkbtn" data-usesem="' + t.id + '">Use this</button></p>' + (revisedLine(t.pick) ? '<p class="small lib-rev" style="margin:8px 0 0"><strong>Note:</strong> ' + esc(revisedLine(t.pick)) + ' If you use the revised version, cite it as your source. The library page lists the full references.</p>' : '') : '') +
         '<label for="' + fid + '">APA citation of the seminal source<span class="hint">Type the full APA reference for the work where the theory was first stated.</span></label><textarea id="' + fid + '" class="auto oneline" ' + (t.id === "A" ? 'data-bind="seminal"' : 'data-mt="' + t.idx + '" data-mf="seminal"') + ' placeholder="Author, A. A. (Year). Title. Publisher or Journal, vol(issue), pages.">' + esc(t.seminal) + '</textarea></div>';
     });
-    h += '</div><div class="panel"><h3><span class="num">2</span> Pull out propositions</h3><p class="small">A <strong>proposition</strong> is the theory’s claim about how two concepts relate, for example “the more X, the more Y.” Add 2 to 5.' + (newOK ? ' Mark any proposition that is your own addition as <strong>new</strong>.' : '') + '</p><datalist id="constructs">' + co.map(function(c){ return '<option value="' + esc(c) + '">'; }).join("") + '</datalist>';
-    if(multi) h += '<div class="concept" role="note"><h4>Combining two theories</h4><ol><li>Enter propositions from both theories. Use the menu <strong>From which theory?</strong> on each proposition.</li><li>To join the theories, link a concept from one theory to a concept from the other.</li><li>If neither theory states that link, check <strong>New</strong> on that proposition. It is your own proposition, and you need to explain it in your paper.</li></ol></div>';
+    h += '</div><div class="panel"><h3><span class="num">2</span> Pull out propositions</h3><p class="small">A <strong>proposition</strong> is the theory’s claim about how two concepts relate, for example “the more X, the more Y.” Enter only the propositions your model uses, usually 2 to 5 in all.' + (newOK ? ' Mark any proposition that is your own addition as <strong>new</strong>.' : '') + '</p>' +
+      teachBox("which", "Which propositions do I need?", "Only the ones your model uses. You do not test a whole theory.", '<p><strong>You do not test every proposition in a theory.</strong> Choose the propositions that match the arrows in your model, and leave the rest out.</p><p><strong>You can take propositions from more than one theory.</strong> For example, one proposition from the Theory of Planned Behavior and one from Minority Stress Theory. Add the second theory on the Theory step, then mark which theory each proposition comes from.</p><p><strong>Explain your choice in your paper:</strong> why these propositions fit your population and outcome, and why you left the others out.</p>') + '<datalist id="constructs">' + co.map(function(c){ return '<option value="' + esc(c) + '">'; }).join("") + '</datalist>';
+    if(multi) h += teachBox("combine", "Combining two theories", "Use only what each theory adds. One proposition from each can be enough.", '<ol><li>You do not need many propositions from each theory. One from each can be enough if together they explain your model.</li><li>Enter propositions from both theories. Use the menu <strong>From which theory?</strong> on each proposition.</li><li>To join the theories, link a concept from one theory to a concept from the other.</li><li>If neither theory states that link, check <strong>New</strong> on that proposition. It is your own proposition, and you need to explain it in your paper.</li></ol>');
     S.props.forEach(function(q, k){
       h += '<div class="item"><div class="item-h"><span class="badge' + tc(q.isNew ? "N" : q.theory) + '">P' + (k + 1) + '</span>' + (q.isNew ? '<span class="kind">New</span>' : '') + '<span class="sp"><button type="button" class="btn ghost sm danger" data-rmprop="' + k + '" aria-label="Remove proposition P' + (k + 1) + '">Remove</button></span></div>' +
         (multi ? '<label for="pt' + k + '">From which theory?<span class="hint">Choose the theory this proposition comes from.</span></label><select id="pt' + k + '" data-prop="' + k + '" data-pf="theory">' + tl.map(function(t){ return '<option value="' + t.id + '" ' + (q.theory === t.id ? "selected" : "") + '>' + t.id + ': ' + esc(tName(t)) + '</option>'; }).join("") + '</select>' : '') +
@@ -835,6 +841,13 @@ var STEPS = [
 var ORDER = [1, 2, 3, 4, 5, 6, 7, 8, 9, 15, 10, 11, 16, 12, 13];
 /* Teaching box: cause or moderator, and when a social determinant is a moderator. */
 /* Teaching box: what a mediator is and how to find one (J&J why heuristic). */
+/* Green teaching boxes: collapsible, closed by default, with the main rule visible in the summary.
+   Open/closed state is remembered for each box in this browser. */
+var TBO = (function(){ try { return JSON.parse(localStorage.getItem("theoryModelApp.tb") || "{}"); } catch(e){ return {}; } })();
+function teachBox(id, title, gist, body){
+  return '<details class="concept teach" data-tb="' + id + '"' + (TBO[id] ? " open" : "") + '><summary><span class="tb-t">' + title + '</span><span class="tb-g">' + gist + '</span><span class="tb-o" aria-hidden="true"></span></summary><div class="tb-b">' + body + '</div></details>';
+}
+document.addEventListener("toggle", function(e){ var d = e.target; if(!d || !d.dataset || !d.dataset.tb) return; TBO[d.dataset.tb] = d.open; try { localStorage.setItem("theoryModelApp.tb", JSON.stringify(TBO)); } catch(x){} }, true);
 function medConceptBox(){
   var fig = '<svg viewBox="0 0 640 120" role="img" aria-labelledby="mdT" class="cm-fig"><title id="mdT">Mediation: an arrow goes from goal blocked to frustration, and another arrow goes from frustration to aggression.</title>' +
     '<defs><marker id="mdA" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#1d2340"/></marker></defs>' +
@@ -846,11 +859,11 @@ function medConceptBox(){
     '<line x1="160" y1="60" x2="243" y2="60" stroke="#1d2340" stroke-width="2" marker-end="url(#mdA)"/>' +
     '<line x1="395" y1="60" x2="478" y2="60" stroke="#1d2340" stroke-width="2" marker-end="url(#mdA)"/>' +
     '<text x="245" y="105" font-size="13" fill="#555c7a">The mediator is a box on the path.</text></g></svg>';
-  return '<div class="concept" role="note"><h4>Mediator: how to decide</h4>' +
+  return teachBox("med", "Mediator: how to decide", "A mediator is the in-between step that explains <em>why</em> the cause works.", '' +
     '<p><strong>A mediator</strong> is the in-between step. The cause changes the mediator first, and the mediator then changes the outcome. It explains <em>why</em> the cause works.</p>' +
     '<p><strong>Test (the why question):</strong> “Why does ___ lead to ' + esc((S.outcome || "the outcome").toLowerCase()) + '? Because it changes ___, and that changes ' + esc((S.outcome || "the outcome").toLowerCase()) + '.” The answer in the second blank is your mediator (Jaccard &amp; Jacoby, 2020).</p>' + fig +
     '<p><strong>Mediator or moderator?</strong> A mediator is a box <em>on</em> the path and answers “why.” A moderator points <em>at</em> an arrow and answers “for whom, where, or when is the link stronger.”</p>' +
-    '<p><strong>Complete or partial?</strong> In <em>complete</em> mediation, the cause changes the outcome only through the mediator. In <em>partial</em> mediation, the cause also changes the outcome directly. Ask: can I name any other way this cause changes the outcome? If yes, it is partial (Jaccard &amp; Jacoby, 2020). You choose this for each cause below.</p></div>';
+    '<p><strong>Complete or partial?</strong> In <em>complete</em> mediation, the cause changes the outcome only through the mediator. In <em>partial</em> mediation, the cause also changes the outcome directly. Ask: can I name any other way this cause changes the outcome? If yes, it is partial (Jaccard &amp; Jacoby, 2020). You choose this for each cause below.</p>');
 }
 function modConceptBox(){
   var fig = '<svg viewBox="0 0 640 170" role="img" aria-labelledby="cmT" class="cm-fig"><title id="cmT">Left: income is a cause; an arrow goes from income to health. Right: social support is a moderator; a dashed arrow goes from social support to the middle of the arrow from stress to health.</title>' +
@@ -868,12 +881,12 @@ function modConceptBox(){
     '<line x1="440" y1="110" x2="518" y2="110" stroke="#1d2340" stroke-width="2" marker-end="url(#cmA)"/>' +
     '<line x1="490" y1="62" x2="480" y2="106" stroke="#555c7a" stroke-width="2" stroke-dasharray="6 4" marker-end="url(#cmA)"/>' +
     '<text x="340" y="160" font-size="13" fill="#555c7a">Support changes how strongly stress harms health.</text></g></svg>';
-  return '<div class="concept" role="note"><h4>Cause or moderator? How to decide</h4>' +
+  return teachBox("mod", "Cause or moderator? How to decide", "A cause changes the outcome. A moderator changes how strong a link is.", '' +
     '<p><strong>A cause</strong> changes the outcome itself. Test: “More ___ leads to more (or less) ' + esc((S.outcome || "outcome").toLowerCase()) + '.”</p>' +
     '<p><strong>A moderator</strong> changes how strong a link is. It sits on an arrow, not on a box. Test: “The link between ___ and ___ is stronger for people with high ___ than for people with low ___.”</p>' + fig +
     '<p><strong>Moderators are not only personal characteristics.</strong> Age and gender can be moderators, and so can conditions in a person’s environment, such as income, housing, neighborhood, or distance to care. Baron and Kenny (1986, p. 1174) list sex, race, and class as examples.</p>' +
     '<p><strong>A social determinant can be a cause or a moderator.</strong> Example: social support. As a cause, more support leads to better mental health. As a moderator, stress harms health less when support is high (the stress-buffering hypothesis; Cohen &amp; Wills, 1985).</p>' +
-    '<p><strong>Choose a moderator only when</strong> your theory, prior research, or practice experience says the condition changes how strong a link is. Do not use the same concept as both a cause and a moderator of the same link unless you can explain why.</p></div>';
+    '<p><strong>Choose a moderator only when</strong> your theory, prior research, or practice experience says the condition changes how strong a link is. Do not use the same concept as both a cause and a moderator of the same link unless you can explain why.</p>');
 }
 function chipRow(list){ var have = causes().map(lc); return list.map(function(c){ var used = have.indexOf(lc(c)) >= 0; return '<button type="button" class="chip' + (used ? " used" : "") + '" data-chip="' + esc(c) + '" ' + (used ? 'aria-disabled="true"' : 'data-drag="chip"') + '>' + (used ? "✓ " : "+ ") + esc(c) + '</button>'; }).join(""); }
 function stepIdx(t){ for(var i = 0; i < STEPS.length; i++) if(STEPS[i].t === t) return i; return 1; }
@@ -1374,7 +1387,7 @@ document.addEventListener("click", function(ev){
   if(id === "next") return go(1);
   if(id === "back") return go(-1);
   if(ds.goto){ return jumpTo(+ds.goto); }
-  if(id === "startOver"){ if(confirm("Start over? This clears your saved progress in this browser.")){ S = fresh(); save(); showSplash(false); } return; }
+  if(id === "startOver"){ askOK("Start over? This clears your saved progress in this browser.", "Start over", function(){ S = fresh(); save(); showSplash(false); }); return; }
   if(id === "viewFig"){ $("dlgBody").innerHTML = buildSVG({mode: "dialog", uid: "d"}); $("figDlg").showModal(); return; }
   if(id === "dlgClose"){ $("figDlg").close(); return; }
   if(ds.edit){ var ta = $(ds.edit), open = ta.hidden; ta.hidden = !open; t.textContent = open ? "Done editing" : "Edit"; t.setAttribute("aria-expanded", open); if(open){ grow(ta); ta.focus(); } return; }
@@ -1398,9 +1411,9 @@ document.addEventListener("click", function(ev){
   if(ds.jump){ S.returnTo = stepIdx("Why this arrow?"); leaveStep(); S.step = stepIdx(ds.jump); render(); focusH(); return; }
   if(id === "retWhy"){ var rt = S.returnTo; S.returnTo = -1; jumpTo(rt); return; }
   if(ds.wchip){ var wi = $(ds.ti), cur = wi.value.trim(), w = ds.val; if(cur.indexOf(w) < 0){ wi.value = cur ? cur + "; " + w : w; t.setAttribute("aria-pressed", "true"); } wi.dispatchEvent(new Event("input", {bubbles: true})); wi.focus(); return; }
-  if(ds.saycopy){ var k2 = ds.saycopy, v2 = function(x){ return ($(x + k2).value || "").trim() || "___"; }; var tx = "When someone has more " + v2("sa") + ", they tend to " + v2("sb") + " because " + v2("sc") + ".", tb = $(ds.ta); if(tb.value.trim() && !confirm("Replace what you typed in the reason box?")) return; tb.value = tx; tb.dispatchEvent(new Event("input", {bubbles: true})); tb.focus(); return; }
+  if(ds.saycopy){ var k2 = ds.saycopy, v2 = function(x){ return ($(x + k2).value || "").trim() || "___"; }; var tx = "When someone has more " + v2("sa") + ", they tend to " + v2("sb") + " because " + v2("sc") + ".", tb = $(ds.ta), put = function(){ tb.value = tx; tb.dispatchEvent(new Event("input", {bubbles: true})); tb.focus(); }; if(tb.value.trim()) askOK("Replace what you typed in the reason box?", "Replace", put); else put(); return; }
   if(ds.basis){ S.bases[ds.basis] = ds.val; if(!S.hypsEdited) S.hyps = ""; save(); t.parentNode.querySelectorAll("[data-basis]").forEach(function(x){ x.setAttribute("aria-checked", x === t); }); $("err").textContent = ""; schedulePreview(); return; }
-  if(ds.starter){ var ed = allEdges().filter(function(x){ return x.id === ds.starter; })[0], ta = $(ds.ta); if(!ed || !ta) return; if(ta.value.trim() && !confirm("Replace what you typed with the starter sentence?")) return; ta.value = starter(ed); ta.dispatchEvent(new Event("input", {bubbles: true})); ta.focus(); var k = ta.value.indexOf("___"); if(k >= 0) ta.setSelectionRange(k, k + 3); return; }
+  if(ds.starter){ var ed = allEdges().filter(function(x){ return x.id === ds.starter; })[0], ta = $(ds.ta); if(!ed || !ta) return; var putS = function(){ ta.value = starter(ed); ta.dispatchEvent(new Event("input", {bubbles: true})); ta.focus(); var k = ta.value.indexOf("___"); if(k >= 0) ta.setSelectionRange(k, k + 3); }; if(ta.value.trim()) askOK("Replace what you typed with the starter sentence?", "Replace", putS); else putS(); return; }
   if(ds.sign || ds.setsign){ var sid = ds.sign || ds.setsign; S.signs[sid] = ds.val; if(!S.hypsEdited) S.hyps = ""; var y = window.scrollY; render(); window.scrollTo(0, y); var q = $("screen").querySelector('[data-sign="' + sid + '"][data-val="' + ds.val + '"]') || $("screen").querySelector('[data-plink="' + sid + '"]'); if(q) q.focus(); announce("Direction set to " + signChar(ds.val) + "."); return; }
   if(ds.style){ S.styles[ds.style] = ds.val; var y2 = window.scrollY; render(); window.scrollTo(0, y2); var g = $("screen").querySelector('[data-style="' + ds.style + '"][data-val="' + ds.val + '"]'); if(g) g.focus(); return; }
   if(ds.unlink){ delete S.propLinks[ds.unlink]; S.noAuto[ds.unlink] = true; var y3 = window.scrollY; render(); window.scrollTo(0, y3); var sl = $("screen").querySelector('[data-plink="' + ds.unlink + '"]'); if(sl) sl.focus(); announce("Unlinked."); return; }
@@ -1501,15 +1514,31 @@ function openExample(){
   ensureIds(S); S.seen = ORDER.slice(); S.step = stepIdx("Results");
   render(); focusH(); announce("Opened the finished example on the results page.");
 }
+/* In-page confirmation. Browser pop-ups (confirm) are blocked in some in-app and phone browsers, which made buttons appear to do nothing. */
+var ASK = null;
+function askOK(msg, yes, fn){
+  var d = $("askDlg");
+  if(!d || typeof d.showModal !== "function"){ if(window.confirm(msg)) fn(); return; }
+  $("askM").textContent = msg; $("askYes").textContent = yes || "Yes"; ASK = {fn: fn, back: document.activeElement};
+  d.showModal(); $("askNo").focus();
+}
+document.addEventListener("cancel", function(e){ if(e.target && e.target.id === "askDlg"){ e.preventDefault(); askClose(false); } }, true);
+function askClose(ok){ var d = $("askDlg"), a = ASK; ASK = null; if(d.open) d.close(); if(!a) return; if(ok) a.fn(); else if(a.back && a.back.focus) a.back.focus(); }
 function hasBackup(){ try { return !!localStorage.getItem(BK); } catch(e){ return false; } }
-function okReplace(){ if(S.demoLoaded && hasBackup()){ if(!confirm("Your own model is set aside while you view the example. Start a new model instead of returning to it?")) return false; try { localStorage.removeItem(BK); } catch(e){} return true; } return !hasProgress() || S.demoLoaded || (FS.snap !== null && FS.snap === snap()) || confirm("Start fresh? Your current work in this browser will be replaced. (Use Save my work first to keep a copy.)"); }
+function okReplace(fn){
+  if(S.demoLoaded && hasBackup()) return askOK("Your own model is set aside while you view the example. Start a new model instead of returning to it? Your own model will be cleared.", "Start a new model", function(){ try { localStorage.removeItem(BK); } catch(e){} fn(); });
+  if(!hasProgress() || S.demoLoaded || (FS.snap !== null && FS.snap === snap())) return fn();
+  askOK("Start fresh? Your current work in this browser will be replaced. Use Save my work first to keep a copy.", "Start a new model", fn);
+}
 document.addEventListener("click", function(ev){
   var t = ev.target.closest("button"); if(!t) return;
   var id = t.id;
   if(id === "homeLink" || id === "homeBrand"){ save(); return showSplash(false); }
   if(id === "aboutLink") return showSplash(true);
   if(id === "spCont"){ render(); focusH(); return; }
-  if(id === "spStart" || id === "spNew"){ if(!okReplace()) return; S = fresh(); S.mode = "own"; S.step = 1; render(); focusH(); return; }
+  if(id === "askYes"){ askClose(true); return; }
+  if(id === "askNo"){ askClose(false); return; }
+  if(id === "spStart" || id === "spNew"){ okReplace(function(){ S = fresh(); S.mode = "own"; S.step = 1; save(); render(); focusH(); }); return; }
   if(id === "spDemo"){ openExample(); return; }
   if(id === "exBack"){ var b = null; try { b = JSON.parse(localStorage.getItem(BK)); } catch(e){} try { localStorage.removeItem(BK); } catch(e){} S = b ? upgrade(b) : fresh(); render(); focusH(); announce("Back to your model."); return; }
   if(id === "exitPreview"){ try { sessionStorage.removeItem("stmbPreview"); } catch(e){} location.href = location.pathname; return; }
@@ -1561,10 +1590,10 @@ $("fileIn").onchange = function(){
   r.onload = function(){
     var d; try { d = JSON.parse(r.result); } catch(e){ $("fileErr").textContent = "Sorry, that file couldn't be read. Choose a .json file saved with “Save my work.”"; return; }
     var e = validate(d); if(e){ $("fileErr").textContent = "Sorry, couldn't open that file: " + e; return; }
-    if(hasProgress() && FS.snap !== snap() && !confirm("Replace your current unsaved work with this file?")) return;
-    S = upgrade(d.state); FS = {snap: snap(), at: Date.parse(d.savedAt) || Date.now()};
-    try { localStorage.setItem(FK, JSON.stringify(FS)); } catch(x){}
-    $("fileErr").textContent = ""; render(); focusH(); announce("Opened your saved work.");
+    var openIt = function(){ S = upgrade(d.state); FS = {snap: snap(), at: Date.parse(d.savedAt) || Date.now()};
+      try { localStorage.setItem(FK, JSON.stringify(FS)); } catch(x){}
+      $("fileErr").textContent = ""; render(); focusH(); announce("Opened your saved work."); };
+    if(hasProgress() && FS.snap !== snap()) askOK("Replace your current unsaved work with this file?", "Open the file", openIt); else openIt();
   };
   r.onerror = function(){ $("fileErr").textContent = "Sorry, that file couldn't be read."; };
   r.readAsText(f);
