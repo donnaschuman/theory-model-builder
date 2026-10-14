@@ -6,6 +6,9 @@
 - Removed the Paper approach step and the six paper types. They did not help students learn to build a conceptual model and made the app harder to follow in class. Students go from Define outcome straight to Theory and can still add a second theory.
 - Removed paper-type-specific fields (the case field and integration type) and references in the instructor guide and README.
 - Saved files that recorded a paper type still open; the choice is ignored.
+- Rewrote the home page, coaching tips, and step introductions in plain language. Removed the feature cards and slogan headline.
+- The citation and AI disclosure appear once, in the About section on the home page. Removed the copies from the footer, the results page, and the guide footer.
+- Renamed "Paper kit" to "For your paper" on the results page.
 
 ## 1.1.0 (2026-10-13)
 

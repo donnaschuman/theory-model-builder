@@ -46,7 +46,7 @@ var PROPOSITIONS_VIDEO_URL = ''; // older setting; used for the propositions slo
   <div class="appbar-in">
     <button type="button" class="brand" id="homeBrand">
       <svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8" fill="#3d3fd8"/><rect x="5" y="7" width="8" height="6" rx="1.5" fill="#fff"/><rect x="5" y="19" width="8" height="6" rx="1.5" fill="#fff"/><rect x="19" y="13" width="9" height="6" rx="1.5" fill="#ffd93d"/><path d="M13 10l6 5M13 22l6-5" stroke="#fff" stroke-width="1.6"/></svg>
-      <span><b>Social Theory Model Builder</b><small>Theory &rarr; model &rarr; paper</small><span class="sr"> (home)</span></span>
+      <span><b>Social Theory Model Builder</b><span class="sr"> (home)</span></span>
     </button>
     <div class="bar-actions noprint">
       <span class="savestat" id="lastSaved" role="status">Not saved to a file yet</span>
@@ -65,9 +65,9 @@ var PROPOSITIONS_VIDEO_URL = ''; // older setting; used for the propositions slo
   <div class="hero">
     <div>
       <p class="ver" id="spVer">Version</p>
-      <h1 id="spT" tabindex="-1">Build the model your theory paper argues for.</h1>
+      <h1 id="spT" tabindex="-1">Social Theory Model Builder</h1>
       <p class="byline">D. L. Schuman, The University of Texas at Arlington</p>
-      <p class="purpose">Move from a population, an outcome, and a theory to stated propositions with page numbers, defined concepts, a conceptual figure, and hypotheses, with coaching at every step.</p>
+      <p class="purpose">A step-by-step tool for building a conceptual model from a theory. You enter a population, an outcome, a theory, and the theory's propositions. The app produces a path figure, a research question, and hypotheses.</p>
       <div class="spbtns" id="spBtns"></div>
     </div>
     <div class="hero-fig" aria-hidden="true">
@@ -94,46 +94,33 @@ var PROPOSITIONS_VIDEO_URL = ''; // older setting; used for the propositions slo
             <rect x="150" y="192" width="26" height="16" rx="4" fill="#ff6f9a" stroke="#1d2340"/><text x="163" y="204" text-anchor="middle">P3</text>
             <rect x="331" y="152" width="26" height="16" rx="4" fill="#ff6f9a" stroke="#1d2340"/><text x="344" y="164" text-anchor="middle">P4</text>
           </g>
-          <g font-family="Arial, sans-serif" font-size="11" fill="#555c7a"><text x="10" y="284">Every arrow traces to a proposition and a page.</text></g>
-        </g>
+                  </g>
       </svg>
     </div>
   </div>
 
-  <div class="feat">
-    <div class="fcard"><div class="fi" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"><path d="M4 19V5a2 2 0 0 1 2-2h12v16H6a2 2 0 0 0-2 2z"/><path d="M8 7h6M8 11h6"/></svg></div><h3>Grounded in the theory's own words</h3><p>Find the seminal source, pull out its propositions with page numbers, and link every arrow to the claim it comes from.</p></div>
-    <div class="fcard"><div class="fi" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"><rect x="3" y="4" width="7" height="5" rx="1"/><rect x="3" y="15" width="7" height="5" rx="1"/><rect x="14" y="9.5" width="7" height="5" rx="1"/><path d="M10 6.5l4 4.5M10 17.5l4-4.5"/></svg></div><h3>A figure you can defend</h3><p>Drag boxes into place, set each arrow's direction and line style, and give every relationship a reason and a defined concept on each end.</p></div>
-    <div class="fcard"><div class="fi" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6M8 13h8M8 17h5"/></svg></div><h3>Ready for the manuscript</h3><p>Leave with a research question, hypotheses, an APA figure caption, a concepts table that pastes into Word, and notes for each section.</p></div>
-  </div>
-
   <div class="sp-sec">
-    <h2>How it works</h2>
+    <h2>Steps</h2>
     <ol class="timeline">
-      <li><b>Question</b><span>Population, outcome, and what counts as the outcome</span></li>
-      <li><b>Theory</b><span>A theory, its seminal source, and its key propositions</span></li>
-      <li><b>Model</b><span>Causes (including social determinants), mediators, moderators</span></li>
-      <li><b>Concepts</b><span>A conceptual definition and source for every box</span></li>
-      <li><b>Arrows</b><span>Direction, line style, and a reason for each one</span></li>
-      <li><b>Paper kit</b><span>Figure, caption, hypotheses, concepts table, notes</span></li>
+      <li><b>Question</b><span>Population, outcome, and how the outcome is measured</span></li>
+      <li><b>Theory</b><span>The theory, its seminal source, and its key propositions</span></li>
+      <li><b>Model</b><span>Causes, mediator, and moderators</span></li>
+      <li><b>Concepts</b><span>A definition and source for each concept</span></li>
+      <li><b>Arrows</b><span>Direction, line style, and reason for each arrow</span></li>
+      <li><b>Results</b><span>Figure, research question, hypotheses, and concepts table</span></li>
     </ol>
-    <p class="small" style="margin-top:14px"><strong>Who it's for:</strong> doctoral and master's students and early researchers in social work and related fields.</p>
+    <p class="small" style="margin-top:16px">For doctoral and master's students in social work and related fields.</p>
   </div>
 
   <div class="cite" id="about">
-    <h2 style="font-family:var(--serif);font-size:1.2rem;margin:0 0 6px">Cite this tool</h2>
+    <h2 style="font-size:1.3rem;margin:0 0 8px">About</h2>
+    <p class="small">The app runs in your browser. Nothing you type is sent anywhere. Your work is saved on this device; use Save my work to keep a copy or move it to another computer.<span id="gcNote" hidden> Anonymous visit counts are collected with GoatCounter (no cookies, no personal information, none of your work).</span> Use the app as a planning aid and check theory constructs against your course readings.</p>
+    <h3 style="font-size:1.05rem;margin:16px 0 4px">Citation</h3>
     <p class="citeref" data-citehtml></p>
-    <p class="small">In-text: (Schuman, 2026)</p>
-    <p><button type="button" class="btn sec sm" data-copycite="1">Copy citation</button> <span class="small" role="status" data-citestatus></span></p>
-    <p class="small">Please cite this tool if it helped shape a model in your coursework, thesis, dissertation, or publication.</p>
-    <p class="small"><strong>Privacy:</strong> Runs entirely in your browser. Nothing you type is sent anywhere.<span id="gcNote" hidden> Anonymous visit counts are collected (via GoatCounter: no cookies, no personal information, none of your work).</span></p>
-    <p class="small" id="aboutSurvey" hidden><a class="extlink" target="_blank" rel="noopener">Help improve this tool (2-minute optional survey)</a></p>
-    <p class="small" id="adoptLink" hidden><a class="extlink" target="_blank" rel="noopener">Instructors: using this in your course? Let us know</a></p>
-    <p class="small"><strong>Disclaimer:</strong> Conceptual planning aid; check theory constructs against your course readings.</p>
-  </div>
-  <div class="ai" id="aiNote">
-    <h2>AI credit and disclosure</h2>
-    <p>D. L. Schuman designed this tool, its teaching approach, and its coaching content, and directed its development. The code, interface text, and automated tests were drafted and revised with generative AI assistants: Grok (xAI) and Claude (Anthropic; Claude Opus 5.5). The author reviewed and tested the result and is responsible for it.</p>
-    <p class="small"><strong>The app itself uses no AI.</strong> It does not generate your propositions, definitions, reasons, or hypotheses, and nothing you type is sent to an AI service or anywhere else. Sentence starters are fixed templates. Instructors: see the <a href="guide.html">instructor guide</a> for how to describe this tool in an AI-use policy.</p>
+    <p class="small">In-text: (Schuman, 2026) <button type="button" class="btn sec sm" data-copycite="1" style="margin-left:8px">Copy citation</button> <span class="small" role="status" data-citestatus></span></p>
+    <h3 id="aiNote" style="font-size:1.05rem;margin:16px 0 4px">AI disclosure</h3>
+    <p class="small">D. L. Schuman designed the tool and its teaching content. The code, interface text, and tests were drafted and revised with Grok (xAI) and Claude (Anthropic; Claude Opus 5.5). The author reviewed and tested the result and is responsible for it. The app does not use AI. It does not generate propositions, definitions, reasons, or hypotheses; it assembles them from what you enter. Sentence starters are fixed templates.</p>
+    <p class="small"><a href="guide.html">Instructor guide</a><span id="aboutSurvey" hidden> · <a class="extlink" target="_blank" rel="noopener">Feedback survey</a></span><span id="adoptLink" hidden> · <a class="extlink" target="_blank" rel="noopener">Instructors: tell us you use it</a></span></p>
   </div>
 </section>
 
@@ -147,7 +134,7 @@ var PROPOSITIONS_VIDEO_URL = ''; // older setting; used for the propositions slo
   </div>
   <aside id="preview" class="noprint" aria-label="Your model so far">
     <details class="pv" id="pvDetails" open>
-      <summary><h2>Your model</h2><span class="live">Live</span></summary>
+      <summary><h2>Your model</h2></summary>
       <div class="pv-body" id="pvBody"></div>
     </details>
   </aside>
@@ -160,11 +147,6 @@ var PROPOSITIONS_VIDEO_URL = ''; // older setting; used for the propositions slo
 </dialog>
 
 <footer>
-  <div class="fl">
-    <p data-citetext></p>
-    <p>Conceptual planning aid; check theory constructs against your course readings. Runs entirely in your browser; progress is saved only on this device until you use Save my work.</p>
-    <p>Built with AI assistance (Grok, xAI; Claude, Anthropic). The app itself uses no AI. Read the <a href="guide.html">instructor guide</a> or the <button type="button" class="linkbtn" id="aiLink">full AI disclosure</button>.</p>
-  </div>
   <p class="noprint"><button class="btn ghost sm danger" id="startOver" type="button">Start over</button></p>
 </footer>
 <div class="sr" id="live" role="status" aria-live="polite"></div>
@@ -179,18 +161,18 @@ var CITE_HTML = "Schuman, D. L. (2026). <i>Social theory model builder</i> (Vers
 
 /* ======================= Content ======================= */
 var TIPS = {
-  who: "You are naming the people and the change you care about. Everything else hangs off that.",
+  who: "Name the population and the outcome first. The rest of the model depends on them.",
   theory: "Choose a theory you can defend in a literature review.",
-  props: "Quote or paraphrase the theorist, not a textbook. A proposition with a page number is a claim you can defend; one without is a claim a reviewer will question.",
-  path: "What comes first, what comes next, and what might strengthen or weaken that link.",
-  med: "If you cannot name the in-between process in plain words, skip it for now.",
-  mod: "Ask who this path is stronger or weaker for; new researchers often forget status, work, money, and access.",
-  pie: "Think person-in-environment: what conditions around people, not just inside them, lead to this outcome?",
+  props: "Quote or paraphrase the theorist, not a textbook, and record the page number.",
+  path: "List the causes here. You add the mediator and moderators in the next steps.",
+  med: "Skip this step if you cannot name the in-between process.",
+  mod: "Consider whether the path differs by status, employment, income, or access to services.",
+  pie: "Consider conditions in the environment, such as housing, income, and discrimination, as well as individual factors.",
   concepts: "A conceptual definition says what the concept means in the theory, not how you will measure it. Cite the theorist's definition when one exists.",
-  arrow: "An arrow is a claim. If you cannot say how A changes B, the arrow is not ready yet.",
-  fig: "One clear RQ and one figure beat a busy diagram you cannot explain.",
-  notes: "Reviewers look for why the problem is defined the way it is, and what that definition leaves out. Note both while they are fresh.",
-  close: "Write the RQ so a classmate could design a study from it without you in the room."
+  arrow: "Each arrow needs a reason that explains how one concept changes the other.",
+  fig: "Keep the figure small enough to explain in a few sentences.",
+  notes: "Record how the problem is usually defined and what that definition leaves out.",
+  close: "The research question should be specific enough for someone else to design a study from it."
 };
 var THEORIES = {
   TPB: {name: "Theory of Planned Behavior", desc: "People act when they intend to, and intention grows from their attitudes, what important others expect, and how in-control they feel.", chips: ["Attitude toward the behavior", "Subjective norm", "Perceived behavioral control", "Intention"]},
@@ -614,7 +596,7 @@ function linkBlock(e, i){
 var STEPS = [
 /* 0 */ {t: "Start", skip: function(){ return true; }, r: function(){ return ""; }, v: function(){ return ""; }},
 /* 1 */ {t: "Who", g: "Question", r: function(){
-    return '<h2 id="stepTitle">Who are the people you want to study?</h2><p class="lede">Name your population of focus in plain words.</p><label for="f_who">Population</label><input type="text" id="f_who" data-bind="who" placeholder="e.g., First-generation college students at community colleges" value="' + esc(S.who) + '">';
+    return '<h2 id="stepTitle">Who are the people you want to study?</h2><p class="lede">Describe the population in plain words.</p><label for="f_who">Population</label><input type="text" id="f_who" data-bind="who" placeholder="e.g., First-generation college students at community colleges" value="' + esc(S.who) + '">';
   }, v: function(){ return S.who.trim() ? "" : "Name who you are studying."; }},
 /* 2 */ {t: "Outcome", g: "Question", r: function(){
     return '<h2 id="stepTitle">What change or result do you care about for them?</h2><p class="lede">This is the outcome your model explains.</p><label for="f_out">Outcome name</label><input type="text" id="f_out" data-bind="outcome" placeholder="e.g., Treatment engagement, exercise, course completion" value="' + esc(S.outcome) + '">' + tip("who");
@@ -625,7 +607,7 @@ var STEPS = [
 /* 4 */ {t: "Theory", g: "Theory", r: function(){
     var a = approach(), max = a[4], o = Object.keys(THEORIES).map(function(k){ return [k, THEORIES[k].name, THEORIES[k].desc]; });
     o.push(["custom", "Type my own", "Use a theory from your course or field."]);
-    var h = '<h2 id="stepTitle">Which theory explains why this happens?</h2><p class="lede">Start with the theory that names the mechanism you care about. Add a second theory only if your model needs one.</p>';
+    var h = '<h2 id="stepTitle">Which theory explains why this happens?</h2><p class="lede">Choose the theory that explains your outcome. Add a second theory only if the model needs one.</p>';
     h += '<div class="item"><div class="item-h"><span class="tbadge tA">A</span><strong>' + esc(roleOf(0)) + '</strong></div>' + choices("theory", o) + (S.theory === "custom" ? '<label for="f_th">Theory name</label><input type="text" id="f_th" data-bind="theoryCustom" placeholder="e.g., Self-Determination Theory" value="' + esc(S.theoryCustom) + '">' : '') + '</div>';
     S.more.forEach(function(t, i){
       var L = String.fromCharCode(66 + i);
@@ -644,7 +626,7 @@ var STEPS = [
   }},
 /* 5 */ {t: "Key propositions", g: "Theory", r: function(){
     var tl = theoryList(), co = constructOpts(), multi = tl.length > 1, newOK = multi;
-    var h = '<h2 id="stepTitle">Key propositions</h2><p class="lede">Ground your model in what ' + esc(theoryNames() || "your theory") + (multi ? " actually claim." : " actually claims.") + '</p>' + videoSlot("propositions", "How to find key propositions");
+    var h = '<h2 id="stepTitle">Key propositions</h2><p class="lede">Enter the propositions stated in the seminal source.</p>' + videoSlot("propositions", "How to find key propositions");
     h += '<div class="panel"><h3><span class="num">1</span> Find the seminal source' + (multi ? "s" : "") + '</h3><ul class="small" style="margin:4px 0 8px 1.2em;padding:0"><li>The seminal source is the work where the theorist first introduces or formally states the theory, often a book or major article.</li><li>Check what recent papers cite when they name the theory; the most-cited common source is usually it.</li><li>Prefer the original or the theorist’s own major revision over textbook summaries.</li></ul>';
     tl.forEach(function(t){
       var sug = SEMINAL[t.pick], fid = "sem_" + t.id;
@@ -745,7 +727,7 @@ var STEPS = [
 /* 13 */ {t: "Results", g: "Finish", r: function(){ return renderResults(); }, v: function(){ return ""; }},
 /* 14 */ {t: "Paper approach", skip: function(){ return true; }, r: function(){ return ""; }, v: function(){ return ""; }}, /* retired; kept so saved files keep their step numbers */
 /* 15 */ {t: "Define concepts", g: "Model", r: function(){
-    var tl = theoryList(), h = '<h2 id="stepTitle">Define your concepts</h2><p class="lede">Your paper needs a conceptual definition for each key concept: what it means in the theory, in a sentence or two, with a source. Tag where each concept comes from; the tags label the figure.</p>' + videoSlot("concepts", "Writing conceptual definitions");
+    var tl = theoryList(), h = '<h2 id="stepTitle">Define your concepts</h2><p class="lede">Write a conceptual definition for each concept in one or two sentences, with a source. Mark which theory each concept comes from; the letter appears on the figure.</p>' + videoSlot("concepts", "Writing conceptual definitions");
     nodes().forEach(function(n, i){
       var d = S.cdef[n.id] || {}, tg = S.ctag[n.id] || "";
       h += '<div class="item ccard"><div class="item-h"><span class="kind">' + KIND[n.kind] + '</span><strong>' + esc(n.label) + '</strong>' + (letterOf(n.id) ? '<span class="tbadge' + tc(letterOf(n.id)) + '">' + letterOf(n.id) + '</span>' : '') + '</div>' +
@@ -757,7 +739,7 @@ var STEPS = [
     return h + tip("concepts");
   }, v: function(){ return ""; }},
 /* 16 */ {t: "Paper notes", g: "Finish", r: function(){
-    var n = S.notes, h = '<h2 id="stepTitle">Paper notes <span class="opt">Optional</span></h2><p class="lede">Notes for the parts of the manuscript that are not in the figure. Everything here goes into the paper notes download on the results page.</p>';
+    var n = S.notes, h = '<h2 id="stepTitle">Paper notes <span class="opt">Optional</span></h2><p class="lede">Notes for the parts of the paper that are not in the figure. They are included in the Word download on the results page.</p>';
     function ta(key, lab, ph){ return '<label for="n_' + key + '">' + lab + '</label><textarea id="n_' + key + '" class="auto" data-note="' + key + '" placeholder="' + esc(ph || "") + '">' + esc(n[key] || "") + '</textarea>'; }
     h += '<div class="panel"><h3>Target journal</h3><label for="n_journal" class="sr">Target journal</label><input type="text" id="n_journal" data-note="journal" placeholder="A journal that publishes conceptual or theoretical articles" value="' + esc(n.journal || "") + '"></div>';
     h += '<div class="panel"><h3>The problem</h3>' + ta("phenomenon", "Social phenomenon or problem", "What is happening, and for whom?") + ta("typical", "How the problem is typically defined, and why", "") + ta("alternative", "Alternative ways to define or conceptualize it, with your rationale", "") + ta("need", "Why the theory needs analysis now, based on new research", "") + '</div>';
@@ -1013,7 +995,7 @@ function renderResults(){
   if(!S.rq) S.rq = autoRQ();
   if(!S.caption) S.caption = autoCaption();
   var aq = askHs();
-  return '<h2 id="stepTitle">Your results</h2><p class="lede">Your research question, ' + (S.hypWord === "P" ? "propositions" : "hypotheses") + ', figure, and paper kit. Everything here is editable, and changes save as you type.</p>' +
+  return '<h2 id="stepTitle">Your results</h2><p class="lede">Your research question, ' + (S.hypWord === "P" ? "propositions" : "hypotheses") + ', figure, and materials for your paper. You can edit everything on this page; changes save as you type.</p>' +
     (aq.length ? '<div class="warn"><strong>📚 Open questions</strong><ul style="margin:4px 0 0 1.2em;padding:0">' + aq.map(function(q){ return "<li>" + esc(q) + "</li>"; }).join("") + '</ul></div>' : '') +
     '<section class="rsec"><h3>Research question</h3><label for="rq" class="sr">Research question (editable)</label><textarea id="rq" class="auto">' + esc(S.rq) + '</textarea><div class="btnrow noprint"><button class="btn sec sm" type="button" id="copyRQ">Copy</button><button class="btn ghost sm" type="button" id="resetRQ">Regenerate</button></div></section>' +
     '<section class="rsec"><div class="rsec-h"><h3>' + (S.hypWord === "P" ? "Propositions" : "Hypotheses") + '</h3><div class="noprint">' + seg("data-hword", "w", S.hypWord, [["H", "Hypotheses"], ["P", "Propositions"]], "Write as") + '</div></div><p class="small noprint" style="margin:0 0 8px">Empirical papers state hypotheses; conceptual papers often state numbered propositions.</p><label for="hyps" class="sr">Hypotheses (editable)</label><textarea id="hyps" class="auto">' + esc(S.hyps || hypText()) + '</textarea><div class="btnrow noprint"><button class="btn sec sm" type="button" id="copyH">Copy</button><button class="btn ghost sm" type="button" id="resetH">Regenerate</button></div></section>' +
@@ -1022,7 +1004,7 @@ function renderResults(){
     '<details class="noprint" style="margin-top:12px"><summary>Edit box labels</summary>' + nodes().map(function(n){ return '<label for="lab_' + n.id + '">' + esc(KIND[n.kind]) + '</label><input type="text" id="lab_' + n.id + '" data-lab="' + n.id + '" value="' + esc(n.label) + '">'; }).join("") + '</details>' +
     '<div class="btnrow noprint" style="margin-top:14px"><button class="btn" type="button" id="dlSVG">Download SVG</button><button class="btn" type="button" id="dlPNG">Download PNG</button><button class="btn sec" type="button" id="cpMer">Copy Mermaid</button><button class="btn sec" type="button" id="print">Print / Save as PDF</button><button class="btn ghost" type="button" id="resetLayout">Reset layout</button></div>' +
     '<details class="noprint"><summary>Show Mermaid text</summary><pre id="mer" class="mer">' + esc(mermaid()) + '</pre></details></section>' +
-    '<section class="rsec kit"><h3>Paper kit</h3><p class="small">For the manuscript: the figure caption and note (APA 7), the key concepts table, and your notes for each section.</p>' +
+    '<section class="rsec kit"><h3>For your paper</h3><p class="small">Figure caption and note (APA 7), concepts table, and your notes.</p>' +
     '<label for="cap">Figure caption and note</label><textarea id="cap" class="auto">' + esc(S.caption) + '</textarea><div class="btnrow noprint"><button class="btn sec sm" type="button" id="copyCap">Copy caption</button><button class="btn ghost sm" type="button" id="resetCap">Regenerate</button></div>' +
     '<h4 style="margin:18px 0 8px">Key concepts and definitions</h4><div class="tablewrap" id="ctab">' + conceptsTable(false) + '</div><div class="btnrow noprint"><button class="btn sec sm" type="button" id="copyTab">Copy table for Word</button><button class="btn ghost sm" type="button" data-fix="' + stepIdx("Define concepts") + '">Edit definitions</button></div>' +
     (notesHTML() ? '<h4 style="margin:18px 0 8px">Paper notes</h4><div id="notesOut">' + notesHTML() + '</div>' : '<p class="small">No paper notes yet. <button type="button" class="linkbtn" data-fix="' + stepIdx("Paper notes") + '">Add paper notes</button></p>') +
@@ -1030,8 +1012,8 @@ function renderResults(){
     propsHTML() +
     '<section class="rsec"><h3>Self-check</h3><div id="chk">' + checkHTML(checks(), true) + '</div></section>' +
     '<section class="rsec"><h3>What you decided</h3><ul class="sumlist" id="sum">' + sumHTML() + '</ul>' + tip("close") + '</section>' +
-    '<p class="small citeline"><strong>Cite this tool:</strong> ' + CITE_HTML + ' <button type="button" class="linkbtn noprint" data-copycite="1">Copy citation</button> <span class="small" role="status" data-citestatus></span></p><p class="noprint"><span id="status" role="status" class="small"></span></p>' +
-    (/^https?:\/\//i.test(SURVEY_URL) ? '<p class="noprint"><a href="' + esc(SURVEY_URL) + '" target="_blank" rel="noopener">Help improve this tool (2-minute optional survey)</a></p>' : '');
+    '<p class="noprint"><span id="status" role="status" class="small"></span></p>' +
+    (/^https?:\/\//i.test(SURVEY_URL) ? '<p class="noprint"><a href="' + esc(SURVEY_URL) + '" target="_blank" rel="noopener">Feedback survey (2 minutes)</a></p>' : '');
 }
 function refreshText(){
   if(!isResults()) return;
@@ -1319,7 +1301,7 @@ function showSplash(focusCite){
   var b = $("spBtns");
   b.innerHTML = hasProgress()
     ? '<button class="btn yel" type="button" id="spCont">' + (S.demoLoaded ? "Back to the example" : "Continue my model") + '</button><button class="btn sec" type="button" id="spNew">Start a new model</button>' + (S.demoLoaded ? '' : '<button class="btn sec" type="button" id="spDemo">See a finished example</button>') + '<button class="btn ghost" type="button" id="spOpen">Open saved work</button>'
-    : '<button class="btn yel" type="button" id="spStart">Start building</button><button class="btn sec" type="button" id="spDemo">See a finished example</button><button class="btn ghost" type="button" id="spOpen">Open saved work</button>';
+    : '<button class="btn yel" type="button" id="spStart">Start a new model</button><button class="btn sec" type="button" id="spDemo">See a finished example</button><button class="btn ghost" type="button" id="spOpen">Open saved work</button>';
   window.scrollTo(0, 0);
   if(focusCite){ $("about").scrollIntoView(); } else $("spT").focus({preventScroll: true});
 }
@@ -1339,7 +1321,6 @@ document.addEventListener("click", function(ev){
   var id = t.id;
   if(id === "homeLink" || id === "homeBrand"){ save(); return showSplash(false); }
   if(id === "aboutLink") return showSplash(true);
-  if(id === "aiLink"){ showSplash(false); $("aiNote").scrollIntoView(); return; }
   if(id === "spCont"){ render(); focusH(); return; }
   if(id === "spStart" || id === "spNew"){ if(!okReplace()) return; S = fresh(); S.mode = "own"; S.step = 1; render(); focusH(); return; }
   if(id === "spDemo"){ openExample(); return; }
@@ -1407,7 +1388,6 @@ $("figDlg").addEventListener("click", function(e){ if(e.target === this) this.cl
 /* ======================= Init ======================= */
 window.__CITE = CITE;
 document.querySelectorAll("[data-citehtml]").forEach(function(e){ e.innerHTML = CITE_HTML; });
-document.querySelectorAll("[data-citetext]").forEach(function(e){ e.innerHTML = "Cite: " + CITE_HTML; });
 $("spVer").textContent = "Version " + VERSION;
 (function(){ function lk(id, u){ var e = $(id); if(u && /^https?:\/\//i.test(u)){ e.querySelector("a").href = u; e.hidden = false; } } lk("aboutSurvey", SURVEY_URL); lk("adoptLink", ADOPTION_URL); if(GOATCOUNTER_CODE) $("gcNote").hidden = false; })();
 if(window.matchMedia && window.matchMedia("(max-width: 900px)").matches) $("pvDetails").open = false;

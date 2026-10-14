@@ -1,6 +1,6 @@
 # Social Theory Model Builder
 
-A single-page, offline web app that walks students from a population, an outcome, and one or more theories to a conceptual model they can defend in a theoretical paper: propositions with page numbers, a conceptual definition for every concept, an editable path figure, hypotheses or numbered propositions, and paper-ready notes.
+A single-page web app for building a conceptual model from a theory. Students enter a population, an outcome, a theory, and the theory's propositions with page numbers. The app produces a path figure, a research question, hypotheses, a concepts table, and notes for a theoretical paper.
 
 Live: https://social-theory-model-builder.netlify.app
 
@@ -11,7 +11,7 @@ Live: https://social-theory-model-builder.netlify.app
 3. **Model.** Causes (including social determinants of health), an in-between step (mediator), and moderators. Causes can be dragged in from theory chips and reordered.
 4. **Concepts.** A conceptual definition and source for every box, tagged by source theory or marked as a new concept.
 5. **Arrows.** Direction (+/−), line style, the proposition each arrow comes from (drag a proposition onto an arrow), and a one-sentence reason. Students set every arrow's direction themselves; the app flags any arrow whose direction differs from its linked proposition.
-6. **Paper kit.** Research question, hypotheses or propositions, the figure (SVG, PNG, Mermaid, PDF), an APA 7 figure caption and note, a concepts table that pastes into Word as a table, and a Word file of paper notes (problem definitions, each theory's ontology, epistemology, history, and limits).
+6. **Results.** Research question, hypotheses or propositions, the figure (SVG, PNG, Mermaid, PDF), an APA 7 figure caption and note, a concepts table that pastes into Word as a table, and a Word file of paper notes (problem definitions, each theory's ontology, epistemology, history, and limits).
 
 ## For instructors
 
