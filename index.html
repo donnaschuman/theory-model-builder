@@ -324,8 +324,8 @@ var TODO = {
   "Moderation": ["Ask yourself: is any link stronger for some people, places, or times than for others?", "Click Yes, No, or Not sure.", "If you clicked Yes or Not sure, check the box for each group or condition that might change a link. Check Other to type your own.", "Press Next."],
   "Moderator details": ["For each moderator, type the two groups you will compare.", "Choose the link that the moderator makes stronger or weaker.", "Press Next."],
   "Define concepts": ["Each card is one box in your figure.", "Choose where the concept comes from.", "Write what the concept means in one or two sentences. Then type the source: author, year, and page.", "Press Next."],
-  "Line styles": ["Each card is one arrow in your figure.", "Click + if more of the first concept leads to more of the second. Click \u2212 if it leads to less.", "Click Solid if you will test the arrow. Click Dashed for a moderator or an arrow you will not test.", "Press Next."],
-  "Why this arrow?": ["Each card is one arrow in your figure.", "Click what your reason is based on. This is required.", "Link the proposition the arrow comes from. Use the menu Comes from proposition on the card. Or click a proposition in the box at the top, then click Link here on the card.", "In the large box, write one sentence that explains how the first concept changes the second. Click I\u2019m stuck if you need help.", "Press Next."],
+  "Line styles": ["Each card is one arrow in your figure. Its number (H1, H2, and so on) is the hypothesis number on the figure and the results page.", "Click + if more of the first concept leads to more of the second. Click \u2212 if it leads to less.", "Click Solid if you will test the arrow. Click Dashed for a moderator or an arrow you will not test.", "Press Next."],
+  "Why this arrow?": ["Each card is one arrow in your figure. Its number (H1, H2, and so on) is the hypothesis number on the figure and the results page.", "Click what your reason is based on. This is required.", "Link the proposition the arrow comes from. Use the menu Comes from proposition on the card. Or click a proposition in the box at the top, then click Link here on the card.", "In the large box, write one sentence that explains how the first concept changes the second. Click I\u2019m stuck if you need help.", "Press Next."],
   "Paper notes": ["This step is optional.", "Type notes in any box that will help you write your paper. You can leave boxes empty.", "Your notes go into the Word file on the results page.", "Press Next."],
   "Self-check": ["Read each item.", "Green items are done. Yellow items need attention.", "Click Fix this to go to the step that needs work, or press the Next button to see your results."],
   "Results": ["Read your research question, hypotheses, and figure.", "Click Edit under any text to change it.", "Click Download PNG for the figure, and Download paper notes for Word for the text.", "Click Save my work at the top of the page to keep a copy of your model."]
@@ -521,6 +521,7 @@ function hypList(){
   return H;
 }
 function hypText(){ return hypList().map(function(h){ return h.text; }).join("\n\n"); }
+function hnumBadge(id){ var h = hypList().filter(function(x){ return x.edge === id; })[0]; return h ? '<span class="badge hnum" title="' + (S.hypWord === "P" ? "Proposition " : "Hypothesis ") + h.n + '">' + hlabel(h) + '</span>' : ''; }
 function hlabel(h){ return S.hypWord === "P" ? "P" + h.n : "H" + h.n; }
 function srcOf(id){ var k = linkOf(id); if(k >= 0) return propShort(k); return basisLabel(id) || (ask(id) ? "Needs a source" : "Not linked"); }
 function hypRows(){
@@ -764,7 +765,7 @@ var STEPS = [
     var h = '<h2 id="stepTitle">Direction and line style</h2><p class="lede"><strong>Solid</strong> = a main path you hypothesize and will test. <strong>Dashed</strong> = moderation, or a path that is exploratory / not tested. <strong>+</strong> means more of this leads to more of the next box; <strong>−</strong> means more leads to less.</p>';
     function row(id, lab, def, sg){
       var k = linkOf(id);
-      return '<div class="item"><div class="item-h"><strong>' + esc(lab) + '</strong>' + (k >= 0 ? '<span class="link-badge"><span class="badge">P' + (k + 1) + '</span> says ' + signChar(propSign(k)) + '</span>' : '') + '</div>' +
+      return '<div class="item"><div class="item-h">' + hnumBadge(id) + '<strong>' + esc(lab) + '</strong>' + (k >= 0 ? '<span class="link-badge"><span class="badge">P' + (k + 1) + '</span> says ' + signChar(propSign(k)) + '</span>' : '') + '</div>' +
         (sg ? '<div class="segrow"><span class="lbl">Direction</span>' + seg("data-sign", id, sign(id), SIGN_OPTS, "Direction for " + lab) + '</div>' : '') +
         '<div class="segrow"><span class="lbl">Line</span>' + seg("data-style", id, style(id, def), STYLE_OPTS, "Line style for " + lab) + '</div>' +
         (sg && mismatch(id) ? '<div class="warn" role="note">This differs from P' + (k + 1) + '. Check the source before you decide.</div>' : '') + '</div>';
@@ -777,7 +778,7 @@ var STEPS = [
     var h = '<h2 id="stepTitle">Why this arrow?</h2><p class="lede">For each arrow, say what your reason is based on (required), link the proposition it comes from, and write a one-sentence reason.</p>' + videoSlot("arrows", "Justifying an arrow") + trayHTML(true);
     allEdges().forEach(function(e, i){
       var r = S.reasons[e.id] || "", b = S.bases[e.id] || "";
-      h += '<div class="item" ' + (!e.mod && S.props.length ? 'data-drop="edge" data-edge="' + esc(e.id) + '"' : '') + '><div class="item-h"><strong>' + esc(e.label) + '</strong>' + (e.mod ? '' : '<span class="kind">' + signChar(sign(e.id)) + ' · ' + style(e.id, "solid") + '</span>') + '</div>' +
+      h += '<div class="item" ' + (!e.mod && S.props.length ? 'data-drop="edge" data-edge="' + esc(e.id) + '"' : '') + '><div class="item-h">' + hnumBadge(e.id) + '<strong>' + esc(e.label) + '</strong>' + (e.mod ? '' : '<span class="kind">' + signChar(sign(e.id)) + ' · ' + style(e.id, "solid") + '</span>') + '</div>' +
         '<fieldset style="margin:8px 0"><legend class="small" style="font-weight:650">Your reason is based on… <span aria-hidden="true">*</span></legend><div class="choices compact" style="margin:4px 0" role="radiogroup" aria-label="Your reason is based on, for ' + esc(e.label) + '">' + BASIS.map(function(o){ return '<button type="button" class="choice" role="radio" data-basis="' + esc(e.id) + '" data-val="' + o[0] + '" aria-checked="' + (b === o[0]) + '"><strong>' + o[1] + '</strong></button>'; }).join("") + '</div></fieldset>' +
         linkBlock(e, i) +
         '<label for="rs' + i + '" class="small">' + esc(e.mod ? "Why would this path be stronger or weaker for these groups?" : "In one sentence, how does " + nodeLabel(e.from) + " change " + nodeLabel(e.to) + "?") + '</label><textarea id="rs' + i + '" class="auto" data-reason="' + esc(e.id) + '" style="min-height:60px" placeholder="' + esc(starter(e)) + '">' + esc(r) + '</textarea>' +
