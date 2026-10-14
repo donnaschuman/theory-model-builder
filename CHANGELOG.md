@@ -28,7 +28,8 @@
 - Self-check flags a concept used as both a cause and a moderator, and a second theory with no concepts in the model.
 - Partial mediation: on the In-between step, each cause can be marked as also affecting the outcome directly. It gets a curved direct arrow, its own direct hypothesis, and the mediation hypothesis says which links are completely and which are partially mediated. The figure legend and caption explain the curved arrow. The finished example uses partial mediation for perceived behavioral control (P5).
 - Why this arrow?: click a proposition to select it, then click "Link here" on an arrow card. This works on every device; dragging still works. The directions now name the card menu as the first way to link.
-- Arrow cards on the Line styles and Why this arrow? steps show their hypothesis number (H1, H2, and so on) before the arrow name, matching the figure and the results page.
+- Each arrow's panel on the Line styles and Why this arrow? steps starts with a visible label (Arrow H1, Arrow H2, and so on) matching the figure and the results page. Directions say "panel" and explain it, instead of the unexplained word "card."
+- Full text is always visible: proposition buttons wrap instead of cutting off, each linked arrow prints its full proposition under the menu, the seminal citation and "In my own words" boxes grow to fit, and long figure labels use smaller type over four lines before shortening.
 
 ## 1.1.0 (2026-10-13)
 

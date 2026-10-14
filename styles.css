@@ -445,3 +445,10 @@ body:not(.splashing) #splash{display:none}
 button.pchip{font:inherit;color:inherit;text-align:left}
 .pchip[aria-pressed=true]{background:linear-gradient(180deg,#fff9d6,#fff0a3);border-color:var(--hl-edge);box-shadow:0 0 0 3px rgba(255,217,61,.55),0 3px 0 var(--hl-edge)}
 .badge.hnum{background:linear-gradient(180deg,#2c3460,#1d2340);border-color:#0d1024;box-shadow:inset 0 1px 0 rgba(255,255,255,.2),0 2px 0 #0d1024;font-size:.86rem;min-width:36px}
+textarea.oneline{min-height:0;height:auto}
+.fulltext{margin:8px 0 0;padding:8px 12px;background:#fffbe6;border:1px solid #f1e2a2;border-radius:10px;font-size:.92rem;color:var(--ink-2)}
+.pchip .ptext{white-space:normal;overflow:visible;text-overflow:clip;max-width:none;line-height:1.35}
+.tray-list{flex-direction:column;align-items:stretch}
+.pchip{width:100%;align-items:flex-start}
+.pchip .psign{margin-left:auto}
+.arrow-lbl{font-weight:800;color:var(--ink);font-size:.95rem;margin-right:-4px}
