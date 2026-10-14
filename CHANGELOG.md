@@ -9,6 +9,11 @@
 - Rewrote the home page, coaching tips, and step introductions in plain language. Removed the feature cards and slogan headline.
 - The citation and AI disclosure appear once, in the About section on the home page. Removed the copies from the footer, the results page, and the guide footer.
 - Renamed "Paper kit" to "For your paper" on the results page.
+- The research question is now one main question plus numbered subquestions: one for the mediator and one per moderator.
+- Hypotheses are one plain sentence each. The population is no longer repeated in every hypothesis, the three indirect hypotheses are one mediation hypothesis, and sources and reasons are in a separate "Where each one comes from" table.
+- Source propositions show the seminal citation once per theory, and the page once when all propositions share it.
+- The figure's side panel is now "Change an arrow," with instructions; the proposition tray moved off the results page.
+- The finished example has one moderator (distance to care), for six hypotheses instead of nine.
 
 ## 1.1.0 (2026-10-13)
 

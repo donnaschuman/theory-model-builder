@@ -79,7 +79,7 @@ var PROPOSITIONS_VIDEO_URL = ''; // older setting; used for the propositions slo
           <rect x="10" y="204" width="128" height="44" rx="7" fill="#fff" stroke="#1d2340" stroke-width="1.5"/><text x="74" y="231" text-anchor="middle">Perceived control</text>
           <rect x="200" y="124" width="128" height="44" rx="7" fill="#fff" stroke="#1d2340" stroke-width="1.5"/><text x="264" y="151" text-anchor="middle">Intention</text>
           <rect x="382" y="124" width="128" height="44" rx="7" fill="#fff3b8" stroke="#1d2340" stroke-width="1.5"/><text x="446" y="151" text-anchor="middle">Engagement</text>
-          <rect x="300" y="14" width="120" height="38" rx="7" fill="#f4f5fb" stroke="#555c7a" stroke-width="1.5" stroke-dasharray="5 4"/><text x="360" y="38" text-anchor="middle">Stigma</text>
+          <rect x="300" y="14" width="120" height="38" rx="7" fill="#f4f5fb" stroke="#555c7a" stroke-width="1.5" stroke-dasharray="5 4"/><text x="360" y="38" text-anchor="middle">Distance</text>
         </g>
         <g stroke="#1d2340" stroke-width="2" fill="none">
           <path class="draw" d="M138 70 L198 136" marker-end="url(#hah)"/>
@@ -200,23 +200,22 @@ var DEMO = {
   outcomeDef: "Attending at least 8 psychotherapy sessions within 14 weeks of intake (from clinic records)",
   theory: "TPB", seminal: SEMINAL.TPB,
   causes: ["Attitude toward the behavior", "Subjective norm", "Perceived behavioral control"],
-  medYN: "yes", mediator: "Intention to stay in treatment", modYN: "yes", modPicked: ["Stigma/help-seeking norms", "Distance to care"],
-  modDetails: {"Stigma/help-seeking norms": {groups: "High vs. low perceived military stigma (median split)", path: "med>out"}, "Distance to care": {groups: "Under 30 miles vs. 30+ miles from clinic", path: "med>out"}},
+  medYN: "yes", mediator: "Intention to stay in treatment", modYN: "yes", modPicked: ["Distance to care"],
+  modDetails: {"Distance to care": {groups: "under 30 miles vs. 30 or more miles from the clinic", path: "med>out"}},
   props: [
     {text: "", page: "179", own: "A more favorable attitude toward a behavior strengthens the intention to perform it.", from: "Attitude toward the behavior", to: "Intention to stay in treatment", sign: "+", theory: "A", isNew: false, src: ""},
     {text: "", page: "179", own: "Stronger perceived expectations from important others strengthen intention.", from: "Subjective norm", to: "Intention to stay in treatment", sign: "+", theory: "A", isNew: false, src: ""},
     {text: "", page: "179", own: "Greater perceived control over the behavior strengthens intention.", from: "Perceived behavioral control", to: "Intention to stay in treatment", sign: "+", theory: "A", isNew: false, src: ""},
     {text: "", page: "179", own: "Intention, with perceived control, predicts whether the behavior happens.", from: "Intention to stay in treatment", to: "Treatment engagement", sign: "+", theory: "A", isNew: false, src: ""}
   ],
-  ctag: {c0: "A", c1: "A", c2: "A", med: "A", out: "none", m0: "none", m1: "none"},
-  bases: {"c0>med": "theory", "c1>med": "theory", "c2>med": "theory", "med>out": "theory", "m0~": "research", "m1~": "practice"},
+  ctag: {c0: "A", c1: "A", c2: "A", med: "A", out: "none", m0: "none"},
+  bases: {"c0>med": "theory", "c1>med": "theory", "c2>med": "theory", "med>out": "theory", "m0~": "practice"},
   reasons: {
     "c0>med": "Veterans who expect therapy to help them value attending, so they plan to keep going.",
     "c1>med": "When spouses, fellow veterans, and clinicians endorse treatment, veterans feel backed in planning to continue.",
     "c2>med": "Veterans who believe they can fit sessions around work, child care, and travel are more likely to plan to stay.",
     "med>out": "A plan to stay in treatment turns into attendance when the opportunity is there.",
-    "m0~": "Where military stigma is high, a veteran who intends to attend may still skip sessions to avoid being seen as weak, so intention predicts attendance less well.",
-    "m1~": "Long drives add cost and time to every visit, so intention converts to attendance less reliably for veterans 30 or more miles away."
+    "m0~": "Long drives add cost and time to every visit, so intention leads to attendance less often for veterans 30 or more miles away."
   },
   cdef: {
     c0: {def: "The degree to which a person evaluates staying in treatment favorably or unfavorably.", src: "Ajzen, 1991"},
@@ -224,22 +223,21 @@ var DEMO = {
     c2: {def: "Perceived ease or difficulty of attending treatment, reflecting past experience and expected obstacles.", src: "Ajzen, 1991"},
     med: {def: "How hard a veteran plans to try to keep attending treatment; the motivational step closest to the behavior.", src: "Ajzen, 1991"},
     out: {def: "Sustained participation in psychotherapy across an adequate course of care.", src: "Working definition for this example"},
-    m0: {def: "Expected negative judgment, within military and veteran culture, of seeking mental health care.", src: "Working definition for this example"},
-    m1: {def: "Travel distance from a veteran's home to the clinic that delivers care.", src: "Working definition for this example"}
+    m0: {def: "Travel distance from a veteran's home to the clinic that delivers care.", src: "Working definition for this example"}
   },
   notes: {
     journal: "Journal of Human Behavior in the Social Environment",
     phenomenon: "Many post-9/11 veterans who begin VA psychotherapy stop before completing an adequate course of care.",
     typical: "Usually defined as dropout or nonadherence, a property of the individual veteran, because clinics track attendance patient by patient.",
     alternative: "It can be defined as a mismatch between how care is delivered and veterans' lives: distance, work schedules, and military norms about help-seeking. This moves attention from the veteran to the system and makes room for structural explanations alongside individual ones.",
-    need: "This example asks whether the theory's individual focus is enough to explain engagement when access barriers such as distance and stigma are present."
+    need: "This example asks whether the theory's individual focus is enough to explain engagement when access barriers such as distance to care are present."
   },
   assume: {A: {
     paradigm: "Postpositivist",
     ontology: "Behavior has causes in a person's beliefs that exist independently of the researcher and can be approximated, though never known perfectly.",
     epistemology: "Beliefs, intentions, and behavior can be measured with standardized self-report and records and tested with statistical models.",
     history: "Extends Fishbein and Ajzen's theory of reasoned action by adding perceived behavioral control; rooted in expectancy-value models of attitudes.",
-    limits: "Makes individual beliefs and intentions visible. Structural conditions such as distance and stigma stay outside the model unless they act through perceived control.",
+    limits: "Makes individual beliefs and intentions visible. Structural conditions such as distance to care stay outside the model unless they act through perceived control.",
     practice: "Points practice toward changing beliefs and perceived control (motivational interviewing, peer veterans, scheduling and travel support) and policy toward reducing access barriers."
   }}
 };
@@ -410,6 +408,7 @@ function moveCause(from, to){
 }
 function propCite(q){ var src = (q.src || "").trim(); if(src) return src; var t = theoryById(q.theory || "A"); return t ? t.seminal : S.seminal; }
 function shortCite(c){ var m = (c || "").match(/^\s*([^,(]+)[^(]*\((\d{4})/); return m ? m[1].trim() + ", " + m[2] : "source not yet entered"; }
+function propShort(k){ var q = S.props[k]; if(!q) return ""; var pg = (q.page || "").trim(); return "P" + (k + 1) + ((q.src || "").trim() ? " (" + shortCite(q.src) + (pg ? ", p. " + pg : "") + ")" : pg ? ", p. " + pg : ""); }
 function propRef(k){ var q = S.props[k]; if(!q) return ""; return "From proposition P" + (k + 1) + (q.isNew ? " (new)" : "") + " (" + shortCite(propCite(q)) + ((q.page || "").trim() ? ", p. " + q.page.trim() : "") + ")"; }
 function linkOf(id){ var v = S.propLinks[id]; return typeof v === "number" && S.props[v] ? v : -1; }
 /* Link an arrow to the proposition that names the same two constructs. The arrow's + or −
@@ -454,34 +453,50 @@ function hn(n){ return S.hypWord === "P" ? "Proposition " + n : "H" + n; }
 function askHs(){ return hypList().filter(function(h){ return h.edge && ask(h.edge); }).map(function(h){ var q = oq(h.edge); return "Open question (" + hn(h.n) + "): " + ((q.unsure || "").trim() || "[not yet described]") + ". Plan: " + ((q.where || "").trim() || "[not yet chosen]"); }); }
 /* "Adolescents in foster care" reads as "among adolescents in foster care"; acronyms (VA, LGBTQ+) keep their case. */
 function whoIn(){ var w = S.who.trim(); return /^[A-Z][a-z]/.test(w) ? w.charAt(0).toLowerCase() + w.slice(1) : w; }
-function autoRQ(){
-  var who = whoIn() || "[who]", out = S.outcome.trim() || "[outcome]", cs = causes().map(function(c){ return c.toLowerCase(); });
-  var c = cs.length ? joinList(cs) : "[causes]";
-  var q = "Among " + who + ", do " + c + " relate to " + out.toLowerCase();
-  if(hasMed()) q += " because they first change " + S.mediator.trim().toLowerCase();
-  var me = modEdges();
-  if(me.length){
-    var byPath = {};
-    me.forEach(function(e){ var d = S.modDetails[e.name] || {}; var g = d.groups ? e.name.toLowerCase() + " (" + d.groups + ")" : e.name.toLowerCase(); (byPath[e.path] = byPath[e.path] || []).push(g); });
-    var parts = Object.keys(byPath).map(function(pid){ var p = paths().filter(function(x){ return x.id === pid; })[0]; var pl = p ? nodeLabel(p.from).toLowerCase() + " → " + nodeLabel(p.to).toLowerCase() : "main"; return "does the " + pl + " path differ by " + joinList(byPath[pid]); });
-    q += ", and " + parts.join("; and ");
-  }
-  return q + "?";
+/* One main question, then numbered subquestions: one for the mediator, one per moderator. */
+function rqMain(){
+  var who = whoIn() || "[who]", out = (S.outcome.trim() || "[outcome]").toLowerCase(), cs = causes().map(function(c){ return c.toLowerCase(); });
+  return "Among " + who + ", how " + (cs.length === 1 ? "does " : "do ") + (cs.length ? joinList(cs) : "[causes]") + " relate to " + out + "?";
 }
+function rqSubs(){
+  var subs = [];
+  if(hasMed()) subs.push("Does " + S.mediator.trim().toLowerCase() + " explain " + (causes().length > 1 ? "these relationships" : "this relationship") + "?");
+  modEdges().forEach(function(e){ var p = paths().filter(function(x){ return x.id === e.path; })[0]; if(p) subs.push("Does the relationship between " + nodeLabel(p.from).toLowerCase() + " and " + nodeLabel(p.to).toLowerCase() + " differ by " + e.name.toLowerCase() + "?"); });
+  return subs;
+}
+function autoRQ(){
+  var subs = rqSubs();
+  return "Main question: " + rqMain() + (subs.length ? "\n\nSubquestions:\n" + subs.map(function(q, i){ return (i + 1) + ". " + q; }).join("\n") : "");
+}
+/* Plain hypotheses: one sentence each. Sources and reasons are listed separately in hypRows(). */
 function hypList(){
   var H = [], n = 0, ps = paths();
   function ex(id, def){ return style(id, def) === "dashed" ? " (exploratory)" : ""; }
-  ps.forEach(function(p){ n++; H.push({n: n, edge: p.id, text: hn(n) + ex(p.id, "solid") + ": Among " + whoIn() + ", higher " + nodeLabel(p.from).toLowerCase() + " will be associated with " + hl(sign(p.id)) + " " + nodeLabel(p.to).toLowerCase() + ".", reason: rsn(p.id), src: linkOf(p.id) >= 0 ? propRef(linkOf(p.id)) : ""}); });
-  if(hasMed()) causeNodes().forEach(function(c){
-    var a = c.id + ">med"; n++;
-    var e = style(a, "solid") === "dashed" || style("med>out", "solid") === "dashed";
-    var net = sign(a) === sign("med>out") ? "+" : "-";
-    H.push({n: n, edge: null, text: hn(n) + (e ? " (exploratory)" : "") + " (indirect): Higher " + c.label.toLowerCase() + " will be associated with " + hl(net) + " " + nodeLabel("out").toLowerCase() + " through " + nodeLabel("med").toLowerCase() + " (the in-between): higher " + nodeLabel(c.id).toLowerCase() + " → " + hl(sign(a)) + " " + nodeLabel("med").toLowerCase() + " → " + hl(net) + " " + nodeLabel("out").toLowerCase() + ".", reason: [rsn(a), rsn("med>out")].filter(Boolean).join(" Then: "), src: [a, "med>out"].map(function(x){ return linkOf(x) >= 0 ? propRef(linkOf(x)) : ""; }).filter(Boolean).join("; ")});
-  });
-  modEdges().forEach(function(e){ var p = ps.filter(function(x){ return x.id === e.path; })[0]; if(!p) return; n++; var d = S.modDetails[e.name] || {}; H.push({n: n, edge: e.id, text: hn(n) + " (moderation): The " + pathLabel(p).toLowerCase() + " path will differ in strength by " + e.name.toLowerCase() + (d.groups ? " (" + d.groups + ")" : "") + ".", reason: rsn(e.id)}); });
+  ps.forEach(function(p){ n++; H.push({n: n, edge: p.id, kind: "direct", text: hn(n) + ex(p.id, "solid") + ": Higher " + nodeLabel(p.from).toLowerCase() + " will be associated with " + hl(sign(p.id)) + " " + nodeLabel(p.to).toLowerCase() + "."}); });
+  if(hasMed() && causeNodes().length){
+    n++;
+    var ex2 = causeNodes().some(function(c){ return style(c.id + ">med", "solid") === "dashed"; }) || style("med>out", "solid") === "dashed";
+    H.push({n: n, edge: null, kind: "mediation", text: hn(n) + (ex2 ? " (exploratory)" : "") + " (mediation): " + nodeLabel("med") + " will mediate the " + (causeNodes().length > 1 ? "links" : "link") + " from " + joinList(causeNodes().map(function(c){ return c.label.toLowerCase(); })) + " to " + nodeLabel("out").toLowerCase() + "."});
+  }
+  modEdges().forEach(function(e){ var p = ps.filter(function(x){ return x.id === e.path; })[0]; if(!p) return; n++; var d = S.modDetails[e.name] || {}; H.push({n: n, edge: e.id, kind: "moderation", text: hn(n) + " (moderation): The link between " + nodeLabel(p.from).toLowerCase() + " and " + nodeLabel(p.to).toLowerCase() + " will differ by " + e.name.toLowerCase() + (d.groups ? " (" + d.groups + ")" : "") + "."}); });
   return H;
 }
-function hypText(){ return hypList().map(function(h){ return h.text + (h.src ? "\n   " + h.src : "") + "\n   Reason: " + ((h.reason || "").trim() || "[not yet written]"); }).join("\n"); }
+function hypText(){ return hypList().map(function(h){ return h.text; }).join("\n\n"); }
+function hlabel(h){ return S.hypWord === "P" ? "P" + h.n : "H" + h.n; }
+function srcOf(id){ var k = linkOf(id); if(k >= 0) return propShort(k); return basisLabel(id) || (ask(id) ? "Needs a source" : "Not linked"); }
+function hypRows(){
+  var H = hypList(), direct = H.filter(function(h){ return h.kind === "direct"; });
+  return H.map(function(h){
+    if(h.kind === "mediation"){ var ids = direct.map(hlabel); return {h: hlabel(h), src: "Combines " + (ids.length > 1 ? ids[0] + " to " + ids[ids.length - 1] : ids[0] || ""), reason: "See the reasons for " + (ids.length > 1 ? ids[0] + " to " + ids[ids.length - 1] : ids[0] || "the direct paths") + "."}; }
+    var r = (S.reasons[h.edge] || "").trim();
+    return {h: hlabel(h), src: srcOf(h.edge), reason: (ask(h.edge) ? "[Needs a source] " : "") + (r || "Not yet written")};
+  });
+}
+function hypTable(forWord){
+  var st = forWord ? ' style="border:1px solid #000;padding:4px 6px;vertical-align:top;text-align:left"' : '';
+  return '<table class="ctab"' + (forWord ? ' style="border-collapse:collapse;width:100%"' : '') + '><thead><tr><th' + st + '>' + (S.hypWord === "P" ? "Proposition" : "Hypothesis") + '</th><th' + st + '>Comes from</th><th' + st + '>Reason</th></tr></thead><tbody>' +
+    hypRows().map(function(r){ return '<tr><td' + st + '>' + esc(r.h) + '</td><td' + st + '>' + esc(r.src) + '</td><td' + st + '>' + esc(r.reason) + '</td></tr>'; }).join("") + '</tbody></table>';
+}
 function titleCase(s){ var small = /^(a|an|and|as|at|but|by|for|if|in|nor|of|off|on|or|per|so|the|to|up|via|vs\.?|yet)$/; /* APA 7: lowercase only minor words of three letters or fewer */ return s.split(" ").map(function(w, i){ return i && small.test(w) ? w : w.charAt(0).toUpperCase() + w.slice(1); }).join(" "); }
 function autoCaption(){
   var tn = theoryNames() || "[theory]";
@@ -834,7 +849,7 @@ function updatePreview(){
     var E = allEdges(), withR = E.filter(function(e){ return (S.reasons[e.id] || "").trim(); }).length, linked = paths().filter(function(p){ return linkOf(p.id) >= 0; }).length, defd = ns.filter(function(n){ return ((S.cdef[n.id] || {}).def || "").trim(); }).length;
     function stat(a, b, lab){ return '<div class="stat' + (b && a === b ? " full" : "") + '"><b>' + a + (b !== null ? '/' + b : '') + '</b><span>' + lab + '</span></div>'; }
     h += '<div class="pv-stats">' + stat(S.props.length, null, "propositions") + stat(linked, paths().length, "arrows linked") + stat(withR, E.length, "arrows with reasons") + stat(defd, ns.length, "concepts defined") + '</div>';
-    if(cs.length) h += '<div class="pv-rq"><b>Research question (draft)</b>' + esc(autoRQ()) + '</div>';
+    if(cs.length) h += '<div class="pv-rq"><b>Research question (draft)</b>' + esc(rqMain()) + '</div>';
     if(cs.length) h += '<p style="margin:12px 0 0"><button type="button" class="btn sec sm" id="viewFig" style="width:100%">View as figure</button></p>';
   }
   $("pvBody").innerHTML = h;
@@ -875,7 +890,7 @@ function buildSVG(o){
   var me = modEdges().filter(function(e){ return !hidden[e.from] && ps.some(function(p){ return p.id === e.path; }); });
   var legendLines = 3 + (letters ? 1 : 0) + (S.tagMode !== "none" ? 1 : 0);
   var H = L.H + 30 + legendLines * 19, out = [];
-  var title = "Path figure: " + autoRQ() + (view !== "all" ? " (" + tName(theoryById(view)) + " only)" : "");
+  var title = "Path figure: " + rqMain() + (view !== "all" ? " (" + tName(theoryById(view)) + " only)" : "");
   out.push('<svg xmlns="http://www.w3.org/2000/svg"' + (screen ? ' id="fig"' : '') + ' viewBox="0 0 ' + W + ' ' + H + '" width="' + W + '" height="' + H + '" ' + (screen ? 'role="group" aria-roledescription="interactive figure"' : 'role="img"') + ' aria-labelledby="t' + uid + '" font-family="Georgia, \'Times New Roman\', serif">');
   out.push('<title id="t' + uid + '">' + esc(title) + '</title><defs><marker id="ah' + uid + '" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="userSpaceOnUse" markerWidth="16" markerHeight="16" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#222"/></marker></defs>');
   if(!screen) out.push('<rect width="100%" height="100%" fill="#fff"/>');
@@ -939,17 +954,29 @@ function summary(){
   paths().forEach(function(p){ if(style(p.id, "solid") === "dashed") ds.push(pathLabel(p)); });
   modEdges().forEach(function(e){ if(style(e.id, "dashed") === "dashed") ds.push(e.name + " (moderation)"); });
   var me = modEdges().map(function(e){ var d = S.modDetails[e.name] || {}, p = paths().filter(function(x){ return x.id === e.path; })[0]; return e.name + (d.groups ? " (" + d.groups + ")" : "") + (p ? "; changes " + pathLabel(p) : ""); });
-  return [["Who", S.who], ["Outcome", S.outcome + (S.outcomeDef ? "; counts as: " + S.outcomeDef : "")], ["Theory", theoryList().map(function(t){ return t.id + ": " + tName(t); }).join("; ")], ["Causes", causes().join("; ")], ["In-between (mediator)", hasMed() ? S.mediator : "None for now"], ["Moderators", me.length ? me.join(" | ") : "None"], ["Dashed paths", ds.length ? ds.join("; ") : "None"]]
-    .concat(allEdges().map(function(e){ return ["Reason: " + e.label, (ask(e.id) ? "[Needs a source] " : "") + (basisLabel(e.id) ? "(Based on: " + basisLabel(e.id) + ") " : "") + ((S.reasons[e.id] || "").trim() || "⚠ not yet written")]; }));
+  return [["Who", S.who], ["Outcome", S.outcome + (S.outcomeDef ? "; counts as: " + S.outcomeDef : "")], ["Theory", theoryList().map(function(t){ return t.id + ": " + tName(t); }).join("; ")], ["Causes", causes().join("; ")], ["In-between (mediator)", hasMed() ? S.mediator : "None for now"], ["Moderators", me.length ? me.join(" | ") : "None"], ["Dashed paths", ds.length ? ds.join("; ") : "None"]];
 }
 function sumHTML(){ return summary().map(function(r){ return "<li><strong>" + esc(r[0]) + ":</strong> " + esc(r[1]) + "</li>"; }).join(""); }
+function propGroups(){
+  return theoryList().map(function(t){
+    var ps = S.props.map(function(q, k){ return [q, k]; }).filter(function(x){ return (x[0].theory || "A") === t.id; });
+    var pages = ps.filter(function(x){ return !(x[0].src || "").trim(); }).map(function(x){ return (x[0].page || "").trim(); });
+    var shared = pages.length > 1 && pages.every(function(p){ return p && p === pages[0]; }) ? pages[0] : "";
+    return {t: t, ps: ps, shared: shared};
+  });
+}
+function propLine(q, k, shared){
+  var pg = (q.page || "").trim(), where = (q.src || "").trim() ? " (" + shortCite(q.src) + (pg ? ", p. " + pg : "") + ")" : (pg && !shared ? " (p. " + pg + ")" : "");
+  var words = q.text ? (q.isNew ? q.text : "“" + q.text + "”") + (q.own ? " In my words: " + q.own : "") : (q.own || "");
+  return {head: "P" + (k + 1) + (q.isNew ? " (new)" : "") + where, words: words, rel: q.from || q.to ? (q.from || "?") + " → " + (q.to || "?") + ", " + signChar(q.sign === "-" ? "-" : "+") : ""};
+}
 function propsHTML(){
   if(!S.props.length && !theoryList().some(function(t){ return t.seminal.trim(); })) return "";
   var h = '<section class="rsec"><h3>Source propositions</h3>';
-  theoryList().forEach(function(t){
-    var ps = S.props.map(function(q, k){ return [q, k]; }).filter(function(x){ return (x[0].theory || "A") === t.id; });
-    h += '<p style="margin:10px 0 4px"><span class="tbadge' + tc(t.id) + '" style="display:inline-grid;vertical-align:middle">' + t.id + '</span> <strong>' + esc(tName(t)) + '</strong></p>' + (t.seminal.trim() ? '<p class="small citeref">' + esc(t.seminal) + '</p>' : '<p class="small">Seminal source not entered.</p>');
-    if(ps.length) h += '<ul class="sumlist">' + ps.map(function(x){ var q = x[0], k = x[1]; return "<li><strong>P" + (k + 1) + (q.isNew ? " (new)" : "") + "</strong> (" + esc(shortCite(propCite(q))) + ((q.page || "").trim() ? ", p. " + esc(q.page) : "") + "): " + (q.text ? (q.isNew ? esc(q.text) + " " : "“" + esc(q.text) + "” ") : "") + (q.own ? "<em>In my words:</em> " + esc(q.own) + " " : "") + (q.from || q.to ? "[" + esc(q.from || "?") + " → " + esc(q.to || "?") + ", " + signChar(q.sign === "-" ? "-" : "+") + "]" : "") + "</li>"; }).join("") + '</ul>';
+  propGroups().forEach(function(g){
+    var t = g.t;
+    h += '<p style="margin:10px 0 4px"><span class="tbadge' + tc(t.id) + '" style="display:inline-grid;vertical-align:middle">' + t.id + '</span> <strong>' + esc(tName(t)) + '</strong></p>' + (t.seminal.trim() ? '<p class="small citeref">' + esc(t.seminal) + (g.shared ? ' Propositions below: p. ' + esc(g.shared) + '.' : '') + '</p>' : '<p class="small">Seminal source not entered.</p>');
+    if(g.ps.length) h += '<ul class="sumlist">' + g.ps.map(function(x){ var L = propLine(x[0], x[1], g.shared); return "<li><strong>" + esc(L.head) + ":</strong> " + esc(L.words) + (L.rel ? ' <span class="small">(' + esc(L.rel) + ')</span>' : '') + "</li>"; }).join("") + '</ul>';
   });
   return h + '</section>';
 }
@@ -975,8 +1002,8 @@ function notesHTML(){
 /* ---------- Results ---------- */
 function inspHTML(){
   var e = allEdges().filter(function(x){ return x.id === S.sel; })[0];
-  if(!e) return '<h4>Edit an arrow</h4><p class="small" style="margin:0 0 8px">Click an arrow in the figure (or Tab to it and press Enter) to change its direction, line style, linked proposition, or reason.</p><p class="small" style="margin:0">Drag a box to move it; focus a box and use the arrow keys for fine moves.</p>' + trayHTML(false);
-  var k = linkOf(e.id), mm = mismatch(e.id), h = '<h4>' + esc(e.label) + '</h4>';
+  if(!e) return '<h4>Change an arrow</h4><p class="small" style="margin:0 0 8px">Click an arrow in the figure. This panel then shows its settings, and you can:</p><ul class="small" style="margin:0 0 8px 1.1em;padding:0"><li>switch it between + and −</li><li>make it solid or dashed</li><li>link the proposition it comes from</li><li>edit its reason</li></ul><p class="small" style="margin:0">Changes update the hypotheses and the figure.</p>';
+  var k = linkOf(e.id), mm = mismatch(e.id), h = '<h4>Selected arrow</h4><p style="margin:0 0 8px;font-weight:700">' + esc(e.label) + '</p>';
   if(!e.mod) h += '<div class="segrow"><span class="lbl">Direction</span>' + seg("data-isign", e.id, sign(e.id), [["+", "<strong>+</strong>"], ["-", "<strong>−</strong>"]], "Direction") + '</div>';
   h += '<div class="segrow"><span class="lbl">Line</span>' + seg("data-istyle", e.id, style(e.id, e.mod ? "dashed" : "solid"), [["solid", "Solid"], ["dashed", "Dashed"]], "Line style") + '</div>';
   if(!e.mod && S.props.length){
@@ -984,8 +1011,7 @@ function inspHTML(){
     if(mm) h += '<div class="warn" role="note">P' + (k + 1) + ' says ' + signChar(mm) + '; this arrow is ' + signChar(sign(e.id)) + '. Check the source.</div>';
   }
   h += '<label for="ireason">Reason</label><textarea id="ireason" class="auto" data-reason="' + esc(e.id) + '" placeholder="' + esc(starter(e)) + '">' + esc(S.reasons[e.id] || "") + '</textarea>';
-  h += '<p style="margin:10px 0 0"><button type="button" class="btn sec sm" id="ideselect">Done</button></p>';
-  return h + (e.mod ? "" : trayHTML(false));
+  return h + '<p style="margin:10px 0 0"><button type="button" class="btn sec sm" id="ideselect">Close</button></p>';
 }
 function viewBar(){
   var tl = theoryList(); if(tl.length < 2) return "";
@@ -998,9 +1024,9 @@ function renderResults(){
   return '<h2 id="stepTitle">Your results</h2><p class="lede">Your research question, ' + (S.hypWord === "P" ? "propositions" : "hypotheses") + ', figure, and materials for your paper. You can edit everything on this page; changes save as you type.</p>' +
     (aq.length ? '<div class="warn"><strong>📚 Open questions</strong><ul style="margin:4px 0 0 1.2em;padding:0">' + aq.map(function(q){ return "<li>" + esc(q) + "</li>"; }).join("") + '</ul></div>' : '') +
     '<section class="rsec"><h3>Research question</h3><label for="rq" class="sr">Research question (editable)</label><textarea id="rq" class="auto">' + esc(S.rq) + '</textarea><div class="btnrow noprint"><button class="btn sec sm" type="button" id="copyRQ">Copy</button><button class="btn ghost sm" type="button" id="resetRQ">Regenerate</button></div></section>' +
-    '<section class="rsec"><div class="rsec-h"><h3>' + (S.hypWord === "P" ? "Propositions" : "Hypotheses") + '</h3><div class="noprint">' + seg("data-hword", "w", S.hypWord, [["H", "Hypotheses"], ["P", "Propositions"]], "Write as") + '</div></div><p class="small noprint" style="margin:0 0 8px">Empirical papers state hypotheses; conceptual papers often state numbered propositions.</p><label for="hyps" class="sr">Hypotheses (editable)</label><textarea id="hyps" class="auto">' + esc(S.hyps || hypText()) + '</textarea><div class="btnrow noprint"><button class="btn sec sm" type="button" id="copyH">Copy</button><button class="btn ghost sm" type="button" id="resetH">Regenerate</button></div></section>' +
+    '<section class="rsec"><div class="rsec-h"><h3>' + (S.hypWord === "P" ? "Propositions" : "Hypotheses") + '</h3><div class="noprint">' + seg("data-hword", "w", S.hypWord, [["H", "Hypotheses"], ["P", "Propositions"]], "Write as") + '</div></div><p class="small noprint" style="margin:0 0 8px">Empirical papers state hypotheses; conceptual papers often state numbered propositions.</p><label for="hyps" class="sr">Hypotheses (editable)</label><textarea id="hyps" class="auto">' + esc(S.hyps || hypText()) + '</textarea><div class="btnrow noprint"><button class="btn sec sm" type="button" id="copyH">Copy</button><button class="btn ghost sm" type="button" id="resetH">Regenerate</button></div><h4 style="margin:14px 0 6px">Where each one comes from</h4><div class="tablewrap" id="htab">' + hypTable(false) + '</div></section>' +
     '<section class="rsec"><div class="rsec-h"><h3>Path figure</h3></div><div class="toolbar noprint"><span class="lbl">Arrow labels</span>' + seg("data-tagmode", "t", S.tagMode, [["H", S.hypWord === "P" ? "Numbers" : "H numbers"], ["P", "P numbers"], ["none", "None"]], "Arrow labels") + viewBar() + '</div>' +
-    '<div class="figgrid"><div class="figframe" id="figwrap">' + buildSVG({mode: "screen", uid: "f"}) + '</div><div class="inspector noprint" id="insp">' + inspHTML() + '</div></div>' +
+    '<p class="small noprint" style="margin:0 0 8px">Drag a box to move it. Click an arrow to change it.</p><div class="figgrid"><div class="figframe" id="figwrap">' + buildSVG({mode: "screen", uid: "f"}) + '</div><div class="inspector noprint" id="insp">' + inspHTML() + '</div></div>' +
     '<details class="noprint" style="margin-top:12px"><summary>Edit box labels</summary>' + nodes().map(function(n){ return '<label for="lab_' + n.id + '">' + esc(KIND[n.kind]) + '</label><input type="text" id="lab_' + n.id + '" data-lab="' + n.id + '" value="' + esc(n.label) + '">'; }).join("") + '</details>' +
     '<div class="btnrow noprint" style="margin-top:14px"><button class="btn" type="button" id="dlSVG">Download SVG</button><button class="btn" type="button" id="dlPNG">Download PNG</button><button class="btn sec" type="button" id="cpMer">Copy Mermaid</button><button class="btn sec" type="button" id="print">Print / Save as PDF</button><button class="btn ghost" type="button" id="resetLayout">Reset layout</button></div>' +
     '<details class="noprint"><summary>Show Mermaid text</summary><pre id="mer" class="mer">' + esc(mermaid()) + '</pre></details></section>' +
@@ -1019,7 +1045,7 @@ function refreshText(){
   if(!isResults()) return;
   if(!S.hypsEdited) $("hyps").value = hypText();
   if(!S.captionEdited){ S.caption = autoCaption(); $("cap").value = S.caption; }
-  $("sum").innerHTML = sumHTML(); $("chk").innerHTML = checkHTML(checks(), true); $("ctab").innerHTML = conceptsTable(false);
+  $("sum").innerHTML = sumHTML(); $("htab").innerHTML = hypTable(false); $("chk").innerHTML = checkHTML(checks(), true); $("ctab").innerHTML = conceptsTable(false);
   growAll($("screen")); save();
 }
 function refreshFig(keepInsp){
@@ -1045,11 +1071,11 @@ function figName(ext){ return "path-figure" + (figView() !== "all" ? "-theory-" 
 function wordDoc(){
   var title = "Theory paper notes: " + (S.outcome || "model") + " among " + (S.who || "population");
   var body = '<h1>' + esc(title) + '</h1><p><em>Generated ' + esc(new Date().toLocaleDateString()) + ' with the Social Theory Model Builder.</em></p>' +
-    '<h2>Research question</h2><p>' + esc(S.rq || autoRQ()) + '</p>' +
-    '<h2>' + (S.hypWord === "P" ? "Propositions" : "Hypotheses") + '</h2>' + (S.hyps || hypText()).split("\n").map(function(l){ return '<p style="margin:0 0 4pt' + (/^\s/.test(l) ? ';margin-left:24pt' : '') + '">' + esc(l.trim()) + '</p>'; }).join("") +
+    '<h2>Research question</h2>' + (S.rq || autoRQ()).split("\n").filter(function(l){ return l.trim(); }).map(function(l){ return '<p style="margin:0 0 6pt">' + esc(l) + '</p>'; }).join("") +
+    '<h2>' + (S.hypWord === "P" ? "Propositions" : "Hypotheses") + '</h2>' + (S.hyps || hypText()).split("\n").filter(function(l){ return l.trim(); }).map(function(l){ return '<p style="margin:0 0 6pt">' + esc(l.trim()) + '</p>'; }).join("") + hypTable(true) +
     '<h2>Figure caption and note</h2>' + (S.caption || autoCaption()).split("\n").map(function(l, i){ return '<p>' + (i === 0 ? '<b>' + esc(l) + '</b>' : i === 1 ? '<i>' + esc(l) + '</i>' : esc(l)) + '</p>'; }).join("") +
     '<h2>Key concepts and definitions</h2>' + conceptsTable(true) +
-    '<h2>Source propositions</h2>' + theoryList().map(function(t){ return '<p><b>' + t.id + ': ' + esc(tName(t)) + '.</b> ' + esc(t.seminal) + '</p><ul>' + S.props.map(function(q, k){ return [q, k]; }).filter(function(x){ return (x[0].theory || "A") === t.id; }).map(function(x){ var q = x[0]; return '<li>P' + (x[1] + 1) + (q.isNew ? " (new)" : "") + ' (' + esc(shortCite(propCite(q))) + (q.page ? ", p. " + esc(q.page) : "") + '): ' + esc(q.text || "") + (q.own ? ' In my words: ' + esc(q.own) : '') + '</li>'; }).join("") + '</ul>'; }).join("") +
+    '<h2>Source propositions</h2>' + propGroups().map(function(g){ return '<p><b>' + g.t.id + ': ' + esc(tName(g.t)) + '.</b> ' + esc(g.t.seminal) + (g.shared ? ' Propositions below: p. ' + esc(g.shared) + '.' : '') + '</p><ul>' + g.ps.map(function(x){ var L = propLine(x[0], x[1], g.shared); return '<li>' + esc(L.head) + ': ' + esc(L.words) + (L.rel ? ' (' + esc(L.rel) + ')' : '') + '</li>'; }).join("") + '</ul>'; }).join("") +
     '<h2>Paper notes</h2>' + (notesHTML() || '<p>None yet.</p>') +
     '<h2>Decisions</h2><ul>' + sumHTML() + '</ul><p style="font-size:10pt">Built with: ' + CITE_HTML + '</p>';
   return '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word" xmlns="http://www.w3.org/TR/REC-html40"><head><meta charset="utf-8"><title>' + esc(title) + '</title><style>body{font-family:"Times New Roman",serif;font-size:12pt;line-height:1.5}h1{font-size:16pt}h2{font-size:13pt;margin-top:18pt}td,th{font-size:11pt}</style></head><body>' + body + '</body></html>';
