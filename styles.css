@@ -403,3 +403,25 @@ body:not(.splashing) #splash{display:none}
   .figgrid{display:block}
   textarea{border:none;box-shadow:none;resize:none}
 }
+
+/* ---------- Results: colored section bands, formatted text, APA figure ---------- */
+.rsec{padding:0;overflow:hidden;background:#f5f6fe;border:1px solid #d3d6f2}
+.rsec-h{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px 16px;margin:0;padding:12px 22px;background:linear-gradient(180deg,#e7e9fd,#d8dcfa);border-bottom:1px solid #c6cbf2}
+.rsec-h h3{margin:0;font-size:1.3rem;color:var(--ink)}
+.rsec-b{padding:16px 22px 20px}
+.rsec-b h4{color:var(--ink)}
+.kit{background:#fffbea;border-color:#ecd98f}
+.kit .rsec-h{background:linear-gradient(180deg,#fff4c4,#ffe98a);border-bottom-color:#e6cc5c}
+.fv{background:#fff;border:1px solid var(--line-2);border-radius:12px;padding:14px 18px;box-shadow:0 1px 2px rgba(29,35,64,.06)}
+.fv p{margin:0 0 10px}
+.fv p:last-child{margin-bottom:0}
+.fv .fv-n{padding-left:1.6em;text-indent:-1.6em;margin-bottom:4px}
+.fv strong{color:var(--ink)}
+.rsec-b textarea{margin-top:10px}
+.apa{background:#fff;border:1px solid var(--line-2);border-radius:4px;padding:28px 40px;font-family:"Times New Roman",Times,serif;font-size:1.05rem;line-height:2;color:#000;box-shadow:0 12px 26px -16px rgba(29,35,64,.4)}
+.apa p{margin:0}
+.apa strong{color:#000}
+.apa-fig{margin:8px 0 6px}
+.apa-fig svg{width:100%;height:auto;display:block}
+@media(max-width:900px){.rsec-h,.rsec-b{padding-left:16px;padding-right:16px}.apa{padding:18px 16px}}
+.fv:has(> .apa){background:none;border:0;box-shadow:none;padding:0}

@@ -475,11 +475,11 @@ function autoRQ(){
 function hypList(){
   var H = [], n = 0, ps = paths();
   function ex(id, def){ return style(id, def) === "dashed" ? " (exploratory)" : ""; }
-  ps.forEach(function(p){ n++; H.push({n: n, edge: p.id, kind: "direct", text: hn(n) + ex(p.id, "solid") + ": Higher " + nodeLabel(p.from).toLowerCase() + " will be associated with " + hl(sign(p.id)) + " " + nodeLabel(p.to).toLowerCase() + "."}); });
+  ps.forEach(function(p){ n++; H.push({n: n, edge: p.id, kind: "direct", text: hn(n) + " (direct" + (style(p.id, "solid") === "dashed" ? ", exploratory" : "") + "): Higher " + nodeLabel(p.from).toLowerCase() + " will be associated with " + hl(sign(p.id)) + " " + nodeLabel(p.to).toLowerCase() + "."}); });
   if(hasMed() && causeNodes().length){
     n++;
     var ex2 = causeNodes().some(function(c){ return style(c.id + ">med", "solid") === "dashed"; }) || style("med>out", "solid") === "dashed";
-    H.push({n: n, edge: null, kind: "mediation", text: hn(n) + (ex2 ? " (exploratory)" : "") + " (mediation): " + nodeLabel("med") + " will mediate the " + (causeNodes().length > 1 ? "links" : "link") + " from " + joinList(causeNodes().map(function(c){ return c.label.toLowerCase(); })) + " to " + nodeLabel("out").toLowerCase() + "."});
+    H.push({n: n, edge: null, kind: "mediation", text: hn(n) + " (mediation" + (ex2 ? ", exploratory" : "") + "): " + nodeLabel("med") + " will mediate the " + (causeNodes().length > 1 ? "links" : "link") + " from " + joinList(causeNodes().map(function(c){ return c.label.toLowerCase(); })) + " to " + nodeLabel("out").toLowerCase() + "."});
   }
   modEdges().forEach(function(e){ var p = ps.filter(function(x){ return x.id === e.path; })[0]; if(!p) return; n++; var d = S.modDetails[e.name] || {}; H.push({n: n, edge: e.id, kind: "moderation", text: hn(n) + " (moderation): The link between " + nodeLabel(p.from).toLowerCase() + " and " + nodeLabel(p.to).toLowerCase() + " will differ by " + e.name.toLowerCase() + (d.groups ? " (" + d.groups + ")" : "") + "."}); });
   return H;
@@ -976,19 +976,19 @@ function propLine(q, k, shared){
 }
 function propsHTML(){
   if(!S.props.length && !theoryList().some(function(t){ return t.seminal.trim(); })) return "";
-  var h = '<section class="rsec"><h3>Source propositions</h3>';
+  var h = '';
   propGroups().forEach(function(g){
     var t = g.t;
     h += '<p style="margin:10px 0 4px"><span class="tbadge' + tc(t.id) + '" style="display:inline-grid;vertical-align:middle">' + t.id + '</span> <strong>' + esc(tName(t)) + '</strong></p>' + (t.seminal.trim() ? '<p class="small citeref">' + esc(t.seminal) + (g.shared ? ' Propositions below: p. ' + esc(g.shared) + '.' : '') + '</p>' : '<p class="small">Seminal source not entered.</p>');
     if(g.ps.length) h += '<ul class="sumlist">' + g.ps.map(function(x){ var L = propLine(x[0], x[1], g.shared); return "<li><strong>" + esc(L.head) + ":</strong> " + esc(L.words) + (L.rel ? ' <span class="small">(' + esc(L.rel) + ')</span>' : '') + "</li>"; }).join("") + '</ul>';
   });
-  return h + '</section>';
+  return rsec("Source propositions", "", h);
 }
 function conceptRows(){ return nodes().map(function(n){ var d = S.cdef[n.id] || {}; return {name: n.label, role: KIND[n.kind], from: tagLabel(S.ctag[n.id]) || "Not tagged", def: (d.def || "").trim(), src: (d.src || "").trim()}; }); }
 function conceptsTable(forWord){
   var rows = conceptRows(), st = forWord ? ' style="border:1px solid #000;padding:4px 6px;vertical-align:top;text-align:left"' : '';
   return '<table class="ctab"' + (forWord ? ' style="border-collapse:collapse;width:100%"' : '') + '><thead><tr><th' + st + '>Concept</th><th' + st + '>Role in model</th><th' + st + '>Source theory</th><th' + st + '>Conceptual definition</th></tr></thead><tbody>' +
-    rows.map(function(r){ return '<tr><td' + st + '>' + esc(r.name) + '</td><td' + st + '>' + esc(r.role) + '</td><td' + st + '>' + esc(r.from) + '</td><td' + st + '>' + (r.def ? esc(r.def) + (r.src ? " (" + esc(r.src) + ")" : "") : "<em>Not yet defined</em>") + '</td></tr>'; }).join("") + '</tbody></table>';
+    rows.map(function(r){ return '<tr><td' + st + '><strong>' + esc(r.name) + '</strong></td><td' + st + '>' + esc(r.role) + '</td><td' + st + '>' + esc(r.from) + '</td><td' + st + '>' + (r.def ? esc(r.def) + (r.src ? " (" + esc(r.src) + ")" : "") : "<em>Not yet defined</em>") + '</td></tr>'; }).join("") + '</tbody></table>';
 }
 function conceptsText(){ return ["Concept\tRole in model\tSource theory\tConceptual definition"].concat(conceptRows().map(function(r){ return [r.name, r.role, r.from, r.def ? r.def + (r.src ? " (" + r.src + ")" : "") : "Not yet defined"].join("\t"); })).join("\n"); }
 function notesHTML(){
@@ -1021,34 +1021,69 @@ function viewBar(){
   var tl = theoryList(); if(tl.length < 2) return "";
   return '<span class="lbl">Show</span>' + seg("data-fview", "v", figView(), [["all", "All theories"]].concat(tl.map(function(t){ return [t.id, t.id + " only"]; })), "Which theory to show");
 }
+/* Formatted display of editable text: labels such as "Main question:" and "H1 (direct):" in bold. */
+var LBL = /^((?:Main question|Subquestions?|Research question|Hypothesis \d+|Proposition \d+|H\d+|P\d+)(?:\s*\([^)]*\))*):\s*(.*)$/i;
+function fmtLines(text){
+  return String(text || "").split("\n").map(function(l){
+    l = l.trim(); if(!l) return "";
+    var m = l.match(LBL); if(m) return '<p class="fv-l"><strong>' + esc(m[1]) + ':</strong>' + (m[2] ? " " + esc(m[2]) : "") + '</p>';
+    var n = l.match(/^(\d+)\.\s+(.*)$/); if(n) return '<p class="fv-n">' + n[1] + '. ' + esc(n[2]) + '</p>';
+    return '<p>' + esc(l) + '</p>';
+  }).join("");
+}
+/* APA 7 figure: bold number, italic title, the figure, then an italic "Note." */
+function capHTML(text, withFig){
+  var L = String(text || "").split("\n").map(function(x){ return x.trim(); }).filter(Boolean), h = '<div class="apa">';
+  L.forEach(function(l, i){
+    if(i === 0 && /^Figure\s+\d+/i.test(l)) h += '<p class="apa-n"><strong>' + esc(l) + '</strong></p>';
+    else if(i === 1 && !/^Note\./.test(l)) h += '<p class="apa-t"><em>' + esc(l) + '</em></p>' + (withFig ? '<div class="apa-fig">' + buildSVG({mode: "export", uid: "c"}) + '</div>' : '');
+    else if(/^Note\./.test(l)) h += '<p class="apa-note"><em>Note.</em> ' + esc(l.replace(/^Note\.\s*/, "")) + '</p>';
+    else h += '<p>' + esc(l) + '</p>';
+  });
+  return h + '</div>';
+}
+function rsec(title, right, body, cls, id){
+  return '<section class="rsec' + (cls ? " " + cls : "") + '"' + (id ? ' id="' + id + '"' : '') + '><div class="rsec-h"><h3>' + title + '</h3>' + (right || '') + '</div><div class="rsec-b">' + body + '</div></section>';
+}
+function editable(id, label, text, view, buttons){
+  return '<div class="fv" id="' + id + 'View">' + view + '</div><label for="' + id + '" class="sr">' + label + ' (editable)</label><textarea id="' + id + '" class="auto" hidden>' + esc(text) + '</textarea>' +
+    '<div class="btnrow noprint"><button class="btn sec sm" type="button" data-edit="' + id + '" aria-controls="' + id + '" aria-expanded="false">Edit</button>' + buttons + '</div>';
+}
 function renderResults(){
   if(!S.rq) S.rq = autoRQ();
   if(!S.caption) S.caption = autoCaption();
-  var aq = askHs();
-  return '<h2 id="stepTitle">Your results</h2><p class="lede">Your research question, ' + (S.hypWord === "P" ? "propositions" : "hypotheses") + ', figure, and materials for your paper. You can edit everything on this page; changes save as you type.</p>' +
+  var aq = askHs(), hw = S.hypWord === "P" ? "Propositions" : "Hypotheses", hyps = S.hyps || hypText();
+  return '<h2 id="stepTitle">Your results</h2><p class="lede">Your research question, ' + hw.toLowerCase() + ', figure, and materials for your paper. Use Edit to change any text; changes save as you type.</p>' +
     (aq.length ? '<div class="warn"><strong>📚 Open questions</strong><ul style="margin:4px 0 0 1.2em;padding:0">' + aq.map(function(q){ return "<li>" + esc(q) + "</li>"; }).join("") + '</ul></div>' : '') +
-    '<section class="rsec"><h3>Research question</h3><label for="rq" class="sr">Research question (editable)</label><textarea id="rq" class="auto">' + esc(S.rq) + '</textarea><div class="btnrow noprint"><button class="btn sec sm" type="button" id="copyRQ">Copy</button><button class="btn ghost sm" type="button" id="resetRQ">Regenerate</button></div></section>' +
-    '<section class="rsec"><div class="rsec-h"><h3>' + (S.hypWord === "P" ? "Propositions" : "Hypotheses") + '</h3><div class="noprint">' + seg("data-hword", "w", S.hypWord, [["H", "Hypotheses"], ["P", "Propositions"]], "Write as") + '</div></div><p class="small noprint" style="margin:0 0 8px">Empirical papers state hypotheses; conceptual papers often state numbered propositions.</p><label for="hyps" class="sr">Hypotheses (editable)</label><textarea id="hyps" class="auto">' + esc(S.hyps || hypText()) + '</textarea><div class="btnrow noprint"><button class="btn sec sm" type="button" id="copyH">Copy</button><button class="btn ghost sm" type="button" id="resetH">Regenerate</button></div><h4 style="margin:14px 0 6px">Where each one comes from</h4><div class="tablewrap" id="htab">' + hypTable(false) + '</div></section>' +
-    '<section class="rsec"><div class="rsec-h"><h3>Path figure</h3></div><div class="toolbar noprint"><span class="lbl">Arrow labels</span>' + seg("data-tagmode", "t", S.tagMode, [["H", S.hypWord === "P" ? "Numbers" : "H numbers"], ["P", "P numbers"], ["none", "None"]], "Arrow labels") + viewBar() + '</div>' +
-    '<p class="small noprint" style="margin:0 0 8px">Drag a box to move it. Click an arrow to change it.</p><div class="figgrid"><div class="figframe" id="figwrap">' + buildSVG({mode: "screen", uid: "f"}) + '</div><div class="inspector noprint" id="insp">' + inspHTML() + '</div></div>' +
-    '<details class="noprint" style="margin-top:12px"><summary>Edit box labels</summary>' + nodes().map(function(n){ return '<label for="lab_' + n.id + '">' + esc(KIND[n.kind]) + '</label><input type="text" id="lab_' + n.id + '" data-lab="' + n.id + '" value="' + esc(n.label) + '">'; }).join("") + '</details>' +
-    '<div class="btnrow noprint" style="margin-top:14px"><button class="btn" type="button" id="dlSVG">Download SVG</button><button class="btn" type="button" id="dlPNG">Download PNG</button><button class="btn sec" type="button" id="cpMer">Copy Mermaid</button><button class="btn sec" type="button" id="print">Print / Save as PDF</button><button class="btn ghost" type="button" id="resetLayout">Reset layout</button></div>' +
-    '<details class="noprint"><summary>Show Mermaid text</summary><pre id="mer" class="mer">' + esc(mermaid()) + '</pre></details></section>' +
-    '<section class="rsec kit"><h3>For your paper</h3><p class="small">Figure caption and note (APA 7), concepts table, and your notes.</p>' +
-    '<label for="cap">Figure caption and note</label><textarea id="cap" class="auto">' + esc(S.caption) + '</textarea><div class="btnrow noprint"><button class="btn sec sm" type="button" id="copyCap">Copy caption</button><button class="btn ghost sm" type="button" id="resetCap">Regenerate</button></div>' +
-    '<h4 style="margin:18px 0 8px">Key concepts and definitions</h4><div class="tablewrap" id="ctab">' + conceptsTable(false) + '</div><div class="btnrow noprint"><button class="btn sec sm" type="button" id="copyTab">Copy table for Word</button><button class="btn ghost sm" type="button" data-fix="' + stepIdx("Define concepts") + '">Edit definitions</button></div>' +
-    (notesHTML() ? '<h4 style="margin:18px 0 8px">Paper notes</h4><div id="notesOut">' + notesHTML() + '</div>' : '<p class="small">No paper notes yet. <button type="button" class="linkbtn" data-fix="' + stepIdx("Paper notes") + '">Add paper notes</button></p>') +
-    '<div class="btnrow noprint" style="margin-top:14px"><button class="btn" type="button" id="dlDoc">Download paper notes for Word</button></div><p class="small noprint">The Word file collects the question, ' + (S.hypWord === "P" ? "propositions" : "hypotheses") + ', caption, concepts table, propositions, and notes. Insert the PNG as Figure 1.</p></section>' +
+    rsec("Research question", "", editable("rq", "Research question", S.rq, fmtLines(S.rq), '<button class="btn sec sm" type="button" id="copyRQ">Copy</button><button class="btn ghost sm" type="button" id="resetRQ">Regenerate</button>')) +
+    rsec(hw, '<div class="noprint">' + seg("data-hword", "w", S.hypWord, [["H", "Hypotheses"], ["P", "Propositions"]], "Write as") + '</div>',
+      '<p class="small noprint" style="margin:0 0 10px">Empirical papers state hypotheses; conceptual papers often state numbered propositions. <strong>Direct</strong> = one concept affects another; <strong>mediation</strong> = the effect passes through the in-between concept; <strong>moderation</strong> = the strength of a link depends on a third concept.</p>' +
+      editable("hyps", hw, hyps, fmtLines(hyps), '<button class="btn sec sm" type="button" id="copyH">Copy</button><button class="btn ghost sm" type="button" id="resetH">Regenerate</button>') +
+      '<h4 style="margin:16px 0 6px">Where each one comes from</h4><div class="tablewrap" id="htab">' + hypTable(false) + '</div>') +
+    rsec("Path figure", "",
+      '<div class="toolbar noprint"><span class="lbl">Arrow labels</span>' + seg("data-tagmode", "t", S.tagMode, [["H", S.hypWord === "P" ? "Numbers" : "H numbers"], ["P", "P numbers"], ["none", "None"]], "Arrow labels") + viewBar() + '</div>' +
+      '<p class="small noprint" style="margin:0 0 8px">Drag a box to move it. Click an arrow to change it.</p><div class="figgrid"><div class="figframe" id="figwrap">' + buildSVG({mode: "screen", uid: "f"}) + '</div><div class="inspector noprint" id="insp">' + inspHTML() + '</div></div>' +
+      '<details class="noprint" style="margin-top:12px"><summary>Edit box labels</summary>' + nodes().map(function(n){ return '<label for="lab_' + n.id + '">' + esc(KIND[n.kind]) + '</label><input type="text" id="lab_' + n.id + '" data-lab="' + n.id + '" value="' + esc(n.label) + '">'; }).join("") + '</details>' +
+      '<div class="btnrow noprint" style="margin-top:14px"><button class="btn" type="button" id="dlSVG">Download SVG</button><button class="btn" type="button" id="dlPNG">Download PNG</button><button class="btn sec" type="button" id="cpMer">Copy Mermaid</button><button class="btn sec" type="button" id="print">Print / Save as PDF</button><button class="btn ghost" type="button" id="resetLayout">Reset layout</button></div>' +
+      '<details class="noprint"><summary>Show Mermaid text</summary><pre id="mer" class="mer">' + esc(mermaid()) + '</pre></details>') +
+    rsec("For your paper", "",
+      '<h4 style="margin:0 0 4px">Figure caption and note</h4><p class="small noprint" style="margin:0 0 10px">How Figure 1 looks in an APA 7 paper.</p>' +
+      editable("cap", "Figure caption and note", S.caption, capHTML(S.caption, true), '<button class="btn sec sm" type="button" id="copyCap">Copy caption</button><button class="btn ghost sm" type="button" id="resetCap">Regenerate</button>') +
+      '<h4 style="margin:20px 0 8px">Key concepts and definitions</h4><div class="tablewrap" id="ctab">' + conceptsTable(false) + '</div><div class="btnrow noprint"><button class="btn sec sm" type="button" id="copyTab">Copy table for Word</button><button class="btn ghost sm" type="button" data-fix="' + stepIdx("Define concepts") + '">Edit definitions</button></div>' +
+      (notesHTML() ? '<h4 style="margin:20px 0 8px">Paper notes</h4><div id="notesOut" class="fv">' + notesHTML() + '</div>' : '<p class="small">No paper notes yet. <button type="button" class="linkbtn" data-fix="' + stepIdx("Paper notes") + '">Add paper notes</button></p>') +
+      '<div class="btnrow noprint" style="margin-top:14px"><button class="btn" type="button" id="dlDoc">Download paper notes for Word</button></div><p class="small noprint">The Word file collects the question, ' + hw.toLowerCase() + ', caption, concepts table, propositions, and notes. Insert the PNG as Figure 1.</p>', "kit") +
     propsHTML() +
-    '<section class="rsec"><h3>Self-check</h3><div id="chk">' + checkHTML(checks(), true) + '</div></section>' +
-    '<section class="rsec"><h3>What you decided</h3><ul class="sumlist" id="sum">' + sumHTML() + '</ul>' + tip("close") + '</section>' +
+    rsec("Self-check", "", '<div id="chk">' + checkHTML(checks(), true) + '</div>') +
+    rsec("What you decided", "", '<ul class="sumlist" id="sum">' + sumHTML() + '</ul>' + tip("close")) +
     '<p class="noprint"><span id="status" role="status" class="small"></span></p>' +
     (/^https?:\/\//i.test(SURVEY_URL) ? '<p class="noprint"><a href="' + esc(SURVEY_URL) + '" target="_blank" rel="noopener">Feedback survey (2 minutes)</a></p>' : '');
 }
+function syncViews(){ if(!$("rqView")) return; $("rqView").innerHTML = fmtLines($("rq").value); $("hypsView").innerHTML = fmtLines($("hyps").value); $("capView").innerHTML = capHTML($("cap").value, true); }
 function refreshText(){
   if(!isResults()) return;
   if(!S.hypsEdited) $("hyps").value = hypText();
   if(!S.captionEdited){ S.caption = autoCaption(); $("cap").value = S.caption; }
+  syncViews();
   $("sum").innerHTML = sumHTML(); $("htab").innerHTML = hypTable(false); $("chk").innerHTML = checkHTML(checks(), true); $("ctab").innerHTML = conceptsTable(false);
   growAll($("screen")); save();
 }
@@ -1075,9 +1110,9 @@ function figName(ext){ return "path-figure" + (figView() !== "all" ? "-theory-" 
 function wordDoc(){
   var title = "Theory paper notes: " + (S.outcome || "model") + " among " + (S.who || "population");
   var body = '<h1>' + esc(title) + '</h1><p><em>Generated ' + esc(new Date().toLocaleDateString()) + ' with the Social Theory Model Builder.</em></p>' +
-    '<h2>Research question</h2>' + (S.rq || autoRQ()).split("\n").filter(function(l){ return l.trim(); }).map(function(l){ return '<p style="margin:0 0 6pt">' + esc(l) + '</p>'; }).join("") +
-    '<h2>' + (S.hypWord === "P" ? "Propositions" : "Hypotheses") + '</h2>' + (S.hyps || hypText()).split("\n").filter(function(l){ return l.trim(); }).map(function(l){ return '<p style="margin:0 0 6pt">' + esc(l.trim()) + '</p>'; }).join("") + hypTable(true) +
-    '<h2>Figure caption and note</h2>' + (S.caption || autoCaption()).split("\n").map(function(l, i){ return '<p>' + (i === 0 ? '<b>' + esc(l) + '</b>' : i === 1 ? '<i>' + esc(l) + '</i>' : esc(l)) + '</p>'; }).join("") +
+    '<h2>Research question</h2>' + fmtLines(S.rq || autoRQ()) +
+    '<h2>' + (S.hypWord === "P" ? "Propositions" : "Hypotheses") + '</h2>' + fmtLines(S.hyps || hypText()) + hypTable(true) +
+    '<h2>Figure caption and note</h2>' + capHTML(S.caption || autoCaption(), false) +
     '<h2>Key concepts and definitions</h2>' + conceptsTable(true) +
     '<h2>Source propositions</h2>' + propGroups().map(function(g){ return '<p><b>' + g.t.id + ': ' + esc(tName(g.t)) + '.</b> ' + esc(g.t.seminal) + (g.shared ? ' Propositions below: p. ' + esc(g.shared) + '.' : '') + '</p><ul>' + g.ps.map(function(x){ var L = propLine(x[0], x[1], g.shared); return '<li>' + esc(L.head) + ': ' + esc(L.words) + (L.rel ? ' (' + esc(L.rel) + ')' : '') + '</li>'; }).join("") + '</ul>'; }).join("") +
     '<h2>Paper notes</h2>' + (notesHTML() || '<p>None yet.</p>') +
@@ -1123,15 +1158,15 @@ function wireResults(){
   });
   wrap.addEventListener("pointerover", function(e){ var n = e.target.closest(".node"), svg = $("fig"); if(!svg) return; if(n && !FIG){ svg.classList.add("hovering"); svg.querySelectorAll(".edge").forEach(function(g){ g.classList.toggle("hl", g.dataset.from === n.dataset.node || g.dataset.to === n.dataset.node); }); } });
   wrap.addEventListener("pointerout", function(e){ var n = e.target.closest(".node"), svg = $("fig"); if(n && svg && !n.contains(e.relatedTarget)) svg.classList.remove("hovering"); });
-  $("rq").addEventListener("input", function(e){ S.rq = e.target.value; S.rqEdited = true; save(); });
-  $("hyps").addEventListener("input", function(e){ S.hyps = e.target.value; S.hypsEdited = true; save(); });
-  $("cap").addEventListener("input", function(e){ S.caption = e.target.value; S.captionEdited = true; save(); });
-  $("copyH").onclick = function(){ copy($("hyps").value, S.hypWord === "P" ? "Propositions" : "Hypotheses"); };
-  $("resetH").onclick = function(){ S.hyps = ""; S.hypsEdited = false; $("hyps").value = hypText(); grow($("hyps")); save(); };
-  $("copyRQ").onclick = function(){ copy($("rq").value, "Research question"); };
-  $("resetRQ").onclick = function(){ S.rq = autoRQ(); S.rqEdited = false; $("rq").value = S.rq; grow($("rq")); save(); };
-  $("copyCap").onclick = function(){ copy($("cap").value, "Caption"); };
-  $("resetCap").onclick = function(){ S.caption = autoCaption(); S.captionEdited = false; $("cap").value = S.caption; grow($("cap")); save(); };
+  $("rq").addEventListener("input", function(e){ S.rq = e.target.value; S.rqEdited = true; syncViews(); save(); });
+  $("hyps").addEventListener("input", function(e){ S.hyps = e.target.value; S.hypsEdited = true; syncViews(); save(); });
+  $("cap").addEventListener("input", function(e){ S.caption = e.target.value; S.captionEdited = true; syncViews(); save(); });
+  $("copyH").onclick = function(){ copyRich(fmtLines($("hyps").value), $("hyps").value, S.hypWord === "P" ? "Propositions" : "Hypotheses"); };
+  $("resetH").onclick = function(){ S.hyps = ""; S.hypsEdited = false; $("hyps").value = hypText(); grow($("hyps")); syncViews(); save(); };
+  $("copyRQ").onclick = function(){ copyRich(fmtLines($("rq").value), $("rq").value, "Research question"); };
+  $("resetRQ").onclick = function(){ S.rq = autoRQ(); S.rqEdited = false; $("rq").value = S.rq; grow($("rq")); syncViews(); save(); };
+  $("copyCap").onclick = function(){ copyRich(capHTML($("cap").value, false), $("cap").value, "Caption"); };
+  $("resetCap").onclick = function(){ S.caption = autoCaption(); S.captionEdited = false; $("cap").value = S.caption; grow($("cap")); syncViews(); save(); };
   $("copyTab").onclick = function(){ copyRich(conceptsTable(true), conceptsText(), "Concepts table"); };
   $("dlDoc").onclick = function(){ download("theory-paper-notes-" + slug(S.who) + "-" + today() + ".doc", new Blob([wordDoc()], {type: "application/msword"})); status("Paper notes downloaded."); };
   $("cpMer").onclick = function(){ copy(mermaid(), "Mermaid text"); };
@@ -1225,6 +1260,7 @@ document.addEventListener("click", function(ev){
   if(id === "startOver"){ if(confirm("Start over? This clears your saved progress in this browser.")){ S = fresh(); save(); showSplash(false); } return; }
   if(id === "viewFig"){ $("dlgBody").innerHTML = buildSVG({mode: "dialog", uid: "d"}); $("figDlg").showModal(); return; }
   if(id === "dlgClose"){ $("figDlg").close(); return; }
+  if(ds.edit){ var ta = $(ds.edit), open = ta.hidden; ta.hidden = !open; t.textContent = open ? "Done editing" : "Edit"; t.setAttribute("aria-expanded", open); if(open){ grow(ta); ta.focus(); } return; }
   if(ds.video){ var f = document.createElement("iframe"); f.src = ds.video; f.title = ds.vtitle; f.allow = "autoplay; fullscreen; picture-in-picture"; f.allowFullscreen = true; t.parentNode.replaceChild(f, t); f.focus(); return; }
   if(ds.set){
     S[ds.set] = ds.val;

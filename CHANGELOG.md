@@ -15,6 +15,10 @@
 - The figure's side panel is now "Change an arrow," with instructions; the proposition tray moved off the results page.
 - The finished example has one moderator (distance to care), for six hypotheses instead of nine.
 - Preview key: adding `?preview` to the address lets instructors move through every step without answering. "Exit preview" turns it off.
+- Hypotheses are labeled by type: direct, mediation, or moderation, with a one-line definition of each.
+- Results page: each section has a colored header band and tinted body; the research question and hypotheses display with bold labels ("Main question:", "Subquestions:", "H1 (direct):"), with an Edit button for the text. Copy keeps the bold labels when pasted into Word.
+- Figure caption displays as in an APA 7 paper: bold figure number, italic title, the figure, and an italic "Note." The Word download and Copy caption keep that formatting.
+- Concept names are bold in the key concepts table.
 
 ## 1.1.0 (2026-10-13)
 
