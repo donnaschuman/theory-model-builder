@@ -22,6 +22,10 @@
 - Every step opens with a short numbered "What to do" box in simple English, and every field has a one-line direction under its label, with an example where useful.
 - The "Your model" panel says it is for viewing only.
 - "Construct" is now "concept" throughout the propositions step, to match the rest of the app.
+- Teaching box on the In-between step, "Mediator: how to decide": the why question, a frustration–aggression diagram, mediator vs. moderator, and complete vs. partial mediation.
+- Teaching box on the Moderation step, "Cause or moderator? How to decide": a test for each role, a diagram, and when a social determinant is a moderator (Baron & Kenny, 1986; Cohen & Wills, 1985).
+- With two theories, the Key propositions step explains how to combine them and the directions say "for each theory."
+- Self-check flags a concept used as both a cause and a moderator, and a second theory with no concepts in the model.
 
 ## 1.1.0 (2026-10-13)
 

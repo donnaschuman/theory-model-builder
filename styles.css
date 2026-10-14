@@ -433,3 +433,12 @@ body:not(.splashing) #splash{display:none}
 .todo li{margin:4px 0}
 .hint{display:block;font-weight:400;font-size:.9rem;color:var(--muted);margin-top:2px;line-height:1.4}
 .pv-note{margin:0;padding:10px 16px;font-size:.88rem;color:var(--ink-2);background:var(--tint-2);border-bottom:1px solid var(--line)}
+
+/* ---------- Teaching boxes ---------- */
+.concept{background:#f2fbf7;border:1.5px solid #9fd8c2;border-left:6px solid var(--ok);border-radius:14px;padding:14px 18px;margin:6px 0 18px;max-width:76ch}
+.concept h4{margin:0 0 8px;font-size:1.05rem;color:var(--ok-ink)}
+.concept p{margin:0 0 10px}
+.concept p:last-child{margin-bottom:0}
+.concept ol{margin:0;padding-left:1.4em}
+.concept li{margin:4px 0}
+.cm-fig{display:block;width:100%;max-width:640px;height:auto;margin:6px 0 12px;background:#fff;border:1px solid #cfe9df;border-radius:10px;padding:6px}

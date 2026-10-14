@@ -315,7 +315,7 @@ var TODO = {
   "Outcome": ["Type the result you want to explain for this group.", "Use a short name of 2 to 5 words.", "Press Next."],
   "Define outcome": ["Write how you will know the outcome happened.", "Say what you will count or measure, over what time, and where the information comes from.", "Press Next."],
   "Theory": ["Click one theory card, or click Type my own and type the theory name.", "Add a second theory only if your model needs it.", "Press Next."],
-  "Key propositions": ["In box 1, type the APA reference for the work where the theory was first stated. You can click Use this to copy the suggested reference, but check it first.", "In box 2, press Add a proposition. Copy one sentence from the source that says how two concepts relate, and type its page number.", "Fill in the other boxes for that proposition: your own words, the From and To concepts, and the direction.", "Add 2 to 5 propositions. You can skip this step and come back later."],
+  "Key propositions": ["In box 1, type the APA reference for the work where each theory was first stated. You can click Use this to copy a suggested reference, but check it first.", "In box 2, press Add a proposition. Copy one sentence from the source that says how two concepts relate, and type its page number.", "Fill in the other boxes for that proposition: your own words, the From and To concepts, and the direction.", "Add 2 to 5 propositions for each theory. You can skip this step and come back later."],
   "Causes": ["Add 2 or 3 causes of the outcome (4 at most).", "To add a cause, click a button with a + sign below, or type in an empty box.", "Use the \u2191 and \u2193 buttons, or drag \u283f, to change the order. The order here is the order in the figure.", "Press Next."],
   "In-between": ["Ask yourself: why does each cause lead to the outcome?", "If your answer is one thing that the causes change first, click Yes and type it in the box.", "If you cannot name one thing, click No or Not sure.", "Press Next."],
   "Moderation": ["Ask yourself: is any link stronger for some people, places, or times than for others?", "Click Yes, No, or Not sure.", "If you clicked Yes or Not sure, check the box for each group or condition that might change a link. Check Other to type your own.", "Press Next."],
@@ -561,6 +561,12 @@ function checks(){
   c.push({ok: causes().length <= 4, text: causes().length <= 4 ? "4 or fewer causes." : "More than 4 causes makes the figure hard to explain.", fix: "Causes"});
   var ms = modEdges(), bm = ms.filter(function(e){ var d = S.modDetails[e.name] || {}; return !(d.groups || "").trim() || !e.path; });
   c.push({ok: !bm.length, text: !ms.length ? "No moderators (fine)." : bm.length ? "Describe the groups compared (and the path changed) for: " + bm.map(function(e){ return e.name; }).join(", ") + "." : "Each moderator has groups described and is linked to a path.", fix: "Moderator details"});
+  if(theoryList().length > 1){
+    var ns0 = nodes(), unused = theoryList().filter(function(t){ return !ns0.some(function(n){ return S.ctag[n.id] === t.id; }); });
+    c.push({ok: !unused.length, soft: true, text: unused.length ? unused.map(function(t){ return "Theory " + t.id + " (" + tName(t) + ")"; }).join(" and ") + " has no concepts in your model, so the theories are not combined. Add a concept from " + (unused.length > 1 ? "each" : "it") + ", or check that each concept is tagged with its theory." : "Concepts from each theory are in your model.", fix: "Define concepts"});
+  }
+  var both = modList().filter(function(m){ return causes().some(function(c){ return lc(c) === lc(m); }); });
+  if(both.length) c.push({ok: false, soft: true, text: "“" + both.join("”, “") + "” is both a cause and a moderator. Keep both only if you can explain why; otherwise choose one role.", fix: "Moderation"});
   var sd = causes().concat(modList()).some(function(x){ return SDOH_RE.test(x) || MODS_SDOH.indexOf(x) >= 0; });
   c.push({ok: sd, soft: true, text: sd ? "At least one social determinant of health is in your model." : "Have you considered a social determinant of health? Person-in-environment thinking asks what conditions around people shape this outcome.", fix: "Causes"});
   c.push({ok: !!S.outcomeDef.trim(), text: S.outcomeDef.trim() ? "Outcome definition is filled in." : "Say what counts as the outcome so others could measure it the same way.", fix: "Define outcome"});
@@ -678,6 +684,7 @@ var STEPS = [
         '<label for="' + fid + '">APA citation of the seminal source<span class="hint">Type the full APA reference for the work where the theory was first stated.</span></label><input type="text" id="' + fid + '" ' + (t.id === "A" ? 'data-bind="seminal"' : 'data-mt="' + t.idx + '" data-mf="seminal"') + ' placeholder="Author, A. A. (Year). Title. Publisher or Journal, vol(issue), pages." value="' + esc(t.seminal) + '"></div>';
     });
     h += '</div><div class="panel"><h3><span class="num">2</span> Pull out propositions</h3><p class="small">A <strong>proposition</strong> is the theory’s claim about how two concepts relate, for example “the more X, the more Y.” Add 2 to 5.' + (newOK ? ' Mark any proposition that is your own addition as <strong>new</strong>.' : '') + '</p><datalist id="constructs">' + co.map(function(c){ return '<option value="' + esc(c) + '">'; }).join("") + '</datalist>';
+    if(multi) h += '<div class="concept" role="note"><h4>Combining two theories</h4><ol><li>Enter propositions from both theories. Use the menu <strong>From which theory?</strong> on each proposition.</li><li>To join the theories, link a concept from one theory to a concept from the other.</li><li>If neither theory states that link, check <strong>New</strong> on that proposition. It is your own proposition, and you need to explain it in your paper.</li></ol></div>';
     S.props.forEach(function(q, k){
       h += '<div class="item"><div class="item-h"><span class="badge' + tc(q.isNew ? "N" : q.theory) + '">P' + (k + 1) + '</span>' + (q.isNew ? '<span class="kind">New</span>' : '') + '<span class="sp"><button type="button" class="btn ghost sm danger" data-rmprop="' + k + '" aria-label="Remove proposition P' + (k + 1) + '">Remove</button></span></div>' +
         (multi ? '<label for="pt' + k + '">From which theory?<span class="hint">Choose the theory this proposition comes from.</span></label><select id="pt' + k + '" data-prop="' + k + '" data-pf="theory">' + tl.map(function(t){ return '<option value="' + t.id + '" ' + (q.theory === t.id ? "selected" : "") + '>' + t.id + ': ' + esc(tName(t)) + '</option>'; }).join("") + '</select>' : '') +
@@ -709,12 +716,12 @@ var STEPS = [
     return h + tip("path") + tip("pie");
   }, v: function(){ return causes().length ? "" : "List at least one cause."; }},
 /* 7 */ {t: "In-between", g: "Model", r: function(){
-    var h = '<h2 id="stepTitle">Is there an in-between step?</h2><p class="lede">Something the causes change first, which then changes ' + esc(S.outcome.toLowerCase()) + '.</p>' + videoSlot("inbetween", "Mediators and moderators") + choices("medYN", [["yes", "Yes", "I can name it."], ["no", "No", "Causes link straight to the outcome."], ["unsure", "Not sure", "Skip it for now."]]);
+    var h = '<h2 id="stepTitle">Is there an in-between step?</h2><p class="lede">Something the causes change first, which then changes ' + esc(S.outcome.toLowerCase()) + '.</p>' + videoSlot("inbetween", "Mediators and moderators") + medConceptBox() + choices("medYN", [["yes", "Yes", "I can name it."], ["no", "No", "Causes link straight to the outcome."], ["unsure", "Not sure", "Skip it for now."]]);
     if(S.medYN === "yes") h += jargon("That\'s called <strong>mediation</strong>. The in-between is the <strong>mediator</strong>.") + '<label for="f_med">Name the in-between<span class="hint">Type the one thing the causes change first.</span></label><input type="text" id="f_med" data-bind="mediator" placeholder="e.g., Intention to stay in treatment" value="' + esc(S.mediator) + '">';
     return h + tip("med");
   }, v: function(){ if(!S.medYN) return "Pick one."; if(S.medYN === "yes" && !S.mediator.trim()) return "Name the in-between, or choose No."; return ""; }},
 /* 8 */ {t: "Moderation", g: "Model", r: function(){
-    var h = '<h2 id="stepTitle">Should something change how strong a path is?</h2><p class="lede">For example: is the link stronger for some people than others?</p>' + choices("modYN", [["yes", "Yes", ""], ["no", "No", ""], ["unsure", "Not sure", "Let me look at options."]]);
+    var h = '<h2 id="stepTitle">Should something change how strong a path is?</h2><p class="lede">For example: is a link stronger for some people, places, or times than for others?</p>' + modConceptBox() + choices("modYN", [["yes", "Yes", ""], ["no", "No", ""], ["unsure", "Not sure", "Let me look at options."]]);
     if(S.modYN === "yes") h += jargon("That\'s called <strong>moderation</strong>. The thing that changes the strength is a <strong>moderator</strong>.");
     function cb(m, lab){ return '<label><input type="checkbox" data-mod="' + esc(m) + '" ' + (S.modPicked.indexOf(m) >= 0 ? "checked" : "") + '> <span>' + esc(lab || m) + (MHINT[m] ? '<span class="hint">' + esc(MHINT[m]) + '</span>' : '') + '</span></label>'; }
     if(S.modYN === "yes" || S.modYN === "unsure"){
@@ -796,6 +803,48 @@ var STEPS = [
   }, v: function(){ return ""; }}
 ];
 var ORDER = [1, 2, 3, 4, 5, 6, 7, 8, 9, 15, 10, 11, 16, 12, 13];
+/* Teaching box: cause or moderator, and when a social determinant is a moderator. */
+/* Teaching box: what a mediator is and how to find one (J&J why heuristic). */
+function medConceptBox(){
+  var fig = '<svg viewBox="0 0 640 120" role="img" aria-labelledby="mdT" class="cm-fig"><title id="mdT">Mediation: an arrow goes from goal blocked to frustration, and another arrow goes from frustration to aggression.</title>' +
+    '<defs><marker id="mdA" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#1d2340"/></marker></defs>' +
+    '<g font-family="Atkinson Hyperlegible Next, Arial, sans-serif" font-size="14" fill="#1d2340">' +
+    '<text x="10" y="18" font-weight="700">Mediation</text>' +
+    '<rect x="10" y="40" width="150" height="40" rx="6" fill="#fff" stroke="#1d2340" stroke-width="1.5"/><text x="85" y="65" text-anchor="middle">Goal blocked</text>' +
+    '<rect x="245" y="40" width="150" height="40" rx="6" fill="#fff" stroke="#1d2340" stroke-width="2.5"/><text x="320" y="65" text-anchor="middle" font-weight="700">Frustration</text>' +
+    '<rect x="480" y="40" width="150" height="40" rx="6" fill="#fff3b8" stroke="#1d2340" stroke-width="1.5"/><text x="555" y="65" text-anchor="middle">Aggression</text>' +
+    '<line x1="160" y1="60" x2="243" y2="60" stroke="#1d2340" stroke-width="2" marker-end="url(#mdA)"/>' +
+    '<line x1="395" y1="60" x2="478" y2="60" stroke="#1d2340" stroke-width="2" marker-end="url(#mdA)"/>' +
+    '<text x="245" y="105" font-size="13" fill="#555c7a">The mediator is a box on the path.</text></g></svg>';
+  return '<div class="concept" role="note"><h4>Mediator: how to decide</h4>' +
+    '<p><strong>A mediator</strong> is the in-between step. The cause changes the mediator first, and the mediator then changes the outcome. It explains <em>why</em> the cause works.</p>' +
+    '<p><strong>Test (the why question):</strong> “Why does ___ lead to ' + esc((S.outcome || "the outcome").toLowerCase()) + '? Because it changes ___, and that changes ' + esc((S.outcome || "the outcome").toLowerCase()) + '.” The answer in the second blank is your mediator (Jaccard &amp; Jacoby, 2020).</p>' + fig +
+    '<p><strong>Mediator or moderator?</strong> A mediator is a box <em>on</em> the path and answers “why.” A moderator points <em>at</em> an arrow and answers “for whom, where, or when is the link stronger.”</p>' +
+    '<p><strong>Complete or partial?</strong> In this app, each cause works through the mediator (complete mediation). If a cause also changes the outcome directly, that is partial mediation; explain it in your paper.</p></div>';
+}
+function modConceptBox(){
+  var fig = '<svg viewBox="0 0 640 170" role="img" aria-labelledby="cmT" class="cm-fig"><title id="cmT">Left: income is a cause; an arrow goes from income to health. Right: social support is a moderator; a dashed arrow goes from social support to the middle of the arrow from stress to health.</title>' +
+    '<defs><marker id="cmA" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#1d2340"/></marker></defs>' +
+    '<g font-family="Atkinson Hyperlegible Next, Arial, sans-serif" font-size="14" fill="#1d2340">' +
+    '<text x="10" y="18" font-weight="700">Cause</text>' +
+    '<rect x="10" y="70" width="110" height="40" rx="6" fill="#fff" stroke="#1d2340" stroke-width="1.5"/><text x="65" y="95" text-anchor="middle">Income</text>' +
+    '<rect x="190" y="70" width="110" height="40" rx="6" fill="#fff3b8" stroke="#1d2340" stroke-width="1.5"/><text x="245" y="95" text-anchor="middle">Health</text>' +
+    '<line x1="120" y1="90" x2="188" y2="90" stroke="#1d2340" stroke-width="2" marker-end="url(#cmA)"/>' +
+    '<text x="10" y="150" font-size="13" fill="#555c7a">Income changes health itself.</text>' +
+    '<text x="340" y="18" font-weight="700">Moderator</text>' +
+    '<rect x="420" y="26" width="140" height="36" rx="6" fill="#f4f5fb" stroke="#555c7a" stroke-width="1.5" stroke-dasharray="5 4"/><text x="490" y="49" text-anchor="middle">Social support</text>' +
+    '<rect x="340" y="90" width="100" height="40" rx="6" fill="#fff" stroke="#1d2340" stroke-width="1.5"/><text x="390" y="115" text-anchor="middle">Stress</text>' +
+    '<rect x="520" y="90" width="110" height="40" rx="6" fill="#fff3b8" stroke="#1d2340" stroke-width="1.5"/><text x="575" y="115" text-anchor="middle">Health</text>' +
+    '<line x1="440" y1="110" x2="518" y2="110" stroke="#1d2340" stroke-width="2" marker-end="url(#cmA)"/>' +
+    '<line x1="490" y1="62" x2="480" y2="106" stroke="#555c7a" stroke-width="2" stroke-dasharray="6 4" marker-end="url(#cmA)"/>' +
+    '<text x="340" y="160" font-size="13" fill="#555c7a">Support changes how strongly stress harms health.</text></g></svg>';
+  return '<div class="concept" role="note"><h4>Cause or moderator? How to decide</h4>' +
+    '<p><strong>A cause</strong> changes the outcome itself. Test: “More ___ leads to more (or less) ' + esc((S.outcome || "outcome").toLowerCase()) + '.”</p>' +
+    '<p><strong>A moderator</strong> changes how strong a link is. It sits on an arrow, not on a box. Test: “The link between ___ and ___ is stronger for people with high ___ than for people with low ___.”</p>' + fig +
+    '<p><strong>Moderators are not only personal characteristics.</strong> Age and gender can be moderators, and so can conditions in a person’s environment, such as income, housing, neighborhood, or distance to care. Baron and Kenny (1986, p. 1174) list sex, race, and class as examples.</p>' +
+    '<p><strong>A social determinant can be a cause or a moderator.</strong> Example: social support. As a cause, more support leads to better mental health. As a moderator, stress harms health less when support is high (the stress-buffering hypothesis; Cohen &amp; Wills, 1985).</p>' +
+    '<p><strong>Choose a moderator only when</strong> your theory, prior research, or practice experience says the condition changes how strong a link is. Do not use the same concept as both a cause and a moderator of the same link unless you can explain why.</p></div>';
+}
 function chipRow(list){ var have = causes().map(lc); return list.map(function(c){ var used = have.indexOf(lc(c)) >= 0; return '<button type="button" class="chip' + (used ? " used" : "") + '" data-chip="' + esc(c) + '" ' + (used ? 'aria-disabled="true"' : 'data-drag="chip"') + '>' + (used ? "✓ " : "+ ") + esc(c) + '</button>'; }).join(""); }
 function stepIdx(t){ for(var i = 0; i < STEPS.length; i++) if(STEPS[i].t === t) return i; return 1; }
 function visible(){ return ORDER.filter(function(i){ return !(STEPS[i].skip && STEPS[i].skip()); }); }
