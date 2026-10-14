@@ -14,6 +14,7 @@
 - Source propositions show the seminal citation once per theory, and the page once when all propositions share it.
 - The figure's side panel is now "Change an arrow," with instructions; the proposition tray moved off the results page.
 - The finished example has one moderator (distance to care), for six hypotheses instead of nine.
+- Preview key: adding `?preview` to the address lets instructors move through every step without answering. "Exit preview" turns it off.
 
 ## 1.1.0 (2026-10-13)
 

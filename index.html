@@ -154,6 +154,9 @@ var PROPOSITIONS_VIDEO_URL = ''; // older setting; used for the propositions slo
 <script>
 (function(){
 "use strict";
+/* Preview key: add ?preview to the address to move through every step without answering.
+   It lasts for the browser tab; "Exit preview" turns it off. */
+var PREVIEW = (function(){ var on = /[?&](preview|demo)(=|&|$)/i.test(location.search); try { if(on) sessionStorage.setItem("stmbPreview", "1"); on = on || sessionStorage.getItem("stmbPreview") === "1"; } catch(e){} return on; })();
 var KEY = "theoryModelApp.v1", VERSION = "1.2.0", SCHEMA = 4;
 var APP_URL = "https://social-theory-model-builder.netlify.app";
 var CITE = "Schuman, D. L. (2026). Social theory model builder (Version " + VERSION + ") [Web application]. The University of Texas at Arlington. " + APP_URL;
@@ -789,7 +792,8 @@ function render(){
   if(S.seen.indexOf(S.step) < 0) S.seen.push(S.step);
   var vis = visible(), pos = vis.indexOf(S.step), st = STEPS[S.step], res = isResults();
   $("app").classList.toggle("wide", res);
-  var eb = $("exBanner"); eb.hidden = !S.demoLoaded;
+  var eb = $("exBanner"); eb.hidden = !S.demoLoaded && !PREVIEW;
+  if(PREVIEW && !S.demoLoaded) eb.innerHTML = '<p><strong>Preview mode.</strong> Answers are not required. Use Next, or click any step in the list, to see every screen.</p><button type="button" class="btn sec sm" id="exitPreview">Exit preview</button>';
   if(S.demoLoaded) eb.innerHTML = '<p><strong>Finished example.</strong> A completed model of treatment engagement among post-9/11 veterans. Open any step in the list to see how it was filled in.</p>' + (hasBackup() ? '<button type="button" class="btn sec sm" id="exBack">Back to my model</button>' : '') + '<button type="button" class="btn yel sm" id="exNew">Start my own model</button>';
   var pct = Math.round(100 * (pos + 1) / vis.length);
   $("mbar").style.width = pct + "%"; $("mtext").textContent = "Step " + (pos + 1) + " of " + vis.length + ": " + st.t;
@@ -808,7 +812,7 @@ function renderRail(vis, pos, pct){
   vis.forEach(function(i, p){
     var s = STEPS[i];
     if(s.g !== g){ if(g) h += '</ol>'; g = s.g; h += '<p class="rail-g" aria-hidden="true">' + esc(g) + '</p><ol>'; }
-    var seen = S.seen.indexOf(i) >= 0, cur = i === S.step, done = seen && !cur && p < pos;
+    var seen = PREVIEW || S.seen.indexOf(i) >= 0, cur = i === S.step, done = S.seen.indexOf(i) >= 0 && !cur && p < pos;
     h += '<li><button type="button" class="rail-step' + (done ? " done" : "") + '" data-goto="' + i + '" ' + (cur ? 'aria-current="step"' : '') + ' ' + (!seen && !cur ? "disabled" : "") + '><span class="dot" aria-hidden="true">' + (done ? "✓" : p + 1) + '</span><span>' + esc(s.t) + '</span></button></li>';
   });
   $("rail").innerHTML = h + '</ol></div>';
@@ -820,7 +824,7 @@ function leaveStep(){ var st = STEPS[S.step]; if(st && st.done) st.done(); if(!S
 function go(d){
   S.returnTo = -1;
   var vis = visible(), pos = vis.indexOf(S.step);
-  if(d > 0){ var e = STEPS[S.step].v(); if(e){ $("err").textContent = e; $("err").scrollIntoView({block: "nearest"}); return; } }
+  if(d > 0 && !PREVIEW){ var e = STEPS[S.step].v(); if(e){ $("err").textContent = e; $("err").scrollIntoView({block: "nearest"}); return; } }
   leaveStep();
   vis = visible(); pos = vis.indexOf(S.step);
   S.step = vis[Math.max(0, Math.min(vis.length - 1, pos + d))];
@@ -1351,6 +1355,7 @@ document.addEventListener("click", function(ev){
   if(id === "spStart" || id === "spNew"){ if(!okReplace()) return; S = fresh(); S.mode = "own"; S.step = 1; render(); focusH(); return; }
   if(id === "spDemo"){ openExample(); return; }
   if(id === "exBack"){ var b = null; try { b = JSON.parse(localStorage.getItem(BK)); } catch(e){} try { localStorage.removeItem(BK); } catch(e){} S = b ? upgrade(b) : fresh(); render(); focusH(); announce("Back to your model."); return; }
+  if(id === "exitPreview"){ try { sessionStorage.removeItem("stmbPreview"); } catch(e){} location.href = location.pathname; return; }
   if(id === "exNew"){ try { localStorage.removeItem(BK); } catch(e){} S = fresh(); S.mode = "own"; S.step = 1; render(); focusH(); return; }
   if(id === "spOpen" || id === "openFile"){ $("fileIn").value = ""; $("fileIn").click(); return; }
   if(t.dataset.copycite){

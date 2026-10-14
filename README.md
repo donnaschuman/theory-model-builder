@@ -15,7 +15,7 @@ Live: https://social-theory-model-builder.netlify.app
 
 ## For instructors
 
-The [instructor guide](https://social-theory-model-builder.netlify.app/guide.html) (`guide.html`) covers a seven-session teaching sequence, an assessment rubric, reviewing student files, discussion prompts, customization, and suggested syllabus language. "See a finished example" on the home page opens a completed model with every step available to browse.
+The [instructor guide](https://social-theory-model-builder.netlify.app/guide.html) (`guide.html`) covers a seven-session teaching sequence, an assessment rubric, reviewing student files, discussion prompts, customization, and suggested syllabus language. "See a finished example" on the home page opens a completed model with every step available to browse. To see every screen without answering the questions, open the app with `?preview` at the end of the address.
 
 ## AI credit and disclosure
 
