@@ -38,6 +38,8 @@
 - Fixed: on phones, an empty yellow banner showed at the top of every step.
 - Fixed: "Start a new model" and "Start over" did nothing in browsers that block pop-up confirmations (some phone and in-app browsers). All confirmations now appear in a box on the page.
 - Green teaching boxes are collapsible. They start closed with their main rule showing, and each box remembers whether it was opened. The "Theory, model, or framework?" box on the library page works the same way.
+- Outcome and Define outcome steps: green teaching boxes, "How to name an outcome" and "How to say what counts," with rules and weak-to-strong examples, like the population box.
+- Define concepts: the directions explain that panels fill in automatically from the Causes, In-between, and Moderation steps; if no causes have been added yet, a notice says so and links to the Causes step.
 - Key propositions: a new teaching box, "Which propositions do I need?", and revised directions explain that students use only the propositions their model needs, not every proposition in a theory, and can take one proposition from one theory and another from a second theory.
 - Full text is always visible: proposition buttons wrap instead of cutting off, each linked arrow prints its full proposition under the menu, the seminal citation and "In my own words" boxes grow to fit, and long figure labels use smaller type over four lines before shortening.
 
