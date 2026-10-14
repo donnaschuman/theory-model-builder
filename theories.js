@@ -8,6 +8,9 @@ window.THEORY_GROUPS = [
   ["services", "Health services and inequality"],
   ["develop", "Human development and family"],
   ["crime", "Crime and deviance"],
+  ["military", "Military and veterans"],
+  ["suicide", "Suicide"],
+  ["resil", "Resilience"],
   ["power", "Empowerment and critical theories"]
 ];
 window.THEORY_LIB = {
@@ -325,6 +328,284 @@ window.THEORY_LIB = {
       "Satisfying needs for autonomy, competence, and relatedness leads to more autonomous motivation.",
       "Autonomous motivation leads to more persistence and well-being.",
       "Controlling settings frustrate basic needs, leading to more controlled motivation and lower well-being."
+    ]
+  },
+  MILTRANS: {
+    group: "military", name: "Military Transition Theory",
+    desc: "Leaving the military is a cultural transition; how it goes depends on what veterans bring to separation and the resources they have while managing it.",
+    chips: ["Military culture and experiences", "Type of discharge", "Individual factors", "Organizational factors", "Community factors", "Transition outcomes"],
+    seminal: "Castro, C. A., & Kintzle, S. (2014). Suicides in the military: The post-modern combat veteran and the Hemingway effect. *Current Psychiatry Reports, 16*(8), Article 460. https://doi.org/10.1007/s11920-014-0460-1",
+    origins: [],
+    revisions: [
+      {tag: "Extended", cite: "Castro, C. A., Kintzle, S., & Hassan, A. M. (2015). The combat veteran paradox: Paradoxes and dilemmas encountered with reintegrating combat veterans and the agencies that support them. *Traumatology, 21*(4), 299–310. https://doi.org/10.1037/trm0000049", note: "Applies the theory to reintegration of combat veterans and the agencies that serve them."},
+      {tag: "Restated", cite: "Kintzle, S., & Castro, C. A. (2018). Examining veteran transition to the workplace through military transition theory. In P. D. Harms & P. L. Perrewé (Eds.), *Occupational stress and well-being in military contexts* (Research in Occupational Stress and Well Being, Vol. 16, pp. 117–127). Emerald Publishing. https://doi.org/10.1108/S1479-355520180000016009", note: "Fullest stand-alone statement of the three phases, applied to work."}
+    ],
+    props: [
+      "Transition has three phases: approaching the transition, managing the transition, and assessing the transition.",
+      "Approaching: what veterans bring to separation (military culture and experiences, type of discharge, health, and how planned the separation was) shapes the transition.",
+      "Managing: individual, organizational (VA services, education benefits, transition programs), and community resources shape how the transition goes.",
+      "Assessing: transition outcomes are judged across work, family, health, general well-being, and community.",
+      "An unplanned or involuntary separation makes the transition harder."
+    ]
+  },
+  MORALINJ: {
+    group: "military", name: "Moral Injury",
+    desc: "Acts that violate deeply held moral beliefs, or betrayal by trusted leaders, can cause lasting guilt, shame, and self-condemnation.",
+    chips: ["Potentially morally injurious events", "Self-blaming attributions", "Guilt", "Shame", "Withdrawal", "Self-condemnation", "Suicidality"],
+    seminal: "Litz, B. T., Stein, N., Delaney, E., Lebowitz, L., Nash, W. P., Silva, C., & Maguen, S. (2009). Moral injury and moral repair in war veterans: A preliminary model and intervention strategy. *Clinical Psychology Review, 29*(8), 695–706. https://doi.org/10.1016/j.cpr.2009.07.003",
+    origins: [{cite: "Shay, J. (1994). *Achilles in Vietnam: Combat trauma and the undoing of character*. Atheneum.", note: "Defined moral injury as betrayal of what is right by a person in legitimate authority in a high-stakes situation."}],
+    revisions: [
+      {tag: "Restated", cite: "Shay, J. (2014). Moral injury. *Psychoanalytic Psychology, 31*(2), 182–191. https://doi.org/10.1037/a0036090", note: "Restates the leadership-betrayal definition and contrasts it with the Litz et al. definition."},
+      {tag: "Extended", cite: "Jinkerson, J. D. (2016). Defining and assessing moral injury: A syndrome perspective. *Traumatology, 22*(2), 122–130. https://doi.org/10.1037/trm0000069", note: "Defines moral injury as a syndrome: guilt, shame, spiritual or existential conflict, and loss of trust as core features."},
+      {tag: "Revised", cite: "Litz, B. T., & Kerig, P. K. (2019). Introduction to the special issue on moral injury: Conceptual challenges, methodological issues, and clinical applications. *Journal of Traumatic Stress, 32*(3), 341–349. https://doi.org/10.1002/jts.22405", note: "Separates the event from the outcome; places moral challenges, moral stressors, and potentially morally injurious events on a continuum; distinguishes self-related events (guilt, shame) from other-related events such as betrayal (anger)."}
+    ],
+    props: [
+      "Committing, failing to prevent, witnessing, or learning about an act that violates deeply held moral beliefs can lead to moral injury. Betrayal by trusted leaders is a second source (Shay).",
+      "The clash between the act and one's moral beliefs produces lasting self-blaming attributions (\u201cI am bad\u201d).",
+      "Self-blaming attributions generate guilt and shame.",
+      "Shame leads to withdrawal, which blocks corrective experiences and sustains self-condemnation, demoralization, and self-harm, including suicidality.",
+      "Repair comes through corrective interpersonal experiences, self-forgiveness, and reparative action."
+    ]
+  },
+  FAMSTRESS: {
+    group: "military", name: "Family Stress Theory (ABC-X and Double ABC-X)",
+    desc: "Whether a stressor becomes a family crisis depends on the family's resources and how it defines the event. Built from studies of war separation and reunion.",
+    chips: ["Stressor event (A)", "Family resources (B)", "Family definition of the event (C)", "Crisis (X)", "Pile-up of demands", "Coping", "Family adaptation"],
+    seminal: "Hill, R. (1949). *Families under stress: Adjustment to the crises of war separation and reunion*. Harper & Brothers.",
+    origins: [],
+    revisions: [
+      {tag: "Restated", cite: "Hill, R. (1958). Generic features of families under stress. *Social Casework, 39*(2–3), 139–150. https://doi.org/10.1177/1044389458039002-318", note: "First explicit statement of the formula: A, interacting with B, interacting with C, produces X."},
+      {tag: "Revised", cite: "McCubbin, H. I., & Patterson, J. M. (1983). The family stress process: The double ABCX model of adjustment and adaptation. *Marriage & Family Review, 6*(1–2), 7–37. https://doi.org/10.1300/J002v06n01_02", note: "The Double ABC-X model adds what happens after the crisis: pile-up of demands, adaptive resources, perception and coherence, coping, and adaptation."}
+    ],
+    props: [
+      "A stressor event (A) produces a crisis (X) depending on the family's resources (B) and the family's definition of the event (C).",
+      "More family resources lessen the crisis (moderation).",
+      "Defining the event as manageable lessens the crisis.",
+      "After a crisis, pile-up of demands, adaptive resources, the family's perception and sense of coherence, and coping lead to adaptation, which ranges from bonadaptation to maladaptation (Double ABC-X)."
+    ]
+  },
+  MILTURN: {
+    group: "military", name: "Military Service as a Life Course Turning Point",
+    desc: "Military service can redirect a life, especially for young people from disadvantaged backgrounds; its effect depends on when in life it comes.",
+    chips: ["Age at entry", "Military service", "GI Bill education", "Socioeconomic achievement", "Disadvantaged background"],
+    seminal: "Elder, G. H., Jr. (1986). Military times and turning points in men's lives. *Developmental Psychology, 22*(2), 233–245. https://doi.org/10.1037/0012-1649.22.2.233",
+    origins: [],
+    revisions: [
+      {tag: "Extended", cite: "Elder, G. H., Jr. (1987). War mobilization and the life course: A cohort of World War II veterans. *Sociological Forum, 2*(3), 449–472. https://doi.org/10.1007/BF01106621", note: "Tests early versus late entry: early entry works as a moratorium; late entry disrupts family and career."},
+      {tag: "Extended", cite: "Sampson, R. J., & Laub, J. H. (1996). Socioeconomic achievement in the life course of disadvantaged men: Military service as a turning point, circa 1940–1965. *American Sociological Review, 61*(3), 347–367. https://doi.org/10.2307/2096353", note: "Overseas duty, in-service training, and GI Bill education as pathways to later achievement among disadvantaged men."},
+      {tag: "Extended", cite: "Wilmoth, J. M., & London, A. S. (Eds.). (2013). *Life course perspectives on military service*. Routledge. https://doi.org/10.4324/9780203079744", note: "Applies the life course perspective to military service more broadly."}
+    ],
+    props: [
+      "Military service can be a turning point that separates young people from earlier disadvantage.",
+      "Earlier entry brings more benefit and later entry more disruption of family and career (timing; moderation by age at entry).",
+      "In-service training and GI Bill education lead to later socioeconomic achievement.",
+      "Benefits are larger for men from disadvantaged backgrounds."
+    ],
+    use: "The evidence comes mostly from World War II and Korea-era cohorts of men. Check whether it applies to the all-volunteer force and to women."
+  },
+  EPT: {
+    group: "military", name: "Emotional Processing Theory (PTSD)",
+    desc: "PTSD persists when the trauma memory is avoided; recovery comes from activating the memory and taking in corrective information. The basis of prolonged exposure therapy.",
+    chips: ["Trauma memory (fear structure)", "Avoidance", "Corrective information", "Beliefs about danger and incompetence", "PTSD symptoms"],
+    seminal: "Foa, E. B., & Kozak, M. J. (1986). Emotional processing of fear: Exposure to corrective information. *Psychological Bulletin, 99*(1), 20–35. https://doi.org/10.1037/0033-2909.99.1.20",
+    origins: [],
+    revisions: [
+      {tag: "Extended", cite: "Foa, E. B., Steketee, G., & Rothbaum, B. O. (1989). Behavioral/cognitive conceptualizations of post-traumatic stress disorder. *Behavior Therapy, 20*(2), 155–176. https://doi.org/10.1016/S0005-7894(89)80067-X", note: "First applied the theory to PTSD: safe stimuli take on the meaning of danger."},
+      {tag: "Extended", cite: "Foa, E. B., & Rothbaum, B. O. (1998). *Treating the trauma of rape: Cognitive-behavioral therapy for PTSD*. Guilford Press.", note: "Treatment application; describes the two erroneous beliefs."},
+      {tag: "Revised", cite: "Foa, E. B., Huppert, J. D., & Cahill, S. P. (2006). Emotional processing theory: An update. In B. O. Rothbaum (Ed.), *Pathological anxiety: Emotional processing in etiology and treatment* (pp. 3–24). Guilford Press.", note: "Habituation within a session is no longer required; emphasis moves to change across sessions and change in meaning."}
+    ],
+    props: [
+      "Fear is stored as a memory structure of stimuli, responses, and their meanings.",
+      "Avoiding trauma reminders prevents the structure from being corrected and maintains PTSD.",
+      "Activating the trauma memory and taking in information that does not fit it reduces fear (the basis of prolonged exposure).",
+      "Beliefs that the world is extremely dangerous and that one is extremely incompetent maintain PTSD; recovery changes them."
+    ]
+  },
+  IPTS: {
+    group: "suicide", name: "Interpersonal Theory of Suicide",
+    desc: "Suicidal desire comes from feeling one does not belong and is a burden; acting on it requires an acquired capability for suicide.",
+    chips: ["Thwarted belongingness", "Perceived burdensomeness", "Hopelessness", "Suicidal desire", "Capability for suicide", "Suicide attempt"],
+    seminal: "Joiner, T. E. (2005). *Why people die by suicide*. Harvard University Press.",
+    origins: [],
+    revisions: [{tag: "Revised", cite: "Van Orden, K. A., Witte, T. K., Cukrowicz, K. C., Braithwaite, S. R., Selby, E. A., & Joiner, T. E., Jr. (2010). The interpersonal theory of suicide. *Psychological Review, 117*(2), 575–600. https://doi.org/10.1037/a0018697", note: "States four testable hypotheses; separates passive from active suicidal desire; adds hopelessness about belongingness and burdensomeness; defines capability as fearlessness about death plus higher pain tolerance."}],
+    props: [
+      "Thwarted belongingness leads to passive suicidal ideation.",
+      "Perceived burdensomeness leads to passive suicidal ideation.",
+      "Both together, with hopelessness that these states will change, lead to active suicidal desire.",
+      "Suicidal desire leads to a lethal or near-lethal attempt only when the capability for suicide is present (moderation).",
+      "Capability builds through habituation to repeated painful or frightening experiences, such as combat exposure or prior self-harm."
+    ]
+  },
+  THREESTEP: {
+    group: "suicide", name: "Three-Step Theory (3ST)",
+    desc: "Suicidal ideation comes from pain plus hopelessness; connectedness protects; capability decides whether ideation becomes an attempt.",
+    chips: ["Psychological pain", "Hopelessness", "Connectedness", "Suicidal ideation", "Capability for suicide", "Suicide attempt"],
+    seminal: "Klonsky, E. D., & May, A. M. (2015). The three-step theory (3ST): A new theory of suicide rooted in the \u201cideation-to-action\u201d framework. *International Journal of Cognitive Therapy, 8*(2), 114–129. https://doi.org/10.1521/ijct.2015.8.2.114",
+    origins: [],
+    revisions: [
+      {tag: "Extended", cite: "Klonsky, E. D., Saffer, B. Y., & Bryan, C. J. (2018). Ideation-to-action theories of suicide: A conceptual and empirical update. *Current Opinion in Psychology, 22*, 38–43. https://doi.org/10.1016/j.copsyc.2017.07.020", note: "Reviews the interpersonal theory, the IMV model, and the 3ST together."},
+      {tag: "Restated", cite: "Klonsky, E. D., Pachkowski, M. C., Shahnaz, A., & May, A. M. (2021). The three-step theory of suicide: Description, evidence, and some useful points of clarification. *Preventive Medicine, 152*(Pt. 1), Article 106549. https://doi.org/10.1016/j.ypmed.2021.106549", note: "Restates the three steps, reviews the evidence, and clarifies the concepts."}
+    ],
+    props: [
+      "Pain (usually psychological) together with hopelessness leads to suicidal ideation; pain alone is not enough.",
+      "Connectedness protects: ideation is strong when pain exceeds connectedness (moderation).",
+      "Capability for suicide (dispositional, acquired, and practical) determines whether ideation moves to an attempt."
+    ]
+  },
+  IMV: {
+    group: "suicide", name: "Integrated Motivational–Volitional (IMV) Model",
+    desc: "Defeat leads to entrapment, entrapment to suicidal ideation, and ideation to behavior; different factors strengthen or weaken each step.",
+    chips: ["Defeat / humiliation", "Entrapment", "Suicidal ideation", "Suicidal behavior", "Threat-to-self moderators", "Motivational moderators", "Volitional moderators"],
+    seminal: "O\u2019Connor, R. C. (2011). The integrated motivational-volitional model of suicidal behavior. *Crisis, 32*(6), 295–298. https://doi.org/10.1027/0227-5910/a000120",
+    origins: [],
+    revisions: [{tag: "Revised", cite: "O\u2019Connor, R. C., & Kirtley, O. J. (2018). The integrated motivational–volitional model of suicidal behaviour. *Philosophical Transactions of the Royal Society B: Biological Sciences, 373*(1754), Article 20170268. https://doi.org/10.1098/rstb.2017.0268", note: "Reviews the evidence since 2011 and updates the lists of moderators at each step."}],
+    props: [
+      "A pre-motivational phase (vulnerability, environment, life events) sets the context.",
+      "Defeat or humiliation leads to entrapment; entrapment leads to suicidal ideation (motivational phase).",
+      "Threat-to-self moderators (such as problem solving, coping, rumination) change the strength of the defeat–entrapment link.",
+      "Motivational moderators (such as thwarted belongingness, perceived burdensomeness, future thinking, social support) change the strength of the entrapment–ideation link.",
+      "Volitional moderators (such as capability, impulsivity, access to means, exposure to suicide, past suicidal behavior) change the strength of the ideation–behavior link."
+    ],
+    use: "A strong teaching example: it combines mediation (defeat to entrapment to ideation) with a moderator at every step."
+  },
+  FVT: {
+    group: "suicide", name: "Fluid Vulnerability Theory",
+    desc: "Each person has a stable baseline level of suicide risk; acute risk rises above it in response to triggers and then falls.",
+    chips: ["Baseline (chronic) risk", "Triggers", "Acute risk", "Prior suicide attempts", "Suicidal mode"],
+    seminal: "Rudd, M. D. (2006). Fluid vulnerability theory: A cognitive approach to understanding the process of acute and chronic suicide risk. In T. E. Ellis (Ed.), *Cognition and suicide: Theory, research, and therapy* (pp. 355–368). American Psychological Association. https://doi.org/10.1037/11377-016",
+    origins: [],
+    revisions: [{tag: "Extended", cite: "Bryan, C. J., Butner, J. E., May, A. M., Rugo, K. F., Harris, J. A., Oakey, D. N., Rozek, D. C., & Bryan, A. O. (2020). Nonlinear change processes and the emergence of suicidal behavior: A conceptual model based on the fluid vulnerability theory of suicide. *New Ideas in Psychology, 57*, Article 100758. https://doi.org/10.1016/j.newideapsych.2019.100758", note: "Restates the theory as sudden, nonlinear change (a cusp catastrophe model), explaining suicidal behavior that appears without prior planning."}],
+    props: [
+      "Each person has a baseline (chronic) level of suicide risk that is relatively stable.",
+      "Acute risk rises above baseline in response to triggers and is time-limited.",
+      "People with multiple prior attempts have a higher baseline and are triggered more easily.",
+      "A suicidal episode involves linked cognitive, emotional, physical, and behavioral systems (the suicidal mode)."
+    ]
+  },
+  DURKHEIM: {
+    group: "suicide", name: "Durkheim\u2019s Theory of Suicide",
+    desc: "Suicide rates depend on how strongly groups integrate and regulate their members.",
+    chips: ["Social integration", "Social regulation", "Suicide rate"],
+    seminal: "Durkheim, \u00c9. (1951). *Suicide: A study in sociology* (J. A. Spaulding & G. Simpson, Trans.; G. Simpson, Ed.). Free Press. (Original work published 1897)",
+    origins: [],
+    revisions: [{tag: "Review", cite: "Wray, M., Colen, C., & Pescosolido, B. (2011). The sociology of suicide. *Annual Review of Sociology, 37*, 505–528. https://doi.org/10.1146/annurev-soc-081309-150058", note: "Modern review of sociological work on suicide since Durkheim."}],
+    props: [
+      "Weak social integration leads to higher suicide rates (egoistic suicide).",
+      "Excessive integration leads to altruistic suicide.",
+      "Weak social regulation, as in sudden economic booms or crashes, leads to anomic suicide.",
+      "Excessive regulation leads to fatalistic suicide (discussed only briefly by Durkheim)."
+    ],
+    use: "The theory explains suicide rates in groups (communities, occupations, nations), not one person's risk. Use it for group-level outcomes."
+  },
+  MASTEN: {
+    group: "resil", name: "Developmental Resilience (Ordinary Magic)",
+    desc: "Resilience is common: it comes from ordinary human adaptive systems, such as caring relationships and self-regulation, that keep working under adversity.",
+    chips: ["Adversity", "Caring adults", "Self-regulation", "Positive view of self", "Mastery motivation", "Positive adaptation"],
+    seminal: "Masten, A. S. (2001). Ordinary magic: Resilience processes in development. *American Psychologist, 56*(3), 227–238. https://doi.org/10.1037/0003-066X.56.3.227",
+    origins: [{cite: "Luthar, S. S., Cicchetti, D., & Becker, B. (2000). The construct of resilience: A critical evaluation and guidelines for future work. *Child Development, 71*(3), 543–562. https://doi.org/10.1111/1467-8624.00164", note: "Defines resilience as a process of positive adaptation despite significant adversity."}],
+    revisions: [{tag: "Revised", cite: "Masten, A. S. (2014). *Ordinary magic: Resilience in development*. Guilford Press.", note: "Book-length statement from a systems view; adds family, school, community, and cultural systems."}],
+    props: [
+      "Resilience is positive adaptation despite significant adversity, not a rare trait.",
+      "It comes from ordinary adaptive systems: close ties to competent, caring adults; thinking and self-regulation skills; a positive view of self; and motivation to master the environment.",
+      "The greatest threats to development are those that damage these systems.",
+      "A promotive factor helps at any level of risk (main effect); a protective factor weakens the effect of risk (moderation)."
+    ]
+  },
+  RUTTER: {
+    group: "resil", name: "Protective Mechanisms (Rutter)",
+    desc: "What matters is not a list of protective factors but the processes by which they change a person's response to risk.",
+    chips: ["Risk", "Protective processes", "Negative chain reactions", "Self-esteem and self-efficacy", "Opportunities", "Outcome"],
+    seminal: "Rutter, M. (1987). Psychosocial resilience and protective mechanisms. *American Journal of Orthopsychiatry, 57*(3), 316–331. https://doi.org/10.1111/j.1939-0025.1987.tb03541.x",
+    origins: [],
+    revisions: [{tag: "Restated", cite: "Rutter, M. (2012). Resilience as a dynamic concept. *Development and Psychopathology, 24*(2), 335–344. https://doi.org/10.1017/S0954579412000028", note: "Restates resilience as an inference from different responses to comparable adversity; reviews steeling (controlled stress builds resistance) versus sensitizing effects; adds gene–environment interaction."}],
+    props: [
+      "A protective process is identified by how it changes the response to risk; it may have no effect when risk is low (moderation).",
+      "Protective processes reduce the impact of risk.",
+      "They reduce negative chain reactions that follow risk exposure.",
+      "They build and maintain self-esteem and self-efficacy.",
+      "They open opportunities."
+    ]
+  },
+  UNGAR: {
+    group: "resil", name: "Social-Ecological Resilience (Ungar)",
+    desc: "Resilience depends on people finding resources and on their environments providing those resources in culturally meaningful ways.",
+    chips: ["Adversity", "Navigation to resources", "Negotiation for resources", "Environmental resources", "Culture and context", "Well-being"],
+    seminal: "Ungar, M. (2011). The social ecology of resilience: Addressing contextual and cultural ambiguity of a nascent construct. *American Journal of Orthopsychiatry, 81*(1), 1–17. https://doi.org/10.1111/j.1939-0025.2010.01067.x",
+    origins: [{cite: "Ungar, M. (2008). Resilience across cultures. *British Journal of Social Work, 38*(2), 218–235. https://doi.org/10.1093/bjsw/bcl343", note: "First stated the navigate-and-negotiate definition."}],
+    revisions: [],
+    props: [
+      "In the context of significant adversity, resilience is the capacity of people to navigate their way to psychological, social, cultural, and physical resources that sustain well-being.",
+      "It is also the capacity of individuals and groups to negotiate for those resources to be provided in culturally meaningful ways.",
+      "The higher the adversity, the more outcomes depend on the environment's ability to provide resources rather than on individual traits (Ungar's argument).",
+      "What counts as a good outcome depends on culture and context."
+    ],
+    use: "Close to social work's person-in-environment view. Environmental resources often enter a model as causes or moderators."
+  },
+  BONANNO: {
+    group: "resil", name: "Resilience Trajectories after Loss and Trauma (Bonanno)",
+    desc: "After loss or trauma, most people stay steadily healthy; resilience is common and different from recovery.",
+    chips: ["Potentially traumatic event", "Resilience trajectory", "Recovery trajectory", "Delayed trajectory", "Chronic trajectory"],
+    seminal: "Bonanno, G. A. (2004). Loss, trauma, and human resilience: Have we underestimated the human capacity to thrive after extremely aversive events? *American Psychologist, 59*(1), 20–28. https://doi.org/10.1037/0003-066X.59.1.20",
+    origins: [],
+    revisions: [
+      {tag: "Extended", cite: "Bonanno, G. A., Westphal, M., & Mancini, A. D. (2011). Resilience to loss and potential trauma. *Annual Review of Clinical Psychology, 7*, 511–535. https://doi.org/10.1146/annurev-clinpsy-032210-104526", note: "Reviews evidence; resilience has many determinants, including social support, resources, and flexible coping."},
+      {tag: "Extended", cite: "Bonanno, G. A., Mancini, A. D., Horton, J. L., Powell, T. M., LeardMann, C. A., Boyko, E. J., Wells, T. S., Hooper, T. I., Gackstetter, G. D., & Smith, T. C. (2012). Trajectories of trauma symptoms and resilience in deployed US military service members: Prospective cohort study. *British Journal of Psychiatry, 200*(4), 317–323. https://doi.org/10.1192/bjp.bp.111.096552", note: "Military application: about 83% of single deployers and 85% of multiple deployers followed a low, stable (resilient) trajectory."}
+    ],
+    props: [
+      "After loss or a potentially traumatic event, most people show a stable trajectory of healthy functioning (resilience).",
+      "Resilience is different from recovery, in which functioning drops and then returns.",
+      "Other common trajectories are delayed reactions and chronic distress.",
+      "Resilience can come from several pathways, some unexpected, such as hardiness, self-enhancement, and positive emotion."
+    ],
+    use: "Trajectories are usually outcomes identified with longitudinal data. Causes and moderators predict which trajectory a person follows."
+  },
+  HARDINESS: {
+    group: "resil", name: "Hardiness",
+    desc: "People with commitment, control, and challenge attitudes stay healthier under stress. Widely used in military research.",
+    chips: ["Commitment", "Control", "Challenge", "Hardiness", "Life stress", "Health"],
+    seminal: "Kobasa, S. C. (1979). Stressful life events, personality, and health: An inquiry into hardiness. *Journal of Personality and Social Psychology, 37*(1), 1–11. https://doi.org/10.1037/0022-3514.37.1.1",
+    origins: [],
+    revisions: [
+      {tag: "Extended", cite: "Kobasa, S. C., Maddi, S. R., & Kahn, S. (1982). Hardiness and health: A prospective study. *Journal of Personality and Social Psychology, 42*(1), 168–177. https://doi.org/10.1037/0022-3514.42.1.168", note: "Prospective test: hardiness weakens the link between stress and illness."},
+      {tag: "Extended", cite: "Bartone, P. T. (2006). Resilience under military operational stress: Can leaders influence hardiness? *Military Psychology, 18*(Suppl. 1), S131–S148. https://doi.org/10.1207/s15327876mp1803s_10", note: "Applies hardiness to military units and the role of leaders."}
+    ],
+    props: [
+      "Hardiness is three linked attitudes: commitment (being involved rather than alienated), control (believing one can influence events), and challenge (seeing change as a chance to grow).",
+      "People higher in hardiness stay healthier under heavy stress; hardiness weakens the stress–illness link (moderation).",
+      "Hardiness works by making stressors seem less threatening and more meaningful, and by encouraging active coping (mediation).",
+      "Under military operational stress, leaders can build hardiness by shaping how their units interpret stressful experiences (Bartone, 2006)."
+    ]
+  },
+  FAMRESIL: {
+    group: "resil", name: "Family Resilience (Walsh)",
+    desc: "Families cope with crisis through key processes in their beliefs, organization, and communication.",
+    chips: ["Belief systems", "Organizational patterns", "Communication and problem solving", "Family adaptation"],
+    seminal: "Walsh, F. (1996). The concept of family resilience: Crisis and challenge. *Family Process, 35*(3), 261–281. https://doi.org/10.1111/j.1545-5300.1996.00261.x",
+    origins: [],
+    revisions: [
+      {tag: "Revised", cite: "Walsh, F. (2003). Family resilience: A framework for clinical practice. *Family Process, 42*(1), 1–18. https://doi.org/10.1111/j.1545-5300.2003.00001.x", note: "States the framework of three domains and nine key processes."},
+      {tag: "Revised", cite: "Walsh, F. (2016). *Strengthening family resilience* (3rd ed.). Guilford Press.", note: "Current version of the framework."}
+    ],
+    props: [
+      "Belief systems (making meaning of adversity, positive outlook, transcendence and spirituality) support family resilience.",
+      "Organizational patterns (flexibility, connectedness, social and economic resources) support family resilience.",
+      "Communication and problem solving (clarity, open emotional expression, collaborative problem solving) support family resilience.",
+      "Strengthening these processes improves how the family and its members adapt to crisis."
+    ]
+  },
+  PTG: {
+    group: "resil", name: "Posttraumatic Growth",
+    desc: "Struggling with a traumatic event that shakes core beliefs can lead to positive change, alongside distress.",
+    chips: ["Challenge to core beliefs", "Intrusive rumination", "Deliberate rumination", "Supportive self-disclosure", "Posttraumatic growth"],
+    seminal: "Tedeschi, R. G., & Calhoun, L. G. (2004). Posttraumatic growth: Conceptual foundations and empirical evidence. *Psychological Inquiry, 15*(1), 1–18. https://doi.org/10.1207/s15327965pli1501_01",
+    origins: [{cite: "Tedeschi, R. G., & Calhoun, L. G. (1996). The Posttraumatic Growth Inventory: Measuring the positive legacy of trauma. *Journal of Traumatic Stress, 9*(3), 455–471. https://doi.org/10.1002/jts.2490090305", note: "The measure and its five domains."}],
+    revisions: [{tag: "Revised", cite: "Tedeschi, R. G., Shakespeare-Finch, J., Taku, K., & Calhoun, L. G. (2018). *Posttraumatic growth: Theory, research, and applications*. Routledge. https://doi.org/10.4324/9781315527451", note: "Updated model; spiritual change became spiritual and existential change, measured by the expanded inventory (PTGI-X)."}],
+    props: [
+      "An event that challenges core beliefs first triggers intrusive rumination.",
+      "Over time, deliberate rumination rebuilds beliefs and leads to growth (mediation).",
+      "Self-disclosure promotes growth when others respond supportively.",
+      "Growth appears in five domains: appreciation of life, relating to others, personal strength, new possibilities, and spiritual and existential change.",
+      "Growth and distress can exist together."
     ]
   },
   EMPOWER: {

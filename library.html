@@ -29,34 +29,40 @@
     <p><strong>How to use it:</strong> Choose a theory that explains <em>why</em> your outcome happens. Then read the seminal source. The propositions here are paraphrased; your paper needs the exact wording and page number from the source. If the theory was revised, decide which version you are using and cite that one.</p>
   </div>
   <div class="libfilter" role="search">
-    <div><label for="libq">Find a theory or concept</label><input type="search" id="libq" placeholder="e.g., stress, self-efficacy, delinquency"></div>
+    <div><label for="libq">Find a theory or concept</label><input type="search" id="libq" placeholder="e.g., stress, self-efficacy, suicide"></div>
+    <div class="btnrow" style="margin:0"><button type="button" class="btn sec sm" id="openAll">Open all</button><button type="button" class="btn ghost sm" id="closeAll">Close all</button></div>
     <p class="small" id="libcount" role="status" aria-live="polite" style="margin:0 0 8px"></p>
   </div>
-  <nav class="libtoc-wrap" aria-labelledby="libtoc-h"><h2 id="libtoc-h">Theories</h2><div id="libtoc"></div></nav>
+  <p class="small" style="margin:0 0 12px">Click a group to see its theories. Click a theory to see its details.</p>
   <div id="lib"></div>
   <p class="small" style="margin-top:28px">References were checked against CrossRef, PubMed, publisher pages, and library catalogs in October 2026. Report a correction to the instructor.</p>
 </main>
 <script src="theories.js"></script>
 <script>
 (function(){
-  var L = window.THEORY_LIB, G = window.THEORY_GROUPS, T = window.TheoryLib, esc = T.esc;
-  var toc = "", out = "";
+  var L = window.THEORY_LIB, G = window.THEORY_GROUPS, T = window.TheoryLib, esc = T.esc, out = "";
   G.forEach(function(g){
     var ks = T.keysIn(g[0]); if(!ks.length) return;
-    toc += '<h3 class="small" style="margin:10px 0 4px">' + esc(g[1]) + '</h3><ul class="libtoc">' + ks.map(function(k){ return '<li><a href="#' + k + '">' + esc(L[k].name) + '</a></li>'; }).join("") + '</ul>';
-    out += '<section class="libsec" data-group="' + g[0] + '" aria-labelledby="g_' + g[0] + '"><h2 id="g_' + g[0] + '">' + esc(g[1]) + '</h2>' +
-      ks.map(function(k){ return '<article class="libitem" id="' + k + '"><h3>' + esc(L[k].name) + '</h3>' + T.card(k, true) + '</article>'; }).join("") + '</section>';
+    out += '<details class="libgrp" data-group="' + g[0] + '"><summary><span class="lg-name">' + esc(g[1]) + '</span><span class="lg-n">' + ks.length + (ks.length === 1 ? " theory" : " theories") + '</span></summary><div class="lg-body">' +
+      ks.map(function(k){ return '<details class="libitem" id="' + k + '"><summary><span class="li-name">' + esc(L[k].name) + '</span><span class="li-desc">' + esc(L[k].desc) + '</span></summary>' + T.card(k, true) + '</details>'; }).join("") + '</div></details>';
   });
-  document.getElementById("libtoc").innerHTML = toc;
-  document.getElementById("lib").innerHTML = out;
+  var lib = document.getElementById("lib"); lib.innerHTML = out;
   var q = document.getElementById("libq"), cnt = document.getElementById("libcount"), n = Object.keys(L).length;
+  function all(sel){ return Array.prototype.slice.call(document.querySelectorAll(sel)); }
+  function setAll(open){ all(".libgrp,.libitem").forEach(function(d){ d.open = open; }); }
   function filter(){
     var v = q.value.trim().toLowerCase(), shown = 0;
-    Array.prototype.forEach.call(document.querySelectorAll(".libitem"), function(a){ var hit = !v || a.textContent.toLowerCase().indexOf(v) >= 0; a.hidden = !hit; if(hit) shown++; });
-    Array.prototype.forEach.call(document.querySelectorAll(".libsec"), function(s){ s.hidden = !s.querySelector(".libitem:not([hidden])"); });
-    cnt.textContent = v ? shown + " of " + n + " theories match." : n + " theories.";
+    all(".libitem").forEach(function(a){ var hit = !v || a.textContent.toLowerCase().indexOf(v) >= 0; a.hidden = !hit; if(v) a.open = hit; if(hit) shown++; });
+    all(".libgrp").forEach(function(d){ var any = !!d.querySelector(".libitem:not([hidden])"); d.hidden = !any; if(v) d.open = any; });
+    if(!v) setAll(false);
+    cnt.textContent = v ? shown + " of " + n + " theories match." : n + " theories in " + all(".libgrp").length + " groups.";
   }
   q.addEventListener("input", filter); filter();
+  document.getElementById("openAll").onclick = function(){ setAll(true); };
+  document.getElementById("closeAll").onclick = function(){ setAll(false); };
+  window.addEventListener("beforeprint", function(){ setAll(true); });
+  var h = location.hash.slice(1), it = h && document.getElementById(h);
+  if(it && it.classList.contains("libitem")){ it.open = true; it.closest(".libgrp").open = true; it.scrollIntoView(); }
 })();
 </script>
 </body>
