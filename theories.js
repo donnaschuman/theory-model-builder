@@ -8,6 +8,9 @@ window.THEORY_GROUPS = [
   ["services", "Health services and inequality"],
   ["develop", "Human development and family"],
   ["crime", "Crime and deviance"],
+  ["substance", "Substance use"],
+  ["poverty", "Poverty and homelessness"],
+  ["migration", "Immigration and forced migration"],
   ["military", "Military and veterans"],
   ["suicide", "Suicide"],
   ["resil", "Resilience"],
@@ -503,7 +506,8 @@ window.THEORY_LIB = {
     chips: ["Adversity", "Caring adults", "Self-regulation", "Positive view of self", "Mastery motivation", "Positive adaptation"],
     seminal: "Masten, A. S. (2001). Ordinary magic: Resilience processes in development. *American Psychologist, 56*(3), 227–238. https://doi.org/10.1037/0003-066X.56.3.227",
     origins: [{cite: "Luthar, S. S., Cicchetti, D., & Becker, B. (2000). The construct of resilience: A critical evaluation and guidelines for future work. *Child Development, 71*(3), 543–562. https://doi.org/10.1111/1467-8624.00164", note: "Defines resilience as a process of positive adaptation despite significant adversity."}],
-    revisions: [{tag: "Revised", cite: "Masten, A. S. (2014). *Ordinary magic: Resilience in development*. Guilford Press.", note: "Book-length statement from a systems view; adds family, school, community, and cultural systems."}],
+    revisions: [{tag: "Revised", cite: "Masten, A. S. (2014). *Ordinary magic: Resilience in development*. Guilford Press.", note: "Book-length statement from a systems view; adds family, school, community, and cultural systems."},
+      {tag: "Revised", cite: "Masten, A. S. (2025). *Ordinary magic: Resilience in development* (2nd ed.). Guilford Press.", note: "Adds neurobiology, more international and non-Western findings, cultural identity, structural inequality, poverty, intergenerational trauma, and cascading disasters such as COVID-19."}],
     props: [
       "Resilience is positive adaptation despite significant adversity, not a rare trait.",
       "It comes from ordinary adaptive systems: close ties to competent, caring adults; thinking and self-regulation skills; a positive view of self; and motivation to master the environment.",
@@ -606,6 +610,418 @@ window.THEORY_LIB = {
       "Self-disclosure promotes growth when others respond supportively.",
       "Growth appears in five domains: appreciation of life, relating to others, personal strength, new possibilities, and spiritual and existential change.",
       "Growth and distress can exist together."
+    ]
+  },
+  PSYCHACHE: {
+    group: "suicide", name: "Psychache (Shneidman)",
+    desc: "Suicide is caused by psychache, intense psychological pain from frustrated psychological needs, when the pain is judged unbearable.",
+    chips: ["Frustrated psychological needs", "Psychache", "Perturbation", "Press (stressors)", "Suicide risk"],
+    seminal: "Shneidman, E. S. (1993). *Suicide as psychache: A clinical approach to self-destructive behavior*. Jason Aronson.",
+    origins: [
+      {cite: "Shneidman, E. S. (1985). *Definition of suicide*. Wiley.", note: "Defined suicide and set out its common features."},
+      {cite: "Shneidman, E. S. (1987). A psychological approach to suicide. In G. R. VandenBos & B. K. Bryant (Eds.), *Cataclysms, crises, and catastrophes: Psychology in action* (pp. 147–183). American Psychological Association. https://doi.org/10.1037/11106-004", note: "The cubic model: pain, perturbation, and press, each rated 1 to 5."}
+    ],
+    revisions: [{tag: "Restated", cite: "Shneidman, E. S. (1998). Further reflections on suicide and psychache. *Suicide and Life-Threatening Behavior, 28*(3), 245–250. https://doi.org/10.1111/j.1943-278X.1998.tb00854.x", note: "Restates psychache as the necessary condition for suicide."}],
+    props: [
+      "Psychache is intense psychological pain (hurt, anguish, shame, guilt, humiliation, loneliness, dread) that comes from frustrated vital psychological needs.",
+      "Suicide occurs when psychache is experienced as unbearable and death is seen as the way to stop it.",
+      "Suicide is most likely when pain, perturbation (agitation, constricted thinking), and press (outside and imagined stressors) are all high (cubic model).",
+      "Lowering any one of these, especially psychache, lowers suicide risk."
+    ]
+  },
+  SELFMED: {
+    group: "substance", name: "Self-Medication Hypothesis",
+    desc: "People use substances to relieve painful emotional states, and they prefer the drug that fits their main distress.",
+    chips: ["Painful emotional states", "Self-regulation difficulties", "Drug of choice", "Substance use"],
+    seminal: "Khantzian, E. J. (1985). The self-medication hypothesis of addictive disorders: Focus on heroin and cocaine dependence. *American Journal of Psychiatry, 142*(11), 1259–1264. https://doi.org/10.1176/ajp.142.11.1259",
+    origins: [],
+    revisions: [{tag: "Revised", cite: "Khantzian, E. J. (1997). The self-medication hypothesis of substance use disorders: A reconsideration and recent applications. *Harvard Review of Psychiatry, 4*(5), 231–244. https://doi.org/10.3109/10673229709030550", note: "Widened the theory to general self-regulation difficulties (emotions, self-esteem, relationships, self-care), made suffering rather than pleasure the core motive, and applied it to PTSD, ADHD, and schizophrenia."}],
+    props: [
+      "People use substances to relieve painful emotional states.",
+      "Drug choice is preferential, not random: opioids calm rage and aggression; stimulants relieve depression and low energy; sedatives and alcohol loosen people who are rigid or overcontrolled.",
+      "Difficulty regulating emotions, self-esteem, relationships, and self-care raises vulnerability (mainly the 1997 version)."
+    ]
+  },
+  BRAINDIS: {
+    group: "substance", name: "Brain Disease Model of Addiction",
+    desc: "Repeated drug use changes brain circuits for reward, stress, and self-control, which drives compulsive use.",
+    chips: ["Repeated drug use", "Reward circuit changes", "Stress system changes", "Impaired self-control", "Compulsive use"],
+    seminal: "Leshner, A. I. (1997). Addiction is a brain disease, and it matters. *Science, 278*(5335), 45–47. https://doi.org/10.1126/science.278.5335.45",
+    origins: [],
+    revisions: [
+      {tag: "Revised", cite: "Volkow, N. D., Koob, G. F., & McLellan, A. T. (2016). Neurobiologic advances from the brain disease model of addiction. *New England Journal of Medicine, 374*(4), 363–371. https://doi.org/10.1056/NEJMra1511480", note: "Tied the model to a three-stage cycle linked to brain regions, and acknowledged social and environmental factors."},
+      {tag: "Revised", cite: "Heilig, M., MacKillop, J., Martinez, D., Rehm, J., Leggio, L., & Vanderschuren, L. J. M. J. (2021). Addiction as a brain disease revised: Why it still matters, and the need for consilience. *Neuropsychopharmacology, 46*(10), 1715–1723. https://doi.org/10.1038/s41386-020-00950-y", note: "Defends and revises the model in response to critics."},
+      {tag: "Challenged", cite: "Lewis, M. (2018). Brain change in addiction as learning, not disease. *New England Journal of Medicine, 379*(16), 1551–1560. https://doi.org/10.1056/NEJMra1602872", note: "Argues the brain changes are normal learning from repeated, motivated behavior, not disease."}
+    ],
+    props: [
+      "Repeated drug use changes brain circuits for reward, stress, and self-control.",
+      "These changes drive compulsive use despite harm.",
+      "Addiction cycles through three stages: binge/intoxication, withdrawal/negative affect, and preoccupation/anticipation (craving) (Volkow et al., 2016)."
+    ]
+  },
+  INCENTIVE: {
+    group: "substance", name: "Incentive-Sensitization Theory",
+    desc: "Repeated drug use makes the brain 'want' drugs more and more, even when 'liking' does not grow.",
+    chips: ["Repeated drug use", "Incentive salience (wanting)", "Drug cues", "Craving", "Relapse"],
+    seminal: "Robinson, T. E., & Berridge, K. C. (1993). The neural basis of drug craving: An incentive-sensitization theory of addiction. *Brain Research Reviews, 18*(3), 247–291. https://doi.org/10.1016/0165-0173(93)90013-P",
+    origins: [],
+    revisions: [{tag: "Revised", cite: "Robinson, T. E., & Berridge, K. C. (2008). The incentive sensitization theory of addiction: Some current issues. *Philosophical Transactions of the Royal Society B: Biological Sciences, 363*(1507), 3137–3146. https://doi.org/10.1098/rstb.2008.0093", note: "Added the role of context and individual differences, and combined sensitized wanting with loss of executive control."}],
+    props: [
+      "Repeated drug use sensitizes brain systems that give drugs and drug cues incentive salience (wanting).",
+      "Wanting grows while liking does not.",
+      "Drug cues trigger craving and relapse, most strongly in settings linked to past use.",
+      "Sensitization lasts long after drug use stops."
+    ]
+  },
+  PROBBEH: {
+    group: "substance", name: "Problem Behavior Theory",
+    desc: "Adolescent problem behaviors cluster together and come from personality, the perceived environment, and behavior.",
+    chips: ["Personality system", "Perceived environment system", "Behavior system", "Risk factors", "Protective factors", "Problem behavior"],
+    seminal: "Jessor, R., & Jessor, S. L. (1977). *Problem behavior and psychosocial development: A longitudinal study of youth*. Academic Press.",
+    origins: [],
+    revisions: [{tag: "Revised", cite: "Jessor, R. (1991). Risk behavior in adolescence: A psychosocial framework for understanding and action. *Journal of Adolescent Health, 12*(8), 597–605. https://doi.org/10.1016/1054-139X(91)90007-K", note: "Broadened problem behavior to risk behavior within several domains of risk and protective factors."}],
+    props: [
+      "Problem behaviors (substance use, early sexual activity, delinquency) cluster together.",
+      "They come from three systems: personality, perceived environment, and behavior.",
+      "Protective factors lower problem behavior directly and also weaken the effect of risk (moderation; framed in 1991, tested later)."
+    ]
+  },
+  RISKPROT: {
+    group: "substance", name: "Risk and Protective Factor Framework",
+    desc: "Substance problems are predicted by risk factors across life domains and buffered by protective factors. The basis of Communities That Care.",
+    chips: ["Individual and peer risk", "Family risk", "School risk", "Community risk", "Protective factors", "Substance use"],
+    seminal: "Hawkins, J. D., Catalano, R. F., & Miller, J. Y. (1992). Risk and protective factors for alcohol and other drug problems in adolescence and early adulthood: Implications for substance abuse prevention. *Psychological Bulletin, 112*(1), 64–105. https://doi.org/10.1037/0033-2909.112.1.64",
+    origins: [],
+    revisions: [],
+    props: [
+      "Substance problems are predicted by risk factors in individual and peer, family, school, and community domains.",
+      "Risk accumulates: more risk factors mean a higher likelihood of use.",
+      "Protective factors (bonding, clear healthy standards, opportunities and recognition) buffer exposure to risk (moderation).",
+      "Prevention should target changeable risk factors before use begins."
+    ]
+  },
+  RELAPSE: {
+    group: "substance", name: "Relapse Prevention Model",
+    desc: "Relapse depends on how a person copes with high-risk situations and how they interpret a first lapse.",
+    chips: ["High-risk situation", "Coping response", "Self-efficacy", "Outcome expectancies", "Lapse", "Abstinence violation effect", "Relapse"],
+    seminal: "Marlatt, G. A., & Gordon, J. R. (Eds.). (1985). *Relapse prevention: Maintenance strategies in the treatment of addictive behaviors*. Guilford Press.",
+    origins: [],
+    revisions: [{tag: "Revised", cite: "Witkiewitz, K., & Marlatt, G. A. (2004). Relapse prevention for alcohol and drug problems: That was Zen, this is Tao. *American Psychologist, 59*(4), 224–235. https://doi.org/10.1037/0003-066X.59.4.224", note: "Replaced the linear chain with a dynamic, nonlinear model in which distal risks and proximal responses interact, so small changes can trigger sudden relapse."}],
+    props: [
+      "Relapse begins with a high-risk situation.",
+      "An effective coping response raises self-efficacy and lowers relapse risk.",
+      "No coping response lowers self-efficacy and, with positive outcome expectancies, leads to a lapse.",
+      "The abstinence violation effect (blaming the lapse on a stable personal failure) turns a lapse into relapse.",
+      "Relapse is a dynamic, nonlinear process in which distal risks and proximal triggers interact (2004)."
+    ]
+  },
+  CULTPOV: {
+    group: "poverty", name: "Culture of Poverty", critical: false,
+    desc: "Lewis argued that long-term poverty produces shared adaptations that can pass across generations. Widely criticized and later revised.",
+    chips: ["Long-term poverty", "Present-time orientation", "Fatalism", "Weak ties to institutions", "Structural conditions"],
+    seminal: "Lewis, O. (1966). The culture of poverty. *Scientific American, 215*(4), 19–25. https://doi.org/10.1038/scientificamerican1066-19",
+    origins: [{cite: "Lewis, O. (1959). *Five families: Mexican case studies in the culture of poverty*. Basic Books.", note: "First use of the term."}],
+    revisions: [{tag: "Revised", cite: "Small, M. L., Harding, D. J., & Lamont, M. (2010). Reconsidering culture and poverty. *The Annals of the American Academy of Political and Social Science, 629*(1), 6–27. https://doi.org/10.1177/0002716210362077", note: "Treats culture as frames, repertoires, and narratives that respond to structural conditions and vary among poor people, not as a fixed way of life."}],
+    props: [
+      "People in long-term poverty develop shared adaptations: present-time orientation, fatalism, and weak participation in mainstream institutions (Lewis).",
+      "Lewis held that these adaptations pass to children early and can keep people poor even when opportunities improve.",
+      "People draw on cultural frames and repertoires in response to structural conditions, and these vary (2010 revision)."
+    ],
+    use: "Critics argue the original thesis blames poor people and hides structural causes. If you use it, say which version and engage the critique."
+  },
+  WILSON: {
+    group: "poverty", name: "Concentrated Poverty (Wilson)",
+    desc: "The loss of urban jobs and the departure of working families concentrate poverty and isolate residents from mainstream networks.",
+    chips: ["Job loss (deindustrialization)", "Joblessness", "Out-migration of working families", "Social isolation", "Concentrated poverty", "Neighborhood outcomes"],
+    seminal: "Wilson, W. J. (1987). *The truly disadvantaged: The inner city, the underclass, and public policy*. University of Chicago Press.",
+    origins: [],
+    revisions: [{tag: "Revised", cite: "Wilson, W. J. (1996). *When work disappears: The world of the new urban poor*. Knopf.", note: "Made joblessness, the disappearance of work, the central mechanism."}],
+    props: [
+      "The loss of industrial jobs from cities raises joblessness among inner-city residents.",
+      "Out-migration of middle-class and working families removes institutions, role models, and job networks, isolating residents from mainstream networks.",
+      "Concentrated poverty worsens outcomes beyond a family's own poverty (neighborhood effects).",
+      "Structural joblessness is the main driver; cultural responses are real but secondary and arise from social isolation."
+    ]
+  },
+  CUMINEQ: {
+    group: "poverty", name: "Cumulative Inequality Theory",
+    desc: "Advantage and disadvantage build up over the life course and shape health and survival in later life.",
+    chips: ["Early disadvantage", "Exposure to risk", "Resources", "Human agency", "Perceived trajectory", "Later-life health"],
+    seminal: "Ferraro, K. F., & Shippee, T. P. (2009). Aging and cumulative inequality: How does inequality get under the skin? *The Gerontologist, 49*(3), 333–343. https://doi.org/10.1093/geront/gnp034",
+    origins: [{cite: "Dannefer, D. (2003). Cumulative advantage/disadvantage and the life course: Cross-fertilizing age and social science theory. *The Journals of Gerontology: Series B: Psychological Sciences and Social Sciences, 58*(6), S327–S337. https://doi.org/10.1093/geronb/58.6.S327", note: "Cumulative advantage/disadvantage theory, which cumulative inequality theory extends."}],
+    revisions: [],
+    props: [
+      "Social systems generate inequality, which shows up over the life course.",
+      "Disadvantage increases exposure to risk; advantage increases exposure to opportunity.",
+      "Life course trajectories are shaped by accumulated risk, available resources, and human agency.",
+      "How people perceive their life trajectories influences the trajectories that follow.",
+      "Cumulative inequality can lead to early death, so nonrandom survival can make inequality look smaller in later life."
+    ]
+  },
+  SCARCITY: {
+    group: "poverty", name: "Scarcity (Cognitive Load of Poverty)",
+    desc: "Having too little captures attention and taxes mental bandwidth, which can lead to choices that deepen poverty.",
+    chips: ["Financial scarcity", "Tunneling", "Cognitive bandwidth", "Decision making"],
+    seminal: "Mani, A., Mullainathan, S., Shafir, E., & Zhao, J. (2013). Poverty impedes cognitive function. *Science, 341*(6149), 976–980. https://doi.org/10.1126/science.1238041",
+    origins: [],
+    revisions: [
+      {tag: "Extended", cite: "Mullainathan, S., & Shafir, E. (2013). *Scarcity: Why having too little means so much*. Times Books.", note: "Book-length statement of the theory."},
+      {tag: "Challenged", cite: "O’Donnell, M., Dev, A. S., Antonoplis, S., Baum, S. M., Benedetti, A. H., Brown, N. D., Carrillo, B., Choi, A. L., Connor, P., Donnelly, K., Ellwood-Lowe, M. E., Foushee, R., Jansen, R., Jarvis, S. N., Lundell-Creagh, R., Ocampo, J. M., Okafor, G. N., Azad, Z. R., Rosenblum, M., . . . Nelson, L. D. (2021). Empirical audit and review and an assessment of evidentiary value in research on the psychological consequences of scarcity. *Proceedings of the National Academy of Sciences, 118*(44), Article e2103313118. https://doi.org/10.1073/pnas.2103313118", note: "In close replications of 20 studies, about half the effects replicated, usually smaller than the originals."}
+    ],
+    props: [
+      "Scarcity captures attention (tunneling): it helps with the pressing need but neglects other things.",
+      "Scarcity taxes cognitive bandwidth, temporarily reducing measured fluid intelligence and executive control. These are state effects, not lower ability.",
+      "Reduced bandwidth can lead to choices that deepen poverty.",
+      "Reducing scarcity frees bandwidth."
+    ],
+    use: "The size and robustness of these effects are contested (O’Donnell et al., 2021)."
+  },
+  CAPABILITY: {
+    group: "poverty", name: "Capability Approach",
+    desc: "Poverty is the lack of real freedom to be and do what one values, not only low income.",
+    chips: ["Resources", "Conversion factors", "Capabilities", "Functionings", "Well-being"],
+    seminal: "Sen, A. (1999). *Development as freedom*. Knopf.",
+    origins: [{cite: "Sen, A. (1985). *Commodities and capabilities*. North-Holland.", note: "First formal statement."}],
+    revisions: [{tag: "Extended", cite: "Nussbaum, M. C. (2011). *Creating capabilities: The human development approach*. Belknap Press of Harvard University Press. https://doi.org/10.4159/harvard.9780674061200", note: "Adds a list of 10 central capabilities, each with a threshold, as a basis for justice claims."}],
+    props: [
+      "Poverty is the deprivation of capabilities (real freedoms to be and do what one values), not only low income.",
+      "Functionings are what a person actually achieves; capabilities are what that person could achieve.",
+      "Personal, social, and environmental conversion factors affect how resources become capabilities (moderation).",
+      "The same income yields different capabilities for different people."
+    ]
+  },
+  RANK: {
+    group: "poverty", name: "Structural Vulnerability Model of Poverty (Rank)",
+    desc: "Individual deficits explain who is poor; structural failings explain why poverty exists. Poverty is a mainstream life course risk.",
+    chips: ["Human capital", "Labor market opportunities", "Safety net", "Poverty"],
+    seminal: "Rank, M. R., Yoon, H.-S., & Hirschl, T. A. (2003). American poverty as a structural failing: Evidence and arguments. *Journal of Sociology and Social Welfare, 30*(4), Article 2. https://doi.org/10.15453/0191-5096.2936",
+    origins: [],
+    revisions: [],
+    props: [
+      "Individual deficits, such as low human capital, explain who is at greatest risk of poverty.",
+      "Structural failings explain why poverty exists: too few jobs that pay a living wage and a weak safety net.",
+      "The labor market works like musical chairs: the number of good positions, not individual effort, sets how much poverty there is.",
+      "Most Americans spend at least one year in poverty during adulthood, so poverty is a mainstream life course risk."
+    ]
+  },
+  HOMELESS: {
+    group: "poverty", name: "Structural and Individual Causes of Homelessness",
+    desc: "Homelessness results from structural conditions interacting with individual vulnerabilities; no single cause is necessary or sufficient.",
+    chips: ["Housing costs", "Labor market", "Welfare policy", "Individual vulnerabilities", "Homelessness"],
+    seminal: "Fitzpatrick, S. (2005). Explaining homelessness: A critical realist perspective. *Housing, Theory and Society, 22*(1), 1–17. https://doi.org/10.1080/14036090510034563",
+    origins: [{cite: "McChesney, K. Y. (1990). Family homelessness: A systemic problem. *Journal of Social Issues, 46*(4), 191–205. https://doi.org/10.1111/j.1540-4560.1990.tb01806.x", note: "The musical chairs analogy."}],
+    revisions: [
+      {tag: "Extended", cite: "O’Flaherty, B. (2004). Wrong person and wrong place: For homelessness, the conjunction is what matters. *Journal of Housing Economics, 13*(1), 1–15. https://doi.org/10.1016/j.jhe.2003.12.001", note: "Economic statement: homelessness arises where individual circumstances and housing-market conditions meet."},
+      {tag: "Extended", cite: "Shinn, M. (2007). International homelessness: Policy, socio-cultural, and individual perspectives. *Journal of Social Issues, 63*(3), 657–677. https://doi.org/10.1111/j.1540-4560.2007.00529.x", note: "Compares countries: welfare regimes and culture shape homelessness rates."}
+    ],
+    props: [
+      "Homelessness results from structural factors (housing costs, labor markets, welfare policy) interacting with individual vulnerabilities (mental illness, substance use, relationship breakdown).",
+      "Structural conditions, such as a shortage of affordable housing, set how many people become homeless; individual vulnerabilities shape who loses out (musical chairs; McChesney, 1990).",
+      "Causes operate at economic, housing, interpersonal, and individual levels; their effects depend on each other, and no single factor is necessary or sufficient (Fitzpatrick)."
+    ]
+  },
+  SHELTER: {
+    group: "poverty", name: "Typology of Homelessness by Shelter Use (Kuhn & Culhane)",
+    desc: "People who use shelters fall into transitional, episodic, and chronic groups that need different help. The basis of 'chronic homelessness' and Housing First targeting.",
+    chips: ["Transitional homelessness", "Episodic homelessness", "Chronic homelessness", "Disability", "Shelter use"],
+    seminal: "Kuhn, R., & Culhane, D. P. (1998). Applying cluster analysis to test a typology of homelessness by pattern of shelter utilization: Results from the analysis of administrative data. *American Journal of Community Psychology, 26*(2), 207–232. https://doi.org/10.1023/A:1022176402357",
+    origins: [],
+    revisions: [],
+    props: [
+      "Shelter users fall into three groups: transitional (about 80%; one short stay), episodic (about 10%; repeated stays), and chronic (about 10%; long stays).",
+      "The chronic group uses about half of all shelter days.",
+      "The chronic and episodic groups have higher rates of disability, mental illness, and substance use.",
+      "Each group needs a different response: prevention and rapid rehousing for transitional users, permanent supportive housing for chronic users."
+    ],
+    use: "An empirical typology. The groups often serve as an outcome or as groups to compare (moderation)."
+  },
+  FEMSTAND: {
+    group: "power", name: "Feminist Standpoint Theory", critical: true,
+    desc: "Knowledge comes from social position; starting from women's and other marginalized groups' lives reveals how power works.",
+    chips: ["Gender as social structure", "Gendered division of labor", "Caregiving labor", "Women's everyday experience"],
+    seminal: "Hartsock, N. C. M. (1983). The feminist standpoint: Developing the ground for a specifically feminist historical materialism. In S. Harding & M. B. Hintikka (Eds.), *Discovering reality: Feminist perspectives on epistemology, metaphysics, methodology, and philosophy of science* (pp. 283–310). D. Reidel. https://doi.org/10.1007/0-306-48017-4_15",
+    origins: [],
+    revisions: [
+      {tag: "Extended", cite: "Smith, D. E. (1987). *The everyday world as problematic: A feminist sociology*. Northeastern University Press.", note: "Sociology from the standpoint of women; the basis of institutional ethnography."},
+      {tag: "Extended", cite: "Harding, S. (Ed.). (2004). *The feminist standpoint theory reader: Intellectual and political controversies*. Routledge.", note: "Standard collection of the debates, including strong objectivity."},
+      {tag: "Extended", cite: "Dominelli, L. (2002). *Feminist social work theory and practice*. Palgrave Macmillan. https://doi.org/10.1007/978-0-230-62820-5", note: "Applies feminist theory to social work practice."}
+    ],
+    props: [
+      "All knowledge comes from a social position; no view is from nowhere.",
+      "Groups with less power can see how power works in ways dominant groups cannot. This view is achieved through critical reflection and collective struggle, not automatic.",
+      "Gender is a social structure of power, organized through the division of paid and unpaid labor, not only an individual trait.",
+      "Research should start from women's everyday lives and the institutions that organize them, and aim at change (Smith).",
+      "Starting from marginalized lives produces stronger objectivity, not weaker (Harding)."
+    ],
+    use: "These are tenets, not arrows. In a model, the theory frames gender as a structural cause or context (for example, the gendered division of caregiving labor) rather than only a demographic moderator, and it justifies using women's own accounts to define concepts and paths."
+  },
+  QUEER: {
+    group: "power", name: "Queer Theory", critical: true,
+    desc: "Gender and sexuality are socially produced, and categories of identity are unstable and should be questioned.",
+    chips: ["Heteronormativity", "Gender performativity", "Identity categories"],
+    seminal: "Butler, J. (1990). *Gender trouble: Feminism and the subversion of identity*. Routledge.",
+    origins: [{cite: "de Lauretis, T. (1991). Queer theory: Lesbian and gay sexualities: An introduction. *differences: A Journal of Feminist Cultural Studies, 3*(2), iii–xviii. https://doi.org/10.1215/10407391-3-2-iii", note: "Coined the term queer theory."}],
+    revisions: [
+      {tag: "Extended", cite: "Sedgwick, E. K. (1990). *Epistemology of the closet*. University of California Press.", note: "The homosexual/heterosexual binary and the instability of categories."},
+      {tag: "Extended", cite: "Warner, M. (Ed.). (1993). *Fear of a queer planet: Queer politics and social theory*. University of Minnesota Press.", note: "Carries queer theory into social theory; standard source for heteronormativity."},
+      {tag: "Extended", cite: "Hicks, S., & Jeyasingham, D. (2016). Social work, queer theory and after: A genealogy of sexuality theory in neo-liberal times. *British Journal of Social Work, 46*(8), 2357–2373. https://doi.org/10.1093/bjsw/bcw103", note: "Critique and application in social work."}
+    ],
+    props: [
+      "Gender and sexuality are produced through social and discursive practices; they are not fixed or natural.",
+      "Gender is performative (Butler): it is constituted through repeated, socially regulated acts. Performative does not mean a chosen performance.",
+      "Heteronormativity treats heterosexuality and binary gender as the default and marks other identities as deviant (Warner).",
+      "Identity categories are unstable and historically produced; research should question them rather than take them as given (Sedgwick; Butler)."
+    ],
+    use: "These are tenets, not arrows. Queer theory guides how sexual orientation and gender are measured, and whether to use fixed categories at all. Pair it with minority stress theory, which supplies testable paths. It often supports qualitative or critical designs."
+  },
+  CONFLICT: {
+    group: "power", name: "Conflict Theory", critical: true,
+    desc: "Society is made up of groups competing for scarce resources and power; inequality and conflict drive social change.",
+    chips: ["Class position", "Income inequality", "Authority", "Policy"],
+    seminal: "Dahrendorf, R. (1959). *Class and class conflict in industrial society*. Stanford University Press. (Original work published 1957)",
+    origins: [{cite: "Marx, K., & Engels, F. (1978). Manifesto of the Communist Party. In R. C. Tucker (Ed.), *The Marx-Engels reader* (2nd ed.). W. W. Norton. (Original work published 1848)", note: "Classical root of conflict theory."}],
+    revisions: [{tag: "Extended", cite: "Collins, R. (1975). *Conflict sociology: Toward an explanatory science*. Academic Press.", note: "Systematic version grounded in interaction and organizations; treats ideas and legitimacy as resources in conflict."}],
+    props: [
+      "Society consists of groups competing for scarce resources: wealth, power, and prestige.",
+      "Groups with power shape institutions, laws, and dominant ideas to keep it.",
+      "Conflict comes from unequal ownership (Marx) and from unequal authority in organizations (Dahrendorf).",
+      "Conflict and inequality, not shared values, drive social change."
+    ],
+    use: "These are tenets, not arrows. In a model, conflict theory frames outcomes as products of unequal power and guides the choice of structural causes (income inequality, class or employment position, policy). Power differences can enter as moderators."
+  },
+  AOP: {
+    group: "power", name: "Anti-Oppressive and Structural Social Work", critical: true,
+    desc: "Many personal problems come from social structures; practice must change structures as well as help individuals.",
+    chips: ["Personal-level oppression", "Cultural-level oppression", "Structural-level oppression", "Privilege and power"],
+    seminal: "Moreau, M. J. (1979). A structural approach to social work practice. *Canadian Journal of Social Work Education, 5*(1), 78–94.",
+    origins: [],
+    revisions: [
+      {tag: "Extended", cite: "Mullaly, B. (2007). *The new structural social work* (3rd ed.). Oxford University Press.", note: "Book-length theory of structural social work (first edition 1993)."},
+      {tag: "Extended", cite: "Mullaly, B. (2010). *Challenging oppression and confronting privilege: A critical social work approach* (2nd ed.). Oxford University Press.", note: "Anti-oppressive extension: levels of oppression and the worker's privilege."},
+      {tag: "Extended", cite: "Dominelli, L. (2002). *Anti-oppressive social work theory and practice*. Palgrave Macmillan. https://doi.org/10.1007/978-1-4039-1400-2", note: "Standard text on anti-oppressive practice."},
+      {tag: "Extended", cite: "Thompson, N. (2021). *Anti-discriminatory practice: Equality, diversity and social justice* (7th ed.). Red Globe Press.", note: "The personal, cultural, and structural (PCS) model, widely used in anti-oppressive practice."}
+    ],
+    props: [
+      "Many personal problems come from social structures (oppression by class, race, gender, sexuality, disability, age, and other divisions), not individual deficits.",
+      "Oppression works at three linked levels: personal (attitudes and actions), cultural (shared values, norms, language), and structural (institutions, law, the economy) (Thompson's PCS model).",
+      "Practice must change structures as well as help individuals.",
+      "Workers examine their own privilege and power, including the power of the professional role, and share power with service users."
+    ],
+    use: "These are tenets, not arrows. In a model, they frame the problem structurally and guide the choice of causes and outcomes at more than one level (discrimination, institutional access, policy). They support participatory designs."
+  },
+  PUSHPULL: {
+    group: "migration", name: "Push–Pull Theory of Migration (Lee)",
+    desc: "The decision to migrate depends on factors at the origin and destination, the obstacles between them, and personal factors.",
+    chips: ["Factors at origin", "Factors at destination", "Intervening obstacles", "Personal factors", "Migration"],
+    seminal: "Lee, E. S. (1966). A theory of migration. *Demography, 3*(1), 47–57. https://doi.org/10.2307/2060063",
+    origins: [{cite: "Ravenstein, E. G. (1885). The laws of migration. *Journal of the Statistical Society of London, 48*(2), 167–235. https://doi.org/10.2307/2979181", note: "Laws of migration from British census data: most moves are short and step-wise, and each current produces a counter-current."}],
+    revisions: [],
+    props: [
+      "Four sets of factors drive the decision to migrate: factors at the origin, factors at the destination, intervening obstacles (distance, cost, legal barriers), and personal factors.",
+      "Both the origin and the destination have attracting (+) and repelling (−) factors.",
+      "Migration is selective: people drawn by positive factors at the destination tend to be positively selected; people pushed by negative factors at the origin, less so.",
+      "The volume of migration rises with the diversity of areas and people and falls as obstacles grow.",
+      "Each major migration stream produces a counterstream."
+    ]
+  },
+  ACCULT: {
+    group: "migration", name: "Acculturation Strategies (Berry)",
+    desc: "Immigrants adapt by keeping or letting go of their heritage culture and by seeking or avoiding contact with the larger society.",
+    chips: ["Heritage culture maintenance", "Contact with larger society", "Acculturation strategy", "Acculturative stress", "Receiving society attitudes", "Adaptation"],
+    seminal: "Berry, J. W. (1997). Immigration, acculturation, and adaptation. *Applied Psychology: An International Review, 46*(1), 5–34. https://doi.org/10.1111/j.1464-0597.1997.tb01087.x",
+    origins: [
+      {cite: "Redfield, R., Linton, R., & Herskovits, M. J. (1936). Memorandum for the study of acculturation. *American Anthropologist, 38*(1), 149–152. https://doi.org/10.1525/aa.1936.38.1.02a00330", note: "Classic definition of acculturation."},
+      {cite: "Berry, J. W., Kim, U., Minde, T., & Mok, D. (1987). Comparative studies of acculturative stress. *International Migration Review, 21*(3), 491–511. https://doi.org/10.1177/019791838702100303", note: "Defined acculturative stress."}
+    ],
+    revisions: [{tag: "Restated", cite: "Berry, J. W. (2005). Acculturation: Living successfully in two cultures. *International Journal of Intercultural Relations, 29*(6), 697–712. https://doi.org/10.1016/j.ijintrel.2005.07.013", note: "Restates acculturation as a two-way process involving both groups."}],
+    props: [
+      "Two issues define the strategies: keeping one's heritage culture, and seeking contact with the larger society. Yes/yes is integration, no/yes assimilation, yes/no separation, no/no marginalization.",
+      "Integration is usually linked to the best adaptation and marginalization to the worst.",
+      "Acculturative stress arises from intercultural contact; its level depends on the strategy and on the receiving society's attitudes (moderation).",
+      "The larger society's policies limit which strategies are possible; integration requires an open, inclusive society."
+    ]
+  },
+  SEGASSIM: {
+    group: "migration", name: "Segmented Assimilation",
+    desc: "Children of immigrants assimilate into different segments of society, depending on family resources and how their group is received.",
+    chips: ["Parents' human capital", "Family structure", "Mode of incorporation", "Discrimination", "Second-generation outcomes"],
+    seminal: "Portes, A., & Zhou, M. (1993). The new second generation: Segmented assimilation and its variants. *The Annals of the American Academy of Political and Social Science, 530*(1), 74–96. https://doi.org/10.1177/0002716293530001006",
+    origins: [],
+    revisions: [{tag: "Extended", cite: "Portes, A., & Rumbaut, R. G. (2001). *Legacies: The story of the immigrant second generation*. University of California Press.", note: "Tested the model with longitudinal data and named selective acculturation as the protective path."}],
+    props: [
+      "Second-generation youth follow one of three paths: integration into the middle class, downward assimilation into poverty, or advancement while keeping the immigrant community's values and ties (selective acculturation, named in 2001).",
+      "The path depends on parents' human capital, family structure, and the mode of incorporation (government policy, how society receives the group, the co-ethnic community).",
+      "Discrimination, an hourglass labor market with few ladders, and inner-city adversarial subcultures raise the risk of downward assimilation."
+    ]
+  },
+  TRANSNAT: {
+    group: "migration", name: "Transnationalism",
+    desc: "Migrants live across borders, building social fields that link their country of origin and their new country.",
+    chips: ["Transnational ties", "Remittances", "Incorporation in host country", "Adaptation"],
+    seminal: "Glick Schiller, N., Basch, L., & Blanc-Szanton, C. (1992). Transnationalism: A new analytic framework for understanding migration. *Annals of the New York Academy of Sciences, 645*(1), 1–24. https://doi.org/10.1111/j.1749-6632.1992.tb33484.x",
+    origins: [],
+    revisions: [
+      {tag: "Extended", cite: "Basch, L., Glick Schiller, N., & Szanton Blanc, C. (1994). *Nations unbound: Transnational projects, postcolonial predicaments, and deterritorialized nation-states*. Gordon and Breach.", note: "Extended the framework to the political projects of origin states."},
+      {tag: "Extended", cite: "Levitt, P., & Glick Schiller, N. (2004). Conceptualizing simultaneity: A transnational social field perspective on society. *International Migration Review, 38*(3), 1002–1039. https://doi.org/10.1111/j.1747-7379.2004.tb00227.x", note: "Separated ways of being (practices) from ways of belonging (identity); migrants incorporate and keep ties at the same time."}
+    ],
+    props: [
+      "Migrants build and sustain social fields that link the society of origin and the society of settlement.",
+      "They act, decide, and form identities within networks that cross borders: family, economic, political, and religious ties carried by remittances, communication, and travel.",
+      "Incorporation in the new country and transnational ties can happen at the same time.",
+      "Transnational ties can support adaptation (resources, support) or strain it (obligations, divided loyalties)."
+    ]
+  },
+  KUNZ: {
+    group: "migration", name: "Kinetic Model of Refugee Flight (Kunz)",
+    desc: "Refugees are pushed out rather than pulled; how they flee and how they relate to their home society shape resettlement.",
+    chips: ["Anticipatory flight", "Acute flight", "Identification with home society", "Host-society factors", "Resettlement"],
+    seminal: "Kunz, E. F. (1973). The refugee in flight: Kinetic models and forms of displacement. *International Migration Review, 7*(2), 125–146. https://doi.org/10.1177/019791837300700201",
+    origins: [],
+    revisions: [{tag: "Extended", cite: "Kunz, E. F. (1981). Exile and resettlement: Refugee theory. *International Migration Review, 15*(1–2), 42–51. https://doi.org/10.1177/0197918381015001-207", note: "Moved from flight to resettlement: identification with the home society and host-society factors such as cultural compatibility and host attitudes."}],
+    props: [
+      "Refugees differ from voluntary migrants because they are pushed out rather than pulled; they are reluctant to leave and have no positive reason to settle elsewhere.",
+      "Anticipatory refugees leave in an orderly way before the crisis; acute refugees flee mass danger with little preparation.",
+      "Refugees who are majority-identified, events-alienated, or self-alienated from the home society resettle differently, together with host-society factors (1981)."
+    ]
+  },
+  DAILYSTR: {
+    group: "migration", name: "Daily Stressors Model (Miller & Rasmussen)",
+    desc: "In war and displacement, ongoing daily stressors explain much of the distress, alongside past trauma.",
+    chips: ["War exposure", "Daily stressors", "Displacement-related stressors", "Mental health"],
+    seminal: "Miller, K. E., & Rasmussen, A. (2010). War exposure, daily stressors, and mental health in conflict and post-conflict settings: Bridging the divide between trauma-focused and psychosocial frameworks. *Social Science & Medicine, 70*(1), 7–16. https://doi.org/10.1016/j.socscimed.2009.09.029",
+    origins: [],
+    revisions: [{tag: "Revised", cite: "Miller, K. E., & Rasmussen, A. (2017). The mental health of civilians displaced by armed conflict: An ecological model of refugee distress. *Epidemiology and Psychiatric Sciences, 26*(2), 129–138. https://doi.org/10.1017/S2045796016000172", note: "Applied the model to refugees and asylum seekers as an ecological model of displacement-related stressors."}],
+    props: [
+      "War exposure affects mental health directly and partly through daily stressors such as poverty, unemployment, poor housing, isolation, and family violence (partial mediation).",
+      "Daily or displacement-related stressors often account for as much distress as past war exposure, and sometimes more.",
+      "The model recommends addressing daily stressors first, then offering trauma-focused care to people whose distress persists."
+    ]
+  },
+  ADAPT: {
+    group: "migration", name: "ADAPT Model (Silove)",
+    desc: "Mass conflict disrupts five core adaptive systems; rebuilding them in the social environment supports recovery.",
+    chips: ["Safety and security", "Bonds and networks", "Justice", "Roles and identities", "Existential meaning", "Recovery"],
+    seminal: "Silove, D. (2013). The ADAPT model: A conceptual framework for mental health and psychosocial programming in post conflict settings. *Intervention, 11*(3), 237–248. https://doi.org/10.1097/WTF.0000000000000005",
+    origins: [{cite: "Silove, D. (1999). The psychosocial effects of torture, mass human rights violations, and refugee trauma: Toward an integrated conceptual framework. *The Journal of Nervous and Mental Disease, 187*(4), 200–207. https://doi.org/10.1097/00005053-199904000-00002", note: "First set out the five adaptive systems."}],
+    revisions: [],
+    props: [
+      "Mass conflict challenges five adaptive systems: safety and security, bonds and networks, justice, roles and identities, and existential meaning.",
+      "Disruption of each system links to a typical reaction: safety to PTSD-type fear, bonds to grief, justice to anger, roles to identity disruption, meaning to alienation.",
+      "Most people recover when these systems are rebuilt in the social environment, which reduces the need for individual treatment."
+    ]
+  },
+  INTEGRATION: {
+    group: "migration", name: "Indicators of Integration (Ager & Strang)",
+    desc: "Refugee integration has ten domains, from rights and citizenship to jobs and housing, linked by social connections.",
+    chips: ["Rights and citizenship", "Language and cultural knowledge", "Safety and stability", "Social bonds, bridges, and links", "Employment, housing, education, health"],
+    seminal: "Ager, A., & Strang, A. (2008). Understanding integration: A conceptual framework. *Journal of Refugee Studies, 21*(2), 166–191. https://doi.org/10.1093/jrs/fen016",
+    origins: [],
+    revisions: [],
+    props: [
+      "Integration has ten domains at four levels: markers and means (employment, housing, education, health); social connections (bonds, bridges, links); facilitators (language and cultural knowledge, safety and stability); and a foundation (rights and citizenship).",
+      "Rights and citizenship are the foundation; how a government defines refugee rights shapes what integration can mean.",
+      "Social connections link the foundation to the outcomes; bonds, bridges, and links each contribute differently.",
+      "Integration is two-way and multidimensional; success in one domain does not by itself mean integration."
     ]
   },
   EMPOWER: {
