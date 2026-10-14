@@ -26,6 +26,8 @@
 - Teaching box on the Moderation step, "Cause or moderator? How to decide": a test for each role, a diagram, and when a social determinant is a moderator (Baron & Kenny, 1986; Cohen & Wills, 1985).
 - With two theories, the Key propositions step explains how to combine them and the directions say "for each theory."
 - Self-check flags a concept used as both a cause and a moderator, and a second theory with no concepts in the model.
+- Partial mediation: on the In-between step, each cause can be marked as also affecting the outcome directly. It gets a curved direct arrow, its own direct hypothesis, and the mediation hypothesis says which links are completely and which are partially mediated. The figure legend and caption explain the curved arrow. The finished example uses partial mediation for perceived behavioral control (P5).
+- Why this arrow?: click a proposition to select it, then click "Link here" on an arrow card. This works on every device; dragging still works. The directions now name the card menu as the first way to link.
 
 ## 1.1.0 (2026-10-13)
 

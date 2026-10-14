@@ -210,15 +210,18 @@ var DEMO = {
     {text: "", page: "179", own: "A more favorable attitude toward a behavior strengthens the intention to perform it.", from: "Attitude toward the behavior", to: "Intention to stay in treatment", sign: "+", theory: "A", isNew: false, src: ""},
     {text: "", page: "179", own: "Stronger perceived expectations from important others strengthen intention.", from: "Subjective norm", to: "Intention to stay in treatment", sign: "+", theory: "A", isNew: false, src: ""},
     {text: "", page: "179", own: "Greater perceived control over the behavior strengthens intention.", from: "Perceived behavioral control", to: "Intention to stay in treatment", sign: "+", theory: "A", isNew: false, src: ""},
-    {text: "", page: "179", own: "Intention, with perceived control, predicts whether the behavior happens.", from: "Intention to stay in treatment", to: "Treatment engagement", sign: "+", theory: "A", isNew: false, src: ""}
+    {text: "", page: "179", own: "Intention, with perceived control, predicts whether the behavior happens.", from: "Intention to stay in treatment", to: "Treatment engagement", sign: "+", theory: "A", isNew: false, src: ""},
+    {text: "", page: "179", own: "Perceived behavioral control also predicts the behavior directly, together with intention.", from: "Perceived behavioral control", to: "Treatment engagement", sign: "+", theory: "A", isNew: false, src: ""}
   ],
+  partial: {c2: true},
   ctag: {c0: "A", c1: "A", c2: "A", med: "A", out: "none", m0: "none"},
-  bases: {"c0>med": "theory", "c1>med": "theory", "c2>med": "theory", "med>out": "theory", "m0~": "practice"},
+  bases: {"c0>med": "theory", "c1>med": "theory", "c2>med": "theory", "med>out": "theory", "c2>out": "theory", "m0~": "practice"},
   reasons: {
     "c0>med": "Veterans who expect therapy to help them value attending, so they plan to keep going.",
     "c1>med": "When spouses, fellow veterans, and clinicians endorse treatment, veterans feel backed in planning to continue.",
     "c2>med": "Veterans who believe they can fit sessions around work, child care, and travel are more likely to plan to stay.",
     "med>out": "A plan to stay in treatment turns into attendance when the opportunity is there.",
+    "c2>out": "Veterans who can arrange transportation and time off attend more sessions, whatever they intended.",
     "m0~": "Long drives add cost and time to every visit, so intention leads to attendance less often for veterans 30 or more miles away."
   },
   cdef: {
@@ -255,7 +258,7 @@ function fresh(){
     ctag: {}, cdef: {}, styles: {}, signs: {}, bases: {}, needsSource: {}, openQ: {},
     props: [], propLinks: {}, returnTo: -1, reasons: {}, hyps: "", hypsEdited: false, hypWord: "H",
     showTags: true, tagMode: "H", figView: "all", pos: {}, labels: {}, rq: "", rqEdited: false,
-    caption: "", captionEdited: false, notes: {}, assume: {}, sel: "", noAuto: {}};
+    caption: "", captionEdited: false, notes: {}, assume: {}, sel: "", noAuto: {}, partial: {}};
 }
 function isObj(x){ return x && typeof x === "object" && !Array.isArray(x); }
 function upgrade(st){
@@ -274,7 +277,7 @@ function migrate(st){
   function ren(a, b){ var i = st.modPicked.indexOf(a); if(i >= 0){ st.modPicked[i] = b; if(st.modDetails[a]){ st.modDetails[b] = st.modDetails[a]; delete st.modDetails[a]; } } }
   ren("Insurance/cost", "Health insurance/coverage");
   if(!Array.isArray(st.causes) || !st.causes.length) st.causes = [""];
-  ["ctag", "cdef", "notes", "assume", "noAuto", "modIds", "styles", "labels", "pos", "reasons", "modDetails"].forEach(function(k){ if(!isObj(st[k])) st[k] = {}; });
+  ["ctag", "cdef", "notes", "assume", "noAuto", "partial", "modIds", "styles", "labels", "pos", "reasons", "modDetails"].forEach(function(k){ if(!isObj(st[k])) st[k] = {}; });
   if(!Array.isArray(st.more)) st.more = [];
   if(!Array.isArray(st.seen)) st.seen = [];
   st.props.forEach(function(q){ if(!q.theory) q.theory = "A"; if(typeof q.isNew !== "boolean") q.isNew = false; if(typeof q.src !== "string") q.src = ""; });
@@ -317,12 +320,12 @@ var TODO = {
   "Theory": ["Click one theory card, or click Type my own and type the theory name.", "Add a second theory only if your model needs it.", "Press Next."],
   "Key propositions": ["In box 1, type the APA reference for the work where each theory was first stated. You can click Use this to copy a suggested reference, but check it first.", "In box 2, press Add a proposition. Copy one sentence from the source that says how two concepts relate, and type its page number.", "Fill in the other boxes for that proposition: your own words, the From and To concepts, and the direction.", "Add 2 to 5 propositions for each theory. You can skip this step and come back later."],
   "Causes": ["Add 2 or 3 causes of the outcome (4 at most).", "To add a cause, click a button with a + sign below, or type in an empty box.", "Use the \u2191 and \u2193 buttons, or drag \u283f, to change the order. The order here is the order in the figure.", "Press Next."],
-  "In-between": ["Ask yourself: why does each cause lead to the outcome?", "If your answer is one thing that the causes change first, click Yes and type it in the box.", "If you cannot name one thing, click No or Not sure.", "Press Next."],
+  "In-between": ["Ask yourself: why does each cause lead to the outcome?", "If your answer is one thing that the causes change first, click Yes and type it in the box.", "If you cannot name one thing, click No or Not sure.", "If you clicked Yes: for each cause, check the box if it also affects the outcome directly (partial mediation). Leave it empty if it works only through the in-between step.", "Press Next."],
   "Moderation": ["Ask yourself: is any link stronger for some people, places, or times than for others?", "Click Yes, No, or Not sure.", "If you clicked Yes or Not sure, check the box for each group or condition that might change a link. Check Other to type your own.", "Press Next."],
   "Moderator details": ["For each moderator, type the two groups you will compare.", "Choose the link that the moderator makes stronger or weaker.", "Press Next."],
   "Define concepts": ["Each card is one box in your figure.", "Choose where the concept comes from.", "Write what the concept means in one or two sentences. Then type the source: author, year, and page.", "Press Next."],
   "Line styles": ["Each card is one arrow in your figure.", "Click + if more of the first concept leads to more of the second. Click \u2212 if it leads to less.", "Click Solid if you will test the arrow. Click Dashed for a moderator or an arrow you will not test.", "Press Next."],
-  "Why this arrow?": ["Each card is one arrow in your figure.", "Click what your reason is based on. This is required.", "Choose the proposition the arrow comes from, or drag a proposition from the box at the top onto the card.", "In the large box, write one sentence that explains how the first concept changes the second. Click I\u2019m stuck if you need help.", "Press Next."],
+  "Why this arrow?": ["Each card is one arrow in your figure.", "Click what your reason is based on. This is required.", "Link the proposition the arrow comes from. Use the menu Comes from proposition on the card. Or click a proposition in the box at the top, then click Link here on the card.", "In the large box, write one sentence that explains how the first concept changes the second. Click I\u2019m stuck if you need help.", "Press Next."],
   "Paper notes": ["This step is optional.", "Type notes in any box that will help you write your paper. You can leave boxes empty.", "Your notes go into the Word file on the results page.", "Press Next."],
   "Self-check": ["Read each item.", "Green items are done. Yellow items need attention.", "Click Fix this to go to the step that needs work, or press the Next button to see your results."],
   "Results": ["Read your research question, hypotheses, and figure.", "Click Edit under any text to change it.", "Click Download PNG for the figure, and Download paper notes for Word for the text.", "Click Save my work at the top of the page to keep a copy of your model."]
@@ -385,9 +388,14 @@ function nodes(){
 function paths(){
   var p = [], t = hasMed() ? "med" : "out";
   causeNodes().forEach(function(c){ p.push({id: c.id + ">" + t, from: c.id, to: t}); });
-  if(hasMed()) p.push({id: "med>out", from: "med", to: "out"});
+  if(hasMed()){
+    p.push({id: "med>out", from: "med", to: "out"});
+    /* partial mediation: the cause also has its own arrow to the outcome */
+    causeNodes().forEach(function(c){ if(S.partial[c.id]) p.push({id: c.id + ">out", from: c.id, to: "out", bypass: true}); });
+  }
   return p;
 }
+function partialIds(){ return hasMed() ? causeNodes().filter(function(c){ return S.partial[c.id]; }).map(function(c){ return c.id; }) : []; }
 function nodeLabel(id){ var n = nodes().filter(function(x){ return x.id === id; })[0]; return n ? n.label : id; }
 function pathLabel(p){ return nodeLabel(p.from) + " → " + nodeLabel(p.to); }
 function modEdges(){
@@ -504,7 +512,10 @@ function hypList(){
   if(hasMed() && causeNodes().length){
     n++;
     var ex2 = causeNodes().some(function(c){ return style(c.id + ">med", "solid") === "dashed"; }) || style("med>out", "solid") === "dashed";
-    H.push({n: n, edge: null, kind: "mediation", text: hn(n) + " (mediation" + (ex2 ? ", exploratory" : "") + "): " + nodeLabel("med") + " will mediate the " + (causeNodes().length > 1 ? "links" : "link") + " from " + joinList(causeNodes().map(function(c){ return c.label.toLowerCase(); })) + " to " + nodeLabel("out").toLowerCase() + "."});
+    var pi = partialIds(), comp = causeNodes().filter(function(c){ return pi.indexOf(c.id) < 0; }), part = causeNodes().filter(function(c){ return pi.indexOf(c.id) >= 0; });
+    function names(l){ return joinList(l.map(function(c){ return c.label.toLowerCase(); })); }
+    var body = comp.length && part.length ? "will completely mediate the " + (comp.length > 1 ? "links" : "link") + " from " + names(comp) + ", and partially mediate the " + (part.length > 1 ? "links" : "link") + " from " + names(part) + ", to " : (part.length ? "will partially mediate the " + (part.length > 1 ? "links" : "link") + " from " + names(part) + " to " : "will completely mediate the " + (comp.length > 1 ? "links" : "link") + " from " + names(comp) + " to ");
+    H.push({n: n, edge: null, kind: "mediation", text: hn(n) + " (mediation" + (ex2 ? ", exploratory" : "") + "): " + nodeLabel("med") + " " + body + nodeLabel("out").toLowerCase() + "."});
   }
   modEdges().forEach(function(e){ var p = ps.filter(function(x){ return x.id === e.path; })[0]; if(!p) return; n++; var d = S.modDetails[e.name] || {}; H.push({n: n, edge: e.id, kind: "moderation", text: hn(n) + " (moderation): The link between " + nodeLabel(p.from).toLowerCase() + " and " + nodeLabel(p.to).toLowerCase() + " will differ by " + e.name.toLowerCase() + (d.groups ? " (" + d.groups + ")" : "") + "."}); });
   return H;
@@ -532,6 +543,7 @@ function autoCaption(){
   var note = "Note. Boxes are concepts. Solid arrows show hypothesized relationships; dashed arrows show moderation or exploratory relationships";
   if(modEdges().length) note += ", and a dashed arrow that ends on another arrow means the moderator changes the strength of that relationship";
   note += ". A plus (+) means more of one concept leads to more of the next; a minus (−) means more leads to less.";
+  if(partialIds().length) note += " A curved arrow shows a direct effect that does not pass through the in-between concept (partial mediation).";
   if(showLetters()){ var ls = theoryList().map(function(t){ return t.id + " = " + tName(t); }); if(nodes().some(function(n){ return S.ctag[n.id] === "new"; })) ls.push("N = new concept"); note += " Letters show each concept's source: " + ls.join("; ") + "."; }
   if(S.tagMode === "H") note += " " + (S.hypWord === "P" ? "Numbers on arrows match the numbered propositions in the text." : "H numbers on arrows match the hypotheses in the text.");
   if(S.tagMode === "P") note += " P numbers on arrows identify the source proposition" + (S.props.some(function(q){ return q.isNew; }) ? "; an asterisk marks a new proposition" : "") + ".";
@@ -611,12 +623,13 @@ function videoSlot(k, title){
 }
 function trayHTML(sticky){
   if(!S.props.length) return "";
-  return '<div class="tray noprint' + (sticky ? " sticky" : "") + '"><p class="tray-h">Your propositions <span class="small">Drag one onto an arrow to link it' + (sticky ? ", or use the menu on each arrow." : ".") + '</span></p><ul class="tray-list">' +
+  return '<div class="tray noprint' + (sticky ? " sticky" : "") + '"><p class="tray-h">Your propositions <span class="small">' + (PICK >= 0 ? '<strong>P' + (PICK + 1) + ' is selected.</strong> Now click <strong>Link P' + (PICK + 1) + ' here</strong> on an arrow card below.' : 'Click a proposition, then click <strong>Link here</strong> on the arrow card it supports. You can also drag it onto the card.') + '</span></p><ul class="tray-list">' +
     S.props.map(function(q, k){
       var t = ((q.own || q.text || "").trim() || "(untitled)");
-      return '<li class="pchip" data-drag="prop" data-k="' + k + '" title="' + esc(t) + '"><span class="badge' + tc(q.isNew ? "N" : q.theory) + '">P' + (k + 1) + '</span><span class="ptext">' + esc(t) + '</span><span class="psign" aria-label="' + (propSign(k) === "-" ? "negative" : "positive") + '">' + signChar(propSign(k)) + '</span></li>';
+      return '<li><button type="button" class="pchip" data-drag="prop" data-k="' + k + '" data-pick="' + k + '" aria-pressed="' + (PICK === k) + '" title="' + esc(t) + '"><span class="badge' + tc(q.isNew ? "N" : q.theory) + '">P' + (k + 1) + '</span><span class="ptext">' + esc(t) + '</span><span class="psign" aria-label="' + (propSign(k) === "-" ? "negative" : "positive") + '">' + signChar(propSign(k)) + '</span></button></li>';
     }).join("") + '</ul></div>';
 }
+
 function boxInfo(id){
   var k = id === "out" ? "Outcome" : id === "med" ? "In-between" : /^c/.test(id) ? "Causes" : "Moderation";
   var d = id === "out" && (S.outcomeDef || "").trim() ? S.outcomeDef.trim() : "";
@@ -634,7 +647,8 @@ function stuckHTML(e, i){
 function linkBlock(e, i){
   if(e.mod || !S.props.length) return "";
   var k = linkOf(e.id), mm = mismatch(e.id);
-  return (k >= 0 ? '<p style="margin:10px 0 4px"><span class="link-badge"><span class="badge' + tc(S.props[k].isNew ? "N" : S.props[k].theory) + '">P' + (k + 1) + '</span> Linked proposition <button type="button" class="btn ghost sm" data-unlink="' + esc(e.id) + '" aria-label="Unlink P' + (k + 1) + ' from this arrow">✕</button></span></p>' : '<p class="dropzone-note noprint">Drop a proposition here</p>') +
+  return (k >= 0 ? '<p style="margin:10px 0 4px"><span class="link-badge"><span class="badge' + tc(S.props[k].isNew ? "N" : S.props[k].theory) + '">P' + (k + 1) + '</span> Linked proposition <button type="button" class="btn ghost sm" data-unlink="' + esc(e.id) + '" aria-label="Unlink P' + (k + 1) + ' from this arrow">✕</button></span></p>' : (PICK >= 0 ? '' : '<p class="dropzone-note noprint">No proposition linked yet</p>')) +
+    (PICK >= 0 ? '<p class="noprint" style="margin:8px 0"><button type="button" class="btn yel sm" data-linkhere="' + esc(e.id) + '">Link P' + (PICK + 1) + ' here</button></p>' : '') +
     (mm ? '<div class="warn" role="note">P' + (k + 1) + ' says <strong>' + signChar(mm) + '</strong> (' + (mm === "-" ? "more → less" : "more → more") + '), but this arrow is set to <strong>' + signChar(sign(e.id)) + '</strong>. Check the source. If P' + (k + 1) + ' is right, <button type="button" class="btn sec sm" data-setsign="' + esc(e.id) + '" data-val="' + mm + '">set this arrow to ' + signChar(mm) + '</button></div>' : '') +
     '<label for="pl' + i + '" class="small">Comes from proposition<span class="hint">Choose the proposition this arrow is based on.</span></label><select id="pl' + i + '" data-plink="' + esc(e.id) + '"><option value="">None</option>' + S.props.map(function(q, kk){ return '<option value="' + kk + '" ' + (k === kk ? "selected" : "") + '>P' + (kk + 1) + ': ' + esc(((q.own || q.text || "").trim() || "(untitled)").slice(0, 70)) + '</option>'; }).join("") + '</select>';
 }
@@ -718,6 +732,8 @@ var STEPS = [
 /* 7 */ {t: "In-between", g: "Model", r: function(){
     var h = '<h2 id="stepTitle">Is there an in-between step?</h2><p class="lede">Something the causes change first, which then changes ' + esc(S.outcome.toLowerCase()) + '.</p>' + videoSlot("inbetween", "Mediators and moderators") + medConceptBox() + choices("medYN", [["yes", "Yes", "I can name it."], ["no", "No", "Causes link straight to the outcome."], ["unsure", "Not sure", "Skip it for now."]]);
     if(S.medYN === "yes") h += jargon("That\'s called <strong>mediation</strong>. The in-between is the <strong>mediator</strong>.") + '<label for="f_med">Name the in-between<span class="hint">Type the one thing the causes change first.</span></label><input type="text" id="f_med" data-bind="mediator" placeholder="e.g., Intention to stay in treatment" value="' + esc(S.mediator) + '">';
+    if(S.medYN === "yes" && S.mediator.trim() && causeNodes().length) h += '<fieldset class="panel" style="margin-top:16px"><legend style="font-size:1.02rem">Complete or partial mediation?</legend><p class="small" style="margin:4px 0 10px">Check a cause only if your theory or research says it also changes ' + esc(S.outcome.toLowerCase() || "the outcome") + ' directly, not only through ' + esc(S.mediator.trim().toLowerCase()) + '. A checked cause gets its own arrow to the outcome (partial mediation). Leave all boxes empty for complete mediation.</p><div class="checkgrid">' +
+      causeNodes().map(function(c){ return '<label><input type="checkbox" data-partial="' + c.id + '" ' + (S.partial[c.id] ? "checked" : "") + '> <span>' + esc(c.label) + ' also affects ' + esc(S.outcome.toLowerCase() || "the outcome") + ' directly</span></label>'; }).join("") + '</div></fieldset>';
     return h + tip("med");
   }, v: function(){ if(!S.medYN) return "Pick one."; if(S.medYN === "yes" && !S.mediator.trim()) return "Name the in-between, or choose No."; return ""; }},
 /* 8 */ {t: "Moderation", g: "Model", r: function(){
@@ -820,7 +836,7 @@ function medConceptBox(){
     '<p><strong>A mediator</strong> is the in-between step. The cause changes the mediator first, and the mediator then changes the outcome. It explains <em>why</em> the cause works.</p>' +
     '<p><strong>Test (the why question):</strong> “Why does ___ lead to ' + esc((S.outcome || "the outcome").toLowerCase()) + '? Because it changes ___, and that changes ' + esc((S.outcome || "the outcome").toLowerCase()) + '.” The answer in the second blank is your mediator (Jaccard &amp; Jacoby, 2020).</p>' + fig +
     '<p><strong>Mediator or moderator?</strong> A mediator is a box <em>on</em> the path and answers “why.” A moderator points <em>at</em> an arrow and answers “for whom, where, or when is the link stronger.”</p>' +
-    '<p><strong>Complete or partial?</strong> In this app, each cause works through the mediator (complete mediation). If a cause also changes the outcome directly, that is partial mediation; explain it in your paper.</p></div>';
+    '<p><strong>Complete or partial?</strong> In <em>complete</em> mediation, the cause changes the outcome only through the mediator. In <em>partial</em> mediation, the cause also changes the outcome directly. Ask: can I name any other way this cause changes the outcome? If yes, it is partial (Jaccard &amp; Jacoby, 2020). You choose this for each cause below.</p></div>';
 }
 function modConceptBox(){
   var fig = '<svg viewBox="0 0 640 170" role="img" aria-labelledby="cmT" class="cm-fig"><title id="cmT">Left: income is a cause; an arrow goes from income to health. Right: social support is a moderator; a dashed arrow goes from social support to the middle of the arrow from stress to health.</title>' +
@@ -894,7 +910,7 @@ function renderRail(vis, pos, pct){
 function grow(t){ if(!t || !t.classList || !t.classList.contains("auto")) return; t.style.height = "auto"; t.style.height = (t.scrollHeight + 3) + "px"; }
 function growAll(root){ (root || document).querySelectorAll("textarea.auto").forEach(grow); }
 function focusH(){ var h = $("screen").querySelector("h2"); if(h){ h.tabIndex = -1; h.focus({preventScroll: true}); } window.scrollTo(0, 0); }
-function leaveStep(){ var st = STEPS[S.step]; if(st && st.done) st.done(); if(!S.rqEdited) S.rq = ""; if(!S.captionEdited) S.caption = ""; }
+function leaveStep(){ PICK = -1; var st = STEPS[S.step]; if(st && st.done) st.done(); if(!S.rqEdited) S.rq = ""; if(!S.captionEdited) S.caption = ""; }
 function go(d){
   S.returnTo = -1;
   var vis = visible(), pos = vis.indexOf(S.step);
@@ -950,6 +966,13 @@ function layout(ns){
   return {P: P, H: Math.max(H, maxY + 80)};
 }
 function wrap(t, max){ var w = String(t).split(/\s+/), lines = [], cur = ""; w.forEach(function(x){ if((cur + " " + x).trim().length > max && cur){ lines.push(cur); cur = x; } else cur = (cur + " " + x).trim(); }); if(cur) lines.push(cur); return lines.slice(0, 3); }
+function clipBox(a, tx, ty){ var cx = a.x + BW / 2, cy = a.y + BH / 2, dx = tx - cx, dy = ty - cy; if(!dx && !dy) return [cx, cy]; var k = Math.min(Math.abs((BW / 2) / (dx || 1e-9)), Math.abs((BH / 2) / (dy || 1e-9))); return [cx + dx * k, cy + dy * k]; }
+function bypassPts(a, b, mid){
+  var ay = a.y + BH / 2, by = b.y + BH / 2, up = mid ? ay <= mid.y + BH / 2 : true;
+  var c = [(a.x + BW / 2 + b.x + BW / 2) / 2, up ? Math.min(ay, by) - (BH + 70) : Math.max(ay, by) + (BH + 70)];
+  return {s: clipBox(a, c[0], c[1]), e: clipBox(b, c[0], c[1]), c: c};
+}
+function onSeg(g, t){ if(g.c){ var u = 1 - t; return [u * u * g.s[0] + 2 * u * t * g.c[0] + t * t * g.e[0], u * u * g.s[1] + 2 * u * t * g.c[1] + t * t * g.e[1]]; } return [g.s[0] + (g.e[0] - g.s[0]) * t, g.s[1] + (g.e[1] - g.s[1]) * t]; }
 function edgePts(a, b){
   var ax = a.x + BW / 2, ay = a.y + BH / 2, bx = b.x + BW / 2, by = b.y + BH / 2;
   function clip(cx, cy, tx, ty){ var dx = tx - cx, dy = ty - cy; if(!dx && !dy) return [cx, cy]; var s = Math.min(Math.abs((BW / 2) / (dx || 1e-9)), Math.abs((BH / 2) / (dy || 1e-9))); return [cx + dx * s, cy + dy * s]; }
@@ -966,22 +989,24 @@ function buildSVG(o){
   var L = layout(ns), P = L.P, letters = showLetters();
   var ps = paths().filter(function(p){ return !hidden[p.from] && !hidden[p.to]; });
   var me = modEdges().filter(function(e){ return !hidden[e.from] && ps.some(function(p){ return p.id === e.path; }); });
-  var legendLines = 3 + (letters ? 1 : 0) + (S.tagMode !== "none" ? 1 : 0);
+  var bypass = ps.some(function(p){ return p.bypass; });
+  var legendLines = 3 + (letters ? 1 : 0) + (S.tagMode !== "none" ? 1 : 0) + (bypass ? 1 : 0);
   var H = L.H + 30 + legendLines * 19, out = [];
   var title = "Path figure: " + rqMain() + (view !== "all" ? " (" + tName(theoryById(view)) + " only)" : "");
   out.push('<svg xmlns="http://www.w3.org/2000/svg"' + (screen ? ' id="fig"' : '') + ' viewBox="0 0 ' + W + ' ' + H + '" width="' + W + '" height="' + H + '" ' + (screen ? 'role="group" aria-roledescription="interactive figure"' : 'role="img"') + ' aria-labelledby="t' + uid + '" font-family="Georgia, \'Times New Roman\', serif">');
   out.push('<title id="t' + uid + '">' + esc(title) + '</title><defs><marker id="ah' + uid + '" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="userSpaceOnUse" markerWidth="16" markerHeight="16" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#222"/></marker></defs>');
   if(!screen) out.push('<rect width="100%" height="100%" fill="#fff"/>');
   var mids = {}, segs = {};
-  ps.forEach(function(p){ var g = edgePts(P[p.from], P[p.to]); segs[p.id] = g; mids[p.id] = [(g.s[0] + g.e[0]) / 2, (g.s[1] + g.e[1]) / 2]; });
+  ps.forEach(function(p){ var g = p.bypass ? bypassPts(P[p.from], P[p.to], P.med) : edgePts(P[p.from], P[p.to]); segs[p.id] = g; mids[p.id] = onSeg(g, 0.5); });
   /* spread moderator targets along their path so arrows never stack */
   var modTo = {}, perPath = {};
   me.forEach(function(e){ (perPath[e.path] = perPath[e.path] || []).push(e.id); });
-  Object.keys(perPath).forEach(function(pid){ var g = segs[pid], k = perPath[pid].length; perPath[pid].forEach(function(id, j){ var t = k === 1 ? 0.5 : 0.3 + 0.4 * j / (k - 1); modTo[id] = [g.s[0] + (g.e[0] - g.s[0]) * t, g.s[1] + (g.e[1] - g.s[1]) * t]; }); });
+  Object.keys(perPath).forEach(function(pid){ var g = segs[pid], k = perPath[pid].length; perPath[pid].forEach(function(id, j){ var t = k === 1 ? 0.5 : 0.3 + 0.4 * j / (k - 1); modTo[id] = onSeg(g, t); }); });
   ps.forEach(function(p){
     var g = segs[p.id], d = style(p.id, "solid") === "dashed", sg = sign(p.id), lab = pathLabel(p) + ", " + (sg === "-" ? "negative" : "positive") + ", " + (d ? "dashed" : "solid");
     var attrs = screen ? ' class="edge' + (S.sel === p.id ? " sel" : "") + '" data-edge="' + p.id + '" data-from="' + p.from + '" data-to="' + p.to + '" data-drop="edge" tabindex="0" role="button" aria-pressed="' + (S.sel === p.id) + '" aria-label="Arrow: ' + esc(lab) + '. Press Enter to edit."' : '';
-    out.push('<g' + attrs + '>' + (screen ? '<line class="halo" x1="' + g.s[0] + '" y1="' + g.s[1] + '" x2="' + g.e[0] + '" y2="' + g.e[1] + '" stroke="transparent" stroke-width="18" stroke-linecap="round"/>' : '') + '<line class="vis" x1="' + g.s[0] + '" y1="' + g.s[1] + '" x2="' + g.e[0] + '" y2="' + g.e[1] + '" stroke="#222" stroke-width="2"' + (d ? ' stroke-dasharray="8 6"' : '') + ' marker-end="url(#ah' + uid + ')"/></g>');
+    var geo = g.c ? 'd="M' + g.s[0] + ' ' + g.s[1] + ' Q' + g.c[0] + ' ' + g.c[1] + ' ' + g.e[0] + ' ' + g.e[1] + '" fill="none"' : 'x1="' + g.s[0] + '" y1="' + g.s[1] + '" x2="' + g.e[0] + '" y2="' + g.e[1] + '"', tag = g.c ? "path" : "line";
+    out.push('<g' + attrs + '>' + (screen ? '<' + tag + ' class="halo" ' + geo + ' stroke="transparent" stroke-width="18" stroke-linecap="round"/>' : '') + '<' + tag + ' class="vis" ' + geo + ' stroke="#222" stroke-width="2"' + (d ? ' stroke-dasharray="8 6"' : '') + ' marker-end="url(#ah' + uid + ')"/></g>');
     var m = mids[p.id], cx = m[0] + 14, cy = m[1] + 17;
     out.push('<g pointer-events="none"><circle cx="' + cx + '" cy="' + cy + '" r="9" fill="' + (sg === "-" ? "#e6e7ee" : "#fff") + '" stroke="#222" stroke-width="1.3"/><text x="' + cx + '" y="' + (cy + 5) + '" text-anchor="middle" font-size="16" font-weight="bold" font-family="Arial, sans-serif" fill="#111">' + signChar(sg) + '</text></g>');
   });
@@ -1012,6 +1037,7 @@ function buildSVG(o){
   var ty = ly + 24;
   out.push('<text x="30" y="' + ty + '" fill="#444">Theory: ' + esc(view !== "all" ? tName(theoryById(view)) : theoryNames()) + '. Dashed arrows into a path = the moderator changes that path\'s strength.</text>'); ty += 19;
   out.push('<text x="30" y="' + ty + '" fill="#444">Circled + / −: direction. + = more of one leads to more of the next; − = more of one leads to less.</text>'); ty += 19;
+  if(bypass){ out.push('<text x="30" y="' + ty + '" fill="#444">Curved arrow: a direct effect that does not pass through the in-between concept (partial mediation).</text>'); ty += 19; }
   if(letters){ var ls = theoryList().map(function(t){ return t.id + " = " + tName(t); }); if(all.some(function(n){ return S.ctag[n.id] === "new"; })) ls.push("N = new concept"); out.push('<text x="30" y="' + ty + '" fill="#444">Circled letters: source of each concept. ' + esc(ls.join("; ")) + '.</text>'); ty += 19; }
   if(S.tagMode === "H") out.push('<text x="30" y="' + ty + '" fill="#444">' + (S.hypWord === "P" ? "Numbers on arrows match the numbered propositions in the text." : "H numbers on arrows match the hypotheses in the text.") + '</text>');
   if(S.tagMode === "P") out.push('<text x="30" y="' + ty + '" fill="#444">P numbers on arrows: source proposition' + (S.props.some(function(q){ return q.isNew; }) ? "; * = new proposition" : "") + '.</text>');
@@ -1257,7 +1283,7 @@ function wireResults(){
 }
 
 /* ======================= Drag and drop (pointer-based: mouse, pen, touch) ======================= */
-var DRAG = null, swallowClick = false;
+var DRAG = null, swallowClick = false, PICK = -1;
 var DROPS = {
   edge: {accepts: ["prop"], drop: function(src, tgt){ linkProp(tgt.dataset.edge, +src.dataset.k); }},
   causes: {accepts: ["chip", "cause"], drop: function(src, tgt, e){
@@ -1335,6 +1361,8 @@ document.addEventListener("click", function(ev){
   if(id === "viewFig"){ $("dlgBody").innerHTML = buildSVG({mode: "dialog", uid: "d"}); $("figDlg").showModal(); return; }
   if(id === "dlgClose"){ $("figDlg").close(); return; }
   if(ds.edit){ var ta = $(ds.edit), open = ta.hidden; ta.hidden = !open; t.textContent = open ? "Done editing" : "Edit"; t.setAttribute("aria-expanded", open); if(open){ grow(ta); ta.focus(); } return; }
+  if(ds.pick !== undefined && t.classList.contains("pchip")){ PICK = PICK === +ds.pick ? -1 : +ds.pick; var yk = window.scrollY; render(); window.scrollTo(0, yk); var pk = $("screen").querySelector('[data-pick="' + ds.pick + '"]'); if(pk) pk.focus(); announce(PICK >= 0 ? "P" + (PICK + 1) + " selected. Now click Link here on an arrow card." : "Selection cleared."); return; }
+  if(ds.linkhere){ var kk2 = PICK; PICK = -1; linkProp(ds.linkhere, kk2); return; }
   if(ds.video){ var f = document.createElement("iframe"); f.src = ds.video; f.title = ds.vtitle; f.allow = "autoplay; fullscreen; picture-in-picture"; f.allowFullscreen = true; t.parentNode.replaceChild(f, t); f.focus(); return; }
   if(ds.set){
     S[ds.set] = ds.val;
@@ -1400,6 +1428,7 @@ document.addEventListener("change", function(ev){
   if(ds.mod){ var m = ds.mod, i = S.modPicked.indexOf(m); if(t.checked && i < 0) S.modPicked.push(m); if(!t.checked && i >= 0) S.modPicked.splice(i, 1); if(t.checked) S.modSkip = false; render(); var el = $("screen").querySelector('[data-mod="' + m.replace(/"/g, '\\"') + '"]'); if(m === "__other" && t.checked) $("f_mo0").focus(); else if(el) el.focus(); return; }
   if(t.id === "modSkip"){ S.modSkip = t.checked; if(t.checked) S.modPicked = []; render(); $("modSkip").focus(); return; }
   if(ds.mp){ (S.modDetails[ds.mp] = S.modDetails[ds.mp] || {}).path = t.value; save(); schedulePreview(); return; }
+  if(ds.partial){ if(t.checked) S.partial[ds.partial] = true; else delete S.partial[ds.partial]; if(!S.hypsEdited) S.hyps = ""; if(!S.rqEdited) S.rq = ""; var yp = window.scrollY; render(); window.scrollTo(0, yp); var pp = $("screen").querySelector('[data-partial="' + ds.partial + '"]'); if(pp) pp.focus(); announce(t.checked ? "Partial mediation: direct arrow added." : "Direct arrow removed."); return; }
   if(ds.mt && ds.mf === "pick"){ S.more[+ds.mt].pick = t.value; render(); $("mt" + ds.mt).focus(); return; }
   if(ds.ctag){ if(t.value) S.ctag[ds.ctag] = t.value; else delete S.ctag[ds.ctag]; save(); schedulePreview(); var y2 = window.scrollY; render(); window.scrollTo(0, y2); var c2 = $("screen").querySelector('[data-ctag="' + ds.ctag + '"]'); if(c2) c2.focus(); return; }
 });
