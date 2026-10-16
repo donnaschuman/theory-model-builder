@@ -42,7 +42,7 @@ At the top of the first `<script>` in `index.html`:
 
 ## How to cite
 
-Schuman, D. L. (2026). *Social theory model builder* (Version 1.2.0) [Web application]. The University of Texas at Arlington. https://social-theory-model-builder.netlify.app
+Schuman, D. L. (2026). *Social theory model builder* (Version 1.2.0) [Web application]. The University of Texas at Arlington. https://doi.org/10.5281/zenodo.23423388
 
 In-text: (Schuman, 2026). Machine-readable metadata is in `CITATION.cff` (GitHub's "Cite this repository") and `.zenodo.json`.
 

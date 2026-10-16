@@ -166,8 +166,9 @@ var PROPOSITIONS_VIDEO_URL = ''; // older setting; used for the propositions slo
 var PREVIEW = (function(){ var on = /[?&](preview|demo)(=|&|$)/i.test(location.search); try { if(on) sessionStorage.setItem("stmbPreview", "1"); on = on || sessionStorage.getItem("stmbPreview") === "1"; } catch(e){} return on; })();
 var KEY = "theoryModelApp.v1", VERSION = "1.2.0", SCHEMA = 4;
 var APP_URL = "https://social-theory-model-builder.netlify.app";
-var CITE = "Schuman, D. L. (2026). Social theory model builder (Version " + VERSION + ") [Web application]. The University of Texas at Arlington. " + APP_URL;
-var CITE_HTML = "Schuman, D. L. (2026). <i>Social theory model builder</i> (Version " + VERSION + ") [Web application]. The University of Texas at Arlington. " + APP_URL;
+var DOI_URL = "https://doi.org/10.5281/zenodo.23423388";
+var CITE = "Schuman, D. L. (2026). Social theory model builder (Version " + VERSION + ") [Web application]. The University of Texas at Arlington. " + DOI_URL;
+var CITE_HTML = "Schuman, D. L. (2026). <i>Social theory model builder</i> (Version " + VERSION + ") [Web application]. The University of Texas at Arlington. " + DOI_URL;
 
 /* ======================= Content ======================= */
 var TIPS = {
