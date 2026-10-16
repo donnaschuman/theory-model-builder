@@ -2,7 +2,7 @@
   "title": "Social Theory Model Builder",
   "version": "1.2.0",
   "upload_type": "software",
-  "publication_date": "2026-10-13",
+  "publication_date": "2026-10-16",
   "description": "A single-page web application that guides students from a population, an outcome, and one or more theories to stated propositions with page numbers, defined concepts, an editable conceptual figure, hypotheses or propositions, and paper-ready notes for theoretical papers. Live at https://social-theory-model-builder.netlify.app",
   "creators": [
     {"name": "Schuman, D. L.", "affiliation": "The University of Texas at Arlington"}
