@@ -585,3 +585,11 @@ details.teach[open]>summary{border-bottom:1px solid #b9e3d3;border-radius:12px 1
   .filebtn{min-height:40px}
 }
 .rail-step.skipped{color:#9aa0b8;font-style:italic}
+/* Key terms */
+#termsDlg{max-width:min(760px,94vw)}
+#termsDlg .dlg-b{padding:4px 24px 22px;max-height:75vh;overflow:auto}
+.glossary dt{font-weight:800;color:var(--ink);margin:14px 0 2px}
+.glossary dd{margin:0}
+.todo-terms{margin:8px 0 0}
+.rail-terms{margin:10px 10px 0;padding-top:8px;border-top:1px solid var(--line)}
+@media(max-width:620px){#termsDlg{max-width:100vw;width:100vw;height:100vh;max-height:100vh;border-radius:0;margin:0}#termsDlg .dlg-b{max-height:none}}

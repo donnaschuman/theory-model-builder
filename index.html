@@ -50,10 +50,10 @@ var PROPOSITIONS_VIDEO_URL = ''; // older setting; used for the propositions slo
     </button>
     <div class="bar-actions noprint">
       <span class="savestat" id="lastSaved" role="status">Not saved to a file yet</span>
-      <button class="btn yel sm filebtn" type="button" id="saveFile"><span aria-hidden="true">&#8681;</span><span>Save<span class="lbl-long"> my work</span></span></button>
-      <button class="btn sec sm filebtn" type="button" id="openFile"><span>Open<span class="lbl-long"> saved work</span></span></button>
+      <button class="btn yel sm filebtn" type="button" id="saveFile"><span aria-hidden="true">&#8681;</span><span>Save<span class="lbl-long"> my</span> work</span></button>
+      <button class="btn sec sm filebtn" type="button" id="openFile"><span>Open<span class="lbl-long"> saved</span> work</span></button>
       <input type="file" id="fileIn" accept=".json,application/json" class="sr" tabindex="-1" aria-hidden="true">
-      <nav class="barnav" aria-label="App"><button type="button" id="homeLink">Home</button><a href="library.html"><span class="nl">Theories &amp; models</span><span class="ns">Library</span></a><a href="guide.html"><span class="nl">For instructors</span><span class="ns">Instructors</span></a><button type="button" id="aboutLink">About<span class="lbl-long"> &amp; cite</span></button></nav>
+      <nav class="barnav" aria-label="App"><button type="button" id="homeLink">Home</button><a href="library.html"><span class="nl">Theory library</span><span class="ns">Library</span></a><a href="guide.html"><span class="nl">For instructors</span><span class="ns">Instructors</span></a><button type="button" id="aboutLink">About<span class="lbl-long"> &amp; cite</span></button></nav>
     </div>
   </div>
 </header>
@@ -147,6 +147,11 @@ var PROPOSITIONS_VIDEO_URL = ''; // older setting; used for the propositions slo
   <div class="dlg-b" id="dlgBody"></div>
 </dialog>
 
+<dialog id="termsDlg" aria-labelledby="termsT">
+  <div class="dlg-h"><h2 id="termsT">Key terms</h2><button type="button" class="btn sec sm" id="termsClose">Close</button></div>
+  <div class="dlg-b" id="termsBody"></div>
+</dialog>
+
 <dialog id="askDlg" class="askdlg" aria-labelledby="askT" aria-describedby="askM">
   <div class="dlg-b"><h2 id="askT">Please confirm</h2><p id="askM"></p>
   <div class="btnrow"><button type="button" class="btn" id="askYes">Yes</button><button type="button" class="btn sec" id="askNo">Cancel</button></div></div>
@@ -197,7 +202,7 @@ var MODS2 = ["Prior treatment", "Stigma/help-seeking norms", "Distance to care",
 var SDOH_CAUSES = ["Housing stability", "Food security", "Income/financial strain", "Discrimination/racism", "Neighborhood safety", "Access to care", "Social support", "Education", "Employment"];
 var SDOH_RE = /housing|homeless|food|income|poverty|financ|wealth|racism|discriminat|neighborhood|access|insurance|coverage|employ|education|social support|transport|urban|rural|distance/i;
 var GHINT = {"Age": "18–34 vs. 35–54 vs. 55+", "Sex": "Female vs. male", "Gender": "Women vs. men vs. nonbinary", "Race/ethnicity": "Name the groups, e.g., Black vs. Latine vs. White", "Veteran/military status": "Veterans vs. civilians", "Disability/chronic illness": "With vs. without a chronic condition", "Relationship/marital status": "Partnered vs. single", "Income/financial strain": "Below vs. above 200% of poverty line", "Education": "High school or less vs. some college+", "Employment/student status": "Employed vs. not employed", "Housing stability": "Stably housed vs. unstably housed", "Food security": "Food secure vs. food insecure", "Neighborhood safety/conditions": "High vs. low perceived neighborhood safety", "Discrimination/racism": "High vs. low reported discrimination", "Location/access (urban-rural, transportation)": "Urban vs. rural", "Social support": "High vs. low social support", "Health insurance/coverage": "Insured vs. uninsured", "Prior treatment": "Prior treatment vs. none", "Stigma/help-seeking norms": "High vs. low perceived stigma", "Distance to care": "Under 30 miles vs. 30+ miles", "Co-occurring PTSD/depression/substance use": "With vs. without co-occurring conditions"};
-var MHINT = {"Race/ethnicity": "Often a stand-in for exposure to racism; say which you mean.", "Sex": "Biological traits (e.g., female, male, intersex).", "Gender": "Identity and social role (e.g., woman, man, nonbinary)."};
+var MHINT = {"Race/ethnicity": "Often used as a substitute measure for exposure to racism; say which one you mean.", "Sex": "Biological traits (e.g., female, male, intersex).", "Gender": "Identity and social role (e.g., woman, man, nonbinary)."};
 var BASIS = [["theory", "The theory says so"], ["research", "Prior research"], ["practice", "Practice experience"], ["multiple", "More than one of these"]];
 var WHERE = ["Original theory source", "Measurement or validation paper", "Recent review in my population", "Other"];
 var KIND = {cause: "Cause", med: "In-between", out: "Outcome", mod: "Moderator"};
@@ -220,10 +225,10 @@ var DEMO = {
   bases: {"c0>med": "theory", "c1>med": "theory", "c2>med": "theory", "med>out": "theory", "c2>out": "theory", "m0~": "practice"},
   reasons: {
     "c0>med": "Veterans who expect therapy to help them value attending, so they plan to keep going.",
-    "c1>med": "When spouses, fellow veterans, and clinicians endorse treatment, veterans feel backed in planning to continue.",
+    "c1>med": "When spouses, fellow veterans, and clinicians endorse treatment, veterans feel supported in planning to continue.",
     "c2>med": "Veterans who believe they can fit sessions around work, child care, and travel are more likely to plan to stay.",
     "med>out": "A plan to stay in treatment turns into attendance when the opportunity is there.",
-    "c2>out": "Veterans who can arrange transportation and time off attend more sessions, whatever they intended.",
+    "c2>out": "Veterans who can arrange transportation and time off attend more sessions, even if they did not plan to.",
     "m0~": "Long drives add cost and time to every visit, so intention leads to attendance less often for veterans 30 or more miles away."
   },
   cdef: {
@@ -326,8 +331,8 @@ var TODO = {
   "Key propositions": ["In box 1, type the APA reference for the work where each theory was first stated. You can click Use this to copy a suggested reference, but check it first.", "In box 2, press Add a proposition. Copy one sentence from the source that says how two concepts relate, and type its page number.", "Fill in the other boxes for that proposition: your own words, the From and To concepts, and the direction.", "Add only the propositions your model uses, usually 2 to 5 in all. You do not test every proposition in a theory, and you can take one from one theory and one from another. Open the green box Which propositions do I need? for help.", "You can skip this step and come back later."],
   "Causes": ["Add 2 or 3 causes of the outcome (4 at most).", "To add a cause, click a button with a + sign below, or type in an empty box.", "Use the \u2191 and \u2193 buttons, or drag \u283f, to change the order. The order here is the order in the figure.", "Press Next."],
   "In-between": ["Not sure what a mediator is? Open the green box Mediator: how to decide.", "Ask yourself: why does each cause lead to the outcome?", "If your answer is one thing that the causes change first, click Yes and type it in the box.", "If you cannot name one thing, click No or Not sure.", "If you clicked Yes: for each cause, check the box if it also affects the outcome directly (partial mediation). Leave it empty if it works only through the in-between step.", "Press Next."],
-  "Moderation": ["Not sure whether something is a cause or a moderator? Open the green box Cause or moderator? How to decide.", "Ask yourself: is any link stronger for some people, places, or times than for others?", "Click Yes, No, or Not sure.", "If you clicked Yes or Not sure, check the box for each group or condition that might change a link. Check Other to type your own.", "Press Next."],
-  "Moderator details": ["For each moderator, type the two groups you will compare.", "Choose the link that the moderator makes stronger or weaker.", "Press Next."],
+  "Moderation": ["Not sure whether something is a cause or a moderator? Open the green box Cause or moderator? How to decide.", "Ask yourself: is any arrow stronger for some people, places, or times than for others?", "Click Yes, No, or Not sure.", "If you clicked Yes or Not sure, check the box for each group or condition that might change an arrow. Check Other to type your own.", "Press Next."],
+  "Moderator details": ["For each moderator, type the two groups you will compare.", "Choose the arrow that the moderator makes stronger or weaker.", "Press Next."],
   "Define concepts": ["Below, there is one panel for each concept. Each concept is one box in your figure.", "The panels fill in automatically from earlier steps: your causes, your in-between step, your outcome, and your moderators. To add or remove a concept, go back to that step; its panel appears here.", "Choose where the concept comes from.", "Write what the concept means in one or two sentences. Then type the source: author, year, and page.", "Press Next."],
   "Line styles": ["Below, there is one panel for each arrow in your figure. Each panel starts with a label: Arrow H1, Arrow H2, and so on. H1 is the hypothesis number on the figure and the results page.", "Click + if more of the first concept leads to more of the second. Click \u2212 if it leads to less.", "Click Solid if you will test the arrow. Click Dashed for a moderator or an arrow you will not test.", "Press Next."],
   "Why this arrow?": ["Below, there is one panel for each arrow in your figure. Each panel starts with a label: Arrow H1, Arrow H2, and so on. H1 is the hypothesis number on the figure and the results page.", "Click what your reason is based on. This is required.", "Link the proposition each arrow comes from. In the arrow\u2019s panel, use the menu Comes from proposition. Or click a proposition in the box at the top, then click Link here in the arrow\u2019s panel.", "In each arrow\u2019s panel, write one sentence in the large box that explains how the first concept changes the second. Click I\u2019m stuck if you need help.", "Press Next."],
@@ -335,7 +340,36 @@ var TODO = {
   "Self-check": ["Read each item.", "Green items are done. Yellow items need attention.", "Click Fix this to go to the step that needs work, or press the Next button to see your results."],
   "Results": ["Read your research question, hypotheses, and figure.", "Click Edit under any text to change it.", "Click Download PNG for the figure, and Download paper notes for Word for the text.", "Click Save my work at the top of the page to keep a copy of your model."]
 };
-function todoHTML(list){ return '<div class="todo" role="note"><h3>What to do</h3><ol>' + list.map(function(x){ return '<li>' + esc(x) + '</li>'; }).join("") + '</ol></div>'; }
+function todoHTML(list){ return '<div class="todo" role="note"><h3>What to do</h3><ol>' + list.map(function(x){ return '<li>' + esc(x) + '</li>'; }).join("") + '</ol><p class="small todo-terms">Not sure what a word means? <button type="button" class="linkbtn" data-terms="1">See key terms</button></p></div>'; }
+/* Plain one-line definitions for students who read English as an additional language. */
+var GLOSSARY = [
+  ["Conceptual model", "A drawing of boxes (concepts) and arrows that shows how your theory explains an outcome."],
+  ["Concept", "One idea in your model, shown as one box (for example, social support)."],
+  ["Population", "The group of people your study is about."],
+  ["Outcome", "The result you want to explain. It is the box the arrows end at."],
+  ["Operational definition", "How you will measure or count a concept in your study (Step 3)."],
+  ["Conceptual definition", "What a concept means in the theory, without saying how you measure it (Define concepts step)."],
+  ["Theory", "A set of statements that explains why something happens."],
+  ["Model / framework", "A model lays out specific concepts and arrows. A framework organizes concepts into groups; you supply the arrows. See the theory library."],
+  ["Seminal source", "The book or article where the theory was first fully stated."],
+  ["Proposition (P1, P2…)", "A sentence from the theory that says how two concepts are related, such as “the more X, the more Y.” You copy it from the source with its page number."],
+  ["Cause", "A concept that changes the outcome. An arrow goes from the cause to the outcome."],
+  ["In-between (mediator)", "A concept that the cause changes first, and that then changes the outcome. It explains why the cause works."],
+  ["Complete or partial mediation", "Complete: the cause works only through the in-between concept. Partial: the cause also has its own arrow straight to the outcome."],
+  ["Moderator", "A characteristic or condition that makes an arrow stronger or weaker for some groups (for example, distance to care)."],
+  ["Social determinant", "A condition where people are born, live, learn, work, and age (income, housing, discrimination) that shapes their outcomes."],
+  ["Arrow direction (+ or −)", "+ means more of one concept leads to more of the next. − means more of one leads to less of the next."],
+  ["Solid or dashed arrow", "Solid: you will test it in your study. Dashed: exploratory, shown but not tested, or a moderator."],
+  ["Hypothesis (H1, H2…)", "A testable prediction about your population, built from one arrow."],
+  ["Direct, mediation, moderation", "The three kinds of hypotheses: one concept affects another; the effect passes through the in-between concept; an arrow is stronger for some groups."],
+  ["Numbered statement (S1, S2…)", "Your own claim in a conceptual paper. Some journals call these propositions. They are not the theory's propositions P1, P2."],
+  ["Research question", "The main question your model answers. Subquestions are added for an in-between concept and for each moderator."],
+  ["Paradigm", "A set of beliefs about what research is and how it should be done."],
+  ["Ontology / epistemology", "Ontology: beliefs about what is real. Epistemology: beliefs about how we can know it."],
+  ["APA 7", "The 7th edition of the American Psychological Association style for citations and figures, used by most social work journals."],
+  ["Abbreviations in the example", "VA: U.S. Department of Veterans Affairs. Post-9/11 veterans: people who served after September 11, 2001. PHQ-9: Patient Health Questionnaire-9, a depression scale."]
+];
+function termsHTML(){ return '<dl class="glossary">' + GLOSSARY.map(function(g){ return '<dt>' + esc(g[0]) + '</dt><dd>' + esc(g[1]) + '</dd>'; }).join("") + '</dl>'; }
 function withTodo(title, body){
   var td = TODO[title]; if(!td) return body;
   var li = body.indexOf('<p class="lede">'), at = li >= 0 ? body.indexOf('</p>', li) + 4 : body.indexOf('</h2>') + 5;
@@ -495,10 +529,10 @@ function prefillFromProps(){
 }
 function basisLabel(id){ var b = S.bases[id]; for(var i = 0; i < BASIS.length; i++) if(BASIS[i][0] === b) return BASIS[i][1]; return ""; }
 function rsn(id){ var r = (S.reasons[id] || "").trim(), b = basisLabel(id); return r || b ? (b ? "(Based on: " + b + ") " : "") + (r || "[reason not yet written]") : ""; }
-function starter(e){ return e.mod ? "Because ___, the " + e.label.replace(/^.*?→ moderates /, "") + " path should be stronger for ___ than for ___." : "Because ___, more " + nodeLabel(e.from).toLowerCase() + " should lead to " + (sign(e.id) === "-" ? "less" : "more") + " " + nodeLabel(e.to).toLowerCase() + "."; }
+function starter(e){ return e.mod ? "Because ___, the " + e.label.replace(/^.*?→ moderates /, "") + " arrow should be stronger for ___ than for ___." : "Because ___, more " + nodeLabel(e.from).toLowerCase() + " should lead to " + (sign(e.id) === "-" ? "less" : "more") + " " + nodeLabel(e.to).toLowerCase() + "."; }
 function ask(id){ return !!S.needsSource[id]; }
 function oq(id){ return S.openQ[id] || {}; }
-function hn(n){ return S.hypWord === "P" ? "Proposition " + n : "H" + n; }
+function hn(n){ return S.hypWord === "P" ? "Statement " + n : "H" + n; }
 function askHs(){ return hypList().filter(function(h){ return h.edge && ask(h.edge); }).map(function(h){ var q = oq(h.edge); return "Open question (" + hn(h.n) + "): " + ((q.unsure || "").trim() || "[not yet described]") + ". Plan: " + ((q.where || "").trim() || "[not yet chosen]"); }); }
 /* "Adolescents in foster care" reads as "among adolescents in foster care"; acronyms (VA, LGBTQ+) keep their case. */
 /* Build the population phrase from its four parts: Who + age or life stage + where + when or qualifying event. */
@@ -517,7 +551,10 @@ function composePop(p){
   p = p || {};
   return [popClean(p.who), popAge(popClean(p.age)), popWhere(popClean(p.where)), popLower(popClean(p.when))].filter(Boolean).join(" ");
 }
-function whoIn(){ var w = S.who.trim(); return /^[A-Z][a-z]/.test(w) ? w.charAt(0).toLowerCase() + w.slice(1) : w; }
+/* Lowercase the first word inside a sentence only when it is a common word. Nationalities, places, and
+   other proper nouns ("Nigerian", "Texas", "Black", "Latine") keep their capital letter. */
+var COMMON_FIRST = /^(adults?|older|young|younger|middle-aged|adolescents?|youth|teens?|teenagers?|children|child|infants?|toddlers?|students?|undergraduates?|undergraduate|graduate|doctoral|first-generation|college|university|high|low-income|low|rural|urban|suburban|women|men|girls|boys|mothers|fathers|parents|caregivers?|families|family|people|persons|individuals|patients|clients|consumers|workers|employees|nurses|physicians|social|teachers|veterans?|service|military|active-duty|post-9\/11|homeless|unhoused|incarcerated|formerly|currently|recently|immigrant|immigrants|refugee|refugees|asylum|undocumented|foster|kinship|sexual|gender|transgender|nonbinary|lesbian|gay|bisexual|queer|retired|widowed|single|married|divorced|pregnant|postpartum|new|current|former|community-dwelling|community|adult|frontline|health|healthcare|emergency|licensed|unemployed|uninsured|those|members|residents|survivors|users|older-adult|aging|grandparents|siblings|couples|partners|spouses)\b/i;
+function whoIn(){ var w = S.who.trim(); return /^[A-Z][a-z]/.test(w) && COMMON_FIRST.test(w) ? w.charAt(0).toLowerCase() + w.slice(1) : w; }
 /* One main question, then numbered subquestions: one for the mediator, one per moderator. */
 function rqMain(){
   var who = whoIn() || "[who]", out = (S.outcome.trim() || "[outcome]").toLowerCase(), cs = causes().map(function(c){ return c.toLowerCase(); });
@@ -550,8 +587,8 @@ function hypList(){
   return H;
 }
 function hypText(){ return hypList().map(function(h){ return h.text; }).join("\n\n"); }
-function hnumBadge(id){ var h = hypList().filter(function(x){ return x.edge === id; })[0]; return h ? '<span class="arrow-lbl">Arrow</span><span class="badge hnum" title="' + (S.hypWord === "P" ? "Proposition " : "Hypothesis ") + h.n + '">' + hlabel(h) + '</span>' : ''; }
-function hlabel(h){ return S.hypWord === "P" ? "P" + h.n : "H" + h.n; }
+function hnumBadge(id){ var h = hypList().filter(function(x){ return x.edge === id; })[0]; return h ? '<span class="arrow-lbl">Arrow</span><span class="badge hnum" title="' + (S.hypWord === "P" ? "Statement " : "Hypothesis ") + h.n + '">' + hlabel(h) + '</span>' : ''; }
+function hlabel(h){ return S.hypWord === "P" ? "S" + h.n : "H" + h.n; }
 function srcOf(id){ var k = linkOf(id); if(k >= 0) return propShort(k); return basisLabel(id) || (ask(id) ? "Needs a source" : "Not linked"); }
 function hypRows(){
   var H = hypList(), direct = H.filter(function(h){ return h.kind === "direct"; });
@@ -563,7 +600,7 @@ function hypRows(){
 }
 function hypTable(forWord){
   var st = forWord ? ' style="border:1px solid #000;padding:4px 6px;vertical-align:top;text-align:left"' : '';
-  return '<table class="ctab"' + (forWord ? ' style="border-collapse:collapse;width:100%"' : '') + '><thead><tr><th' + st + '>' + (S.hypWord === "P" ? "Proposition" : "Hypothesis") + '</th><th' + (forWord ? st : ' style="min-width:13em"') + '>Comes from</th><th' + st + '>Reason</th></tr></thead><tbody>' +
+  return '<table class="ctab"' + (forWord ? ' style="border-collapse:collapse;width:100%"' : '') + '><thead><tr><th' + st + '>' + (S.hypWord === "P" ? "Statement" : "Hypothesis") + '</th><th' + (forWord ? st : ' style="min-width:13em"') + '>Comes from</th><th' + st + '>Reason</th></tr></thead><tbody>' +
     hypRows().map(function(r){ var L = function(x){ return forWord ? st : ' data-label="' + x + '"'; }; return '<tr><td' + L(S.hypWord === "P" ? "Statement" : "Hypothesis") + '>' + esc(r.h) + '</td><td' + L("Comes from") + '>' + esc(r.src) + '</td><td' + L("Reason") + '>' + esc(r.reason) + '</td></tr>'; }).join("") + '</tbody></table>' + hypRefs(forWord);
 }
 /* Full APA references for every source cited in the Comes from column, alphabetical. */
@@ -587,10 +624,10 @@ function autoCaption(){
 function checks(){
   var c = [], E = allEdges();
   var miss = E.filter(function(e){ return !(S.reasons[e.id] || "").trim() && !ask(e.id); });
-  c.push({ok: !miss.length, text: miss.length ? "Missing a reason for: " + miss.map(function(e){ return e.label; }).join("; ") + ". Each arrow is a claim you will need to defend." : "Every path has a reason.", fix: "Why this arrow?"});
+  c.push({ok: !miss.length, text: miss.length ? "Missing a reason for: " + miss.map(function(e){ return e.label; }).join("; ") + ". Each arrow is a claim you will need to defend." : "Every arrow has a reason.", fix: "Why this arrow?"});
   askHs().forEach(function(q){ c.push({ok: false, soft: true, text: q, fix: "Why this arrow?"}); });
   var nl = paths().filter(function(p){ var b = S.bases[p.id]; return linkOf(p.id) < 0 && b !== "research" && b !== "practice"; });
-  c.push({ok: !nl.length, soft: true, text: nl.length ? "Not linked to a theory proposition: " + nl.map(pathLabel).join("; ") + ". Link one, or note it rests on prior research or practice." : "Every path is tied to a proposition or to research/practice.", fix: "Why this arrow?"});
+  c.push({ok: !nl.length, soft: true, text: nl.length ? "Not linked to a theory proposition: " + nl.map(pathLabel).join("; ") + ". Link one, or note it rests on prior research or practice." : "Every arrow is tied to a proposition or to research or practice.", fix: "Why this arrow?"});
   var mm = paths().filter(function(p){ return mismatch(p.id); });
   if(paths().some(function(p){ return linkOf(p.id) >= 0; })) c.push({ok: !mm.length, soft: true, text: mm.length ? "Direction differs from the linked proposition: " + mm.map(function(p){ return pathLabel(p) + " is " + signChar(sign(p.id)) + ", but P" + (linkOf(p.id) + 1) + " says " + signChar(propSign(linkOf(p.id))); }).join("; ") + ". Check the source, then set the direction yourself." : "Every linked arrow matches its proposition's direction.", fix: "Line styles"});
   var np = S.props.filter(function(q){ return !(q.page || "").trim() && !q.isNew; });
@@ -598,7 +635,7 @@ function checks(){
   var nd = nodes().filter(function(n){ return !((S.cdef[n.id] || {}).def || "").trim(); });
   c.push({ok: !nd.length, soft: true, text: nd.length ? "No conceptual definition yet for: " + nd.map(function(n){ return n.label; }).join("; ") + "." : "Every concept has a conceptual definition.", fix: "Define concepts"});
   var nb = E.filter(function(e){ return !S.bases[e.id] && !ask(e.id); });
-  c.push({ok: !nb.length, soft: true, text: nb.length ? "No “based on” choice yet for: " + nb.map(function(e){ return e.label; }).join("; ") + "." : "Every path says what its reason is based on.", fix: "Why this arrow?"});
+  c.push({ok: !nb.length, soft: true, text: nb.length ? "No “based on” choice yet for: " + nb.map(function(e){ return e.label; }).join("; ") + "." : "Every arrow says what its reason is based on.", fix: "Why this arrow?"});
   var o = lc(S.outcome), dup = causes().filter(function(x){ return x.toLowerCase() === o; });
   c.push({ok: !dup.length, text: dup.length ? "“" + dup[0] + "” is listed as both a cause and the outcome. A box can't cause itself." : "No box is both a cause and the outcome.", fix: "Causes"});
   var md = hasMed() && lc(S.mediator) === o;
@@ -607,7 +644,7 @@ function checks(){
   c.push({ok: !!wh && wh.split(/\s+/).length > 2 && !vague, soft: true, text: !wh ? "No population entered yet." : vague || wh.split(/\s+/).length <= 2 ? "Your population (“" + wh + "”) is very general. Name who they are and where they are, for example “Post-9/11 U.S. veterans enrolled in VA mental health care.”" : "Your population names a specific group.", fix: "Who"});
   c.push({ok: causes().length <= 4, text: causes().length <= 4 ? "4 or fewer causes." : "More than 4 causes makes the figure hard to explain.", fix: "Causes"});
   var ms = modEdges(), bm = ms.filter(function(e){ var d = S.modDetails[e.name] || {}; return !(d.groups || "").trim() || !e.path; });
-  c.push({ok: !bm.length, text: !ms.length ? "No moderators (fine)." : bm.length ? "Describe the groups compared (and the path changed) for: " + bm.map(function(e){ return e.name; }).join(", ") + "." : "Each moderator has groups described and is linked to a path.", fix: "Moderator details"});
+  c.push({ok: !bm.length, text: !ms.length ? "No moderators (fine)." : bm.length ? "Describe the groups compared (and the path changed) for: " + bm.map(function(e){ return e.name; }).join(", ") + "." : "Each moderator has groups described and an arrow chosen.", fix: "Moderator details"});
   theoryList().forEach(function(t){
     var sem = (t.seminal || "").trim(); if(!sem) return;
     var other = Object.keys(SEMINAL).filter(function(k){ return k !== t.pick && SEMINAL[k] === sem; })[0];
@@ -689,9 +726,9 @@ function boxInfo(id){
 }
 function stuckHTML(e, i){
   var from = e.from, to = e.mod ? null : e.to, g = e.mod ? "" : sign(e.id) === "-" ? "have less " + nodeLabel(to).toLowerCase() : "have more " + nodeLabel(to).toLowerCase();
-  return '<details class="stuck noprint"><summary>I\'m stuck</summary><div class="stuck-body"><p style="margin:2px 0"><strong>1. Check your boxes.</strong> Could you explain each to a classmate?</p><ul style="margin:2px 0 6px 1.2em;padding:0">' + boxInfo(from) + (to ? boxInfo(to) : boxInfo(e.path.split(">")[0]) + boxInfo(e.path.split(">")[1])) +
-    '</ul><p style="margin:2px 0"><strong>2. Say it out loud.</strong></p><p style="margin:2px 0;line-height:2.4">When someone has more <input type="text" class="inline-in" aria-label="first blank" id="sa' + i + '" value="' + esc(nodeLabel(from).toLowerCase()) + '">, they tend to <input type="text" class="inline-in" aria-label="second blank" id="sb' + i + '" value="' + esc(g) + '"> because <input type="text" class="inline-in" aria-label="third blank" id="sc' + i + '" placeholder="your reason">.</p><p style="margin:4px 0"><button type="button" class="btn sec sm" data-saycopy="' + i + '" data-ta="rs' + i + '">Copy into reason box</button></p>' +
-    '<p style="margin:8px 0 2px"><strong>3. Flag it.</strong> <label style="display:inline-flex;gap:8px;align-items:center;font-weight:500;margin:0"><input type="checkbox" data-needssource="' + esc(e.id) + '" ' + (ask(e.id) ? "checked" : "") + '> <span><strong>Needs a source</strong> (you can move on and come back)</span></label></p>' +
+  return '<details class="stuck noprint"><summary>Need help writing a reason?</summary><div class="stuck-body"><p style="margin:2px 0"><strong>1. Check your boxes.</strong> Could you explain each to a classmate?</p><ul style="margin:2px 0 6px 1.2em;padding:0">' + boxInfo(from) + (to ? boxInfo(to) : boxInfo(e.path.split(">")[0]) + boxInfo(e.path.split(">")[1])) +
+    '</ul><p style="margin:2px 0"><strong>2. Complete this sentence.</strong></p><p style="margin:2px 0;line-height:2.4">When someone has more <input type="text" class="inline-in" aria-label="first blank" id="sa' + i + '" value="' + esc(nodeLabel(from).toLowerCase()) + '">, they tend to <input type="text" class="inline-in" aria-label="second blank" id="sb' + i + '" value="' + esc(g) + '"> because <input type="text" class="inline-in" aria-label="third blank" id="sc' + i + '" placeholder="your reason">.</p><p style="margin:4px 0"><button type="button" class="btn sec sm" data-saycopy="' + i + '" data-ta="rs' + i + '">Copy into reason box</button></p>' +
+    '<p style="margin:8px 0 2px"><strong>3. Mark it for later.</strong> <label style="display:inline-flex;gap:8px;align-items:center;font-weight:500;margin:0"><input type="checkbox" data-needssource="' + esc(e.id) + '" ' + (ask(e.id) ? "checked" : "") + '> <span><strong>Needs a source</strong> (you can move on and come back)</span></label></p>' +
     '<div data-oqbox="' + esc(e.id) + '" ' + (ask(e.id) ? '' : 'hidden') + '><label for="ou' + i + '">What I\'m unsure about</label><input type="text" id="ou' + i + '" data-oqu="' + esc(e.id) + '" placeholder="e.g., how self-efficacy differs from outcome expectancies" value="' + esc(oq(e.id).unsure || "") + '"><label for="ow' + i + '">Where I\'ll look</label><div class="choices compact" style="margin:4px 0">' +
     WHERE.map(function(w){ return '<button type="button" class="choice" data-wchip="' + esc(e.id) + '" data-ti="ow' + i + '" data-val="' + w + '" aria-pressed="' + ((oq(e.id).where || "").indexOf(w) >= 0) + '"><strong>' + w + '</strong></button>'; }).join("") +
     '</div><input type="text" id="ow' + i + '" data-oqw="' + esc(e.id) + '" placeholder="Pick above and/or type, e.g., Ajzen (1991)" value="' + esc(oq(e.id).where || "") + '"></div></div></details>';
@@ -721,7 +758,7 @@ var STEPS = [
       '<div><label for="pp_age">Age or life stage <span class="opt">(if it matters)</span><span class="hint">You can type 18-34 or 65+. Leave it empty if any age.</span></label><input type="text" id="pp_age" data-pp="age" placeholder="e.g., ages 18 to 34" value="' + esc(S.pop.age) + '"></div>' +
       '<div><label for="pp_where">Where <span class="opt">(if it matters)</span><span class="hint">The setting or place. The app adds “in” if you leave it out.</span></label><input type="text" id="pp_where" data-pp="where" placeholder="e.g., enrolled in VA mental health care" value="' + esc(S.pop.where) + '"></div>' +
       '<div><label for="pp_when">When or qualifying event <span class="opt">(if it matters)</span><span class="hint">Timing, or an event that makes someone part of the group.</span></label><input type="text" id="pp_when" data-pp="when" placeholder="e.g., within 6 months of discharge" value="' + esc(S.pop.when) + '"></div></div>' +
-      '<div class="popfull"><label for="f_who">Your population<span class="hint">Built from the boxes above. Read it aloud. If it does not read well, edit it here.</span></label><textarea id="f_who" class="auto oneline" rows="1" data-popfull="1">' + esc(S.who) + '</textarea>' +
+      '<div class="popfull"><label for="f_who">Your population<span class="hint">Built from the boxes above. Read it once. If it does not read well, edit it here.</span></label><textarea id="f_who" class="auto oneline" rows="1" data-popfull="1">' + esc(S.who) + '</textarea>' +
       '<p class="small" id="popNote"' + (S.popEdited ? '' : ' hidden') + ' style="margin:6px 0 0">You edited the phrase, so it no longer updates from the boxes. <button type="button" class="linkbtn" id="popRebuild">Rebuild from the boxes</button></p></div>';
   }, v: function(){ return S.who.trim() ? "" : "Fill in Who: the group you are studying."; }},
 /* 2 */ {t: "Outcome", g: "Question", r: function(){
@@ -737,12 +774,12 @@ var STEPS = [
       teachBox("outdef", "How to say what counts", "Say what you will count or measure, over what time, and from what source.", '<p>This is the <strong>operational definition</strong>: how the outcome will be counted or measured. (You write what it means, the conceptual definition, on the Define concepts step.) Include three things:</p>' +
       '<ul style="margin:0 0 10px 1.2em;padding:0"><li><strong>What:</strong> the behavior, score, or status, with a cutoff if there is one (at least 8 sessions; a score of 10 or more).</li><li><strong>When:</strong> the time window (within 14 weeks of intake; in the past 2 weeks; at 12 months).</li><li><strong>Source:</strong> where the information comes from (clinic records; a named self-report scale; an interview; an administrative database).</li></ul>' +
       '<p style="margin-bottom:4px"><strong>Weak:</strong> Going to therapy<br><strong>Better:</strong> Number of therapy sessions attended<br><strong>Strong:</strong> Attending at least 8 psychotherapy sessions within 14 weeks of intake (clinic records)</p>' +
-      '<p style="margin:10px 0 0"><strong>Using a published scale?</strong> Name it and say what score counts (for example, a score of 10 or more on the PHQ-9 for depressive symptoms).<br><strong>Keep it to one outcome.</strong> If you list two measures, say which is the main one.</p>') +
+      '<p style="margin:10px 0 0"><strong>Using a published scale?</strong> Name it and say what score counts (for example, a score of 10 or more on the Patient Health Questionnaire-9, or PHQ-9, for depressive symptoms).<br><strong>Keep it to one outcome.</strong> If you list two measures, say which is the main one.</p>') +
       '<label for="f_def">What counts<span class="hint">Write what you will count or measure, over what time, and where the information comes from.</span></label><textarea id="f_def" class="auto" data-bind="outcomeDef" placeholder="e.g., Attending 8+ sessions in 14 weeks (clinic records); OR 150+ minutes of activity per week (self-report); OR passing all fall courses (transcript)">' + esc(S.outcomeDef) + '</textarea>';
   }, v: function(){ return S.outcomeDef.trim() ? "" : "Describe what counts."; }},
 /* 4 */ {t: "Theory", g: "Theory", r: function(){
     var a = approach(), max = a[4];
-    var h = '<h2 id="stepTitle">Theory: which theory explains why this happens?</h2><p class="lede">Choose the theory that explains your outcome. Add a second theory only if the model needs one. <a href="library.html" target="_blank" rel="noopener">Browse theories, models, and frameworks</a> to compare them first.</p>';
+    var h = '<h2 id="stepTitle">Theory: which theory explains why this happens?</h2><p class="lede">Choose the theory that explains your outcome. Add a second theory only if the model needs one. <a href="library.html" target="_blank" rel="noopener">Open the theory library</a> to compare theories, models, and frameworks first. It opens in a new tab.</p>';
     h += '<div class="item"><div class="item-h"><span class="tbadge tA">A</span><strong>' + esc(roleOf(0)) + '</strong></div><label for="f_theory">Theory<span class="hint">Choose a theory, model, or framework from the list, or choose Type my own. The panel below shows its type, seminal source, and common propositions.</span></label><select id="f_theory" data-theorya="1"><option value="">Choose a theory…</option>' + theoryOptions(S.theory) + '</select>' + (LIB[S.theory] ? libCard(S.theory) : '') + (S.theory === "custom" ? '<label for="f_th">Theory name<span class="hint">Type the full name of the theory.</span></label><input type="text" id="f_th" data-bind="theoryCustom" placeholder="e.g., Social Exchange Theory" value="' + esc(S.theoryCustom) + '">' : '') + '</div>';
     S.more.forEach(function(t, i){
       var L = String.fromCharCode(66 + i);
@@ -798,7 +835,7 @@ var STEPS = [
     });
     h += '</ol>';
     if(S.causes.length < 4) h += '<p><button type="button" class="btn sec" id="addCause">+ Add a cause</button></p>';
-    h += '<h3 class="subh">Add a social determinant as a cause</h3><p class="small">Social workers look at the person in their environment. Structural conditions can be causes, not just who a path is stronger for.</p><div>' + chipRow(SDOH_CAUSES) + '</div>';
+    h += '<h3 class="subh">Add a social determinant as a cause</h3><p class="small">Social workers look at the person in their environment. Structural conditions can be causes, not only conditions that make an arrow stronger.</p><div>' + chipRow(SDOH_CAUSES) + '</div>';
     return h + tip("path") + tip("pie");
   }, v: function(){ return causes().length ? "" : "List at least one cause."; }},
 /* 7 */ {t: "In-between", g: "Model", r: function(){
@@ -810,11 +847,11 @@ var STEPS = [
     return h + tip("med");
   }, v: function(){ if(!S.medYN) return "Pick one."; if(S.medYN === "yes" && !S.mediator.trim()) return "Name the in-between, or choose No."; return ""; }},
 /* 8 */ {t: "Moderation", g: "Model", r: function(){
-    var h = '<h2 id="stepTitle">Moderation: is an arrow stronger for some people?</h2><p class="lede">For example: is a link stronger for some people, places, or times than for others?</p>' + modConceptBox() + choices("modYN", [["yes", "Yes", ""], ["no", "No", ""], ["unsure", "Not sure", "Let me look at options."]]);
+    var h = '<h2 id="stepTitle">Moderation: is an arrow stronger for some people?</h2><p class="lede">For example: is an arrow stronger for some people, places, or times than for others?</p>' + modConceptBox() + choices("modYN", [["yes", "Yes", ""], ["no", "No", ""], ["unsure", "Not sure", "Let me look at options."]]);
     if(S.modYN === "yes") h += jargon("That\'s called <strong>moderation</strong>. The thing that changes the strength is a <strong>moderator</strong>.");
     function cb(m, lab){ return '<label><input type="checkbox" data-mod="' + esc(m) + '" ' + (S.modPicked.indexOf(m) >= 0 ? "checked" : "") + '> <span>' + esc(lab || m) + (MHINT[m] ? '<span class="hint">' + esc(MHINT[m]) + '</span>' : '') + '</span></label>'; }
     if(S.modYN === "yes" || S.modYN === "unsure"){
-      h += '<fieldset><legend>Pick any that might change a path:</legend><h3 class="subh">Personal characteristics</h3><div class="checkgrid">' + MODS.map(function(m){ return cb(m); }).join("") + '</div><h3 class="subh">Social determinants</h3><p class="small" style="margin:0 0 8px">Conditions where people are born, live, learn, work, and age. They shape health and many other outcomes, such as education, housing, and justice involvement.</p><div class="checkgrid">' + MODS_SDOH.map(function(m){ return cb(m); }).join("") + '</div>';
+      h += '<fieldset><legend>Pick any that might change an arrow:</legend><h3 class="subh">Personal characteristics</h3><div class="checkgrid">' + MODS.map(function(m){ return cb(m); }).join("") + '</div><h3 class="subh">Social determinants</h3><p class="small" style="margin:0 0 8px">Conditions where people are born, live, learn, work, and age. They shape health and many other outcomes, such as education, housing, and justice involvement.</p><div class="checkgrid">' + MODS_SDOH.map(function(m){ return cb(m); }).join("") + '</div>';
       if(engageish()) h += '<h3 class="subh">Care-specific (optional, for treatment/care outcomes)</h3><div class="checkgrid">' + MODS2.map(function(m){ return cb(m); }).join("") + '</div>';
       h += '<div class="checkgrid" style="margin-top:10px">' + cb("__other", "Other (type your own)") + '<label><input type="checkbox" id="modSkip" ' + (S.modSkip ? "checked" : "") + '> <span>Skip</span></label></div></fieldset>';
       if(S.modPicked.indexOf("__other") >= 0){
@@ -843,7 +880,9 @@ var STEPS = [
         (sg && mismatch(id) ? '<div class="warn" role="note">This differs from P' + (k + 1) + '. Check the source before you decide.</div>' : '') + '</div>';
     }
     paths().forEach(function(p){ h += row(p.id, pathLabel(p), "solid", true); });
+    var medH = hypList().filter(function(x){ return x.kind === "mediation"; })[0];
     modEdges().forEach(function(e){ var p = paths().filter(function(x){ return x.id === e.path; })[0]; if(!p) return; h += '<div class="item"><div class="item-h">' + hnumBadge(e.id) + '<strong>' + esc(e.name + " → changes the arrow " + pathLabel(p)) + '</strong></div><p class="small" style="margin:6px 0 0"><strong>Line:</strong> dashed. Moderator arrows are always dashed.</p></div>'; });
+    if(medH) h += '<p class="small">' + hlabel(medH) + ' is your mediation ' + (S.hypWord === "P" ? "statement" : "hypothesis") + '. It has no single arrow because it is about the path through ' + esc(S.mediator.trim().toLowerCase()) + '. You will see it on the results page.</p>';
     return h + tip("fig");
   }, v: function(){ return ""; }},
 /* 11 */ {t: "Why this arrow?", g: "Arrows", r: function(){
@@ -853,7 +892,7 @@ var STEPS = [
       h += '<div class="item" id="arw' + i + '" ' + (!e.mod && S.props.length ? 'data-drop="edge" data-edge="' + esc(e.id) + '"' : '') + '><div class="item-h">' + hnumBadge(e.id) + '<strong>' + esc(e.label) + '</strong>' + (e.mod ? '' : '<span class="kind">' + signChar(sign(e.id)) + ' · ' + style(e.id, "solid") + '</span>') + '</div>' +
         '<fieldset style="margin:8px 0"><legend class="small" style="font-weight:650">Your reason is based on… <span aria-hidden="true">*</span></legend><div class="choices compact" style="margin:4px 0" role="radiogroup" aria-label="Your reason is based on, for ' + esc(e.label) + '">' + BASIS.map(function(o){ return '<button type="button" class="choice" role="radio" data-basis="' + esc(e.id) + '" data-val="' + o[0] + '" aria-checked="' + (b === o[0]) + '"><strong>' + o[1] + '</strong></button>'; }).join("") + '</div></fieldset>' +
         linkBlock(e, i) +
-        '<label for="rs' + i + '" class="small">' + esc(e.mod ? "Why would this path be stronger or weaker for these groups?" : "In one sentence, how does " + nodeLabel(e.from) + " change " + nodeLabel(e.to) + "?") + '</label><textarea id="rs' + i + '" class="auto" data-reason="' + esc(e.id) + '" style="min-height:60px" placeholder="' + esc(starter(e)) + '">' + esc(r) + '</textarea>' +
+        '<label for="rs' + i + '" class="small">' + esc(e.mod ? "Why would this arrow be stronger or weaker for these groups?" : "In one sentence, how does " + nodeLabel(e.from) + " change " + nodeLabel(e.to) + "?") + '</label><textarea id="rs' + i + '" class="auto" data-reason="' + esc(e.id) + '" style="min-height:60px" placeholder="' + esc(starter(e)) + '">' + esc(r) + '</textarea>' +
         '<p class="noprint" style="margin:6px 0"><button type="button" class="btn sec sm" data-starter="' + esc(e.id) + '" data-ta="rs' + i + '">Use a starter</button></p>' + stuckHTML(e, i) +
         '<p class="flag src" data-askflag="' + esc(e.id) + '" ' + (ask(e.id) ? '' : 'hidden') + '>📚 Flagged: needs a source.</p><p class="flag" data-flag="' + esc(e.id) + '" ' + (r.trim() ? 'hidden' : '') + '>⚠ No reason yet: this arrow is not ready.</p></div>';
     });
@@ -885,15 +924,20 @@ var STEPS = [
     return h + tip("concepts");
   }, v: function(){ return ""; }},
 /* 16 */ {t: "Paper notes", g: "Finish", r: function(){
-    var n = S.notes, h = '<h2 id="stepTitle">Paper notes <span class="opt">Optional</span></h2><p class="lede">Notes for the parts of the paper that are not in the figure. They are included in the Word download on the results page.</p>';
+    var n = S.notes, h = '<h2 id="stepTitle">Paper notes <span class="opt">Optional</span></h2><p class="lede">Notes for the parts of the paper that are not in the figure. They are included in the Word download on the results page. This step is optional: you can finish the app without it.</p>' +
+      teachBox("notesbox", "Words used on this step", "Paradigm, ontology, and epistemology, in plain words.", '<ul style="margin:0 0 6px 1.2em;padding:0">' +
+      '<li><strong>Paradigm:</strong> a set of beliefs about what research is and how it should be done.<ul style="margin:4px 0 6px 1.2em;padding:0"><li><strong>Positivist:</strong> reality exists and can be measured directly.</li><li><strong>Postpositivist:</strong> reality exists but can only be measured imperfectly.</li><li><strong>Critical / transformative:</strong> research examines power and aims to change unfair conditions.</li><li><strong>Constructivist / interpretivist:</strong> reality is built from people\'s meanings, so you study their views.</li><li><strong>Pragmatist:</strong> use whatever methods best answer the question.</li></ul></li>' +
+      '<li><strong>Ontology:</strong> beliefs about what is real. Example: “Beliefs and behavior are real and exist apart from the researcher.”</li>' +
+      '<li><strong>Epistemology:</strong> beliefs about how we can know what is real. Example: “We can know beliefs through standardized surveys.”</li>' +
+      '<li><strong>Limits:</strong> what the theory helps you see, and what it leaves out. Example: “It explains individual choices but not access barriers such as distance to care.”</li></ul>');
     function ta(key, lab, ph){ return '<label for="n_' + key + '">' + lab + '</label><textarea id="n_' + key + '" class="auto" data-note="' + key + '" placeholder="' + esc(ph || "") + '">' + esc(n[key] || "") + '</textarea>'; }
     h += '<div class="panel"><h3>Target journal</h3><label for="n_journal" class="sr">Target journal</label><input type="text" id="n_journal" data-note="journal" placeholder="A journal that publishes conceptual or theoretical articles" value="' + esc(n.journal || "") + '"></div>';
     h += '<div class="panel"><h3>The problem</h3>' + ta("phenomenon", "Social phenomenon or problem", "What is happening, and for whom?") + ta("typical", "How the problem is typically defined, and why", "") + ta("alternative", "Alternative ways to define or conceptualize it, with your rationale", "") + ta("need", "Why the theory needs analysis now, based on new research", "") + '</div>';
     theoryList().forEach(function(t){
       var a = S.assume[t.id] || {};
       function af(key, lab){ return '<label for="a_' + t.id + key + '">' + lab + '</label><textarea id="a_' + t.id + key + '" class="auto" data-as="' + t.id + '" data-af="' + key + '">' + esc(a[key] || "") + '</textarea>'; }
-      h += '<div class="panel"><h3><span class="tbadge' + tc(t.id) + '">' + t.id + '</span> ' + esc(tName(t)) + '</h3><label for="a_' + t.id + 'par">Paradigm<span class="hint">Choose the research paradigm the theory fits best.</span></label><select id="a_' + t.id + 'par" data-as="' + t.id + '" data-af="paradigm"><option value="">Choose…</option>' + PARADIGMS.map(function(p){ return '<option ' + (a.paradigm === p ? "selected" : "") + '>' + p + '</option>'; }).join("") + '</select>' +
-        af("ontology", "Core ontological assumption (what is real?)") + af("epistemology", "Core epistemological assumption (how can it be known?)") + af("history", "Ideas or historical trends that shaped it") + af("limits", "What it makes visible, and what it limits or leaves out") + af("practice", "Links to social work practice, policy, and research") + '</div>';
+      h += '<div class="panel"><h3><span class="tbadge' + tc(t.id) + '">' + t.id + '</span> ' + esc(tName(t)) + '</h3><label for="a_' + t.id + 'par">Paradigm<span class="hint">Choose the paradigm the theory fits best. See the green box above for what each one means.</span></label><select id="a_' + t.id + 'par" data-as="' + t.id + '" data-af="paradigm"><option value="">Choose…</option>' + PARADIGMS.map(function(p){ return '<option ' + (a.paradigm === p ? "selected" : "") + '>' + p + '</option>'; }).join("") + '</select>' +
+        af("ontology", "Ontology: what the theory assumes is real") + af("epistemology", "Epistemology: how the theory assumes we can know it") + af("history", "Ideas or historical trends that shaped it") + af("limits", "What it makes visible, and what it limits or leaves out") + af("practice", "Links to social work practice, policy, and research") + '</div>';
     });
     return h + tip("notes");
   }, v: function(){ return ""; }}
@@ -922,7 +966,7 @@ function medConceptBox(){
   return teachBox("med", "Mediator: how to decide", "A mediator is the in-between step that explains <em>why</em> the cause works.", '' +
     '<p><strong>A mediator</strong> is the in-between step. The cause changes the mediator first, and the mediator then changes the outcome. It explains <em>why</em> the cause works.</p>' +
     '<p><strong>Test (the why question):</strong> “Why does ___ lead to ' + esc((S.outcome || "the outcome").toLowerCase()) + '? Because it changes ___, and that changes ' + esc((S.outcome || "the outcome").toLowerCase()) + '.” The answer in the second blank is your mediator (Jaccard &amp; Jacoby, 2020).</p>' + fig +
-    '<p><strong>Mediator or moderator?</strong> A mediator is a box <em>on</em> the path and answers “why.” A moderator points <em>at</em> an arrow and answers “for whom, where, or when is the link stronger.”</p>' +
+    '<p><strong>Mediator or moderator?</strong> A mediator is a box <em>on</em> the path and answers “why.” A moderator points <em>at</em> an arrow and answers “for whom, where, or when is the arrow stronger.”</p>' +
     '<p><strong>Complete or partial?</strong> In <em>complete</em> mediation, the cause changes the outcome only through the mediator. In <em>partial</em> mediation, the cause also changes the outcome directly. Ask: can I name any other way this cause changes the outcome? If yes, it is partial (Jaccard &amp; Jacoby, 2020). You choose this for each cause below.</p>');
 }
 function modConceptBox(){
@@ -941,12 +985,12 @@ function modConceptBox(){
     '<line x1="440" y1="110" x2="518" y2="110" stroke="#1d2340" stroke-width="2" marker-end="url(#cmA)"/>' +
     '<line x1="490" y1="62" x2="480" y2="106" stroke="#555c7a" stroke-width="2" stroke-dasharray="6 4" marker-end="url(#cmA)"/>' +
     '<text x="340" y="160" font-size="13" fill="#555c7a">Support changes how strongly stress harms health.</text></g></svg>';
-  return teachBox("mod", "Cause or moderator? How to decide", "A cause changes the outcome. A moderator changes how strong a link is.", '' +
+  return teachBox("mod", "Cause or moderator? How to decide", "A cause changes the outcome. A moderator changes how strong an arrow is.", '' +
     '<p><strong>A cause</strong> changes the outcome itself. Test: “More ___ leads to more (or less) ' + esc((S.outcome || "outcome").toLowerCase()) + '.”</p>' +
-    '<p><strong>A moderator</strong> changes how strong a link is. It sits on an arrow, not on a box. Test: “The link between ___ and ___ is stronger for people with high ___ than for people with low ___.”</p>' + fig +
+    '<p><strong>A moderator</strong> changes how strong an arrow is. It sits on an arrow, not on a box. Test: “The link between ___ and ___ is stronger for people with high ___ than for people with low ___.”</p>' + fig +
     '<p><strong>Moderators are not only personal characteristics.</strong> Age and gender can be moderators, and so can conditions in a person’s environment, such as income, housing, neighborhood, or distance to care. Baron and Kenny (1986, p. 1174) list sex, race, and class as examples.</p>' +
     '<p><strong>A social determinant can be a cause or a moderator.</strong> Example: social support. As a cause, more support leads to better mental health. As a moderator, stress harms health less when support is high (the stress-buffering hypothesis; Cohen &amp; Wills, 1985).</p>' +
-    '<p><strong>Choose a moderator only when</strong> your theory, prior research, or practice experience says the condition changes how strong a link is. Do not use the same concept as both a cause and a moderator of the same link unless you can explain why.</p>');
+    '<p><strong>Choose a moderator only when</strong> your theory, prior research, or practice experience says the condition changes how strong an arrow is. Do not use the same concept as both a cause and a moderator of the same arrow unless you can explain why.</p>');
 }
 function chipRow(list){ var have = causes().map(lc), med = hasMed() ? lc(S.mediator) : ""; return list.map(function(c){ var asMed = med && lc(c) === med, used = asMed || have.indexOf(lc(c)) >= 0; return '<button type="button" class="chip' + (used ? " used" : "") + '" data-chip="' + esc(c) + '" ' + (used ? 'aria-disabled="true"' : 'data-drag="chip"') + '>' + (used ? "✓ " : "+ ") + esc(c) + (asMed ? " (used as in-between)" : "") + '</button>'; }).join(""); }
 function stepIdx(t){ for(var i = 0; i < STEPS.length; i++) if(STEPS[i].t === t) return i; return 1; }
@@ -996,7 +1040,7 @@ function renderRail(vis, pos, pct){
     var seen = PREVIEW || S.seen.indexOf(i) >= 0, cur = i === S.step, done = S.seen.indexOf(i) >= 0 && !cur && p < pos;
     h += '<li><button type="button" class="rail-step' + (done ? " done" : "") + '" data-goto="' + i + '" ' + (cur ? 'aria-current="step"' : '') + ' ' + (!seen && !cur ? "disabled" : "") + '><span class="dot" aria-hidden="true">' + (done ? "✓" : p + 1) + '</span><span>' + esc(s.t) + '</span></button></li>';
   });
-  $("rail").innerHTML = h + '</ol></div>';
+  $("rail").innerHTML = h + '</ol><p class="rail-terms"><button type="button" class="linkbtn" data-terms="1">Key terms</button></p></div>';
 }
 function grow(t){ if(!t || !t.classList || !t.classList.contains("auto")) return; t.style.height = "auto"; t.style.height = (t.scrollHeight + 3) + "px"; }
 function growAll(root){ (root || document).querySelectorAll("textarea.auto").forEach(grow); }
@@ -1112,7 +1156,7 @@ function buildSVG(o){
     ps.forEach(function(p){ tagAt[p.id] = [mids[p.id][0] - 16, mids[p.id][1] + 17]; });
     me.forEach(function(e){ var a = P[e.from]; tagAt[e.id] = [(a.x + BW / 2 + modTo[e.id][0]) / 2, (a.y + BH + modTo[e.id][1]) / 2]; });
     var tags = [];
-    if(S.tagMode === "H") hypList().forEach(function(h){ if(h.edge && tagAt[h.edge]) tags.push([tagAt[h.edge], (S.hypWord === "P" ? "" : "H") + h.n]); });
+    if(S.tagMode === "H") hypList().forEach(function(h){ if(h.edge && tagAt[h.edge]) tags.push([tagAt[h.edge], (S.hypWord === "P" ? "S" : "H") + h.n]); });
     else ps.forEach(function(p){ var k = linkOf(p.id); if(k >= 0) tags.push([tagAt[p.id], "P" + (k + 1) + (S.props[k].isNew ? "*" : "")]); });
     tags.forEach(function(t){ var w = Math.max(24, t[1].length * 8 + 10); out.push('<g pointer-events="none"><rect x="' + (t[0][0] - w / 2) + '" y="' + (t[0][1] - 9) + '" width="' + w + '" height="17" rx="3" fill="#fff" stroke="#333"/><text x="' + t[0][0] + '" y="' + (t[0][1] + 4) + '" text-anchor="middle" font-size="12" font-family="Arial, sans-serif" fill="#222">' + esc(t[1]) + '</text></g>'); });
   }
@@ -1129,11 +1173,11 @@ function buildSVG(o){
   var ly = L.H + 30;
   out.push('<g font-size="13" fill="#222"><line x1="30" y1="' + ly + '" x2="90" y2="' + ly + '" stroke="#222" stroke-width="2" marker-end="url(#ah' + uid + ')"/><text x="100" y="' + (ly + 4) + '">Solid: hypothesized path (tested)</text><line x1="370" y1="' + ly + '" x2="430" y2="' + ly + '" stroke="#222" stroke-width="2" stroke-dasharray="8 6" marker-end="url(#ah' + uid + ')"/><text x="440" y="' + (ly + 4) + '">Dashed: moderation or exploratory / not tested</text>');
   var ty = ly + 24;
-  out.push('<text x="30" y="' + ty + '" fill="#444">Theory: ' + esc(view !== "all" ? tName(theoryById(view)) : theoryNames()) + '. Dashed arrows into a path = the moderator changes that path\'s strength.</text>'); ty += 19;
+  out.push('<text x="30" y="' + ty + '" fill="#444">Theory: ' + esc(view !== "all" ? tName(theoryById(view)) : theoryNames()) + '. Dashed arrows into an arrow = the moderator changes that arrow\'s strength.</text>'); ty += 19;
   out.push('<text x="30" y="' + ty + '" fill="#444">Circled + / −: direction. + = more of one leads to more of the next; − = more of one leads to less.</text>'); ty += 19;
   if(bypass){ out.push('<text x="30" y="' + ty + '" fill="#444">Curved arrow: a direct effect that does not pass through the in-between concept (partial mediation).</text>'); ty += 19; }
   if(letters){ var ls = theoryList().map(function(t){ return t.id + " = " + tName(t); }); if(all.some(function(n){ return S.ctag[n.id] === "new"; })) ls.push("N = new concept"); out.push('<text x="30" y="' + ty + '" fill="#444">Circled letters: source of each concept. ' + esc(ls.join("; ")) + '.</text>'); ty += 19; }
-  if(S.tagMode === "H") out.push('<text x="30" y="' + ty + '" fill="#444">' + (S.hypWord === "P" ? "Numbers on arrows match the numbered propositions in the text." : "H numbers on arrows match the hypotheses in the text.") + '</text>');
+  if(S.tagMode === "H") out.push('<text x="30" y="' + ty + '" fill="#444">' + (S.hypWord === "P" ? "S numbers on arrows match the numbered statements in the text." : "H numbers on arrows match the hypotheses in the text.") + '</text>');
   if(S.tagMode === "P") out.push('<text x="30" y="' + ty + '" fill="#444">P numbers on arrows: source proposition' + (S.props.some(function(q){ return q.isNew; }) ? "; * = new proposition" : "") + '.</text>');
   out.push('</g></svg>');
   return out.join("");
@@ -1216,7 +1260,7 @@ function viewBar(){
   return '<span class="lbl">Show</span>' + seg("data-fview", "v", figView(), [["all", "All theories"]].concat(tl.map(function(t){ return [t.id, t.id + " only"]; })), "Which theory to show");
 }
 /* Formatted display of editable text: labels such as "Main question:" and "H1 (direct):" in bold. */
-var LBL = /^((?:Main question|Subquestions?|Research question|Hypothesis \d+|Proposition \d+|H\d+|P\d+)(?:\s*\([^)]*\))*):\s*(.*)$/i;
+var LBL = /^((?:Main question|Subquestions?|Research question|Hypothesis \d+|Proposition \d+|Statement \d+|H\d+|P\d+|S\d+)(?:\s*\([^)]*\))*):\s*(.*)$/i;
 function fmtLines(text){
   return String(text || "").split("\n").map(function(l){
     l = l.trim(); if(!l) return "";
@@ -1246,24 +1290,24 @@ function editable(id, label, text, view, buttons){
 function renderResults(){
   if(!S.rq) S.rq = autoRQ();
   if(!S.caption) S.caption = autoCaption();
-  var aq = askHs(), hw = S.hypWord === "P" ? "Propositions" : "Hypotheses", hyps = S.hyps || hypText();
-  return '<h2 id="stepTitle">Your results</h2><p class="lede">Your research question, ' + hw.toLowerCase() + ', figure, and materials for your paper. Use Edit to change any text; changes save as you type.</p>' +
+  var aq = askHs(), hw = S.hypWord === "P" ? "Numbered statements" : "Hypotheses", hyps = S.hyps || hypText();
+  return '<h2 id="stepTitle">Your results</h2><p class="lede">Your research question, ' + hw.toLowerCase() + ', figure, and materials for your paper. Use Edit to change any text; changes save as you type. <strong>Rebuild from my answers</strong> writes the text again from your steps and replaces your edits.</p>' +
     '<p class="savehint noprint"><strong>Save my work now</strong> so you can come back to this model later. The file opens on any computer: click <strong>Open saved work</strong> and choose it. <button type="button" class="btn yel sm" data-savefile="1">Save my work</button></p>' +
     (aq.length ? '<div class="warn"><strong>📚 Open questions</strong><ul style="margin:4px 0 0 1.2em;padding:0">' + aq.map(function(q){ return "<li>" + esc(q) + "</li>"; }).join("") + '</ul></div>' : '') +
-    rsec("Research question", "", '<p class="small noprint" style="margin:0 0 10px">One main question. A subquestion is added for an in-between step and for each moderator. One question usually has several hypotheses: one for each arrow in your figure.</p>' + editable("rq", "Research question", S.rq, fmtLines(S.rq), '<button class="btn sec sm" type="button" id="copyRQ">Copy</button><button class="btn ghost sm" type="button" id="resetRQ">Regenerate</button>')) +
-    rsec(hw, '<div class="noprint">' + seg("data-hword", "w", S.hypWord, [["H", "Hypotheses"], ["P", "Propositions"]], "Write as") + '</div>',
-      '<p class="small noprint" style="margin:0 0 10px">Empirical papers state hypotheses; conceptual papers often state numbered propositions. <strong>Direct</strong> = one concept affects another; <strong>mediation</strong> = the effect passes through the in-between concept; <strong>moderation</strong> = the strength of a link depends on a third concept.</p>' +
-      editable("hyps", hw, hyps, fmtLines(hyps), '<button class="btn sec sm" type="button" id="copyH">Copy</button><button class="btn ghost sm" type="button" id="resetH">Regenerate</button>') +
+    rsec("Research question", "", '<p class="small noprint" style="margin:0 0 10px">One main question. A subquestion is added for an in-between step and for each moderator. One question usually has several hypotheses: one for each arrow in your figure.</p>' + editable("rq", "Research question", S.rq, fmtLines(S.rq), '<button class="btn sec sm" type="button" id="copyRQ">Copy</button><button class="btn ghost sm" type="button" id="resetRQ">Rebuild from my answers</button>')) +
+    rsec(hw, '<div class="noprint">' + seg("data-hword", "w", S.hypWord, [["H", "Hypotheses (empirical paper)"], ["P", "Numbered statements (conceptual paper)"]], "Write as") + '</div>',
+      '<p class="small noprint" style="margin:0 0 10px">An empirical paper states <strong>hypotheses</strong>: testable predictions, one for each arrow. A conceptual paper states <strong>numbered statements</strong> (some journals call them propositions). These are your own claims, not the theory\'s propositions P1, P2 that you entered earlier. <strong>Direct</strong> = one concept affects another; <strong>mediation</strong> = the effect passes through the in-between concept; <strong>moderation</strong> = the strength of a link depends on a third concept.</p>' +
+      editable("hyps", hw, hyps, fmtLines(hyps), '<button class="btn sec sm" type="button" id="copyH">Copy</button><button class="btn ghost sm" type="button" id="resetH">Rebuild from my answers</button>') +
       '<h4 style="margin:16px 0 6px">Where each one comes from</h4><div class="tablewrap" id="htab">' + hypTable(false) + '</div>') +
     rsec("Path figure", "",
-      '<div class="toolbar noprint"><span class="lbl">Arrow labels</span>' + seg("data-tagmode", "t", S.tagMode, [["H", S.hypWord === "P" ? "Numbers" : "H numbers"], ["P", "P numbers"], ["none", "None"]], "Arrow labels") + viewBar() + '</div>' +
+      '<div class="toolbar noprint"><span class="lbl">Arrow labels</span>' + seg("data-tagmode", "t", S.tagMode, [["H", S.hypWord === "P" ? "S numbers" : "H numbers"], ["P", "P numbers (theory propositions)"], ["none", "None"]], "Arrow labels") + viewBar() + '</div>' +
       '<p class="small noprint" style="margin:0 0 8px">Drag a box to move it. Click an arrow to change it. <button type="button" class="btn sec sm" id="viewFigBig">View figure full screen</button></p><div class="figgrid"><div class="figframe" id="figwrap">' + buildSVG({mode: "screen", uid: "f"}) + '</div><div class="inspector noprint" id="insp">' + inspHTML() + '</div></div>' +
       '<details class="noprint" style="margin-top:12px"><summary>Edit box labels</summary>' + nodes().map(function(n){ return '<label for="lab_' + n.id + '">' + esc(KIND[n.kind]) + '</label><input type="text" id="lab_' + n.id + '" data-lab="' + n.id + '" value="' + esc(n.label) + '">'; }).join("") + '</details>' +
-      '<div class="btnrow noprint" style="margin-top:14px"><button class="btn" type="button" id="dlSVG">Download SVG</button><button class="btn" type="button" id="dlPNG">Download PNG</button><button class="btn sec" type="button" id="cpMer">Copy Mermaid</button><button class="btn sec" type="button" id="print">Print / Save as PDF</button><button class="btn ghost" type="button" id="resetLayout">Reset layout</button></div>' +
-      '<details class="noprint"><summary>Show Mermaid text</summary><pre id="mer" class="mer">' + esc(mermaid()) + '</pre></details>') +
+      '<div class="btnrow noprint" style="margin-top:14px"><button class="btn" type="button" id="dlPNG">Download picture (PNG)</button><button class="btn sec" type="button" id="print">Print or save as PDF</button><button class="btn ghost" type="button" id="resetLayout">Reset layout</button></div>' +
+      '<details class="noprint" style="margin-top:8px"><summary>More formats (for advanced users)</summary><p class="small">SVG is a picture you can resize without blur, for editing in drawing software. Mermaid is text that some writing tools turn into a figure.</p><div class="btnrow"><button class="btn sec sm" type="button" id="dlSVG">Download SVG</button><button class="btn sec sm" type="button" id="cpMer">Copy Mermaid text</button></div><pre id="mer" class="mer">' + esc(mermaid()) + '</pre></details>') +
     rsec("For your paper", "",
       '<h4 style="margin:0 0 4px">Figure caption</h4><p class="small noprint" style="margin:0 0 10px">How Figure 1 looks in an APA 7 paper. The legend inside the figure explains the lines, signs, and labels, so no note is added. To add one, click Edit and type a last line that starts with <strong>Note.</strong> Use a note only for what the figure does not show, such as an abbreviation or a permission statement (“Adapted from …”).</p>' +
-      editable("cap", "Figure caption", S.caption, capHTML(S.caption, true), '<button class="btn sec sm" type="button" id="copyCap">Copy caption</button><button class="btn ghost sm" type="button" id="resetCap">Regenerate</button>') +
+      editable("cap", "Figure caption", S.caption, capHTML(S.caption, true), '<button class="btn sec sm" type="button" id="copyCap">Copy caption</button><button class="btn ghost sm" type="button" id="resetCap">Rebuild from my answers</button>') +
       '<h4 style="margin:20px 0 8px">Key concepts and definitions</h4><div class="tablewrap" id="ctab">' + conceptsTable(false) + '</div><div class="btnrow noprint"><button class="btn sec sm" type="button" id="copyTab">Copy table for Word</button><button class="btn ghost sm" type="button" data-fix="' + stepIdx("Define concepts") + '">Edit definitions</button></div>' +
       (notesHTML() ? '<h4 style="margin:20px 0 8px">Paper notes</h4><div id="notesOut" class="fv">' + notesHTML() + '</div>' : '<p class="small">No paper notes yet. <button type="button" class="linkbtn" data-fix="' + stepIdx("Paper notes") + '">Add paper notes</button></p>') +
       '<div class="btnrow noprint" style="margin-top:14px"><button class="btn" type="button" id="dlDoc">Download paper notes for Word</button></div><p class="small noprint">The Word file collects the question, ' + hw.toLowerCase() + ', caption, concepts table, propositions, and notes. Insert the PNG as Figure 1.</p>', "kit") +
@@ -1306,7 +1350,7 @@ function wordDoc(){
   var title = "Theory paper notes: " + (S.outcome || "model") + " among " + (S.who || "population");
   var body = '<h1>' + esc(title) + '</h1><p><em>Generated ' + esc(new Date().toLocaleDateString()) + ' with the Social Theory Model Builder.</em></p>' +
     '<h2>Research question</h2>' + fmtLines(S.rq || autoRQ()) +
-    '<h2>' + (S.hypWord === "P" ? "Propositions" : "Hypotheses") + '</h2>' + fmtLines(S.hyps || hypText()) + hypTable(true) +
+    '<h2>' + (S.hypWord === "P" ? "Numbered statements" : "Hypotheses") + '</h2>' + fmtLines(S.hyps || hypText()) + hypTable(true) +
     '<h2>Figure caption</h2>' + capHTML(S.caption || autoCaption(), false) +
     '<h2>Key concepts and definitions</h2>' + conceptsTable(true) +
     '<h2>Source propositions</h2>' + propGroups().map(function(g){ return '<p><b>' + g.t.id + ': ' + esc(tName(g.t)) + '.</b> ' + esc(g.t.seminal) + (g.shared ? ' Propositions below: p. ' + esc(g.shared) + '.' : '') + '</p><ul>' + g.ps.map(function(x){ var L = propLine(x[0], x[1], g.shared); return '<li>' + esc(L.head) + ': ' + esc(L.words) + (L.rel ? ' (' + esc(L.rel) + ')' : '') + '</li>'; }).join("") + '</ul>'; }).join("") +
@@ -1356,7 +1400,7 @@ function wireResults(){
   $("rq").addEventListener("input", function(e){ S.rq = e.target.value; S.rqEdited = true; syncViews(); save(); });
   $("hyps").addEventListener("input", function(e){ S.hyps = e.target.value; S.hypsEdited = true; syncViews(); save(); });
   $("cap").addEventListener("input", function(e){ S.caption = e.target.value; S.captionEdited = true; syncViews(); save(); });
-  $("copyH").onclick = function(){ copyRich(fmtLines($("hyps").value), $("hyps").value, S.hypWord === "P" ? "Propositions" : "Hypotheses"); };
+  $("copyH").onclick = function(){ copyRich(fmtLines($("hyps").value), $("hyps").value, S.hypWord === "P" ? "Numbered statements" : "Hypotheses"); };
   $("resetH").onclick = function(){ S.hyps = ""; S.hypsEdited = false; $("hyps").value = hypText(); grow($("hyps")); syncViews(); save(); };
   $("copyRQ").onclick = function(){ copyRich(fmtLines($("rq").value), $("rq").value, "Research question"); };
   $("resetRQ").onclick = function(){ S.rq = autoRQ(); S.rqEdited = false; $("rq").value = S.rq; grow($("rq")); syncViews(); save(); };
@@ -1454,7 +1498,7 @@ document.addEventListener("click", function(ev){
   if(t.dataset.toarrow){ var ap = $(t.dataset.toarrow); if(ap){ ap.scrollIntoView({block: "start"}); var fb = ap.querySelector("[data-basis]"); if(fb) fb.focus({preventScroll: true}); } return; }
   if(id === "railToggle"){ var op = $("app").classList.toggle("railopen"); t.setAttribute("aria-expanded", op); t.textContent = op ? "Hide steps" : "All steps"; if(op){ var cs = $("rail").querySelector("[aria-current=step]") || $("rail").querySelector("button"); if(cs) cs.focus(); } return; }
   if(ds.goto){ $("app").classList.remove("railopen"); var rt = $("railToggle"); if(rt){ rt.setAttribute("aria-expanded", "false"); rt.textContent = "All steps"; } return jumpTo(+ds.goto); }
-  if(id === "startOver"){ askOK("Start over? This clears your saved progress in this browser.", "Start over", function(){ S = fresh(); save(); showSplash(false); }); return; }
+  if(id === "startOver"){ askOK("Start over? This clears your work in this browser. Use Save my work first to keep a copy.", "Start over", function(){ S = fresh(); save(); showSplash(false); }); return; }
   if(id === "viewFigBig"){ $("dlgBody").innerHTML = '<p class="small mob-only" style="margin:0 0 8px">Move sideways to see the whole figure.</p>' + buildSVG({mode: "dialog", uid: "d"}); $("figDlg").showModal(); $("dlgClose").focus(); return; }
   if(id === "viewFig"){ $("dlgBody").innerHTML = buildSVG({mode: "dialog", uid: "d"}); $("figDlg").showModal(); return; }
   if(id === "dlgClose"){ $("figDlg").close(); return; }
@@ -1672,6 +1716,8 @@ document.addEventListener("click", function(ev){
   if(id === "homeLink" || id === "homeBrand"){ save(); return showSplash(false); }
   if(id === "aboutLink") return showSplash(true);
   if(id === "spCont"){ render(); focusH(); return; }
+  if(t.dataset.terms){ $("termsBody").innerHTML = termsHTML(); $("termsDlg").showModal(); $("termsClose").focus(); return; }
+  if(id === "termsClose"){ $("termsDlg").close(); return; }
   if(t.dataset.savefile){ $("saveFile").click(); return; }
   if(id === "popRebuild"){ S.popEdited = false; S.who = composePop(S.pop); $("f_who").value = S.who; $("popNote").hidden = true; save(); schedulePreview(); $("f_who").focus(); announce("Rebuilt from the boxes."); return; }
   if(id === "askYes"){ askClose(true); return; }
