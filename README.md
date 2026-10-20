@@ -11,7 +11,7 @@ Live: https://social-theory-model-builder.netlify.app
 3. **Model.** Causes (including social determinants), an in-between step (mediator), and moderators. Causes can be dragged in from theory chips and reordered.
 4. **Concepts.** A conceptual definition and source for every box, tagged by source theory or marked as a new concept.
 5. **Arrows.** Direction (+/−), line style, the proposition each arrow comes from (drag a proposition onto an arrow), and a one-sentence reason. Students set every arrow's direction themselves; the app flags any arrow whose direction differs from its linked proposition.
-6. **Results.** Research question, hypotheses or propositions, the figure (SVG, PNG, Mermaid, PDF), an APA 7 figure caption, a concepts table that pastes into Word as a table, and a Word file of paper notes (problem definitions, each theory's ontology, epistemology, history, and limits).
+6. **Results.** Research question, hypotheses (or numbered statements for a conceptual paper), the figure (SVG, PNG, Mermaid, PDF), an APA 7 figure caption, a concepts table that pastes into Word as a table, and a Word file of paper notes (problem definitions, each theory's ontology, epistemology, history, and limits).
 
 ## Theories, models, and frameworks
 
@@ -42,7 +42,7 @@ At the top of the first `<script>` in `index.html`:
 
 ## How to cite
 
-Schuman, D. L. (2026). *Social theory model builder* (Version 1.2.1) [Web application]. The University of Texas at Arlington. https://doi.org/10.5281/zenodo.23423388
+Schuman, D. L. (2026). *Social theory model builder* (Version 1.3.0) [Web application]. The University of Texas at Arlington. https://doi.org/10.5281/zenodo.23423388
 
 In-text: (Schuman, 2026). Machine-readable metadata is in `CITATION.cff` (GitHub's "Cite this repository") and `.zenodo.json`.
 

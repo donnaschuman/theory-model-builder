@@ -1885,8 +1885,9 @@ window.TheoryLib = (function(){
     return r.length ? "Substantially revised by " + (r.length > 2 ? r.slice(0, -1).join(", ") + ", and " + r[r.length - 1] : r.join(" and ")) + "." : "";
   }
   function keysIn(g){ return Object.keys(LIB).filter(function(k){ return LIB[k].group === g; }); }
-  function options(sel){
-    return G.map(function(g){ var ks = keysIn(g[0]); return ks.length ? '<optgroup label="' + esc(g[1]) + '">' + ks.map(function(k){ return '<option value="' + k + '"' + (sel === k ? " selected" : "") + '>' + esc(LIB[k].name) + '</option>'; }).join("") + '</optgroup>' : ""; }).join("") +
+  function matches(k, q){ if(!q) return true; var L = LIB[k]; return (L.name + " " + L.desc + " " + L.chips.join(" ") + " " + (L.type || "")).toLowerCase().indexOf(q.toLowerCase()) >= 0; }
+  function options(sel, q){
+    return G.map(function(g){ var ks = keysIn(g[0]).filter(function(k){ return k === sel || matches(k, q); }); return ks.length ? '<optgroup label="' + esc(g[1]) + '">' + ks.map(function(k){ return '<option value="' + k + '"' + (sel === k ? " selected" : "") + '>' + esc(LIB[k].name) + '</option>'; }).join("") + '</optgroup>' : ""; }).join("") +
       '<option value="custom"' + (sel === "custom" ? " selected" : "") + '>Type my own…</option>';
   }
   function card(k, full){
@@ -1902,9 +1903,10 @@ window.TheoryLib = (function(){
     h += '<p class="lib-h">Key concepts</p><p class="lib-chips">' + L.chips.map(function(c){ return '<span class="lchip">' + esc(c) + '</span>'; }).join("") + '</p>';
     var more = (L.revisions || []).map(function(x){ return '<li><span class="lib-tag">' + esc(x.tag) + '</span> <span class="citeref" style="display:inline">' + citeHTML(x.cite) + '</span> ' + esc(x.note) + '</li>'; })
       .concat((L.origins || []).map(function(x){ return '<li><span class="lib-tag">Origin</span> <span class="citeref" style="display:inline">' + citeHTML(x.cite) + '</span> ' + esc(x.note) + '</li>'; }));
+    if(full) h += '<p class="lib-use-btn"><a class="btn sm" href="index.html?theory=' + k + '">Use this in my model</a></p>';
     if(more.length) h += full ? '<p class="lib-h">Revisions, extensions, and origins</p><ul class="lib-more">' + more.join("") + '</ul>'
       : '<details class="lib-det"><summary>Revisions, extensions, and origins (' + more.length + ')</summary><ul class="lib-more">' + more.join("") + '</ul></details>';
     return h + '</div>';
   }
-  return {esc: esc, plainCite: plainCite, citeHTML: citeHTML, authYear: authYear, revisedLine: revisedLine, options: options, card: card, keysIn: keysIn};
+  return {matches: matches, esc: esc, plainCite: plainCite, citeHTML: citeHTML, authYear: authYear, revisedLine: revisedLine, options: options, card: card, keysIn: keysIn};
 })();

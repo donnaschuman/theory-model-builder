@@ -101,13 +101,13 @@ var PROPOSITIONS_VIDEO_URL = ''; // older setting; used for the propositions slo
 
   <div class="sp-sec">
     <h2>Steps</h2>
+    <p class="small" style="margin:0 0 10px">15 short steps in five parts. You can save and come back at any time.</p>
     <ol class="timeline">
-      <li><b>Question</b><span>Population, outcome, and how the outcome is measured</span></li>
-      <li><b>Theory</b><span>The theory, its seminal source, and its key propositions</span></li>
-      <li><b>Model</b><span>Causes, mediator, and moderators</span></li>
-      <li><b>Concepts</b><span>A definition and source for each concept</span></li>
-      <li><b>Arrows</b><span>Direction, line style, and reason for each arrow</span></li>
-      <li><b>Results</b><span>Figure, research question, hypotheses, and concepts table</span></li>
+      <li><b>Question</b><span>Who you study, the outcome, and how you will count it (steps 1–3)</span></li>
+      <li><b>Theory</b><span>The theory, its seminal source, and its propositions (steps 4–5)</span></li>
+      <li><b>Model</b><span>Causes, the in-between concept, moderators, and a definition for each concept (steps 6–10)</span></li>
+      <li><b>Arrows</b><span>Direction, line style, and a reason for each arrow (steps 11–12)</span></li>
+      <li><b>Finish</b><span>Paper notes, self-check, and your results: figure, research question, and hypotheses (steps 13–15)</span></li>
     </ol>
     <p class="small" style="margin-top:16px">For doctoral and master's students in social work and related fields.</p>
   </div>
@@ -169,7 +169,7 @@ var PROPOSITIONS_VIDEO_URL = ''; // older setting; used for the propositions slo
 /* Preview key: add ?preview to the address to move through every step without answering.
    It lasts for the browser tab; "Exit preview" turns it off. */
 var PREVIEW = (function(){ var on = /[?&](preview|demo)(=|&|$)/i.test(location.search); try { if(on) sessionStorage.setItem("stmbPreview", "1"); on = on || sessionStorage.getItem("stmbPreview") === "1"; } catch(e){} return on; })();
-var KEY = "theoryModelApp.v1", VERSION = "1.2.1", SCHEMA = 4;
+var KEY = "theoryModelApp.v1", VERSION = "1.3.0", SCHEMA = 4;
 var APP_URL = "https://social-theory-model-builder.netlify.app";
 var DOI_URL = "https://doi.org/10.5281/zenodo.23423388";
 var CITE = "Schuman, D. L. (2026). Social theory model builder (Version " + VERSION + ") [Web application]. The University of Texas at Arlington. " + DOI_URL;
@@ -327,7 +327,7 @@ var TODO = {
   "Who": ["In the box Who, type the group: who they are by role or shared condition.", "Fill in Age or life stage, Where, and When or qualifying event only if they matter for your question. Leave the others empty.", "Read Your population. The app builds this one phrase from the boxes. If it does not read well, edit it.", "For examples, open the green box How to make a population specific.", "Press Next."],
   "Outcome": ["Open the green box How to name an outcome and read it.", "Type the result you want to explain for this group, in 2 to 5 words.", "Check that it is one result, that it can be more or less, and that it is not a program or a cause.", "Press Next."],
   "Define outcome": ["Open the green box How to say what counts and read it.", "In the box below, write what you will count or measure, over what time, and where the information comes from.", "Check that someone else could count it the same way from what you wrote.", "Press Next."],
-  "Theory": ["Choose from the Theory menu. Theories, models, and frameworks are grouped by topic, in alphabetical order.", "Read the panel that opens: its type (theory, model, framework, and so on), what it says, its seminal source, its common propositions, and whether it was substantially revised. A framework or typology does not give you arrows; you supply them.", "If your theory is not in the menu, choose Type my own at the bottom and type its name.", "Add a second theory only if your model needs it.", "Press Next."],
+  "Theory": ["Choose from the Theory menu. It is grouped by topic, and the topics are in alphabetical order. To shorten the list, type a word in Search the list.", "Read the panel that opens: its type (theory, model, framework, and so on), what it says, its seminal source, its common propositions, and whether it was substantially revised. A framework or typology does not give you arrows; you supply them.", "If your theory is not in the menu, choose Type my own at the bottom and type its name.", "Add a second theory only if your model needs it.", "Press Next."],
   "Key propositions": ["In box 1, type the APA reference for the work where each theory was first stated. You can click Use this to copy a suggested reference, but check it first.", "In box 2, press Add a proposition. Copy one sentence from the source that says how two concepts relate, and type its page number.", "Fill in the other boxes for that proposition: your own words, the From and To concepts, and the direction.", "Add only the propositions your model uses, usually 2 to 5 in all. You do not test every proposition in a theory, and you can take one from one theory and one from another. Open the green box Which propositions do I need? for help.", "You can skip this step and come back later."],
   "Causes": ["Add 2 or 3 causes of the outcome (4 at most).", "To add a cause, click a button with a + sign below, or type in an empty box.", "Use the \u2191 and \u2193 buttons, or drag \u283f, to change the order. The order here is the order in the figure.", "Press Next."],
   "In-between": ["Not sure what a mediator is? Open the green box Mediator: how to decide.", "Ask yourself: why does each cause lead to the outcome?", "If your answer is one thing that the causes change first, click Yes and type it in the box.", "If you cannot name one thing, click No or Not sure.", "If you clicked Yes: for each cause, check the box if it also affects the outcome directly (partial mediation). Leave it empty if it works only through the in-between step.", "Press Next."],
@@ -712,11 +712,12 @@ function videoSlot(k, title){
 function propFull(k){ var q = S.props[k]; if(!q) return ""; return (q.own || "").trim() || (q.text || "").trim() || "(untitled)"; }
 function trayHTML(sticky){
   if(!S.props.length) return "";
-  return '<div class="tray noprint' + (sticky ? " sticky" : "") + '"><p class="tray-h">Your propositions <span class="small">' + (PICK >= 0 ? '<strong>P' + (PICK + 1) + ' is selected.</strong> Now click <strong>Link P' + (PICK + 1) + ' here</strong> in an arrow\u2019s panel below.' : 'Click a proposition, then click <strong>Link here</strong> in the panel for the arrow it supports. You can also drag it onto that panel.') + '</span></p>' + '<ul class="tray-list">' +
+  var open = PICK >= 0 || TBO.tray !== false;
+  return '<details class="tray noprint' + (sticky ? " sticky" : "") + '" data-tb="tray"' + (open ? " open" : "") + '><summary class="tray-sum">Your propositions (P1' + (S.props.length > 1 ? "–P" + S.props.length : "") + ') <span class="tb-o" aria-hidden="true"></span></summary><p class="tray-h"><span class="small">' + (PICK >= 0 ? '<strong>P' + (PICK + 1) + ' is selected.</strong> Now click <strong>Link P' + (PICK + 1) + ' here</strong> in an arrow\u2019s panel below.' : 'Click a proposition, then click <strong>Link here</strong> in the panel for the arrow it supports. You can also drag it onto that panel.') + '</span></p>' + '<ul class="tray-list">' +
     S.props.map(function(q, k){
       var t = ((q.own || q.text || "").trim() || "(untitled)");
       return '<li><button type="button" class="pchip" data-drag="prop" data-k="' + k + '" data-pick="' + k + '" aria-pressed="' + (PICK === k) + '"><span class="badge' + tc(q.isNew ? "N" : q.theory) + '">P' + (k + 1) + '</span><span class="ptext">' + esc(t) + '</span><span class="psign" aria-label="' + (propSign(k) === "-" ? "negative" : "positive") + '">' + signChar(propSign(k)) + '</span></button></li>';
-    }).join("") + '</ul></div>';
+    }).join("") + '</ul></details>';
 }
 
 function boxInfo(id){
@@ -780,7 +781,7 @@ var STEPS = [
 /* 4 */ {t: "Theory", g: "Theory", r: function(){
     var a = approach(), max = a[4];
     var h = '<h2 id="stepTitle">Theory: which theory explains why this happens?</h2><p class="lede">Choose the theory that explains your outcome. Add a second theory only if the model needs one. <a href="library.html" target="_blank" rel="noopener">Open the theory library</a> to compare theories, models, and frameworks first. It opens in a new tab.</p>';
-    h += '<div class="item"><div class="item-h"><span class="tbadge tA">A</span><strong>' + esc(roleOf(0)) + '</strong></div><label for="f_theory">Theory<span class="hint">Choose a theory, model, or framework from the list, or choose Type my own. The panel below shows its type, seminal source, and common propositions.</span></label><select id="f_theory" data-theorya="1"><option value="">Choose a theory…</option>' + theoryOptions(S.theory) + '</select>' + (LIB[S.theory] ? libCard(S.theory) : '') + (S.theory === "custom" ? '<label for="f_th">Theory name<span class="hint">Type the full name of the theory.</span></label><input type="text" id="f_th" data-bind="theoryCustom" placeholder="e.g., Social Exchange Theory" value="' + esc(S.theoryCustom) + '">' : '') + '</div>';
+    h += '<div class="item"><div class="item-h"><span class="tbadge tA">A</span><strong>' + esc(roleOf(0)) + '</strong></div><label for="f_tsearch">Search the list<span class="hint">Type a word, such as stress, suicide, or veterans, to shorten the list below.</span></label><input type="search" id="f_tsearch" data-tsearch="1" placeholder="e.g., stress" autocomplete="off"><label for="f_theory">Theory<span class="hint">Choose a theory, model, or framework from the list, or choose Type my own. The panel below shows its type, seminal source, and common propositions.</span></label><select id="f_theory" data-theorya="1"><option value="">Choose a theory…</option>' + theoryOptions(S.theory) + '</select>' + (LIB[S.theory] ? libCard(S.theory) : '') + (S.theory === "custom" ? '<label for="f_th">Theory name<span class="hint">Type the full name of the theory.</span></label><input type="text" id="f_th" data-bind="theoryCustom" placeholder="e.g., Social Exchange Theory" value="' + esc(S.theoryCustom) + '">' : '') + '</div>';
     S.more.forEach(function(t, i){
       var L = String.fromCharCode(66 + i);
       h += '<div class="item"><div class="item-h"><span class="tbadge' + tc(L) + '">' + L + '</span><strong>' + esc(roleOf(i + 1)) + '</strong><span class="sp"><button type="button" class="btn ghost sm danger" data-rmtheory="' + i + '">Remove</button></span></div><label for="mt' + i + '">Theory<span class="hint">Choose the theory from the list, or choose Type my own.</span></label><select id="mt' + i + '" data-mt="' + i + '" data-mf="pick"><option value="">Choose a theory…</option>' + theoryOptions(t.pick) + '</select>' +
@@ -1017,7 +1018,7 @@ function render(){
   $("app").classList.toggle("wide", res);
   var eb = $("exBanner"); eb.hidden = !S.demoLoaded && !PREVIEW;
   if(PREVIEW && !S.demoLoaded) eb.innerHTML = '<p><strong>Preview mode.</strong> Answers are not required. Use Next, or click any step in the list, to see every screen.</p><button type="button" class="btn sec sm" id="exitPreview">Exit preview</button>';
-  if(S.demoLoaded) eb.innerHTML = '<p><strong>Finished example.</strong> A completed model of treatment engagement among post-9/11 veterans. Open any step in the list to see how it was filled in.</p>' + (hasBackup() ? '<button type="button" class="btn sec sm" id="exBack">Back to my model</button>' : '') + '<button type="button" class="btn yel sm" id="exNew">Start my own model</button>';
+  if(S.demoLoaded) eb.innerHTML = '<p><strong>Finished example.</strong> A completed model of treatment engagement among post-9/11 U.S. veterans (people who served after September 11, 2001) in U.S. Department of Veterans Affairs (VA) mental health care. Press Next to see how each step was filled in, or open any step in the list' + (window.matchMedia && matchMedia("(max-width: 900px)").matches ? ' (tap All steps)' : '') + '.</p>' + (hasBackup() ? '<button type="button" class="btn sec sm" id="exBack">Back to my model</button>' : '') + '<button type="button" class="btn yel sm" id="exNew">Start my own model</button>';
   var pct = Math.round(100 * (npos + 1) / num.length);
   $("mbar").style.width = pct + "%"; $("mtext").textContent = "Step " + (npos + 1) + " of " + num.length + ": " + st.t;
   renderRail(num, npos, pct);
@@ -1292,7 +1293,7 @@ function renderResults(){
   if(!S.caption) S.caption = autoCaption();
   var aq = askHs(), hw = S.hypWord === "P" ? "Numbered statements" : "Hypotheses", hyps = S.hyps || hypText();
   return '<h2 id="stepTitle">Your results</h2><p class="lede">Your research question, ' + hw.toLowerCase() + ', figure, and materials for your paper. Use Edit to change any text; changes save as you type. <strong>Rebuild from my answers</strong> writes the text again from your steps and replaces your edits.</p>' +
-    '<p class="savehint noprint"><strong>Save my work now</strong> so you can come back to this model later. The file opens on any computer: click <strong>Open saved work</strong> and choose it. <button type="button" class="btn yel sm" data-savefile="1">Save my work</button></p>' +
+    (S.demoLoaded ? '' : '<p class="savehint noprint"><strong>Save my work now</strong> so you can come back to this model later. The file opens on any computer: click <strong>Open saved work</strong> and choose it. <button type="button" class="btn yel sm" data-savefile="1">Save my work</button></p>') +
     (aq.length ? '<div class="warn"><strong>📚 Open questions</strong><ul style="margin:4px 0 0 1.2em;padding:0">' + aq.map(function(q){ return "<li>" + esc(q) + "</li>"; }).join("") + '</ul></div>' : '') +
     rsec("Research question", "", '<p class="small noprint" style="margin:0 0 10px">One main question. A subquestion is added for an in-between step and for each moderator. One question usually has several hypotheses: one for each arrow in your figure.</p>' + editable("rq", "Research question", S.rq, fmtLines(S.rq), '<button class="btn sec sm" type="button" id="copyRQ">Copy</button><button class="btn ghost sm" type="button" id="resetRQ">Rebuild from my answers</button>')) +
     rsec(hw, '<div class="noprint">' + seg("data-hword", "w", S.hypWord, [["H", "Hypotheses (empirical paper)"], ["P", "Numbered statements (conceptual paper)"]], "Write as") + '</div>',
@@ -1643,6 +1644,7 @@ document.addEventListener("input", function(ev){
   if($("err") && $("err").textContent && $("screen").contains(t)) $("err").textContent = "";
   if(ds.bind === "mediator") S.medAuto = false;
   if(t.tagName === "TEXTAREA") grow(t);
+  if(ds.tsearch){ var q = t.value.trim(); ["f_theory"].concat(S.more.map(function(x, i){ return "mt" + i; })).forEach(function(sid){ var se = $(sid); if(!se) return; var cur = se.value; se.innerHTML = '<option value="">' + (q ? "Choose from the matches…" : "Choose a theory…") + '</option>' + theoryOptions(cur, q); se.value = cur; }); var nm = Object.keys(LIB).filter(function(k){ return TL.matches(k, q); }).length; announce(q ? nm + " match" + (nm === 1 ? "" : "es") + "." : "Full list."); return; }
   if(ds.pp){ S.pop[ds.pp] = t.value; if(!S.popEdited){ S.who = composePop(S.pop); var fw = $("f_who"); if(fw){ fw.value = S.who; grow(fw); } } }
   else if(ds.popfull){ S.who = t.value; S.popEdited = t.value !== composePop(S.pop); var pn = $("popNote"); if(pn) pn.hidden = !S.popEdited; }
   else if(ds.bind){ S[ds.bind] = t.value; }
@@ -1691,8 +1693,8 @@ var BK = KEY + ".backup";
 function openExample(){
   if(!S.demoLoaded && hasProgress()){ try { localStorage.setItem(BK, JSON.stringify(S)); } catch(e){} }
   S = fresh(); S.mode = "demo"; Object.assign(S, clone(DEMO)); S.causeIds = []; S.cseq = 0; S.modIds = {}; S.mseq = 0; S.demoLoaded = true;
-  ensureIds(S); S.seen = ORDER.slice(); S.step = stepIdx("Results");
-  render(); focusH(); announce("Opened the finished example on the results page.");
+  ensureIds(S); S.seen = ORDER.slice(); S.step = stepIdx("Who");
+  render(); focusH(); announce("Opened the finished example at step 1.");
 }
 /* In-page confirmation. Browser pop-ups (confirm) are blocked in some in-app and phone browsers, which made buttons appear to do nothing. */
 var ASK = null;
@@ -1786,6 +1788,23 @@ window.addEventListener("beforeunload", function(e){ var base = FS.snap === null
 window.addEventListener("beforeprint", function(){ document.querySelectorAll("textarea").forEach(function(t){ t.style.height = (t.scrollHeight + 4) + "px"; }); });
 $("figDlg").addEventListener("click", function(e){ if(e.target === this) this.close(); });
 
+/* Another tab (for example, the library's Use this in my model) changed the saved work: load it here too, so this tab never overwrites it. */
+window.addEventListener("storage", function(e){
+  if(e.key !== KEY || !e.newValue) return;
+  try { S = upgrade(JSON.parse(e.newValue)); } catch(x){ return; }
+  if(document.body.classList.contains("splashing")) showSplash(false); else render();
+});
+/* index.html?theory=KEY from the theory library: use that theory. */
+function theoryFromURL(){
+  var m = location.search.match(/[?&]theory=([A-Z0-9]+)/i); if(!m) return false;
+  var k = m[1].toUpperCase(); try { history.replaceState(null, "", location.pathname); } catch(x){}
+  if(!LIB[k]) return false;
+  if(S.demoLoaded){ S = fresh(); }
+  if(!S.theory){ S.theory = k; if(!S.seminal.trim()) S.seminal = SEMINAL[k] || ""; if(!S.mode) S.mode = "own"; if(!hasProgress() || S.step < 1) S.step = 1; save(); render(); focusH(); announce("Theory set to " + LIB[k].name + "."); return true; }
+  if(S.theory === k){ render(); return true; }
+  S.step = stepIdx("Theory"); if(S.seen.indexOf(S.step) < 0) S.seen.push(S.step); render(); focusH(); switchTheory("A", k, "f_theory"); return true;
+}
+
 /* ======================= Init ======================= */
 window.__CITE = CITE;
 document.querySelectorAll("[data-citehtml]").forEach(function(e){ e.innerHTML = CITE_HTML; });
@@ -1793,7 +1812,7 @@ $("spVer").textContent = "Version " + VERSION;
 (function(){ function lk(id, u){ var e = $(id); if(u && /^https?:\/\//i.test(u)){ e.querySelector("a").href = u; e.hidden = false; } } lk("aboutSurvey", SURVEY_URL); lk("adoptLink", ADOPTION_URL); if(GOATCOUNTER_CODE) $("gcNote").hidden = false; })();
 if(window.matchMedia && window.matchMedia("(max-width: 900px)").matches) $("pvDetails").open = false;
 showSaved();
-showSplash(false);
+if(!theoryFromURL()) showSplash(false);
 gcEvent("app-start");
 })();
 </script>

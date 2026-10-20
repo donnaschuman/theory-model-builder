@@ -1,5 +1,43 @@
 # Changelog
 
+## 1.3.0 (2026-10-20)
+
+Changes from a comprehension review: a reviewer worked through every screen as a first-year international PhD student reading English as an additional language, with no outside help.
+
+### Easier to follow
+- Key terms: a list of 25 plain one-line definitions (proposition, seminal source, operational and conceptual definition, mediator, moderator, exploratory arrow, paradigm, ontology, and others), opened from every "What to do" box and from the step list.
+- The finished example opens at step 1, so students see how each step was filled in. Its banner spells out VA (U.S. Department of Veterans Affairs) and post-9/11, and the results page does not ask students to save someone else's model.
+- The step count is always 15. When a step is not needed (Moderator details with no moderator), the step list shows it as "(not needed)."
+- Page headings start with the step name ("Causes: what comes first?"), and the home page lists the same five parts and step numbers as the step list.
+- Instructions say "arrow" everywhere (not path or link). The library is called the Theory library everywhere.
+- On the results page, the conceptual-paper option is "Numbered statements (S1, S2)," so it is not confused with the theory's propositions (P1, P2). "Regenerate" is "Rebuild from my answers," and the page says it replaces edits. SVG and Mermaid moved under "More formats (for advanced users)."
+- Paper notes has a teaching box defining paradigm (each of the five), ontology, and epistemology, with examples, and says the step is optional.
+- Line styles defines an exploratory (dashed) arrow. Moderator arrows are always dashed; the solid option is gone for them.
+- The mediation hypothesis is numbered last (after moderation), so arrow numbers have no gap; the arrow steps say which number it is and why it has no arrow.
+- Plainer wording: "Need help writing a reason?" (was "I'm stuck"), "Complete this sentence," "Mark it for later," "Click a button with + to add it," and examples without idioms.
+- The research question keeps capital letters for nationalities and other proper nouns ("Among Nigerian immigrant women").
+
+### Fewer surprises
+- Self-check flags a proposition not linked to any arrow, a reason that still contains a ___ blank, a definition without a source, and "The theory says so" for an arrow that starts from a concept marked "Not from a theory."
+- The In-between step says when the app filled in the in-between concept from the propositions, and shows which proposition links a cause straight to the outcome next to its partial-mediation box.
+- Moderator details: students must choose which arrow a moderator changes (no preset), and the example groups match the moderator.
+- Error messages clear when the student starts typing. The Why this arrow? message names arrows by their H numbers, with links to each panel.
+- The proposition box on Why this arrow? can be closed and stays closed.
+- Start over reminds students to save first.
+
+### Theory choice
+- A search box shortens the Theory menu ("stress," "suicide," "veterans").
+- Each library entry has a "Use this in my model" button. If the app is open in another tab, that tab updates instead of overwriting the change.
+
+### Phones
+- The results page fits the screen. Tables stack as cards, and "View figure full screen" shows the figure at a readable size.
+- "All steps" opens the step list.
+- Buttons and links are at least 44 pixels tall.
+- The proposition box does not stay fixed at the top of the screen.
+
+### Saving
+- The results page has a reminder and a Save my work button. The instructor guide has text to give students about saving and coming back.
+
 ## 1.2.1 (2026-10-20)
 
 ### Changed
