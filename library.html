@@ -64,11 +64,16 @@
   function setAll(open){ all(".libgrp,.libitem").forEach(function(d){ d.open = open; }); }
   function filter(){
     var v = q.value.trim().toLowerCase(), ty = ts.value, shown = 0;
-    all(".libitem").forEach(function(a){ var hit = (!v || a.textContent.toLowerCase().indexOf(v) >= 0) && (!ty || a.dataset.type === ty); a.hidden = !hit; if(v) a.open = hit; if(hit) shown++; });
+    all(".libitem").forEach(function(a){ var g = a.closest(".libgrp"), gs = g && g.querySelector("summary"), txt = (a.textContent + " " + (gs ? gs.textContent : "")).toLowerCase(); var hit = (!v || v.split(/\s+/).every(function(w){ return txt.indexOf(w) >= 0; })) && (!ty || a.dataset.type === ty); a.hidden = !hit; if(v) a.open = hit; if(hit) shown++; });
     all(".libgrp").forEach(function(d){ var any = !!d.querySelector(".libitem:not([hidden])"); d.hidden = !any; if(v || ty) d.open = any; });
     if(!v && !ty) setAll(false);
     cnt.textContent = (v || ty) ? shown + " of " + n + " entries match." : n + " entries in " + all(".libgrp").length + " groups.";
   }
+  /* Opened from the app: send "Use this in my model" back to the app's tab instead of opening a second copy. */
+  lib.addEventListener("click", function(e){
+    var a = e.target.closest && e.target.closest(".lib-use-btn a"); if(!a) return;
+    try { if(window.opener && !window.opener.closed && window.opener.location.origin === location.origin){ e.preventDefault(); window.opener.location.href = a.href; window.opener.focus(); window.close(); } } catch(x){}
+  });
   q.addEventListener("input", filter); ts.addEventListener("change", filter); filter();
   document.getElementById("openAll").onclick = function(){ setAll(true); };
   document.getElementById("closeAll").onclick = function(){ setAll(false); };

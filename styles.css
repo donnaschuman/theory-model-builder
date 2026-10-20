@@ -389,7 +389,7 @@ body:not(.splashing) #splash{display:none}
   .savestat{display:none}
   .appbar-in{padding:0 12px;gap:8px}
   .brand small{display:none}
-  .filebtn .lbl-long,#aboutLink .lbl-long{display:none}
+  #aboutLink .lbl-long{display:none}
   .guide .toc{columns:1}
   .guide section{padding:20px 18px}
 }
@@ -602,3 +602,6 @@ details.tray:not([open]){padding:8px 14px}
 .lib-use-btn{margin:10px 0 0}
 .lib-use-btn .btn{text-decoration:none}
 @media(max-width:620px){.tray.sticky{position:static}}
+body.demo #saveFile,body.demo #lastSaved{display:none}
+@media(max-width:520px){:root{--bar-h:0px}.appbar{height:auto;position:relative}.appbar-in{height:auto;flex-wrap:wrap;padding:8px 12px;row-gap:6px}}
+.pchip.drag-ghost,.drag-ghost{position:fixed}

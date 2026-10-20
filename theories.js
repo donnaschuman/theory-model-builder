@@ -1885,7 +1885,11 @@ window.TheoryLib = (function(){
     return r.length ? "Substantially revised by " + (r.length > 2 ? r.slice(0, -1).join(", ") + ", and " + r[r.length - 1] : r.join(" and ")) + "." : "";
   }
   function keysIn(g){ return Object.keys(LIB).filter(function(k){ return LIB[k].group === g; }); }
-  function matches(k, q){ if(!q) return true; var L = LIB[k]; return (L.name + " " + L.desc + " " + L.chips.join(" ") + " " + (L.type || "")).toLowerCase().indexOf(q.toLowerCase()) >= 0; }
+  function matches(k, q){
+    if(!q) return true; var L = LIB[k], g = (G.filter(function(x){ return x[0] === L.group; })[0] || ["", ""])[1];
+    var text = [L.name, L.desc, L.chips.join(" "), L.type || "", g, L.props.join(" "), L.use || "", (L.revisions || []).map(function(r){ return r.note; }).join(" ")].join(" ").toLowerCase();
+    return q.toLowerCase().split(/\s+/).filter(Boolean).every(function(w){ return text.indexOf(w) >= 0; });
+  }
   function options(sel, q){
     return G.map(function(g){ var ks = keysIn(g[0]).filter(function(k){ return k === sel || matches(k, q); }); return ks.length ? '<optgroup label="' + esc(g[1]) + '">' + ks.map(function(k){ return '<option value="' + k + '"' + (sel === k ? " selected" : "") + '>' + esc(LIB[k].name) + '</option>'; }).join("") + '</optgroup>' : ""; }).join("") +
       '<option value="custom"' + (sel === "custom" ? " selected" : "") + '>Type my own…</option>';
