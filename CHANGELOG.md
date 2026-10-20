@@ -2,6 +2,9 @@
 
 ## 1.2.1 (2026-10-20)
 
+### Changed
+- Population step: four boxes (Who, required; Age or life stage; Where; When or qualifying event) replace the single population box. The app builds the full population phrase from them as students type, turning "18-34" into "ages 18 to 34" and "65+" into "aged 65 and older," and adding "in" before a place written without a preposition. Students can edit the full phrase; once edited, it stops updating, and a Rebuild from the boxes button restores it. Saved files from earlier versions open with their population phrase in the Who box.
+
 ### Fixes
 - Changing a theory left the old theory's work in the model: its seminal source, propositions, causes, in-between step, definitions, reasons, arrow links, and paradigm notes, now labeled with the new theory's letter. Changing a theory that already has work now opens a box that lists what came from the old theory. "Switch and clear" removes it, fills in the new theory's seminal source, and rewrites the research question, hypotheses, and figure caption. "Cancel" keeps the old theory and suggests adding the new one as a second theory. Concepts count as the old theory's when they are marked with its letter or are one of its library concepts.
 - Choosing a library theory for the first time fills in its seminal source (labeled for students to verify).
