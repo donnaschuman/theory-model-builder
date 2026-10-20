@@ -555,3 +555,5 @@ details.teach[open]>summary{border-bottom:1px solid #b9e3d3;border-radius:12px 1
 .popgrid label .opt,.popgrid label .req{display:inline;background:none;border:0;padding:0;margin:0 0 0 4px;box-shadow:none;border-radius:0;font-size:.9em;letter-spacing:0;vertical-align:baseline}
 .popgrid label .opt{font-weight:400;color:var(--muted)}
 .popfull textarea{font-weight:700;resize:none}
+.savehint{display:flex;flex-wrap:wrap;align-items:center;gap:8px 14px;background:#fff8d6;border:1.5px solid #ecd36a;border-radius:14px;padding:10px 14px;margin:0 0 16px}
+.savehint .btn{margin-left:auto}

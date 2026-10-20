@@ -1228,6 +1228,7 @@ function renderResults(){
   if(!S.caption) S.caption = autoCaption();
   var aq = askHs(), hw = S.hypWord === "P" ? "Propositions" : "Hypotheses", hyps = S.hyps || hypText();
   return '<h2 id="stepTitle">Your results</h2><p class="lede">Your research question, ' + hw.toLowerCase() + ', figure, and materials for your paper. Use Edit to change any text; changes save as you type.</p>' +
+    '<p class="savehint noprint"><strong>Save my work now</strong> so you can come back to this model later. The file opens on any computer: click <strong>Open saved work</strong> and choose it. <button type="button" class="btn yel sm" data-savefile="1">Save my work</button></p>' +
     (aq.length ? '<div class="warn"><strong>📚 Open questions</strong><ul style="margin:4px 0 0 1.2em;padding:0">' + aq.map(function(q){ return "<li>" + esc(q) + "</li>"; }).join("") + '</ul></div>' : '') +
     rsec("Research question", "", '<p class="small noprint" style="margin:0 0 10px">One main question. A subquestion is added for an in-between step and for each moderator. One question usually has several hypotheses: one for each arrow in your figure.</p>' + editable("rq", "Research question", S.rq, fmtLines(S.rq), '<button class="btn sec sm" type="button" id="copyRQ">Copy</button><button class="btn ghost sm" type="button" id="resetRQ">Regenerate</button>')) +
     rsec(hw, '<div class="noprint">' + seg("data-hword", "w", S.hypWord, [["H", "Hypotheses"], ["P", "Propositions"]], "Write as") + '</div>',
@@ -1646,6 +1647,7 @@ document.addEventListener("click", function(ev){
   if(id === "homeLink" || id === "homeBrand"){ save(); return showSplash(false); }
   if(id === "aboutLink") return showSplash(true);
   if(id === "spCont"){ render(); focusH(); return; }
+  if(t.dataset.savefile){ $("saveFile").click(); return; }
   if(id === "popRebuild"){ S.popEdited = false; S.who = composePop(S.pop); $("f_who").value = S.who; $("popNote").hidden = true; save(); schedulePreview(); $("f_who").focus(); announce("Rebuilt from the boxes."); return; }
   if(id === "askYes"){ askClose(true); return; }
   if(id === "askNo"){ askClose(false); return; }
