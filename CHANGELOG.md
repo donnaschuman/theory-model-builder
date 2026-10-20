@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.2.1 (2026-10-20)
+
+### Fixes
+- Changing a theory left the old theory's work in the model: its seminal source, propositions, causes, in-between step, definitions, reasons, arrow links, and paradigm notes, now labeled with the new theory's letter. Changing a theory that already has work now opens a box that lists what came from the old theory. "Switch and clear" removes it, fills in the new theory's seminal source, and rewrites the research question, hypotheses, and figure caption. "Cancel" keeps the old theory and suggests adding the new one as a second theory. Concepts count as the old theory's when they are marked with its letter or are one of its library concepts.
+- Choosing a library theory for the first time fills in its seminal source (labeled for students to verify).
+- Removing a second theory moved its propositions to Theory A. Its propositions are now removed, and arrow links stay attached to the right propositions.
+- Self-check flags a seminal source that belongs to a different library theory, and propositions marked as coming from a theory no longer in the model.
+
 ## 1.2.0 (2026-10-13)
 
 ### Simplified

@@ -589,6 +589,13 @@ function checks(){
   c.push({ok: causes().length <= 4, text: causes().length <= 4 ? "4 or fewer causes." : "More than 4 causes makes the figure hard to explain.", fix: "Causes"});
   var ms = modEdges(), bm = ms.filter(function(e){ var d = S.modDetails[e.name] || {}; return !(d.groups || "").trim() || !e.path; });
   c.push({ok: !bm.length, text: !ms.length ? "No moderators (fine)." : bm.length ? "Describe the groups compared (and the path changed) for: " + bm.map(function(e){ return e.name; }).join(", ") + "." : "Each moderator has groups described and is linked to a path.", fix: "Moderator details"});
+  theoryList().forEach(function(t){
+    var sem = (t.seminal || "").trim(); if(!sem) return;
+    var other = Object.keys(SEMINAL).filter(function(k){ return k !== t.pick && SEMINAL[k] === sem; })[0];
+    if(other) c.push({ok: false, text: "The seminal source for Theory " + t.id + " (" + tName(t) + ") is the one for " + THEORIES[other].name + ". Replace it with the source for " + tName(t) + ".", fix: "Key propositions"});
+  });
+  var orphan = S.props.filter(function(q){ return !theoryById(q.theory || "A"); }).length;
+  if(orphan) c.push({ok: false, text: orphan + " proposition" + (orphan > 1 ? "s are" : " is") + " marked as coming from a theory that is no longer in your model. Change the theory or remove " + (orphan > 1 ? "them" : "it") + ".", fix: "Key propositions"});
   if(theoryList().length > 1){
     var ns0 = nodes(), unused = theoryList().filter(function(t){ return !ns0.some(function(n){ return S.ctag[n.id] === t.id; }); });
     c.push({ok: !unused.length, soft: true, text: unused.length ? unused.map(function(t){ return "Theory " + t.id + " (" + tName(t) + ")"; }).join(" and ") + " has no concepts in your model, so the theories are not combined. Add a concept from " + (unused.length > 1 ? "each" : "it") + ", or check that each concept is tagged with its theory." : "Concepts from each theory are in your model.", fix: "Define concepts"});
@@ -1448,12 +1455,75 @@ function removeOther(i){
   S.modOthers.splice(i, 1); S.modOther = S.modOthers[0] || "";
   for(var j = i; j <= S.modOthers.length; j++){ var nk = "__other" + j, ok = "__other" + (j + 1); if(S.modIds[ok]) S.modIds[nk] = S.modIds[ok]; else delete S.modIds[nk]; }
 }
+/* Remove propositions that match a test; keep every arrow's link pointing at the right proposition. */
+function dropProps(test){
+  var map = {}, keep = [];
+  S.props.forEach(function(q, k){ if(test(q)) return; map[k] = keep.length; keep.push(q); });
+  S.props = keep;
+  Object.keys(S.propLinks).forEach(function(e){ var v = S.propLinks[e]; if(typeof v === "number" && map[v] !== undefined) S.propLinks[e] = map[v]; else delete S.propLinks[e]; });
+}
+function slotSeminal(id){ var t = theoryById(id); return t ? t.seminal : ""; }
+function setSlotSeminal(id, v){ if(id === "A") S.seminal = v; else { var i = id.charCodeAt(0) - 66; if(S.more[i]) S.more[i].seminal = v; } }
+/* What in the model came from one theory slot (A, B, ...). */
+/* A concept belongs to slot id if it is tagged with id, or if it is untagged and is one of that theory's library concepts. */
+function fromTheory(id, nodeId, label){
+  if(S.ctag[nodeId]) return S.ctag[nodeId] === id;
+  var t = theoryById(id), th = t && THEORIES[t.pick]; if(!th) return false;
+  var l = lc(label || ""); return !!l && th.chips.some(function(c){ return lc(c) === l; });
+}
+function tiedTo(id){
+  var props = S.props.filter(function(q){ return (q.theory || "A") === id; }).length;
+  var cs = S.causeIds.filter(function(c, i){ return (S.causes[i] || "").trim() && fromTheory(id, c, S.causes[i]); });
+  var med = !!(hasMed() && fromTheory(id, "med", S.mediator));
+  var t = theoryById(id), sem = t && t.seminal.trim() ? 1 : 0, as = S.assume[id] && Object.keys(S.assume[id]).some(function(k){ return (S.assume[id][k] || "").trim(); });
+  return {props: props, causes: cs, med: med, seminal: sem, assume: !!as, any: !!(props || cs.length || med || as)};
+}
+/* Clear everything that came from theory slot id, so a new theory starts clean. */
+function clearTheory(id){
+  dropProps(function(q){ return (q.theory || "A") === id; });
+  var keepC = [], keepI = [];
+  var medTied = !!(S.mediator.trim() && fromTheory(id, "med", S.mediator));
+  S.causes.forEach(function(c, i){ var cid = S.causeIds[i]; if((c || "").trim() && fromTheory(id, cid, c)){ delete S.cdef[cid]; delete S.ctag[cid]; } else { keepC.push(c); keepI.push(cid); } });
+  if(!keepC.length){ keepC = [""]; keepI = [newCid()]; }
+  S.causes = keepC; S.causeIds = keepI;
+  if(medTied){ S.mediator = ""; S.medYN = ""; S.partial = {}; delete S.cdef.med; delete S.ctag.med; }
+  Object.keys(S.ctag).forEach(function(k){ if(S.ctag[k] === id) delete S.ctag[k]; });
+  delete S.assume[id];
+  S.rq = ""; S.rqEdited = false; S.hyps = ""; S.hypsEdited = false; S.caption = ""; S.captionEdited = false;
+  S.figView = "all";
+}
+/* Change the theory in slot id. If the model already has work from the old theory, ask first. */
+function switchTheory(id, val, sel){
+  var t = theoryById(id), oldPick = t ? t.pick : "", oldName = t ? tName(t) : "", tied = t ? tiedTo(id) : {any: false};
+  function apply(clear){
+    var oldSem = slotSeminal(id);
+    if(clear) clearTheory(id);
+    if(id === "A") S.theory = val; else S.more[id.charCodeAt(0) - 66].pick = val;
+    var libOld = SEMINAL[oldPick] || "";
+    if(clear || !oldSem.trim() || oldSem === libOld) setSlotSeminal(id, SEMINAL[val] || "");
+    if(!S.rqEdited) S.rq = "";
+    if(!S.captionEdited) S.caption = "";
+    render(); var f = $(sel); if(f) f.focus();
+    if(clear) announce("Switched to " + tName(theoryById(id)) + ". Work from " + oldName + " was cleared.");
+  }
+  if(!oldPick || oldPick === val || !tied.any || !val){ apply(false); return; }
+  var parts = [];
+  if(tied.seminal) parts.push("its seminal source");
+  if(tied.props) parts.push(tied.props + " proposition" + (tied.props > 1 ? "s" : ""));
+  if(tied.causes.length) parts.push(tied.causes.length + " cause" + (tied.causes.length > 1 ? "s" : "") + " marked as coming from it");
+  if(tied.med) parts.push("the in-between step");
+  if(tied.assume) parts.push("its paradigm notes");
+  var newName = val === "custom" ? "a theory you type" : (THEORIES[val] ? THEORIES[val].name : "the new theory");
+  $(sel).value = oldPick;
+  askOK("You are changing Theory " + id + " from " + oldName + " to " + newName + ". These parts of your model came from " + oldName + ": " + joinList(parts) + ", with their definitions, reasons, and links. Switch and clear them? Your research question, hypotheses, and figure caption will be rewritten. To keep " + oldName + " and add the new theory, choose Cancel, then use Add another theory.", "Switch and clear", function(){ apply(true); });
+}
 function removeTheory(i){
   var gone = String.fromCharCode(66 + i);
+  dropProps(function(q){ return q.theory === gone; });
   S.more.splice(i, 1);
   function shift(v){ if(!v || v.length !== 1 || v < "B") return v; if(v === gone) return ""; return v > gone ? String.fromCharCode(v.charCodeAt(0) - 1) : v; }
   Object.keys(S.ctag).forEach(function(k){ var v = shift(S.ctag[k]); if(v) S.ctag[k] = v; else delete S.ctag[k]; });
-  S.props.forEach(function(q){ var v = shift(q.theory); q.theory = v || "A"; });
+  S.props.forEach(function(q){ var v = shift(q.theory); if(v) q.theory = v; });
   var na = {}; Object.keys(S.assume).forEach(function(k){ var v = shift(k); if(v) na[v] = S.assume[k]; }); S.assume = na;
   if(S.figView !== "all" && !theoryById(S.figView)) S.figView = "all";
 }
@@ -1471,8 +1541,8 @@ document.addEventListener("change", function(ev){
   if(t.id === "modSkip"){ S.modSkip = t.checked; if(t.checked) S.modPicked = []; render(); $("modSkip").focus(); return; }
   if(ds.mp){ (S.modDetails[ds.mp] = S.modDetails[ds.mp] || {}).path = t.value; save(); schedulePreview(); return; }
   if(ds.partial){ if(t.checked) S.partial[ds.partial] = true; else delete S.partial[ds.partial]; if(!S.hypsEdited) S.hyps = ""; if(!S.rqEdited) S.rq = ""; var yp = window.scrollY; render(); window.scrollTo(0, yp); var pp = $("screen").querySelector('[data-partial="' + ds.partial + '"]'); if(pp) pp.focus(); announce(t.checked ? "Partial mediation: direct arrow added." : "Direct arrow removed."); return; }
-  if(ds.theorya){ S.theory = t.value; if(!S.rqEdited) S.rq = ""; render(); $("f_theory").focus(); return; }
-  if(ds.mt && ds.mf === "pick"){ S.more[+ds.mt].pick = t.value; render(); $("mt" + ds.mt).focus(); return; }
+  if(ds.theorya){ switchTheory("A", t.value, "f_theory"); return; }
+  if(ds.mt && ds.mf === "pick"){ switchTheory(String.fromCharCode(66 + +ds.mt), t.value, "mt" + ds.mt); return; }
   if(ds.ctag){ if(t.value) S.ctag[ds.ctag] = t.value; else delete S.ctag[ds.ctag]; save(); schedulePreview(); var y2 = window.scrollY; render(); window.scrollTo(0, y2); var c2 = $("screen").querySelector('[data-ctag="' + ds.ctag + '"]'); if(c2) c2.focus(); return; }
 });
 document.addEventListener("input", function(ev){
