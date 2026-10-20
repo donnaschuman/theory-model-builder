@@ -542,3 +542,16 @@ details.teach[open]>summary{border-bottom:1px solid #b9e3d3;border-radius:12px 1
 .tb-b{padding:12px 18px 14px}
 .typebox .tb-t{font-size:1.2rem}
 @media print{details.teach .tb-b{display:block}}
+/* Population parts */
+.popgrid{display:grid;grid-template-columns:1fr 1fr;gap:4px 18px}
+.popgrid label{margin-top:10px}
+.req{font-weight:700;color:var(--accent)}
+.popfull{margin-top:16px;padding:12px 14px;border:1.5px solid var(--line-2);border-radius:14px;background:var(--tint-2)}
+.popfull label{margin-top:0}
+.popfull input{font-weight:700}
+@media(max-width:620px){.popgrid{grid-template-columns:1fr}}
+.popgrid>div{display:flex;flex-direction:column}
+.popgrid>div>input{margin-top:auto}
+.popgrid label .opt,.popgrid label .req{display:inline;background:none;border:0;padding:0;margin:0 0 0 4px;box-shadow:none;border-radius:0;font-size:.9em;letter-spacing:0;vertical-align:baseline}
+.popgrid label .opt{font-weight:400;color:var(--muted)}
+.popfull textarea{font-weight:700;resize:none}

@@ -164,7 +164,7 @@ var PROPOSITIONS_VIDEO_URL = ''; // older setting; used for the propositions slo
 /* Preview key: add ?preview to the address to move through every step without answering.
    It lasts for the browser tab; "Exit preview" turns it off. */
 var PREVIEW = (function(){ var on = /[?&](preview|demo)(=|&|$)/i.test(location.search); try { if(on) sessionStorage.setItem("stmbPreview", "1"); on = on || sessionStorage.getItem("stmbPreview") === "1"; } catch(e){} return on; })();
-var KEY = "theoryModelApp.v1", VERSION = "1.2.0", SCHEMA = 4;
+var KEY = "theoryModelApp.v1", VERSION = "1.2.1", SCHEMA = 4;
 var APP_URL = "https://social-theory-model-builder.netlify.app";
 var DOI_URL = "https://doi.org/10.5281/zenodo.23423388";
 var CITE = "Schuman, D. L. (2026). Social theory model builder (Version " + VERSION + ") [Web application]. The University of Texas at Arlington. " + DOI_URL;
@@ -202,7 +202,7 @@ var BASIS = [["theory", "The theory says so"], ["research", "Prior research"], [
 var WHERE = ["Original theory source", "Measurement or validation paper", "Recent review in my population", "Other"];
 var KIND = {cause: "Cause", med: "In-between", out: "Outcome", mod: "Moderator"};
 var DEMO = {
-  who: "Post-9/11 U.S. veterans enrolled in VA mental health care", outcome: "Treatment engagement",
+  who: "Post-9/11 U.S. veterans enrolled in VA mental health care", pop: {who: "Post-9/11 U.S. veterans", age: "", where: "enrolled in VA mental health care", when: ""}, popEdited: false, outcome: "Treatment engagement",
   outcomeDef: "Attending at least 8 psychotherapy sessions within 14 weeks of intake (from clinic records)",
   theory: "TPB", seminal: SEMINAL.TPB,
   causes: ["Attitude toward the behavior", "Subjective norm", "Perceived behavioral control"],
@@ -253,7 +253,7 @@ var DEMO = {
 
 /* ======================= State ======================= */
 function fresh(){
-  return {step: 1, seen: [], mode: "", who: "", outcome: "", outcomeDef: "", approach: "", integType: "",
+  return {step: 1, seen: [], mode: "", who: "", pop: {who: "", age: "", where: "", when: ""}, popEdited: false, outcome: "", outcomeDef: "", approach: "", integType: "",
     theory: "", theoryCustom: "", seminal: "", more: [],
     causes: [""], causeIds: [], cseq: 0, medYN: "", mediator: "", modYN: "", modPicked: [], modOther: "", modOthers: [], modSkip: false,
     modDetails: {}, modIds: {}, mseq: 0, addedAnother: false, extraMod: "",
@@ -265,6 +265,9 @@ function fresh(){
 function isObj(x){ return x && typeof x === "object" && !Array.isArray(x); }
 function upgrade(st){
   if(!isObj(st)) return fresh();
+  if(!isObj(st.pop)){ st.pop = {who: typeof st.who === "string" ? st.who : "", age: "", where: "", when: ""}; st.popEdited = false; }
+  ["who", "age", "where", "when"].forEach(function(k){ if(typeof st.pop[k] !== "string") st.pop[k] = ""; });
+  if(typeof st.popEdited !== "boolean") st.popEdited = false;
   ["signs", "bases", "needsSource", "openQ", "propLinks"].forEach(function(k){ if(!isObj(st[k])) st[k] = {}; });
   if(!Array.isArray(st.props)){ if(typeof st.step === "number" && st.step >= 5) st.step++; st.props = []; }
   if(isObj(st.askClass)){ Object.assign(st.needsSource, st.askClass); delete st.askClass; }
@@ -316,7 +319,7 @@ var save = function(){ rawSave(); showSaved(); };
 
 /* Short directions shown at the top of each step. Plain words, short sentences. */
 var TODO = {
-  "Who": ["Open the green box How to make a population specific and read it.", "Type the group of people you want to study in the box below, as one phrase.", "Check that it names who they are and where they are. Add age or a qualifying condition if it matters for your question.", "Press Next."],
+  "Who": ["In the box Who, type the group: who they are by role or shared condition.", "Fill in Age or life stage, Where, and When or qualifying event only if they matter for your question. Leave the others empty.", "Read Your population. The app builds this one phrase from the boxes. If it does not read well, edit it.", "For examples, open the green box How to make a population specific.", "Press Next."],
   "Outcome": ["Open the green box How to name an outcome and read it.", "Type the result you want to explain for this group, in 2 to 5 words.", "Check that it is one result, that it can be more or less, and that it is not a program or a cause.", "Press Next."],
   "Define outcome": ["Open the green box How to say what counts and read it.", "In the box below, write what you will count or measure, over what time, and where the information comes from.", "Check that someone else could count it the same way from what you wrote.", "Press Next."],
   "Theory": ["Choose from the Theory menu. Theories, models, and frameworks are grouped by topic, in alphabetical order.", "Read the panel that opens: its type (theory, model, framework, and so on), what it says, its seminal source, its common propositions, and whether it was substantially revised. A framework or typology does not give you arrows; you supply them.", "If your theory is not in the menu, choose Type my own at the bottom and type its name.", "Add a second theory only if your model needs it.", "Press Next."],
@@ -498,6 +501,22 @@ function oq(id){ return S.openQ[id] || {}; }
 function hn(n){ return S.hypWord === "P" ? "Proposition " + n : "H" + n; }
 function askHs(){ return hypList().filter(function(h){ return h.edge && ask(h.edge); }).map(function(h){ var q = oq(h.edge); return "Open question (" + hn(h.n) + "): " + ((q.unsure || "").trim() || "[not yet described]") + ". Plan: " + ((q.where || "").trim() || "[not yet chosen]"); }); }
 /* "Adolescents in foster care" reads as "among adolescents in foster care"; acronyms (VA, LGBTQ+) keep their case. */
+/* Build the population phrase from its four parts: Who + age or life stage + where + when or qualifying event. */
+var POP_LEAD = /^(in|at|on|from|within|across|near|throughout|inside|outside|around|enrolled|living|receiving|attending|served|using|admitted|registered|residing|working|incarcerated|housed|who|with|without|of|under|over|ages?|aged|after|before|during|since|following|between|while|when|whose|that)\b/i;
+function popClean(x){ return String(x || "").replace(/\s+/g, " ").trim().replace(/[.;,]+$/, ""); }
+function popLower(x){ return POP_LEAD.test(x) && /^[A-Z][a-z]/.test(x) ? x.charAt(0).toLowerCase() + x.slice(1) : x; }
+function popAge(a){
+  var m = a.match(/^(?:ages?\s*)?(\d{1,3})\s*(?:-|\u2013|\u2014|to)\s*(\d{1,3})(?:\s*years?(?:\s*old)?)?$/i);
+  if(m) return "ages " + m[1] + " to " + m[2];
+  m = a.match(/^(?:ages?d?\s*)?(\d{1,3})\s*(?:\+|and older|or older|and over|or over)(?:\s*years?)?$/i);
+  if(m) return "aged " + m[1] + " and older";
+  return popLower(a);
+}
+function popWhere(w){ if(!w) return ""; w = popLower(w); return POP_LEAD.test(w) ? w : "in " + w; }
+function composePop(p){
+  p = p || {};
+  return [popClean(p.who), popAge(popClean(p.age)), popWhere(popClean(p.where)), popLower(popClean(p.when))].filter(Boolean).join(" ");
+}
 function whoIn(){ var w = S.who.trim(); return /^[A-Z][a-z]/.test(w) ? w.charAt(0).toLowerCase() + w.slice(1) : w; }
 /* One main question, then numbered subquestions: one for the mediator, one per moderator. */
 function rqMain(){
@@ -589,6 +608,13 @@ function checks(){
   c.push({ok: causes().length <= 4, text: causes().length <= 4 ? "4 or fewer causes." : "More than 4 causes makes the figure hard to explain.", fix: "Causes"});
   var ms = modEdges(), bm = ms.filter(function(e){ var d = S.modDetails[e.name] || {}; return !(d.groups || "").trim() || !e.path; });
   c.push({ok: !bm.length, text: !ms.length ? "No moderators (fine)." : bm.length ? "Describe the groups compared (and the path changed) for: " + bm.map(function(e){ return e.name; }).join(", ") + "." : "Each moderator has groups described and is linked to a path.", fix: "Moderator details"});
+  theoryList().forEach(function(t){
+    var sem = (t.seminal || "").trim(); if(!sem) return;
+    var other = Object.keys(SEMINAL).filter(function(k){ return k !== t.pick && SEMINAL[k] === sem; })[0];
+    if(other) c.push({ok: false, text: "The seminal source for Theory " + t.id + " (" + tName(t) + ") is the one for " + THEORIES[other].name + ". Replace it with the source for " + tName(t) + ".", fix: "Key propositions"});
+  });
+  var orphan = S.props.filter(function(q){ return !theoryById(q.theory || "A"); }).length;
+  if(orphan) c.push({ok: false, text: orphan + " proposition" + (orphan > 1 ? "s are" : " is") + " marked as coming from a theory that is no longer in your model. Change the theory or remove " + (orphan > 1 ? "them" : "it") + ".", fix: "Key propositions"});
   if(theoryList().length > 1){
     var ns0 = nodes(), unused = theoryList().filter(function(t){ return !ns0.some(function(n){ return S.ctag[n.id] === t.id; }); });
     c.push({ok: !unused.length, soft: true, text: unused.length ? unused.map(function(t){ return "Theory " + t.id + " (" + tName(t) + ")"; }).join(" and ") + " has no concepts in your model, so the theories are not combined. Add a concept from " + (unused.length > 1 ? "each" : "it") + ", or check that each concept is tagged with its theory." : "Concepts from each theory are in your model.", fix: "Define concepts"});
@@ -677,12 +703,18 @@ var STEPS = [
 /* 0 */ {t: "Start", skip: function(){ return true; }, r: function(){ return ""; }, v: function(){ return ""; }},
 /* 1 */ {t: "Who", g: "Question", r: function(){
     return '<h2 id="stepTitle">Who are the people you want to study?</h2><p class="lede">Describe the population in plain words.</p>' +
-      teachBox("pop", "How to make a population specific", "Name who they are and where they are, in one phrase.", '<p>A specific population usually names these four things:</p>' +
+      teachBox("pop", "How to make a population specific", "Fill in Who, then add age, where, and when if they matter.", '<p>A specific population usually names these four things. Each one has its own box below.</p>' +
       '<ul style="margin:0 0 10px 1.2em;padding:0"><li><strong>Who:</strong> the group, by role or shared condition (post-9/11 U.S. veterans).</li><li><strong>Age or life stage,</strong> if it matters (ages 18 to 34).</li><li><strong>Where:</strong> the setting or place (enrolled in VA mental health care; in rural Texas).</li><li><strong>When or what qualifies them,</strong> if it matters (within 6 months of discharge).</li></ul>' +
       '<p style="margin-bottom:4px"><strong>Weak:</strong> Veterans<br><strong>Better:</strong> Post-9/11 veterans<br><strong>Strong:</strong> Post-9/11 U.S. veterans enrolled in VA mental health care</p>' +
       '<p style="margin:10px 0 0"><strong>Keep it to one phrase.</strong> It becomes part of your research question and your figure title.<br><strong>Leave out the outcome and the causes.</strong> “Veterans who drop out of treatment” already assumes the result your model explains. Write “Veterans in treatment” and make dropout the outcome.</p>') +
-      '<label for="f_who">Population<span class="hint">Type one phrase that names who they are and where they are.</span></label><input type="text" id="f_who" data-bind="who" placeholder="e.g., First-generation students at Texas community colleges" value="' + esc(S.who) + '">';
-  }, v: function(){ return S.who.trim() ? "" : "Name who you are studying."; }},
+      '<div class="popgrid">' +
+      '<div><label for="pp_who">Who <span class="req">(required)</span><span class="hint">The group, by role or shared condition.</span></label><input type="text" id="pp_who" data-pp="who" placeholder="e.g., Post-9/11 U.S. veterans" value="' + esc(S.pop.who) + '"></div>' +
+      '<div><label for="pp_age">Age or life stage <span class="opt">(if it matters)</span><span class="hint">You can type 18-34 or 65+. Leave it empty if any age.</span></label><input type="text" id="pp_age" data-pp="age" placeholder="e.g., ages 18 to 34" value="' + esc(S.pop.age) + '"></div>' +
+      '<div><label for="pp_where">Where <span class="opt">(if it matters)</span><span class="hint">The setting or place. The app adds “in” if you leave it out.</span></label><input type="text" id="pp_where" data-pp="where" placeholder="e.g., enrolled in VA mental health care" value="' + esc(S.pop.where) + '"></div>' +
+      '<div><label for="pp_when">When or qualifying event <span class="opt">(if it matters)</span><span class="hint">Timing, or an event that makes someone part of the group.</span></label><input type="text" id="pp_when" data-pp="when" placeholder="e.g., within 6 months of discharge" value="' + esc(S.pop.when) + '"></div></div>' +
+      '<div class="popfull"><label for="f_who">Your population<span class="hint">Built from the boxes above. Read it aloud. If it does not read well, edit it here.</span></label><textarea id="f_who" class="auto oneline" rows="1" data-popfull="1">' + esc(S.who) + '</textarea>' +
+      '<p class="small" id="popNote"' + (S.popEdited ? '' : ' hidden') + ' style="margin:6px 0 0">You edited the phrase, so it no longer updates from the boxes. <button type="button" class="linkbtn" id="popRebuild">Rebuild from the boxes</button></p></div>';
+  }, v: function(){ return S.who.trim() ? "" : "Fill in Who: the group you are studying."; }},
 /* 2 */ {t: "Outcome", g: "Question", r: function(){
     return '<h2 id="stepTitle">What change or result do you care about for them?</h2><p class="lede">This is the outcome your model explains.</p>' +
       teachBox("out", "How to name an outcome", "Name one result in people that can be more or less, in 2 to 5 words.", '<p>A good outcome name:</p>' +
@@ -1448,12 +1480,75 @@ function removeOther(i){
   S.modOthers.splice(i, 1); S.modOther = S.modOthers[0] || "";
   for(var j = i; j <= S.modOthers.length; j++){ var nk = "__other" + j, ok = "__other" + (j + 1); if(S.modIds[ok]) S.modIds[nk] = S.modIds[ok]; else delete S.modIds[nk]; }
 }
+/* Remove propositions that match a test; keep every arrow's link pointing at the right proposition. */
+function dropProps(test){
+  var map = {}, keep = [];
+  S.props.forEach(function(q, k){ if(test(q)) return; map[k] = keep.length; keep.push(q); });
+  S.props = keep;
+  Object.keys(S.propLinks).forEach(function(e){ var v = S.propLinks[e]; if(typeof v === "number" && map[v] !== undefined) S.propLinks[e] = map[v]; else delete S.propLinks[e]; });
+}
+function slotSeminal(id){ var t = theoryById(id); return t ? t.seminal : ""; }
+function setSlotSeminal(id, v){ if(id === "A") S.seminal = v; else { var i = id.charCodeAt(0) - 66; if(S.more[i]) S.more[i].seminal = v; } }
+/* What in the model came from one theory slot (A, B, ...). */
+/* A concept belongs to slot id if it is tagged with id, or if it is untagged and is one of that theory's library concepts. */
+function fromTheory(id, nodeId, label){
+  if(S.ctag[nodeId]) return S.ctag[nodeId] === id;
+  var t = theoryById(id), th = t && THEORIES[t.pick]; if(!th) return false;
+  var l = lc(label || ""); return !!l && th.chips.some(function(c){ return lc(c) === l; });
+}
+function tiedTo(id){
+  var props = S.props.filter(function(q){ return (q.theory || "A") === id; }).length;
+  var cs = S.causeIds.filter(function(c, i){ return (S.causes[i] || "").trim() && fromTheory(id, c, S.causes[i]); });
+  var med = !!(hasMed() && fromTheory(id, "med", S.mediator));
+  var t = theoryById(id), sem = t && t.seminal.trim() ? 1 : 0, as = S.assume[id] && Object.keys(S.assume[id]).some(function(k){ return (S.assume[id][k] || "").trim(); });
+  return {props: props, causes: cs, med: med, seminal: sem, assume: !!as, any: !!(props || cs.length || med || as)};
+}
+/* Clear everything that came from theory slot id, so a new theory starts clean. */
+function clearTheory(id){
+  dropProps(function(q){ return (q.theory || "A") === id; });
+  var keepC = [], keepI = [];
+  var medTied = !!(S.mediator.trim() && fromTheory(id, "med", S.mediator));
+  S.causes.forEach(function(c, i){ var cid = S.causeIds[i]; if((c || "").trim() && fromTheory(id, cid, c)){ delete S.cdef[cid]; delete S.ctag[cid]; } else { keepC.push(c); keepI.push(cid); } });
+  if(!keepC.length){ keepC = [""]; keepI = [newCid()]; }
+  S.causes = keepC; S.causeIds = keepI;
+  if(medTied){ S.mediator = ""; S.medYN = ""; S.partial = {}; delete S.cdef.med; delete S.ctag.med; }
+  Object.keys(S.ctag).forEach(function(k){ if(S.ctag[k] === id) delete S.ctag[k]; });
+  delete S.assume[id];
+  S.rq = ""; S.rqEdited = false; S.hyps = ""; S.hypsEdited = false; S.caption = ""; S.captionEdited = false;
+  S.figView = "all";
+}
+/* Change the theory in slot id. If the model already has work from the old theory, ask first. */
+function switchTheory(id, val, sel){
+  var t = theoryById(id), oldPick = t ? t.pick : "", oldName = t ? tName(t) : "", tied = t ? tiedTo(id) : {any: false};
+  function apply(clear){
+    var oldSem = slotSeminal(id);
+    if(clear) clearTheory(id);
+    if(id === "A") S.theory = val; else S.more[id.charCodeAt(0) - 66].pick = val;
+    var libOld = SEMINAL[oldPick] || "";
+    if(clear || !oldSem.trim() || oldSem === libOld) setSlotSeminal(id, SEMINAL[val] || "");
+    if(!S.rqEdited) S.rq = "";
+    if(!S.captionEdited) S.caption = "";
+    render(); var f = $(sel); if(f) f.focus();
+    if(clear) announce("Switched to " + tName(theoryById(id)) + ". Work from " + oldName + " was cleared.");
+  }
+  if(!oldPick || oldPick === val || !tied.any || !val){ apply(false); return; }
+  var parts = [];
+  if(tied.seminal) parts.push("its seminal source");
+  if(tied.props) parts.push(tied.props + " proposition" + (tied.props > 1 ? "s" : ""));
+  if(tied.causes.length) parts.push(tied.causes.length + " cause" + (tied.causes.length > 1 ? "s" : "") + " marked as coming from it");
+  if(tied.med) parts.push("the in-between step");
+  if(tied.assume) parts.push("its paradigm notes");
+  var newName = val === "custom" ? "a theory you type" : (THEORIES[val] ? THEORIES[val].name : "the new theory");
+  $(sel).value = oldPick;
+  askOK("You are changing Theory " + id + " from " + oldName + " to " + newName + ". These parts of your model came from " + oldName + ": " + joinList(parts) + ", with their definitions, reasons, and links. Switch and clear them? Your research question, hypotheses, and figure caption will be rewritten. To keep " + oldName + " and add the new theory, choose Cancel, then use Add another theory.", "Switch and clear", function(){ apply(true); });
+}
 function removeTheory(i){
   var gone = String.fromCharCode(66 + i);
+  dropProps(function(q){ return q.theory === gone; });
   S.more.splice(i, 1);
   function shift(v){ if(!v || v.length !== 1 || v < "B") return v; if(v === gone) return ""; return v > gone ? String.fromCharCode(v.charCodeAt(0) - 1) : v; }
   Object.keys(S.ctag).forEach(function(k){ var v = shift(S.ctag[k]); if(v) S.ctag[k] = v; else delete S.ctag[k]; });
-  S.props.forEach(function(q){ var v = shift(q.theory); q.theory = v || "A"; });
+  S.props.forEach(function(q){ var v = shift(q.theory); if(v) q.theory = v; });
   var na = {}; Object.keys(S.assume).forEach(function(k){ var v = shift(k); if(v) na[v] = S.assume[k]; }); S.assume = na;
   if(S.figView !== "all" && !theoryById(S.figView)) S.figView = "all";
 }
@@ -1471,14 +1566,16 @@ document.addEventListener("change", function(ev){
   if(t.id === "modSkip"){ S.modSkip = t.checked; if(t.checked) S.modPicked = []; render(); $("modSkip").focus(); return; }
   if(ds.mp){ (S.modDetails[ds.mp] = S.modDetails[ds.mp] || {}).path = t.value; save(); schedulePreview(); return; }
   if(ds.partial){ if(t.checked) S.partial[ds.partial] = true; else delete S.partial[ds.partial]; if(!S.hypsEdited) S.hyps = ""; if(!S.rqEdited) S.rq = ""; var yp = window.scrollY; render(); window.scrollTo(0, yp); var pp = $("screen").querySelector('[data-partial="' + ds.partial + '"]'); if(pp) pp.focus(); announce(t.checked ? "Partial mediation: direct arrow added." : "Direct arrow removed."); return; }
-  if(ds.theorya){ S.theory = t.value; if(!S.rqEdited) S.rq = ""; render(); $("f_theory").focus(); return; }
-  if(ds.mt && ds.mf === "pick"){ S.more[+ds.mt].pick = t.value; render(); $("mt" + ds.mt).focus(); return; }
+  if(ds.theorya){ switchTheory("A", t.value, "f_theory"); return; }
+  if(ds.mt && ds.mf === "pick"){ switchTheory(String.fromCharCode(66 + +ds.mt), t.value, "mt" + ds.mt); return; }
   if(ds.ctag){ if(t.value) S.ctag[ds.ctag] = t.value; else delete S.ctag[ds.ctag]; save(); schedulePreview(); var y2 = window.scrollY; render(); window.scrollTo(0, y2); var c2 = $("screen").querySelector('[data-ctag="' + ds.ctag + '"]'); if(c2) c2.focus(); return; }
 });
 document.addEventListener("input", function(ev){
   var t = ev.target, ds = t.dataset || {};
   if(t.tagName === "TEXTAREA") grow(t);
-  if(ds.bind){ S[ds.bind] = t.value; }
+  if(ds.pp){ S.pop[ds.pp] = t.value; if(!S.popEdited){ S.who = composePop(S.pop); var fw = $("f_who"); if(fw){ fw.value = S.who; grow(fw); } } }
+  else if(ds.popfull){ S.who = t.value; S.popEdited = t.value !== composePop(S.pop); var pn = $("popNote"); if(pn) pn.hidden = !S.popEdited; }
+  else if(ds.bind){ S[ds.bind] = t.value; }
   else if(ds.cause){ S.causes[+ds.cause] = t.value; }
   else if(ds.mo){ S.modOthers[+ds.mo] = t.value; S.modOther = S.modOthers[0] || ""; }
   else if(ds.prop){ var pk = +ds.prop; if(S.props[pk]) S.props[pk][ds.pf] = t.value; }
@@ -1492,9 +1589,10 @@ document.addEventListener("input", function(ev){
   else return;
   save(); schedulePreview();
 });
-/* Enter advances only on one-field steps (Who, Outcome); elsewhere it does nothing, so a stray
+/* Enter advances only on one-field steps (Outcome) and from the full population phrase on Who; elsewhere it does nothing, so a stray
    Enter in a page-number or construct box never jumps to the next step. */
 document.addEventListener("keydown", function(ev){
+  if(ev.key === "Enter" && ev.target.id === "f_who" && $("next")){ ev.preventDefault(); go(1); return; }
   if(ev.key !== "Enter" || ev.target.tagName !== "INPUT" || ev.target.type !== "text" || !$("screen").contains(ev.target)) return;
   if(ev.target.getAttribute("list")) return;
   var n = $("screen").querySelectorAll('input[type=text]').length;
@@ -1548,6 +1646,7 @@ document.addEventListener("click", function(ev){
   if(id === "homeLink" || id === "homeBrand"){ save(); return showSplash(false); }
   if(id === "aboutLink") return showSplash(true);
   if(id === "spCont"){ render(); focusH(); return; }
+  if(id === "popRebuild"){ S.popEdited = false; S.who = composePop(S.pop); $("f_who").value = S.who; $("popNote").hidden = true; save(); schedulePreview(); $("f_who").focus(); announce("Rebuilt from the boxes."); return; }
   if(id === "askYes"){ askClose(true); return; }
   if(id === "askNo"){ askClose(false); return; }
   if(id === "spStart" || id === "spNew"){ okReplace(function(){ S = fresh(); S.mode = "own"; S.step = 1; save(); render(); focusH(); }); return; }
