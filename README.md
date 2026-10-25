@@ -6,6 +6,16 @@ Live: https://social-theory-model-builder.netlify.app
 
 ## What students do
 
+Students start with the **short version**: 5 screens.
+
+1. **Who and what.** The population and the outcome.
+2. **Theory.** One from the library, one they type, or skip for now.
+3. **Shape.** A picture of the idea: one step (direct effect), a middle step (mediation), depends on the group (moderation), or both.
+4. **Boxes.** Causes, the middle step, and the group or condition, with the chosen theory's concepts offered as one-click ideas.
+5. **+ or −.** The direction of each arrow.
+
+The result is a figure, a research question, and hypotheses. **Get it ready for my paper** carries every answer into the **full version** (15 steps):
+
 1. **Question.** Population (with guidance on making it specific), outcome, and what counts as the outcome.
 2. **Theory.** One entry from the library of 112 common theories, models, and frameworks, or one the student types (and a second if the model needs it), the seminal source for each, and 2 to 12 key propositions with page numbers.
 3. **Model.** Causes (including social determinants), an in-between step (mediator), and moderators. Causes can be dragged in from theory chips and reordered.
@@ -42,7 +52,7 @@ At the top of the first `<script>` in `index.html`:
 
 ## How to cite
 
-Schuman, D. L. (2026). *Social theory model builder* (Version 1.3.0) [Web application]. The University of Texas at Arlington. https://doi.org/10.5281/zenodo.23423388
+Schuman, D. L. (2026). *Social theory model builder* (Version 1.4.0) [Web application]. The University of Texas at Arlington. https://doi.org/10.5281/zenodo.23423388
 
 In-text: (Schuman, 2026). Machine-readable metadata is in `CITATION.cff` (GitHub's "Cite this repository") and `.zenodo.json`.
 
