@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="description" content="Build a theory-grounded conceptual model: propositions with page numbers, defined concepts, a path figure, hypotheses, and paper-ready notes for theoretical papers.">
+<meta name="description" content="Draw a simple theory-based conceptual model in 5 short screens, then get it ready for a theoretical paper: propositions, definitions, a path figure, and hypotheses.">
 <meta name="theme-color" content="#1d2340">
 <script>
 /* ===== Configuration (edit these; empty string = disabled) ===== */
@@ -67,8 +67,9 @@ var PROPOSITIONS_VIDEO_URL = ''; // older setting; used for the propositions slo
       <p class="ver" id="spVer">Version</p>
       <h1 id="spT" tabindex="-1">Social Theory Model Builder</h1>
       <p class="byline">D. L. Schuman, The University of Texas at Arlington</p>
-      <p class="purpose">A step-by-step tool for building a conceptual model from a theory. You enter a population, an outcome, a theory, and the theory's propositions. The app produces a path figure, a research question, and hypotheses.</p>
+      <p class="purpose">Draw a simple model of your idea in 5 short screens. You get a figure, a research question, and hypotheses.</p>
       <div class="spbtns" id="spBtns"></div>
+      <p class="spfull">Writing your paper and ready to add propositions and definitions? <button type="button" class="linkbtn" id="spFull">Use the full version (15 steps)</button></p>
     </div>
     <div class="hero-fig" aria-hidden="true">
       <svg viewBox="0 0 520 300" font-family="Georgia, serif">
@@ -100,15 +101,16 @@ var PROPOSITIONS_VIDEO_URL = ''; // older setting; used for the propositions slo
   </div>
 
   <div class="sp-sec">
-    <h2>Steps</h2>
-    <p class="small" style="margin:0 0 10px">15 short steps in five parts. You can save and come back at any time.</p>
-    <ol class="timeline">
-      <li><b>Question</b><span>Who you study, the outcome, and how you will count it (steps 1–3)</span></li>
-      <li><b>Theory</b><span>The theory, its seminal source, and its propositions (steps 4–5)</span></li>
-      <li><b>Model</b><span>Causes, the in-between concept, moderators, and a definition for each concept (steps 6–10)</span></li>
-      <li><b>Arrows</b><span>Direction, line style, and a reason for each arrow (steps 11–12)</span></li>
-      <li><b>Finish</b><span>Paper notes, self-check, and your results: figure, research question, and hypotheses (steps 13–15)</span></li>
+    <h2>How it works</h2>
+    <p class="small" style="margin:0 0 10px">5 short screens. You can save and come back at any time.</p>
+    <ol class="timeline t5">
+      <li><b>Who and what</b><span>The group you study and the result you want to explain</span></li>
+      <li><b>Theory</b><span>Choose one, or skip it for now</span></li>
+      <li><b>Shape</b><span>Pick a picture: one step, a middle step, or depends on the group</span></li>
+      <li><b>Boxes</b><span>Name the causes and the other boxes</span></li>
+      <li><b>+ or −</b><span>Does more lead to more, or to less?</span></li>
     </ol>
+    <p class="small" style="margin:14px 0 0">Writing your paper? After screen 5, the full version (15 steps) adds definitions, the theory’s propositions, and a reason for each arrow. Your answers carry over.</p>
     <p class="small" style="margin-top:16px">For doctoral and master's students in social work and related fields.</p>
   </div>
 
@@ -169,7 +171,7 @@ var PROPOSITIONS_VIDEO_URL = ''; // older setting; used for the propositions slo
 /* Preview key: add ?preview to the address to move through every step without answering.
    It lasts for the browser tab; "Exit preview" turns it off. */
 var PREVIEW = (function(){ var on = /[?&](preview|demo)(=|&|$)/i.test(location.search); try { if(on) sessionStorage.setItem("stmbPreview", "1"); on = on || sessionStorage.getItem("stmbPreview") === "1"; } catch(e){} return on; })();
-var KEY = "theoryModelApp.v1", VERSION = "1.3.0", SCHEMA = 4;
+var KEY = "theoryModelApp.v1", VERSION = "1.4.0", SCHEMA = 4;
 var APP_URL = "https://social-theory-model-builder.netlify.app";
 var DOI_URL = "https://doi.org/10.5281/zenodo.23423388";
 var CITE = "Schuman, D. L. (2026). Social theory model builder (Version " + VERSION + ") [Web application]. The University of Texas at Arlington. " + DOI_URL;
@@ -266,7 +268,8 @@ function fresh(){
     ctag: {}, cdef: {}, styles: {}, signs: {}, bases: {}, needsSource: {}, openQ: {},
     props: [], propLinks: {}, returnTo: -1, reasons: {}, hyps: "", hypsEdited: false, hypWord: "H",
     showTags: true, tagMode: "H", figView: "all", pos: {}, labels: {}, rq: "", rqEdited: false,
-    caption: "", captionEdited: false, notes: {}, assume: {}, sel: "", noAuto: {}, partial: {}};
+    caption: "", captionEdited: false, notes: {}, assume: {}, sel: "", noAuto: {}, partial: {},
+    qstep: 1, qmax: 1, shape: "", partialSeen: true, fromQuick: false};
 }
 function isObj(x){ return x && typeof x === "object" && !Array.isArray(x); }
 function upgrade(st){
@@ -583,7 +586,8 @@ function hypList(){
     var ex2 = causeNodes().some(function(c){ return style(c.id + ">med", "solid") === "dashed"; }) || style("med>out", "solid") === "dashed";
     var pi = partialIds(), comp = causeNodes().filter(function(c){ return pi.indexOf(c.id) < 0; }), part = causeNodes().filter(function(c){ return pi.indexOf(c.id) >= 0; });
     function names(l){ return joinList(l.map(function(c){ return c.label.toLowerCase(); })); }
-    var body = comp.length && part.length ? "will completely mediate the " + (comp.length > 1 ? "links" : "link") + " from " + names(comp) + ", and partially mediate the " + (part.length > 1 ? "links" : "link") + " from " + names(part) + ", to " : (part.length ? "will partially mediate the " + (part.length > 1 ? "links" : "link") + " from " + names(part) + " to " : "will completely mediate the " + (comp.length > 1 ? "links" : "link") + " from " + names(comp) + " to ");
+    /* Short-version models have not chosen complete or partial mediation yet, so the sentence does not claim either. */
+    var body = !S.partialSeen && !part.length ? "will mediate the " + (comp.length > 1 ? "links" : "link") + " from " + names(comp) + " to " : comp.length && part.length ? "will completely mediate the " + (comp.length > 1 ? "links" : "link") + " from " + names(comp) + ", and partially mediate the " + (part.length > 1 ? "links" : "link") + " from " + names(part) + ", to " : (part.length ? "will partially mediate the " + (part.length > 1 ? "links" : "link") + " from " + names(part) + " to " : "will completely mediate the " + (comp.length > 1 ? "links" : "link") + " from " + names(comp) + " to ");
     H.push({n: n, edge: null, kind: "mediation", text: hn(n) + " (mediation" + (ex2 ? ", exploratory" : "") + "): " + nodeLabel("med") + " " + body + nodeLabel("out").toLowerCase() + "."});
   }
   return H;
@@ -846,7 +850,8 @@ var STEPS = [
     return h + tip("path") + tip("pie");
   }, v: function(){ return causes().length ? "" : "List at least one cause."; }},
 /* 7 */ {t: "In-between", g: "Model", r: function(){
-    var h = '<h2 id="stepTitle">In-between: is there a step in the middle?</h2><p class="lede">Something the causes change first, which then changes ' + esc(S.outcome.toLowerCase()) + '.</p>' + videoSlot("inbetween", "Mediators and moderators") + medConceptBox() + choices("medYN", [["yes", "Yes", "I can name it."], ["no", "No", "Causes link straight to the outcome."], ["unsure", "Not sure", "Skip it for now."]]);
+    S.partialSeen = true;
+    var h ='<h2 id="stepTitle">In-between: is there a step in the middle?</h2><p class="lede">Something the causes change first, which then changes ' + esc(S.outcome.toLowerCase()) + '.</p>' + videoSlot("inbetween", "Mediators and moderators") + medConceptBox() + choices("medYN", [["yes", "Yes", "I can name it."], ["no", "No", "Causes link straight to the outcome."], ["unsure", "Not sure", "Skip it for now."]]);
     if(S.medAuto && S.medYN === "yes" && S.mediator.trim()){ var srcP = S.props.map(function(q, k){ return lc(q.from) === lc(S.mediator) || lc(q.to) === lc(S.mediator) ? "P" + (k + 1) : ""; }).filter(Boolean); h += '<div class="warn" role="note"><strong>The app filled this in for you.</strong> ' + (srcP.length ? joinList(srcP) + (srcP.length > 1 ? " name " : " names ") : "Your propositions name ") + '“' + esc(S.mediator.trim()) + '” between your causes and the outcome, so Yes is selected. Change it if this is not right.</div>'; }
     if(S.medYN === "yes") h += jargon("That\'s called <strong>mediation</strong>. The in-between is the <strong>mediator</strong>.") + '<label for="f_med">Name the in-between<span class="hint">Type the one thing the causes change first.</span></label><input type="text" id="f_med" data-bind="mediator" placeholder="e.g., Intention to stay in treatment" value="' + esc(S.mediator) + '">';
     if(S.medYN === "yes" && S.mediator.trim() && causeNodes().length) h += '<fieldset class="panel" style="margin-top:16px"><legend style="font-size:1.02rem">Complete or partial mediation?</legend><p class="small" style="margin:4px 0 10px">Check a cause only if your theory or research says it also changes ' + esc(S.outcome.toLowerCase() || "the outcome") + ' directly, not only through ' + esc(S.mediator.trim().toLowerCase()) + '. A checked cause gets its own arrow to the outcome (partial mediation). Leave all boxes empty for complete mediation.</p><div class="checkgrid">' +
@@ -1016,16 +1021,24 @@ function normalizeStep(){
   for(i = o - 1; i >= 0; i--) if(vis.indexOf(ORDER[i]) >= 0){ S.step = ORDER[i]; return; }
   S.step = vis[0];
 }
+/* Banner above the steps: the finished example, preview mode, or a note after moving from the short version. */
+function banner(){
+  var eb = $("exBanner"), quick = S.mode === "quick";
+  eb.hidden = !S.demoLoaded && !PREVIEW && !(S.fromQuick && !quick);
+  if(PREVIEW && !S.demoLoaded) eb.innerHTML = '<p><strong>Preview mode.</strong> Answers are not required. Use Next, or click any ' + (quick ? 'screen number' : 'step in the list') + ', to see every screen.</p><button type="button" class="btn sec sm" id="exitPreview">Exit preview</button>';
+  else if(S.demoLoaded) eb.innerHTML = '<p><strong>Finished example.</strong> A completed model of treatment engagement among post-9/11 U.S. veterans (people who served after September 11, 2001) in U.S. Department of Veterans Affairs (VA) mental health care. ' + (quick ? 'Press Next to see how each screen was filled in.' : 'Press Next to see how each step was filled in, or open any step in the list' + (window.matchMedia && matchMedia("(max-width: 900px)").matches ? ' (tap All steps)' : '') + '.') + '</p>' + (hasBackup() ? '<button type="button" class="btn sec sm" id="exBack">Back to my model</button>' : '') + '<button type="button" class="btn yel sm" id="exNew">Start my own model</button>';
+  else if(S.fromQuick && !quick) eb.innerHTML = '<p><strong>Your answers from the short version are filled in.</strong> Go through each step and add what your paper needs.</p><button type="button" class="btn sec sm" data-toquick="1">Back to the short version</button><button type="button" class="btn ghost sm" id="fqClose">Close</button>';
+}
 function render(){
+  if(S.mode === "quick") return renderQuick();
   hideSplash(); ensureIds(S); normalizeStep();
   autoLink();
   if(S.seen.indexOf(S.step) < 0) S.seen.push(S.step);
   var vis = visible(), num = numbered(), pos = vis.indexOf(S.step), npos = num.indexOf(S.step), st = STEPS[S.step], res = isResults();
+  $("app").classList.remove("quick");
   $("app").classList.toggle("wide", res);
   document.body.classList.toggle("demo", !!S.demoLoaded);
-  var eb = $("exBanner"); eb.hidden = !S.demoLoaded && !PREVIEW;
-  if(PREVIEW && !S.demoLoaded) eb.innerHTML = '<p><strong>Preview mode.</strong> Answers are not required. Use Next, or click any step in the list, to see every screen.</p><button type="button" class="btn sec sm" id="exitPreview">Exit preview</button>';
-  if(S.demoLoaded) eb.innerHTML = '<p><strong>Finished example.</strong> A completed model of treatment engagement among post-9/11 U.S. veterans (people who served after September 11, 2001) in U.S. Department of Veterans Affairs (VA) mental health care. Press Next to see how each step was filled in, or open any step in the list' + (window.matchMedia && matchMedia("(max-width: 900px)").matches ? ' (tap All steps)' : '') + '.</p>' + (hasBackup() ? '<button type="button" class="btn sec sm" id="exBack">Back to my model</button>' : '') + '<button type="button" class="btn yel sm" id="exNew">Start my own model</button>';
+  banner();
   var pct = Math.round(100 * (npos + 1) / num.length);
   $("mbar").style.width = pct + "%"; $("mtext").textContent = "Step " + (npos + 1) + " of " + num.length + ": " + st.t;
   renderRail(num, npos, pct);
@@ -1048,7 +1061,7 @@ function renderRail(vis, pos, pct){
     var seen = PREVIEW || S.seen.indexOf(i) >= 0, cur = i === S.step, done = S.seen.indexOf(i) >= 0 && !cur && p < pos;
     h += '<li><button type="button" class="rail-step' + (done ? " done" : "") + '" data-goto="' + i + '" ' + (cur ? 'aria-current="step"' : '') + ' ' + (!seen && !cur ? "disabled" : "") + '><span class="dot" aria-hidden="true">' + (done ? "✓" : p + 1) + '</span><span>' + esc(s.t) + '</span></button></li>';
   });
-  $("rail").innerHTML = h + '</ol><p class="rail-terms"><button type="button" class="linkbtn" data-terms="1">Key terms</button></p></div>';
+  $("rail").innerHTML = h + '</ol><p class="rail-terms"><button type="button" class="linkbtn" data-terms="1">Key terms</button><br><button type="button" class="linkbtn" data-toquick="1">Short version (5 screens)</button></p></div>';
 }
 function grow(t){ if(!t || !t.classList || !t.classList.contains("auto")) return; t.style.height = "auto"; t.style.height = (t.scrollHeight + 3) + "px"; }
 function growAll(root){ (root || document).querySelectorAll("textarea.auto").forEach(grow); }
@@ -1152,7 +1165,7 @@ function buildSVG(o){
     var geo = g.c ? 'd="M' + g.s[0] + ' ' + g.s[1] + ' Q' + g.c[0] + ' ' + g.c[1] + ' ' + g.e[0] + ' ' + g.e[1] + '" fill="none"' : 'x1="' + g.s[0] + '" y1="' + g.s[1] + '" x2="' + g.e[0] + '" y2="' + g.e[1] + '"', tag = g.c ? "path" : "line";
     out.push('<g' + attrs + '>' + (screen ? '<' + tag + ' class="halo" ' + geo + ' stroke="transparent" stroke-width="18" stroke-linecap="round"/>' : '') + '<' + tag + ' class="vis" ' + geo + ' stroke="#222" stroke-width="2"' + (d ? ' stroke-dasharray="8 6"' : '') + ' marker-end="url(#ah' + uid + ')"/></g>');
     var m = mids[p.id], cx = m[0] + 14, cy = m[1] + 17;
-    out.push('<g pointer-events="none"><circle cx="' + cx + '" cy="' + cy + '" r="9" fill="' + (sg === "-" ? "#e6e7ee" : "#fff") + '" stroke="#222" stroke-width="1.3"/><text x="' + cx + '" y="' + (cy + 5) + '" text-anchor="middle" font-size="16" font-weight="bold" font-family="Arial, sans-serif" fill="#111">' + signChar(sg) + '</text></g>');
+    out.push('<g pointer-events="none"><circle cx="' + cx + '" cy="' + cy + '" r="9" fill="' + (sg === "-" ? "#e6e7ee" : "#fff") + '" stroke="#222" stroke-width="1.3"/><text x="' + cx + '" y="' + (cy + 5) + '" text-anchor="middle" font-size="16" font-weight="bold" font-family="Arial, sans-serif" fill="#111">' + (signSet(p.id) ? signChar(sg) : "?") + '</text></g>');
   });
   me.forEach(function(e){
     var a = P[e.from], sx = a.x + BW / 2, sy = a.y + BH, m = modTo[e.id], d = style(e.id, "dashed") === "dashed";
@@ -1181,7 +1194,8 @@ function buildSVG(o){
   var ly = L.H + 30;
   out.push('<g font-size="13" fill="#222"><line x1="30" y1="' + ly + '" x2="90" y2="' + ly + '" stroke="#222" stroke-width="2" marker-end="url(#ah' + uid + ')"/><text x="100" y="' + (ly + 4) + '">Solid: hypothesized path (tested)</text><line x1="370" y1="' + ly + '" x2="430" y2="' + ly + '" stroke="#222" stroke-width="2" stroke-dasharray="8 6" marker-end="url(#ah' + uid + ')"/><text x="440" y="' + (ly + 4) + '">Dashed: moderation or exploratory / not tested</text>');
   var ty = ly + 24;
-  out.push('<text x="30" y="' + ty + '" fill="#444">Theory: ' + esc(view !== "all" ? tName(theoryById(view)) : theoryNames()) + '. Dashed arrows into an arrow = the moderator changes that arrow\'s strength.</text>'); ty += 19;
+  var thn = view !== "all" ? tName(theoryById(view)) : theoryNames();
+  out.push('<text x="30" y="' + ty + '" fill="#444">' + (thn ? 'Theory: ' + esc(thn) + '. ' : '') + 'Dashed arrows into an arrow = the moderator changes that arrow\'s strength.</text>'); ty += 19;
   out.push('<text x="30" y="' + ty + '" fill="#444">Circled + / −: direction. + = more of one leads to more of the next; − = more of one leads to less.</text>'); ty += 19;
   if(bypass){ out.push('<text x="30" y="' + ty + '" fill="#444">Curved arrow: a direct effect that does not pass through the in-between concept (partial mediation).</text>'); ty += 19; }
   if(letters){ var ls = theoryList().map(function(t){ return t.id + " = " + tName(t); }); if(all.some(function(n){ return S.ctag[n.id] === "new"; })) ls.push("N = new concept"); out.push('<text x="30" y="' + ty + '" fill="#444">Circled letters: source of each concept. ' + esc(ls.join("; ")) + '.</text>'); ty += 19; }
@@ -1354,6 +1368,12 @@ function download(name, blob){ var a = document.createElement("a"); a.href = URL
 function svgText(){ return '<?xml version="1.0" encoding="UTF-8"?>\n' + buildSVG({mode: "export", uid: "e"}); }
 window.__exportSVG = svgText;
 function figName(ext){ return "path-figure" + (figView() !== "all" ? "-theory-" + figView() : "") + "." + ext; }
+function downloadPNG(){
+  var t = buildSVG({mode: "export", uid: "e"}), m = t.match(/viewBox="0 0 (\d+) (\d+)"/), img = new Image();
+  img.onload = function(){ var c = document.createElement("canvas"); c.width = m[1] * 2; c.height = m[2] * 2; var x = c.getContext("2d"); x.scale(2, 2); x.drawImage(img, 0, 0); c.toBlob(function(b){ download(figName("png"), b); status("Picture downloaded."); }); };
+  img.onerror = function(){ status("The picture could not be made in this browser. Use Print or save as PDF."); };
+  img.src = "data:image/svg+xml;charset=utf-8," + encodeURIComponent(t);
+}
 function wordDoc(){
   var title = "Theory paper notes: " + (S.outcome || "model") + " among " + (S.who || "population");
   var body = '<h1>' + esc(title) + '</h1><p><em>Generated ' + esc(new Date().toLocaleDateString()) + ' with the Social Theory Model Builder.</em></p>' +
@@ -1419,12 +1439,7 @@ function wireResults(){
   $("cpMer").onclick = function(){ copy(mermaid(), "Mermaid text"); };
   $("print").onclick = function(){ window.print(); };
   $("dlSVG").onclick = function(){ download(figName("svg"), new Blob([svgText()], {type: "image/svg+xml"})); status("SVG downloaded."); };
-  $("dlPNG").onclick = function(){
-    var t = buildSVG({mode: "export", uid: "e"}), m = t.match(/viewBox="0 0 (\d+) (\d+)"/), img = new Image();
-    img.onload = function(){ var c = document.createElement("canvas"); c.width = m[1] * 2; c.height = m[2] * 2; var x = c.getContext("2d"); x.scale(2, 2); x.drawImage(img, 0, 0); c.toBlob(function(b){ download(figName("png"), b); status("PNG downloaded."); }); };
-    img.onerror = function(){ status("PNG export failed in this browser; use SVG."); };
-    img.src = "data:image/svg+xml;charset=utf-8," + encodeURIComponent(t);
-  };
+  $("dlPNG").onclick = downloadPNG;
   $("resetLayout").onclick = function(){ S.pos = {}; refreshFig(true); announce("Layout reset."); };
   document.querySelectorAll("[data-lab]").forEach(function(i){ i.addEventListener("input", function(){ S.labels[i.dataset.lab] = i.value; if(!S.rqEdited) S.rq = ""; refreshFig(true); }); });
 }
@@ -1678,9 +1693,252 @@ document.addEventListener("keydown", function(ev){
   if(n === 1 && $("next")){ ev.preventDefault(); go(1); }
 });
 
+/* ======================= Short version (5 screens) =======================
+   The short version writes into the same answers as the 15 steps, so "Get it ready for my paper"
+   opens the full steps with everything already filled in. One sentence of directions per screen. */
+var QS = ["Who and what", "Theory", "Shape", "Boxes", "+ or −", "Your model"];
+var SHAPES = [
+  ["direct", "One step", "A cause leads to the result.", "direct effect"],
+  ["med", "A middle step", "A cause changes something in the middle. That changes the result.", "mediation"],
+  ["mod", "Depends on the group", "The arrow is stronger for some people than for others.", "moderation"],
+  ["both", "Both", "A middle step, and an arrow that is stronger for some people.", "mediation and moderation"]
+];
+var QFOCUS = "";
+function qMed(){ return S.shape === "med" || S.shape === "both"; }
+function qMod(){ return S.shape === "mod" || S.shape === "both"; }
+function qModName(){ return modList()[0] || ""; }
+function setShape(v){
+  S.shape = v; S.medYN = qMed() ? "yes" : "no"; S.modYN = qMod() ? "yes" : "no";
+  if(qMod()) S.modSkip = false;
+  if(!S.rqEdited) S.rq = ""; if(!S.hypsEdited) S.hyps = ""; if(!S.captionEdited) S.caption = "";
+}
+function setWho(v){
+  S.who = v;
+  if(!S.pop.age && !S.pop.where && !S.pop.when){ S.pop.who = v; S.popEdited = false; }
+  else S.popEdited = v !== composePop(S.pop);
+}
+/* One moderator in the short version. Its details (groups, arrow) are kept under its name, so move them when the name changes. */
+function setQuickMod(v){
+  var old = qModName(), nn = v.trim(), d = S.modDetails[old];
+  S.modPicked = ["__other"]; S.modOthers = [v]; S.modOther = v; S.modSkip = false;
+  if(old !== nn && d){ S.modDetails[nn] = d; delete S.modDetails[old]; }
+}
+function setQuickTheory(k){
+  var old = S.theory;
+  S.theory = k;
+  if(!S.seminal.trim() || S.seminal === (SEMINAL[old] || "")) S.seminal = SEMINAL[k] || "";
+  if(!S.captionEdited) S.caption = "";
+}
+function startQuick(){ S = fresh(); S.mode = "quick"; S.qstep = 1; S.qmax = 1; S.partialSeen = false; save(); render(); focusH(); }
+function shapeSVG(k){
+  var med = k === "med" || k === "both", mod = k === "mod" || k === "both", y = 62, id = "qa" + k;
+  function box(x, w, t, fill, dash){ return '<rect x="' + x + '" y="' + y + '" width="' + w + '" height="28" rx="5" fill="' + fill + '" stroke="#1d2340" stroke-width="1.4"' + (dash ? ' stroke-dasharray="4 3"' : '') + '/><text x="' + (x + w / 2) + '" y="' + (y + 18) + '" text-anchor="middle">' + t + '</text>'; }
+  function arr(x1, x2){ return '<line x1="' + x1 + '" y1="' + (y + 14) + '" x2="' + (x2 - 2) + '" y2="' + (y + 14) + '" stroke="#1d2340" stroke-width="1.8" marker-end="url(#' + id + ')"/>'; }
+  var s = '<svg viewBox="0 0 250 100" class="qshape-fig" aria-hidden="true" focusable="false"><defs><marker id="' + id + '" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#1d2340"/></marker></defs><g font-size="12" font-family="Atkinson Hyperlegible Next, Arial, sans-serif" fill="#1d2340">';
+  s += box(2, 66, "Cause", "#fff");
+  if(med){ s += box(92, 66, "Middle", "#fff") + arr(68, 92) + arr(158, 182); }
+  else s += arr(68, 182);
+  s += box(182, 66, "Result", "#fff3b8");
+  if(mod){ var tx = med ? 170 : 125; s += '<rect x="' + (tx - 34) + '" y="4" width="68" height="26" rx="5" fill="#f4f5fb" stroke="#555c7a" stroke-width="1.4" stroke-dasharray="4 3"/><text x="' + tx + '" y="21" text-anchor="middle">Group</text><line x1="' + tx + '" y1="30" x2="' + tx + '" y2="' + (y + 10) + '" stroke="#555c7a" stroke-width="1.6" stroke-dasharray="4 3" marker-end="url(#' + id + ')"/>'; }
+  return s + '</g></svg>';
+}
+function qPathsHTML(){
+  var ps = paths(), d = S.modDetails[qModName()] || {};
+  if(!ps.length) return "";
+  if(ps.length === 1) return '<p class="small" style="margin:10px 0 0">It changes the arrow from ' + esc(nodeLabel(ps[0].from)) + ' to ' + esc(nodeLabel(ps[0].to)) + '.</p>';
+  return '<fieldset class="qpaths"><legend>Which arrow is stronger for some groups?</legend>' + ps.map(function(p, i){ return '<label><input type="radio" name="qmodpath" id="qmp' + i + '" data-qmodpath="1" value="' + esc(p.id) + '"' + (d.path === p.id ? " checked" : "") + '> <span>' + esc(nodeLabel(p.from)) + ' → ' + esc(nodeLabel(p.to)) + '</span></label>'; }).join("") + '</fieldset>';
+}
+function qChips(){ var l = []; theoryList().forEach(function(t){ var th = THEORIES[t.pick]; if(th) th.chips.forEach(function(c){ if(l.indexOf(c) < 0) l.push(c); }); }); return l; }
+var QR = {
+  1: function(){
+    return '<h2 id="stepTitle">Who are you studying, and what do you want to explain?</h2><p class="lede">Type one group of people and one result for them.</p>' +
+      '<label for="q_who">Who<span class="hint">A group of people. Example: Older adults living alone</span></label><input type="text" id="q_who" data-qbind="who" autocomplete="off" value="' + esc(S.who) + '">' +
+      '<label for="q_out">Result (the outcome)<span class="hint">One thing that can be more or less, in 2 to 5 words. Example: Loneliness</span></label><input type="text" id="q_out" data-qbind="outcome" autocomplete="off" value="' + esc(S.outcome) + '">';
+  },
+  2: function(){
+    var L = LIB[S.theory];
+    var h = '<h2 id="stepTitle">Which theory explains it?</h2><p class="lede">Choose a theory if you have one. You can also skip this screen for now.</p>' +
+      '<label for="q_tsearch">Search the list<span class="hint">Type a word, such as stress or veterans.</span></label><input type="search" id="q_tsearch" data-qtsearch="1" autocomplete="off">' +
+      '<label for="q_theory">Theory</label><select id="q_theory" data-qtheory="1"><option value="">No theory yet</option>' + theoryOptions(S.theory) + '</select>';
+    if(S.theory === "custom") h += '<label for="q_tcustom">Name of your theory</label><input type="text" id="q_tcustom" data-qbind="theoryCustom" autocomplete="off" value="' + esc(S.theoryCustom) + '">';
+    else if(L) h += '<div class="panel qtheory"><p style="margin:0 0 6px"><strong>' + esc(L.name) + ':</strong> ' + esc(L.desc) + '</p><p class="small" style="margin:0"><strong>Main ideas:</strong> ' + esc(L.chips.join(", ")) + '. You can use them as boxes on screen 4.</p></div>';
+    return h + '<p class="small"><a href="library.html" target="_blank">Browse the theory library</a> (opens in a new tab)</p>';
+  },
+  3: function(){
+    return '<h2 id="stepTitle">What does your idea look like?</h2><p class="lede">Pick the picture that is closest to your idea. You can change it later.</p>' +
+      '<div class="qshapes" role="group" aria-label="Shape of your model">' + SHAPES.map(function(s){ return '<button type="button" class="choice qshape" data-qshape="' + s[0] + '" aria-pressed="' + (S.shape === s[0]) + '">' + shapeSVG(s[0]) + '<strong>' + esc(s[1]) + '</strong><small>' + esc(s[2]) + '</small><span class="qterm">Term: ' + esc(s[3]) + '</span></button>'; }).join("") + '</div>' +
+      '<details class="qhelp"><summary>How do I choose?</summary><p><strong>Ask “why?”</strong> Why does the cause change the result? If you can name one thing in the middle, pick <strong>A middle step</strong>.</p><p><strong>Ask “for whom?”</strong> Is the arrow stronger for some people, places, or times? If yes, pick <strong>Depends on the group</strong>.</p><p style="margin:0">Not sure? Pick <strong>One step</strong>.</p></details>';
+  },
+  4: function(){
+    var med = qMed(), mod = qMod(), chips = qChips(), many = modList().length > 1;
+    var h = '<h2 id="stepTitle">Fill in the boxes.</h2><p class="lede">Type a short name in each empty box.</p>';
+    if(chips.length) h += '<div class="qchips noprint"><p class="small" style="margin:0">Ideas from ' + esc(theoryName()) + '. Click a box, then click an idea to put it there.</p>' + chips.map(function(c){ var used = causes().map(lc).indexOf(lc(c)) >= 0 || (med && lc(S.mediator) === lc(c)); return '<button type="button" class="chip' + (used ? ' used' : '') + '" data-qchip="' + esc(c) + '">' + (used ? '\u2713 ' : '+ ') + esc(c) + '</button>'; }).join("") + '</div>';
+    h += '<div class="qrow"><div class="qcol"><p class="qcap">' + (S.causes.length > 1 ? "Causes" : "Cause") + '</p>';
+    S.causes.forEach(function(c, i){ h += '<div class="qbox"><label class="sr" for="q_c' + i + '">Cause ' + (i + 1) + '</label><textarea id="q_c' + i + '" class="auto oneline" rows="1" data-qcause="' + i + '" placeholder="Cause ' + (i + 1) + '">' + esc(c) + '</textarea>' + (S.causes.length > 1 ? '<button type="button" class="btn ghost icon sm danger" data-qrmcause="' + i + '" aria-label="Remove cause ' + (i + 1) + '">✕</button>' : '') + '</div>'; });
+    if(S.causes.length < 4) h += '<button type="button" class="btn sec sm" id="qAddCause">+ Add another cause</button>';
+    h += '</div><div class="qarrow" aria-hidden="true">→</div>';
+    if(med) h += '<div class="qcol"><p class="qcap">Middle step</p><div class="qbox"><label class="sr" for="q_med">Middle step</label><textarea id="q_med" class="auto oneline" rows="1" data-qbind="mediator" placeholder="Middle step">' + esc(S.mediator) + '</textarea></div></div><div class="qarrow" aria-hidden="true">→</div>';
+    h += '<div class="qcol"><p class="qcap">Result</p><div class="qout">' + esc(S.outcome || "Result") + '</div></div></div>';
+    if(mod){
+      h += '<div class="qmodpanel"><p class="qcap">Group or condition (the dashed box)</p>';
+      if(many) h += '<p class="small" style="margin:0">Your model has ' + modList().length + ' of these: ' + esc(joinList(modList())) + '. Change them in the full version.</p>';
+      else h += '<label for="q_mod">What makes an arrow stronger for some people?<span class="hint">Example: Distance to care</span></label><input type="text" id="q_mod" data-qmod="1" autocomplete="off" value="' + esc(qModName()) + '">' +
+        '<label for="q_groups">Which groups will you compare?<span class="hint">You can leave this empty. Example: under 30 miles vs. 30 or more miles</span></label><input type="text" id="q_groups" data-qgroups="1" autocomplete="off" value="' + esc((S.modDetails[qModName()] || {}).groups || "") + '">' +
+        '<div id="qpaths">' + qPathsHTML() + '</div>';
+      h += '</div>';
+    }
+    return h;
+  },
+  5: function(){
+    var ps = paths(), me = modEdges().filter(function(e){ return e.path; });
+    var h = '<h2 id="stepTitle">More or less?</h2><p class="lede">For each arrow, choose what happens to the next box when the first box goes up.</p>';
+    ps.forEach(function(p){
+      var a = nodeLabel(p.from), b = nodeLabel(p.to), v = S.signs[p.id] || "";
+      h += '<div class="item qsign"><p class="qsign-h"><strong>' + esc(a) + '</strong> <span aria-hidden="true">→</span><span class="sr">to</span> <strong>' + esc(b) + '</strong></p><div class="choices compact" role="group" aria-label="' + esc(a + " to " + b) + '">' +
+        '<button type="button" class="choice" data-qsign="' + esc(p.id) + '" data-val="+" aria-pressed="' + (v === "+") + '"><strong>+</strong> More ' + esc(a.toLowerCase()) + ' leads to more ' + esc(b.toLowerCase()) + '</button>' +
+        '<button type="button" class="choice" data-qsign="' + esc(p.id) + '" data-val="-" aria-pressed="' + (v === "-") + '"><strong>−</strong> More ' + esc(a.toLowerCase()) + ' leads to less ' + esc(b.toLowerCase()) + '</button></div></div>';
+    });
+    if(me.length) h += '<p class="small">The dashed arrow from ' + esc(me[0].name) + ' does not need + or −. It shows that an arrow may be stronger for some groups.</p>';
+    return h + '<p class="qcap" style="margin-top:20px">Your figure so far</p><div class="figframe qfig">' + buildSVG({mode: "dialog", uid: "q"}) + '</div>';
+  },
+  6: function(){
+    var rq = (S.rqEdited && S.rq) || autoRQ(), hy = (S.hypsEdited && S.hyps) || hypText();
+    var h = '<h2 id="stepTitle">Your model</h2><p class="lede">Your figure, research question, and hypotheses are ready to use.</p>' +
+      '<div class="figframe qfig">' + buildSVG({mode: "export", uid: "r"}) + '</div><div class="btnrow noprint" style="margin-top:12px"><button class="btn" type="button" id="qPNG">Download picture (PNG)</button><button class="btn sec" type="button" id="qPrint">Print or save as PDF</button></div>' +
+      '<h3 class="qh">Research question</h3><div class="fv">' + fmtLines(rq) + '</div><div class="btnrow noprint"><button class="btn sec sm" type="button" id="qCopyRQ">Copy</button></div>' +
+      '<h3 class="qh">Hypotheses</h3><p class="small" style="margin:0 0 8px">One for each arrow. The H numbers match the numbers on the figure.</p><div class="fv">' + fmtLines(hy) + '</div><div class="btnrow noprint"><button class="btn sec sm" type="button" id="qCopyH">Copy</button></div>';
+    if(!S.demoLoaded) h += '<p class="savehint noprint" style="margin-top:20px"><strong>Save my work</strong> so you can open this model later on any computer. <button type="button" class="btn yel sm" data-savefile="1">Save my work</button></p>';
+    return h + '<div class="panel qnext noprint"><h3>Writing your paper?</h3><p>The full version adds what your paper needs: definitions, the theory’s propositions, and a reason for each arrow. Your answers here are already filled in.</p><button class="btn" type="button" id="qFull">Get it ready for my paper →</button></div><p class="noprint"><span id="status" role="status" class="small"></span></p>';
+  }
+};
+var QV = {
+  1: function(){ return !S.who.trim() ? "Type who you are studying." : !S.outcome.trim() ? "Type the result you want to explain." : ""; },
+  2: function(){ return S.theory === "custom" && !S.theoryCustom.trim() ? "Type the name of your theory, or choose No theory yet." : ""; },
+  3: function(){ return S.shape ? "" : "Pick one picture."; },
+  4: function(){
+    var cs = causes(), o = lc(S.outcome);
+    if(!cs.length) return "Type at least one cause.";
+    if(cs.some(function(c){ return lc(c) === o; })) return "A cause cannot have the same name as the result.";
+    if(cs.some(function(c, i){ return cs.map(lc).indexOf(lc(c)) !== i; })) return "Two causes have the same name. Change or remove one.";
+    if(qMed() && !S.mediator.trim()) return "Type the middle step, or go back to screen 3 and pick another picture.";
+    if(qMed() && (lc(S.mediator) === o || cs.map(lc).indexOf(lc(S.mediator)) >= 0)) return "The middle step needs its own name, different from the causes and the result.";
+    if(qMod()){
+      var nm = qModName(); if(!nm) return "Type the group or condition, or go back to screen 3 and pick another picture.";
+      if(modList().length > 1) return "";
+      var ps = paths(), d = S.modDetails[nm] = S.modDetails[nm] || {};
+      if(ps.length === 1) d.path = ps[0].id;
+      else if(!ps.some(function(p){ return p.id === d.path; })) return "Choose which arrow is stronger for some groups.";
+    }
+    return "";
+  },
+  5: function(){ var m = paths().filter(function(p){ return !signSet(p.id); }); return m.length ? "Choose + or − for every arrow. " + m.length + (m.length > 1 ? " arrows still need" : " arrow still needs") + " a choice." : ""; },
+  6: function(){ return ""; }
+};
+function qDots(){
+  return '<ol class="qdots noprint" aria-label="Screens">' + QS.slice(0, 5).map(function(t, i){
+    var n = i + 1, cur = n === S.qstep, done = n < S.qstep || (S.qstep === 6);
+    return '<li><button type="button" class="' + (done ? "done" : "") + '" data-qgo="' + n + '"' + (cur ? ' aria-current="step"' : '') + (n > S.qmax && !PREVIEW ? " disabled" : "") + '><span class="dot" aria-hidden="true">' + (done && !cur ? "✓" : n) + '</span><span>' + esc(t) + '</span></button></li>';
+  }).join("") + '</ol>';
+}
+function renderQuick(){
+  hideSplash(); ensureIds(S);
+  if(!(S.qstep >= 1 && S.qstep <= 6)) S.qstep = 1;
+  if(S.qstep > S.qmax) S.qmax = S.qstep;
+  var app = $("app"), n = S.qstep;
+  app.classList.add("quick"); app.classList.remove("wide", "railopen");
+  document.body.classList.toggle("demo", !!S.demoLoaded);
+  banner();
+  var next = n === 2 && !S.theory ? "Skip for now →" : n === 5 ? "See my model →" : "Next →";
+  $("screen").innerHTML = qDots() + QR[n]() +
+    '<p class="err" id="err" role="alert"></p><div class="nav noprint"><button class="btn sec" type="button" id="qBack"' + (n === 1 ? " disabled" : "") + '>← Back</button><div class="r">' + (n < 6 ? '<button class="btn" type="button" id="qNext">' + next + '</button>' : '') + '</div></div>';
+  growAll($("screen"));
+  if(n === 6 && !window._gcFin){ window._gcFin = 1; gcEvent("model-finished"); }
+  save();
+}
+function qGo(d){
+  var n = S.qstep;
+  if(d > 0 && !PREVIEW){ var e = QV[n](); if(e){ $("err").textContent = e; $("err").scrollIntoView({block: "nearest"}); return; } }
+  if(!S.rqEdited) S.rq = ""; if(!S.captionEdited) S.caption = "";
+  S.qstep = Math.max(1, Math.min(6, n + d));
+  renderQuick(); focusH();
+}
+function qFocus(sel){ var e = $("screen").querySelector(sel); if(e) e.focus(); }
+function qUseChip(c){
+  var have = causes().map(lc).concat(qMed() ? [lc(S.mediator)] : []);
+  if(have.indexOf(lc(c)) >= 0){ announce(c + " is already in your model."); $("err").textContent = c + " is already in your model."; return; }
+  var el = QFOCUS && $(QFOCUS);
+  if(!el || !$("screen").contains(el) || el.dataset.qcause === undefined && el.dataset.qbind !== "mediator") el = null;
+  if(!el){ var k = S.causes.findIndex(function(x){ return !x.trim(); }); if(k >= 0) el = $("q_c" + k); }
+  if(!el){ if(S.causes.length >= 4){ $("err").textContent = "All 4 cause boxes are full. Click a box first, then click an idea."; return; } S.causes.push(""); S.causeIds.push(newCid()); renderQuick(); el = $("q_c" + (S.causes.length - 1)); }
+  el.value = c; el.dispatchEvent(new Event("input", {bubbles: true})); el.focus(); QFOCUS = el.id;
+  announce("Put " + c + " in the box.");
+}
+/* Carry the short version into the 15 steps. Steps it already answered are marked as seen. */
+function toFull(){
+  S.mode = S.demoLoaded ? "demo" : "own";
+  if(S.demoLoaded){ S.seen = ORDER.slice(); S.step = stepIdx("Who"); }
+  else {
+    S.fromQuick = true;
+    [1, 2, 6, 7, 8, 10].concat(S.theory ? [4] : [], modList().length ? [9] : []).forEach(function(i){ if(S.seen.indexOf(i) < 0) S.seen.push(i); });
+    S.step = stepIdx("Define outcome");
+  }
+  render(); focusH(); announce("Full version. Your answers are filled in.");
+}
+function toQuick(){
+  S.mode = "quick"; S.fromQuick = false;
+  S.shape = hasMed() && modList().length ? "both" : hasMed() ? "med" : modList().length ? "mod" : "direct";
+  S.qstep = S.outcome.trim() && causes().length ? 6 : 1; S.qmax = S.qstep === 6 ? 6 : Math.max(S.qmax, 1);
+  render(); focusH();
+}
+document.addEventListener("focusin", function(e){ var t = e.target; if(S.mode === "quick" && t && t.id && /^q_(c\d+|med)$/.test(t.id)) QFOCUS = t.id; });
+document.addEventListener("click", function(ev){
+  if(S.mode !== "quick" || document.body.classList.contains("splashing")) return;
+  var t = ev.target.closest("button"); if(!t || !$("screen").contains(t)) return;
+  var id = t.id, ds = t.dataset;
+  if(id === "qNext") return qGo(1);
+  if(id === "qBack") return qGo(-1);
+  if(ds.qgo){ S.qstep = +ds.qgo; renderQuick(); focusH(); return; }
+  if(ds.qshape){ setShape(ds.qshape); renderQuick(); qFocus('[data-qshape="' + ds.qshape + '"]'); announce("Picked " + t.querySelector("strong").textContent + "."); return; }
+  if(ds.qsign){ S.signs[ds.qsign] = ds.val; if(!S.hypsEdited) S.hyps = ""; var y = window.scrollY; renderQuick(); window.scrollTo(0, y); qFocus('[data-qsign="' + ds.qsign + '"][data-val="' + ds.val + '"]'); announce(ds.val === "-" ? "Set to minus: more leads to less." : "Set to plus: more leads to more."); return; }
+  if(ds.qchip){ qUseChip(ds.qchip); return; }
+  if(id === "qAddCause"){ if(S.causes.length < 4){ S.causes.push(""); S.causeIds.push(newCid()); } renderQuick(); qFocus("#q_c" + (S.causes.length - 1)); return; }
+  if(ds.qrmcause){ var ri = +ds.qrmcause; S.causes.splice(ri, 1); S.causeIds.splice(ri, 1); if(!S.causes.length){ S.causes = [""]; S.causeIds = [newCid()]; } if(!S.rqEdited) S.rq = ""; renderQuick(); qFocus("#q_c" + Math.min(ri, S.causes.length - 1)); announce("Cause removed."); return; }
+  if(id === "qFull") return toFull();
+  if(id === "qPNG") return downloadPNG();
+  if(id === "qPrint") return window.print();
+  if(id === "qCopyRQ"){ var rq = (S.rqEdited && S.rq) || autoRQ(); return copyRich(fmtLines(rq), rq, "Research question"); }
+  if(id === "qCopyH"){ var hy = (S.hypsEdited && S.hyps) || hypText(); return copyRich(fmtLines(hy), hy, "Hypotheses"); }
+});
+document.addEventListener("input", function(ev){
+  if(S.mode !== "quick") return;
+  var t = ev.target, ds = t.dataset || {};
+  if(!$("screen").contains(t)) return;
+  if(ds.qtsearch){ var q = t.value.trim(), se = $("q_theory"), cur = se.value; se.innerHTML = '<option value="">' + (q ? "Choose from the matches…" : "No theory yet") + '</option>' + theoryOptions(cur, q); se.value = cur; var nm = Object.keys(LIB).filter(function(k){ return TL.matches(k, q); }).length; announce(q ? nm + " match" + (nm === 1 ? "" : "es") + "." : "Full list."); return; }
+  if(ds.qbind){ if(ds.qbind === "who") setWho(t.value); else S[ds.qbind] = t.value; }
+  else if(ds.qcause !== undefined){ S.causes[+ds.qcause] = t.value; }
+  else if(ds.qmod){ setQuickMod(t.value); }
+  else if(ds.qgroups){ var mn = qModName(); (S.modDetails[mn] = S.modDetails[mn] || {}).groups = t.value; }
+  else return;
+  if(!S.rqEdited) S.rq = ""; if(!S.hypsEdited) S.hyps = ""; if(!S.captionEdited) S.caption = "";
+  if(ds.qcause !== undefined || ds.qbind === "mediator" || ds.qmod){ var qp = $("qpaths"); if(qp) qp.innerHTML = qPathsHTML(); }
+  save();
+});
+document.addEventListener("change", function(ev){
+  if(S.mode !== "quick") return;
+  var t = ev.target, ds = t.dataset || {};
+  if(ds.qtheory){ setQuickTheory(t.value); renderQuick(); qFocus("#q_theory"); return; }
+  if(ds.qmodpath){ var mn = qModName(); (S.modDetails[mn] = S.modDetails[mn] || {}).path = t.value; if(!S.rqEdited) S.rq = ""; if(!S.hypsEdited) S.hyps = ""; $("err").textContent = ""; save(); return; }
+});
+document.addEventListener("keydown", function(ev){
+  if(S.mode !== "quick" || ev.key !== "Enter" || !$("screen").contains(ev.target)) return;
+  if(ev.target.tagName === "TEXTAREA"){ ev.preventDefault(); return; }
+  if(ev.target.tagName !== "INPUT" || ev.target.type !== "text") return;
+  if(S.qstep === 1 || S.qstep === 2){ ev.preventDefault(); qGo(1); }
+});
+
 /* ======================= Splash, files ======================= */
 function hasProgress(){
-  var skip = ["step", "seen", "sel", "demoLoaded", "causeIds", "cseq", "modIds", "mseq"];
+  var skip = ["step", "seen", "sel", "demoLoaded", "causeIds", "cseq", "modIds", "mseq", "mode", "qstep", "qmax", "partialSeen", "fromQuick"];
   function clean(o){ var c = clone(o); skip.forEach(function(k){ delete c[k]; }); return c; }
   var f = clean(fresh());
   return JSON.stringify(Object.assign(clean(fresh()), clean(S))) !== JSON.stringify(f);
@@ -1690,7 +1948,7 @@ function showSplash(focusCite){
   var b = $("spBtns");
   b.innerHTML = hasProgress()
     ? (S.demoLoaded && hasBackup() ? '<button class="btn yel" type="button" id="exBack">Continue my model</button><button class="btn sec" type="button" id="spCont">Back to the example</button>' : '<button class="btn yel" type="button" id="spCont">' + (S.demoLoaded ? "Back to the example" : "Continue my model") + '</button>') + '<button class="btn sec" type="button" id="spNew">Start a new model</button>' + (S.demoLoaded ? '' : '<button class="btn sec" type="button" id="spDemo">See a finished example</button>') + '<button class="btn ghost" type="button" id="spOpen">Open saved work</button>'
-    : '<button class="btn yel" type="button" id="spStart">Start a new model</button><button class="btn sec" type="button" id="spDemo">See a finished example</button><button class="btn ghost" type="button" id="spOpen">Open saved work</button>';
+    : '<button class="btn yel" type="button" id="spStart">Start (5 short screens)</button><button class="btn sec" type="button" id="spDemo">See a finished example</button><button class="btn ghost" type="button" id="spOpen">Open saved work</button>';
   window.scrollTo(0, 0);
   if(focusCite){ $("about").scrollIntoView(); } else $("spT").focus({preventScroll: true});
 }
@@ -1699,9 +1957,10 @@ function hideSplash(){ document.body.classList.remove("splashing"); }
 var BK = KEY + ".backup";
 function openExample(){
   if(!S.demoLoaded && hasProgress()){ try { localStorage.setItem(BK, JSON.stringify(S)); } catch(e){} }
-  S = fresh(); S.mode = "demo"; Object.assign(S, clone(DEMO)); S.causeIds = []; S.cseq = 0; S.modIds = {}; S.mseq = 0; S.demoLoaded = true;
+  S = fresh(); Object.assign(S, clone(DEMO)); S.causeIds = []; S.cseq = 0; S.modIds = {}; S.mseq = 0; S.demoLoaded = true;
+  S.mode = "quick"; S.shape = "both"; S.qstep = 1; S.qmax = 6;
   ensureIds(S); S.seen = ORDER.slice(); S.step = stepIdx("Who");
-  render(); focusH(); announce("Opened the finished example at step 1.");
+  render(); focusH(); announce("Opened the finished example at screen 1.");
 }
 /* In-page confirmation. Browser pop-ups (confirm) are blocked in some in-app and phone browsers, which made buttons appear to do nothing. */
 var ASK = null;
@@ -1731,11 +1990,14 @@ document.addEventListener("click", function(ev){
   if(id === "popRebuild"){ S.popEdited = false; S.who = composePop(S.pop); $("f_who").value = S.who; $("popNote").hidden = true; save(); schedulePreview(); $("f_who").focus(); announce("Rebuilt from the boxes."); return; }
   if(id === "askYes"){ askClose(true); return; }
   if(id === "askNo"){ askClose(false); return; }
-  if(id === "spStart" || id === "spNew"){ okReplace(function(){ S = fresh(); S.mode = "own"; S.step = 1; save(); render(); focusH(); }); return; }
+  if(id === "spStart" || id === "spNew"){ okReplace(startQuick); return; }
+  if(id === "spFull"){ okReplace(function(){ S = fresh(); S.mode = "own"; S.step = 1; save(); render(); focusH(); }); return; }
+  if(t.dataset.toquick){ $("app").classList.remove("railopen"); toQuick(); return; }
+  if(id === "fqClose"){ S.fromQuick = false; save(); banner(); var hh = $("screen").querySelector("h2"); if(hh) hh.focus(); return; }
   if(id === "spDemo"){ openExample(); return; }
   if(id === "exBack"){ var b = null; try { b = JSON.parse(localStorage.getItem(BK)); } catch(e){} try { localStorage.removeItem(BK); } catch(e){} S = b ? upgrade(b) : fresh(); render(); focusH(); announce("Back to your model."); return; }
   if(id === "exitPreview"){ try { sessionStorage.removeItem("stmbPreview"); } catch(e){} location.href = location.pathname; return; }
-  if(id === "exNew"){ try { localStorage.removeItem(BK); } catch(e){} S = fresh(); S.mode = "own"; S.step = 1; render(); focusH(); return; }
+  if(id === "exNew"){ try { localStorage.removeItem(BK); } catch(e){} startQuick(); return; }
   if(id === "spOpen" || id === "openFile"){ $("fileIn").value = ""; $("fileIn").click(); return; }
   if(t.dataset.copycite){
     var st = t.parentNode.querySelector("[data-citestatus]");
@@ -1807,6 +2069,11 @@ function theoryFromURL(){
   var k = m[1].toUpperCase(); try { history.replaceState(null, "", location.pathname); } catch(x){}
   if(!LIB[k]) return false;
   if(S.demoLoaded){ S = fresh(); }
+  /* No work yet, or working in the short version: set the theory there. */
+  if(!hasProgress() || S.mode === "quick"){
+    if(!hasProgress()){ S = fresh(); S.mode = "quick"; S.qstep = 1; S.qmax = 1; S.partialSeen = false; }
+    setQuickTheory(k); save(); render(); focusH(); announce("Theory set to " + LIB[k].name + "."); return true;
+  }
   if(!S.theory){ S.theory = k; if(!S.seminal.trim()) S.seminal = SEMINAL[k] || ""; if(!S.mode) S.mode = "own"; if(!hasProgress() || S.step < 1) S.step = 1; save(); render(); focusH(); announce("Theory set to " + LIB[k].name + "."); return true; }
   if(S.theory === k){ render(); return true; }
   S.step = stepIdx("Theory"); if(S.seen.indexOf(S.step) < 0) S.seen.push(S.step); render(); focusH(); switchTheory("A", k, "f_theory"); return true;

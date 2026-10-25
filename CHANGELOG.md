@@ -1,5 +1,28 @@
 # Changelog
 
+## 1.4.0 (2026-10-25)
+
+Students found the 15 steps too dense to start: too much reading before they saw a model. This release adds a short version and makes it the starting point.
+
+### Short version (5 screens)
+- New starting point on the home page: **Start (5 short screens)**. One sentence of directions per screen, with an example in each field's hint.
+- Screens: Who and what (population and outcome); Theory (optional, with search); Shape (pick a picture: one step, a middle step, depends on the group, or both; each card names its term: direct effect, mediation, moderation); Boxes (causes, middle step, and group or condition laid out left to right like the figure); + or − (one choice per arrow, worded "More X leads to more Y", with the figure drawn below).
+- A chosen theory's concepts appear on the Boxes screen as one-click ideas. Click a box, then click an idea to put it there.
+- The last screen shows the figure, research question, and hypotheses, with Download picture (PNG), Print or save as PDF, Copy, and Save my work.
+- **Get it ready for my paper** opens the full version at Define outcome with every short-version answer filled in and those steps marked as seen. A banner says so and offers **Back to the short version**; the step list has the same link.
+- The finished example opens in the short version at screen 1.
+- "Use this in my model" in the theory library starts the short version with that theory chosen when the student has no work yet.
+- The full version is still available from the home page: **Use the full version (15 steps)**.
+
+### Changed
+- Until a student sees the In-between step in the full version, the mediation hypothesis says "will mediate" instead of "will completely mediate," because the short version does not ask about complete or partial mediation.
+- An arrow with no direction chosen shows "?" in the figure instead of "+".
+- The figure legend leaves out "Theory:" when no theory is chosen.
+
+### Compatibility
+- Files saved by 1.3.0 and earlier open in the full version, as before. Files saved in the short version open on the screen where the student stopped.
+- Automated axe-core checks (WCAG 2.2 AA) report no violations on the home page, every short-version screen, and the full version's first step with the banner, at desktop and phone widths.
+
 ## 1.3.0 (2026-10-20)
 
 Changes from two comprehension reviews: in each, a reviewer worked through every screen as a first-year international PhD student reading English as an additional language, with no outside help.
