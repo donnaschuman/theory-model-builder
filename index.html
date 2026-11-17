@@ -1137,12 +1137,12 @@ function updatePreview(){
 var W = 960, BW = 200, BH = 64;
 function layout(ns){
   ns = ns || nodes();
-  var cs = ns.filter(function(n){ return n.kind === "cause"; }), mods = ns.filter(function(n){ return n.kind === "mod"; }), med = ns.some(function(n){ return n.kind === "med"; });
+  var cs = ns.filter(function(n){ return n.kind === "cause"; }), mods = ns.filter(function(n){ return n.kind === "mod"; }), medN = ns.filter(function(n){ return n.kind === "med"; })[0], med = !!medN;
   var top = mods.length ? 150 : 40;
   var H = Math.max(top + cs.length * (BH + 30) + 40, top + BH + 120), midY = top + (cs.length * (BH + 30) - 30) / 2;
   var cols = med ? [30, 380, 730] : [30, null, 730], P = {};
   cs.forEach(function(n, i){ P[n.id] = {x: cols[0], y: top + i * (BH + 30)}; });
-  if(med) P.med = {x: cols[1], y: midY - BH / 2};
+  if(med) P[medN.id] = {x: cols[1], y: midY - BH / 2};
   P.out = {x: cols[2], y: midY - BH / 2};
   mods.forEach(function(n, i){ P[n.id] = {x: Math.min(W - BW - 10, 200 + i * (BW + 30)), y: 20}; });
   ns.forEach(function(n){ if(S.pos[n.id]) P[n.id] = S.pos[n.id]; });
@@ -1167,6 +1167,59 @@ function figView(){ var v = S.figView; return v === "all" || theoryById(v) ? v :
 /* mode: "screen" (interactive canvas), "export" (SVG/PNG/print), "dialog" (read-only preview) */
 function hiddenIn(view){ var h = {}; if(view !== "all") nodes().forEach(function(n){ var tg = S.ctag[n.id]; if(tg && theoryById(tg) && tg !== view) h[n.id] = 1; }); return h; }
 function viewNodes(view){ var h = hiddenIn(view || figView()); return nodes().filter(function(n){ return !h[n.id]; }); }
+/* Short version, screens 3 and 4: the student's own figure with empty slots drawn as dashed placeholder boxes.
+   Placeholders are drawing only. They are never added to nodes() or paths(), so the research question and
+   hypotheses do not change. */
+function ghostModel(){
+  var real = nodes(), byId = {}; real.forEach(function(n){ byId[n.id] = n; });
+  var ns = [], ps = [], me = [], cs = [];
+  S.causes.forEach(function(c, i){ var id = S.causeIds[i]; if((c || "").trim() && byId[id]) cs.push(byId[id]); else cs.push({id: "g_" + id, label: "Cause " + (i + 1), kind: "cause", ghost: true}); });
+  if(!cs.length) cs.push({id: "g_c", label: "Cause 1", kind: "cause", ghost: true});
+  ns = cs.slice();
+  var med = null; if(qMed()){ med = byId.med || {id: "g_med", label: "Middle step", kind: "med", ghost: true}; ns.push(med); }
+  var out = byId.out; ns.push(out);
+  function edge(a, b){ var g = !!(a.ghost || b.ghost); return {id: (g ? "g_" : "") + a.id + ">" + b.id, from: a.id, to: b.id, ghost: g}; }
+  var t = med || out;
+  cs.forEach(function(c){ ps.push(edge(c, t)); });
+  if(med) ps.push(edge(med, out));
+  paths().forEach(function(p){ if(p.bypass && byId[p.from] && med && !med.ghost) ps.push(p); });
+  if(qMod()){
+    var mods = real.filter(function(n){ return n.kind === "mod"; }), realMe = modEdges();
+    if(!mods.length) mods = [{id: "g_mod", label: "Group or condition", kind: "mod", ghost: true}];
+    mods.forEach(function(m){
+      ns.push(m);
+      var r = realMe.filter(function(e){ return e.from === m.id; })[0], d = S.modDetails[m.label] || {}, ids = ps.map(function(p){ return p.id; });
+      var target = r && ids.indexOf(r.path) >= 0 ? r.path : ids.indexOf(d.path) >= 0 ? d.path : ps.length === 1 ? ps[0].id : ps.filter(function(p){ return !p.bypass; }).slice(-1)[0].id;
+      me.push({id: m.id + "~", from: m.id, path: target, name: m.label, ghost: !!m.ghost});
+    });
+  }
+  return {ns: ns, ps: ps, me: me};
+}
+/* Picture size (view only, never saved). Phones start wider than the screen so the words are readable. */
+var FIGSIZES = ["fit", "768", "960", "1200"];
+var FIGSIZE = window.matchMedia && window.matchMedia("(max-width: 599px)").matches ? "768" : "fit";
+function sizeBar(withBig){
+  var i = FIGSIZES.indexOf(FIGSIZE);
+  return '<div class="figsize noprint" role="group" aria-label="Picture size"><button type="button" class="btn sec sm" data-figsize="up"' + (i >= FIGSIZES.length - 1 ? ' aria-disabled="true"' : '') + '>Bigger</button><button type="button" class="btn sec sm" data-figsize="down"' + (i <= 0 ? ' aria-disabled="true"' : '') + '>Smaller</button><button type="button" class="btn sec sm" data-figsize="fit"' + (i === 0 ? ' aria-disabled="true"' : '') + '>Fit to screen</button>' +
+    (withBig ? '<button type="button" class="btn sec sm" data-figbig="1">View figure full screen</button>' : '') + '</div>';
+}
+function figFrame(inner, id, cls){
+  return '<div class="figframe figscroll' + (cls ? " " + cls : "") + '"' + (id ? ' id="' + id + '"' : '') + ' data-size="' + FIGSIZE + '" tabindex="0" role="group" aria-label="Figure. Scroll sideways to see all of it.">' + inner + '</div>' +
+    '<p class="small figswipe noprint">Swipe the picture sideways to see all of it. Tap Fit to screen to see the whole picture.</p>';
+}
+function setFigSize(v){
+  var i = FIGSIZES.indexOf(FIGSIZE);
+  if(v === "up") i = Math.min(FIGSIZES.length - 1, i + 1); else if(v === "down") i = Math.max(0, i - 1); else i = 0;
+  if(FIGSIZES[i] === FIGSIZE) return false;
+  FIGSIZE = FIGSIZES[i];
+  document.querySelectorAll(".figscroll").forEach(function(f){ f.dataset.size = FIGSIZE; });
+  document.querySelectorAll(".figsize").forEach(function(b){
+    b.querySelector('[data-figsize="up"]').setAttribute("aria-disabled", i >= FIGSIZES.length - 1);
+    b.querySelector('[data-figsize="down"]').setAttribute("aria-disabled", i <= 0);
+    b.querySelector('[data-figsize="fit"]').setAttribute("aria-disabled", i === 0);
+  });
+  return true;
+}
 function buildSVG(o){
   o = o || {}; var mode = o.mode || "export", screen = mode === "screen", uid = o.uid || "x", view = o.view || figView();
   var all = nodes(), hidden = hiddenIn(view);
@@ -1174,12 +1227,14 @@ function buildSVG(o){
   var L = layout(ns), P = L.P, letters = showLetters();
   var ps = paths().filter(function(p){ return !hidden[p.from] && !hidden[p.to]; });
   var me = modEdges().filter(function(e){ return !hidden[e.from] && ps.some(function(p){ return p.id === e.path; }); });
+  if(o.ghost){ var G = ghostModel(); ns = G.ns; ps = G.ps; me = G.me; L = layout(ns); P = L.P; }
   var bypass = ps.some(function(p){ return p.bypass; });
-  var legendLines = 3 + (letters ? 1 : 0) + (S.tagMode !== "none" ? 1 : 0) + (bypass ? 1 : 0);
+  var tagsOn = S.tagMode !== "none" && !o.ghost;
+  var legendLines = 3 + (letters ? 1 : 0) + (tagsOn ? 1 : 0) + (bypass ? 1 : 0);
   var H = L.H + 30 + legendLines * 19, out = [];
   var title = "Path figure: " + rqMain() + (view !== "all" ? " (" + tName(theoryById(view)) + " only)" : "");
   out.push('<svg xmlns="http://www.w3.org/2000/svg"' + (screen ? ' id="fig"' : '') + ' viewBox="0 0 ' + W + ' ' + H + '" width="' + W + '" height="' + H + '" ' + (screen ? 'role="group" aria-roledescription="interactive figure"' : 'role="img"') + ' aria-labelledby="t' + uid + '" font-family="Georgia, \'Times New Roman\', serif">');
-  out.push('<title id="t' + uid + '">' + esc(title) + '</title><defs><marker id="ah' + uid + '" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="userSpaceOnUse" markerWidth="16" markerHeight="16" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#222"/></marker></defs>');
+  out.push('<title id="t' + uid + '">' + esc(title) + '</title><defs><marker id="ah' + uid + '" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="userSpaceOnUse" markerWidth="16" markerHeight="16" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#222"/></marker>' + (o.ghost ? '<marker id="ahg' + uid + '" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="userSpaceOnUse" markerWidth="14" markerHeight="14" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#8a90a8"/></marker>' : '') + '</defs>');
   if(!screen) out.push('<rect width="100%" height="100%" fill="#fff"/>');
   var mids = {}, segs = {};
   ps.forEach(function(p){ var g = p.bypass ? bypassPts(P[p.from], P[p.to], P.med) : edgePts(P[p.from], P[p.to]); segs[p.id] = g; mids[p.id] = onSeg(g, 0.5); });
@@ -1191,16 +1246,18 @@ function buildSVG(o){
     var g = segs[p.id], d = style(p.id, "solid") === "dashed", sg = sign(p.id), lab = pathLabel(p) + ", " + (sg === "-" ? "negative" : "positive") + ", " + (d ? "dashed" : "solid");
     var attrs = screen ? ' class="edge' + (S.sel === p.id ? " sel" : "") + '" data-edge="' + p.id + '" data-from="' + p.from + '" data-to="' + p.to + '" data-drop="edge" tabindex="0" role="button" aria-pressed="' + (S.sel === p.id) + '" aria-label="Arrow: ' + esc(lab) + '. Press Enter to edit."' : '';
     var geo = g.c ? 'd="M' + g.s[0] + ' ' + g.s[1] + ' Q' + g.c[0] + ' ' + g.c[1] + ' ' + g.e[0] + ' ' + g.e[1] + '" fill="none"' : 'x1="' + g.s[0] + '" y1="' + g.s[1] + '" x2="' + g.e[0] + '" y2="' + g.e[1] + '"', tag = g.c ? "path" : "line";
+    if(p.ghost){ out.push('<' + tag + ' ' + geo + ' stroke="#8a90a8" stroke-width="1.6" marker-end="url(#ahg' + uid + ')"/>'); return; }
     out.push('<g' + attrs + '>' + (screen ? '<' + tag + ' class="halo" ' + geo + ' stroke="transparent" stroke-width="18" stroke-linecap="round"/>' : '') + '<' + tag + ' class="vis" ' + geo + ' stroke="#222" stroke-width="2"' + (d ? ' stroke-dasharray="8 6"' : '') + ' marker-end="url(#ah' + uid + ')"/></g>');
     var m = mids[p.id], cx = m[0] + 14, cy = m[1] + 17;
     out.push('<g pointer-events="none"><circle cx="' + cx + '" cy="' + cy + '" r="9" fill="' + (sg === "-" ? "#e6e7ee" : "#fff") + '" stroke="#222" stroke-width="1.3"/><text x="' + cx + '" y="' + (cy + 5) + '" text-anchor="middle" font-size="16" font-weight="bold" font-family="Arial, sans-serif" fill="#111">' + (signSet(p.id) ? signChar(sg) : "?") + '</text></g>');
   });
   me.forEach(function(e){
     var a = P[e.from], sx = a.x + BW / 2, sy = a.y + BH, m = modTo[e.id], d = style(e.id, "dashed") === "dashed";
+    if(e.ghost){ out.push('<line x1="' + sx + '" y1="' + sy + '" x2="' + m[0] + '" y2="' + (m[1] - 3) + '" stroke="#8a90a8" stroke-width="1.6" stroke-dasharray="8 6" marker-end="url(#ahg' + uid + ')"/><circle cx="' + m[0] + '" cy="' + m[1] + '" r="3" fill="#8a90a8"/>'); return; }
     var attrs = screen ? ' class="edge' + (S.sel === e.id ? " sel" : "") + '" data-edge="' + e.id + '" data-from="' + e.from + '" data-to="' + e.path.split(">")[1] + '" tabindex="0" role="button" aria-pressed="' + (S.sel === e.id) + '" aria-label="Moderation by ' + esc(e.name) + ', ' + (d ? "dashed" : "solid") + '. Press Enter to edit."' : '';
     out.push('<g' + attrs + '>' + (screen ? '<line class="halo" x1="' + sx + '" y1="' + sy + '" x2="' + m[0] + '" y2="' + m[1] + '" stroke="transparent" stroke-width="18" stroke-linecap="round"/>' : '') + '<line class="vis" x1="' + sx + '" y1="' + sy + '" x2="' + m[0] + '" y2="' + (m[1] - 3) + '" stroke="#555" stroke-width="2"' + (d ? ' stroke-dasharray="8 6"' : '') + ' marker-end="url(#ah' + uid + ')"/><circle cx="' + m[0] + '" cy="' + m[1] + '" r="3" fill="#555"/></g>');
   });
-  if(S.tagMode !== "none"){
+  if(S.tagMode !== "none" && !o.ghost){
     var tagAt = {};
     ps.forEach(function(p){ tagAt[p.id] = [mids[p.id][0] - 16, mids[p.id][1] + 17]; });
     me.forEach(function(e){ var a = P[e.from]; tagAt[e.id] = [(a.x + BW / 2 + modTo[e.id][0]) / 2, (a.y + BH + modTo[e.id][1]) / 2]; });
@@ -1211,6 +1268,7 @@ function buildSVG(o){
   }
   ns.forEach(function(n){
     var p = P[n.id], lines = wrap(n.label, 24), fs = 15, lh = 17;
+    if(n.ghost){ out.push('<g transform="translate(' + p.x + ',' + p.y + ')"><rect width="' + BW + '" height="' + BH + '" fill="#fff" stroke="#8a90a8" stroke-width="1.5" stroke-dasharray="6 4"/><text x="' + BW / 2 + '" y="' + (BH / 2 + 5) + '" text-anchor="middle" font-size="15" font-style="italic" fill="#5c6178">' + esc(n.label) + '</text></g>'); return; }
     if(/\u2026$/.test(lines[lines.length - 1] || "")){ lines = wrap4(n.label, 30); fs = 12.5; lh = 14; }
     var fill = n.kind === "mod" ? "#f3f3f7" : n.kind === "out" ? "#e6e7ee" : "#fff", Lt = letters ? letterOf(n.id) : "";
     var attrs = screen ? ' class="node" data-node="' + n.id + '" tabindex="0" role="button" aria-roledescription="movable box" aria-label="' + esc(lines.join(" ") + (Lt ? " " + Lt : "") + ". " + KIND[n.kind] + (Lt ? ", from " + tagLabel(S.ctag[n.id]) : "") + ". Drag, or use arrow keys, to move.") + '"' : '';
@@ -1227,8 +1285,8 @@ function buildSVG(o){
   out.push('<text x="30" y="' + ty + '" fill="#444">Circled + / −: direction. + = more of one leads to more of the next; − = more of one leads to less.</text>'); ty += 19;
   if(bypass){ out.push('<text x="30" y="' + ty + '" fill="#444">Curved arrow: a direct effect that does not pass through the in-between concept (partial mediation).</text>'); ty += 19; }
   if(letters){ var ls = theoryList().map(function(t){ return t.id + " = " + tName(t); }); if(all.some(function(n){ return S.ctag[n.id] === "new"; })) ls.push("N = new concept"); out.push('<text x="30" y="' + ty + '" fill="#444">Circled letters: source of each concept. ' + esc(ls.join("; ")) + '.</text>'); ty += 19; }
-  if(S.tagMode === "H") out.push('<text x="30" y="' + ty + '" fill="#444">' + (S.hypWord === "P" ? "S numbers on arrows match the numbered statements in the text." : "H numbers on arrows match the hypotheses in the text.") + '</text>');
-  if(S.tagMode === "P") out.push('<text x="30" y="' + ty + '" fill="#444">P numbers on arrows: source proposition' + (S.props.some(function(q){ return q.isNew; }) ? "; * = new proposition" : "") + '.</text>');
+  if(S.tagMode === "H" && tagsOn) out.push('<text x="30" y="' + ty + '" fill="#444">' + (S.hypWord === "P" ? "S numbers on arrows match the numbered statements in the text." : "H numbers on arrows match the hypotheses in the text.") + '</text>');
+  if(S.tagMode === "P" && tagsOn) out.push('<text x="30" y="' + ty + '" fill="#444">P numbers on arrows: source proposition' + (S.props.some(function(q){ return q.isNew; }) ? "; * = new proposition" : "") + '.</text>');
   out.push('</g></svg>');
   return out.join("");
 }
@@ -1351,7 +1409,7 @@ function renderResults(){
       '<h4 style="margin:16px 0 6px">Where each one comes from</h4><div class="tablewrap" id="htab">' + hypTable(false) + '</div>') +
     rsec("Path figure", "",
       '<div class="toolbar noprint"><span class="lbl">Arrow labels</span>' + seg("data-tagmode", "t", S.tagMode, [["H", S.hypWord === "P" ? "S numbers" : "H numbers"], ["P", "P numbers (theory propositions)"], ["none", "None"]], "Arrow labels") + viewBar() + '</div>' +
-      '<p class="small noprint" style="margin:0 0 8px">Drag a box to move it. Click an arrow to change it. <button type="button" class="btn sec sm" id="viewFigBig">View figure full screen</button></p><div class="figgrid"><div class="figframe" id="figwrap">' + buildSVG({mode: "screen", uid: "f"}) + '</div><div class="inspector noprint" id="insp">' + inspHTML() + '</div></div>' +
+      '<p class="small noprint" style="margin:0 0 8px">Drag a box to move it. Click an arrow to change it; its settings open in the panel below the figure.</p>' + sizeBar(true) + '<div class="figgrid"><div class="figcol">' + figFrame(buildSVG({mode: "screen", uid: "f"}), "figwrap") + '</div><div class="inspector noprint" id="insp">' + inspHTML() + '</div></div>' +
       '<details class="noprint" style="margin-top:12px"><summary>Edit box labels</summary>' + nodes().map(function(n){ return '<label for="lab_' + n.id + '">' + esc(KIND[n.kind]) + '</label><input type="text" id="lab_' + n.id + '" data-lab="' + n.id + '" value="' + esc(n.label) + '">'; }).join("") + '</details>' +
       '<div class="btnrow noprint" style="margin-top:14px"><button class="btn" type="button" id="dlPNG">Download picture (PNG)</button><button class="btn sec" type="button" id="print">Print or save as PDF</button><button class="btn ghost" type="button" id="resetLayout">Reset layout</button></div>' +
       '<details class="noprint" style="margin-top:8px"><summary>More formats (for advanced users)</summary><p class="small">SVG is a picture you can resize without blur, for editing in drawing software. Mermaid is text that some writing tools turn into a figure.</p><div class="btnrow"><button class="btn sec sm" type="button" id="dlSVG">Download SVG</button><button class="btn sec sm" type="button" id="cpMer">Copy Mermaid text</button></div><pre id="mer" class="mer">' + esc(mermaid()) + '</pre></details>') +
@@ -1431,7 +1489,8 @@ function selectEdge(id, focusInsp){
   S.sel = S.sel === id && !focusInsp ? "" : id; refreshFig(); save();
   if(S.sel) announce("Selected " + edgeLabel(id) + ".");
   if(focusInsp && S.sel){ var b = $("insp").querySelector("button,select,textarea"); if(b) b.focus(); }
-  else { var g = $("fig").querySelector('[data-edge="' + id + '"]'); if(g) g.focus(); }
+  else { var g = $("fig").querySelector('[data-edge="' + id + '"]'); if(g) g.focus({preventScroll: true}); }
+  if(S.sel && $("insp").scrollIntoView) $("insp").scrollIntoView({block: "nearest", behavior: "smooth"});
 }
 function rebuildHyps(){
   S.hyps = ""; S.hypsEdited = false; S.hypsBase = "";
@@ -1562,7 +1621,8 @@ document.addEventListener("click", function(ev){
   if(id === "railToggle"){ var op = $("app").classList.toggle("railopen"); t.setAttribute("aria-expanded", op); t.textContent = op ? "Hide steps" : "All steps"; if(op){ var cs = $("rail").querySelector("[aria-current=step]") || $("rail").querySelector("button"); if(cs) cs.focus(); } return; }
   if(ds.goto){ $("app").classList.remove("railopen"); var rt = $("railToggle"); if(rt){ rt.setAttribute("aria-expanded", "false"); rt.textContent = "All steps"; } return jumpTo(+ds.goto); }
   if(id === "startOver"){ askOK("Start over? This clears your work in this browser. Use Save my work first to keep a copy.", "Start over", function(){ S = fresh(); save(); showSplash(false); }); return; }
-  if(id === "viewFigBig"){ $("dlgBody").innerHTML = '<p class="small mob-only" style="margin:0 0 8px">Swipe left to see the rest of the figure, or turn your phone sideways.</p>' + buildSVG({mode: "dialog", uid: "d"}); $("figDlg").showModal(); $("dlgClose").focus(); return; }
+  if(ds.figsize){ if(t.getAttribute("aria-disabled") === "true") return; if(setFigSize(ds.figsize)) announce(ds.figsize === "up" ? "Bigger picture." : ds.figsize === "down" ? "Smaller picture." : "The picture fits the screen."); return; }
+  if(id === "viewFigBig" || ds.figbig){ $("dlgBody").innerHTML = '<p class="small mob-only" style="margin:0 0 8px">Swipe left to see the rest of the figure, or turn your phone sideways.</p>' + buildSVG({mode: "dialog", uid: "d"}); $("figDlg").showModal(); $("dlgClose").focus(); return; }
   if(id === "viewFig"){ $("dlgBody").innerHTML = buildSVG({mode: "dialog", uid: "d"}); $("figDlg").showModal(); return; }
   if(id === "dlgClose"){ $("figDlg").close(); return; }
   if(ds.edit){ var ta = $(ds.edit), open = ta.hidden; ta.hidden = !open; t.textContent = open ? "Done editing" : "Edit"; t.setAttribute("aria-expanded", open); if(open){ grow(ta); ta.focus(); } return; }
@@ -1789,6 +1849,13 @@ function qPathsHTML(){
   return '<fieldset class="qpaths"><legend>Which arrow is stronger for some groups?</legend>' + ps.map(function(p, i){ return '<label><input type="radio" name="qmodpath" id="qmp' + i + '" data-qmodpath="1" value="' + esc(p.id) + '"' + (d.path === p.id ? " checked" : "") + '> <span>' + esc(nodeLabel(p.from)) + ' → ' + esc(nodeLabel(p.to)) + '</span></label>'; }).join("") + '</fieldset>';
 }
 function qChips(){ var l = []; theoryList().forEach(function(t){ var th = THEORIES[t.pick]; if(th) th.chips.forEach(function(c){ if(l.indexOf(c) < 0) l.push(c); }); }); return l; }
+/* "Your figure so far" on screens 3 and 4, with placeholder boxes for empty slots. */
+function qSoFar(){
+  return '<details class="qsofar" open><summary>Your figure so far</summary>' + sizeBar(false) + figFrame(buildSVG({mode: "dialog", uid: "g", ghost: true}), "qfigWrap", "qfig") + '</details>';
+}
+var qFigTimer = null;
+function qRedraw(){ clearTimeout(qFigTimer); qFigTimer = setTimeout(function(){ var w = $("qfigWrap"); if(w && S.mode === "quick") w.innerHTML = buildSVG({mode: "dialog", uid: "g", ghost: true}); }, 150); }
+var SHAPE_SAY = {direct: "Your figure now has one cause and one result.", med: "Your figure now has a middle step.", mod: "Your figure now has a group or condition.", both: "Your figure now has a middle step and a group or condition."};
 var QR = {
   1: function(){
     return '<h2 id="stepTitle">Who are you studying, and what do you want to explain?</h2><p class="lede">Type one group of people and one result for them.</p>' +
@@ -1807,11 +1874,11 @@ var QR = {
   3: function(){
     return '<h2 id="stepTitle">What does your idea look like?</h2><p class="lede">Pick the picture that is closest to your idea. You can change it later.</p>' +
       '<div class="qshapes" role="group" aria-label="Shape of your model">' + SHAPES.map(function(s){ return '<button type="button" class="choice qshape" data-qshape="' + s[0] + '" aria-pressed="' + (S.shape === s[0]) + '">' + shapeSVG(s[0]) + '<strong>' + esc(s[1]) + '</strong><small>' + esc(s[2]) + '</small><span class="qterm">Term: ' + esc(s[3]) + '</span></button>'; }).join("") + '</div>' +
-      '<details class="qhelp"><summary>How do I choose?</summary><p><strong>Ask “why?”</strong> Why does the cause change the result? If you can name one thing in the middle, pick <strong>A middle step</strong>.</p><p><strong>Ask “for whom?”</strong> Is the arrow stronger for some people, places, or times? If yes, pick <strong>Depends on the group</strong>.</p><p style="margin:0">Not sure? Pick <strong>One step</strong>.</p></details>';
+      '<details class="qhelp"><summary>How do I choose?</summary><p><strong>Ask “why?”</strong> Why does the cause change the result? If you can name one thing in the middle, pick <strong>A middle step</strong>.</p><p><strong>Ask “for whom?”</strong> Is the arrow stronger for some people, places, or times? If yes, pick <strong>Depends on the group</strong>.</p><p style="margin:0">Not sure? Pick <strong>One step</strong>.</p></details>' + (S.shape ? qSoFar() : "");
   },
   4: function(){
     var med = qMed(), mod = qMod(), chips = qChips(), many = modList().length > 1;
-    var h = '<h2 id="stepTitle">Fill in the boxes.</h2><p class="lede">Type a short name in each empty box.</p>';
+    var h = '<h2 id="stepTitle">Fill in the boxes.</h2><p class="lede">Type a short name in each empty box. The picture below changes as you type.</p>';
     if(chips.length) h += '<div class="qchips noprint"><p class="small" style="margin:0">Ideas from ' + esc(theoryName()) + '. Click a box, then click an idea to put it there.</p>' + chips.map(function(c){ var used = causes().map(lc).indexOf(lc(c)) >= 0 || (med && lc(S.mediator) === lc(c)); return '<button type="button" class="chip' + (used ? ' used' : '') + '" data-qchip="' + esc(c) + '">' + (used ? '\u2713 ' : '+ ') + esc(c) + '</button>'; }).join("") + '</div>';
     h += '<div class="qrow"><div class="qcol"><p class="qcap">' + (S.causes.length > 1 ? "Causes" : "Cause") + '</p>';
     S.causes.forEach(function(c, i){ h += '<div class="qbox"><label class="sr" for="q_c' + i + '">Cause ' + (i + 1) + '</label><textarea id="q_c' + i + '" class="auto oneline" rows="1" data-qcause="' + i + '" placeholder="Cause ' + (i + 1) + '">' + esc(c) + '</textarea>' + (S.causes.length > 1 ? '<button type="button" class="btn ghost icon sm danger" data-qrmcause="' + i + '" aria-label="Remove cause ' + (i + 1) + '">✕</button>' : '') + '</div>'; });
@@ -1827,7 +1894,7 @@ var QR = {
         '<div id="qpaths">' + qPathsHTML() + '</div>';
       h += '</div>';
     }
-    return h;
+    return h + qSoFar();
   },
   5: function(){
     var ps = paths(), me = modEdges().filter(function(e){ return e.path; });
@@ -1839,12 +1906,12 @@ var QR = {
         '<button type="button" class="choice" data-qsign="' + esc(p.id) + '" data-val="-" aria-pressed="' + (v === "-") + '"><strong>−</strong> More ' + esc(lcLabel(a)) + ' leads to less ' + esc(lcLabel(b)) + '</button></div></div>';
     });
     if(me.length) h += '<p class="small">The dashed arrow from ' + esc(me[0].name) + ' does not need + or −. It shows that an arrow may be stronger for some groups.</p>';
-    return h + '<p class="qcap" style="margin-top:20px">Your figure so far</p><div class="figframe qfig">' + buildSVG({mode: "dialog", uid: "q"}) + '</div>';
+    return h + '<p class="qcap" style="margin-top:20px">Your figure so far</p>' + sizeBar(true) + figFrame(buildSVG({mode: "dialog", uid: "q"}), "", "qfig");
   },
   6: function(){
     var rq = (S.rqEdited && S.rq) || autoRQ(), hy = (S.hypsEdited && S.hyps) || hypText();
     var h = '<h2 id="stepTitle">Your model</h2><p class="lede">Your figure, research question, and hypotheses are ready to use.</p>' +
-      '<div class="figframe qfig">' + buildSVG({mode: "export", uid: "r"}) + '</div><div class="btnrow noprint" style="margin-top:12px"><button class="btn" type="button" id="qPNG">Download picture (PNG)</button><button class="btn sec" type="button" id="qPrint">Print or save as PDF</button></div>' +
+      sizeBar(true) + figFrame(buildSVG({mode: "export", uid: "r"}), "", "qfig") + '<div class="btnrow noprint" style="margin-top:12px"><button class="btn" type="button" id="qPNG">Download picture (PNG)</button><button class="btn sec" type="button" id="qPrint">Print or save as PDF</button></div>' +
       '<h3 class="qh">Research question</h3><div class="fv">' + fmtLines(rq) + '</div><div class="btnrow noprint"><button class="btn sec sm" type="button" id="qCopyRQ">Copy</button></div>' +
       '<h3 class="qh">Hypotheses</h3><p class="small" style="margin:0 0 8px">One for each arrow. The H numbers match the numbers on the figure.</p><div role="status">' + staleHTML() + '</div><div class="fv">' + fmtLines(hy) + '</div><div class="btnrow noprint"><button class="btn sec sm" type="button" id="qCopyH">Copy</button></div>';
     if(!S.demoLoaded) h += '<p class="savehint noprint" style="margin-top:20px"><strong>Save my work</strong> so you can open this model later on any computer. <button type="button" class="btn yel sm" data-savefile="1">Save my work</button></p>';
@@ -1938,7 +2005,7 @@ document.addEventListener("click", function(ev){
   if(id === "qNext") return qGo(1);
   if(id === "qBack") return qGo(-1);
   if(ds.qgo){ S.qstep = +ds.qgo; renderQuick(); focusH(); return; }
-  if(ds.qshape){ setShape(ds.qshape); renderQuick(); qFocus('[data-qshape="' + ds.qshape + '"]'); announce("Picked " + t.querySelector("strong").textContent + "."); return; }
+  if(ds.qshape){ var picked = t.querySelector("strong").textContent; setShape(ds.qshape); renderQuick(); qFocus('[data-qshape="' + ds.qshape + '"]'); announce("Picked " + picked + ". " + SHAPE_SAY[ds.qshape]); return; }
   if(ds.qsign){ S.signs[ds.qsign] = ds.val; if(!S.hypsEdited) S.hyps = ""; var y = window.scrollY; renderQuick(); window.scrollTo(0, y); qFocus('[data-qsign="' + ds.qsign + '"][data-val="' + ds.val + '"]'); announce(ds.val === "-" ? "Set to minus: more leads to less." : "Set to plus: more leads to more."); return; }
   if(ds.qchip){ qUseChip(ds.qchip); return; }
   if(id === "qAddCause"){ if(S.causes.length < 4){ S.causes.push(""); S.causeIds.push(newCid()); } renderQuick(); qFocus("#q_c" + (S.causes.length - 1)); return; }
@@ -1961,6 +2028,7 @@ document.addEventListener("input", function(ev){
   else return;
   if(!S.rqEdited) S.rq = ""; if(!S.hypsEdited) S.hyps = ""; if(!S.captionEdited) S.caption = "";
   if(ds.qcause !== undefined || ds.qbind === "mediator" || ds.qmod){ var qp = $("qpaths"); if(qp) qp.innerHTML = qPathsHTML(); }
+  if(S.qstep === 4) qRedraw();
   save();
 });
 document.addEventListener("change", function(ev){

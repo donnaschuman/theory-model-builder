@@ -664,3 +664,20 @@ body.demo #saveFile,body.demo #lastSaved{display:none}
 .hstale ul{margin:0 0 8px 1.2em;padding:0}
 .hstale li{margin:2px 0}
 .hstale .btnrow{margin-top:8px}
+/* Figure size controls (A3) */
+.figsize{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 8px}
+.figsize [aria-disabled=true]{opacity:.5;cursor:default}
+.figscroll{overflow-x:auto;overflow-y:hidden;min-width:0;max-width:100%;-webkit-overflow-scrolling:touch}
+.figscroll:focus-visible{outline:3px solid var(--focus);outline-offset:2px}
+.figscroll[data-size="fit"] svg{width:100%!important;max-width:100%;height:auto}
+.figscroll[data-size="768"] svg{width:768px!important;max-width:none;height:auto}
+.figscroll[data-size="960"] svg{width:960px!important;max-width:none;height:auto}
+.figscroll[data-size="1200"] svg{width:1200px!important;max-width:none;height:auto}
+.figswipe{display:none}
+@media(max-width:599px){.figswipe{display:block;margin:6px 0 0}}
+.figgrid{grid-template-columns:minmax(0,1fr)}
+.figcol{min-width:0}
+.inspector{position:static}
+.qsofar{margin:20px 0 0}
+.qsofar>summary{cursor:pointer;margin:0 0 8px;font-size:.8rem;font-weight:800;text-transform:uppercase;letter-spacing:.05em;color:var(--muted)}
+@media print{.figscroll svg{width:100%!important}.figsize,.figswipe{display:none!important}}
