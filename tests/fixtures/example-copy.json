@@ -1,0 +1,403 @@
+{
+  "app": "theory-model-app",
+  "appName": "Social Theory Model Builder",
+  "appVersion": "1.4.0",
+  "schemaVersion": 4,
+  "savedAt": "2026-11-17T18:29:39.614Z",
+  "stepName": "Results",
+  "state": {
+    "step": 13,
+    "seen": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      15,
+      10,
+      11,
+      16,
+      12,
+      13
+    ],
+    "mode": "demo",
+    "who": "Post-9/11 U.S. veterans enrolled in VA mental health care",
+    "pop": {
+      "who": "Post-9/11 U.S. veterans",
+      "age": "",
+      "where": "enrolled in VA mental health care",
+      "when": ""
+    },
+    "popEdited": false,
+    "outcome": "Treatment engagement",
+    "outcomeDef": "Attending at least 8 psychotherapy sessions within 14 weeks of intake (from clinic records)",
+    "approach": "",
+    "integType": "",
+    "theory": "TPB",
+    "theoryCustom": "",
+    "seminal": "Ajzen, I. (1991). The theory of planned behavior. Organizational Behavior and Human Decision Processes, 50(2), 179–211. https://doi.org/10.1016/0749-5978(91)90020-T",
+    "more": [],
+    "causes": [
+      "Attitude toward the behavior",
+      "Subjective norm",
+      "Perceived behavioral control"
+    ],
+    "causeIds": [
+      "c0",
+      "c1",
+      "c2"
+    ],
+    "cseq": 3,
+    "medYN": "yes",
+    "mediator": "Intention to stay in treatment",
+    "modYN": "yes",
+    "modPicked": [
+      "Distance to care"
+    ],
+    "modOther": "",
+    "modOthers": [],
+    "modSkip": false,
+    "modDetails": {
+      "Distance to care": {
+        "groups": "under 30 miles vs. 30 or more miles from the clinic",
+        "path": "med>out"
+      }
+    },
+    "modIds": {
+      "Distance to care": "m0"
+    },
+    "mseq": 1,
+    "addedAnother": false,
+    "extraMod": "",
+    "ctag": {
+      "c0": "A",
+      "c1": "A",
+      "c2": "A",
+      "med": "A",
+      "out": "none",
+      "m0": "none"
+    },
+    "cdef": {
+      "c0": {
+        "def": "The degree to which a person evaluates staying in treatment favorably or unfavorably.",
+        "src": "Ajzen, 1991"
+      },
+      "c1": {
+        "def": "Perceived social pressure from important others to stay in, or leave, treatment.",
+        "src": "Ajzen, 1991"
+      },
+      "c2": {
+        "def": "Perceived ease or difficulty of attending treatment, reflecting past experience and expected obstacles.",
+        "src": "Ajzen, 1991"
+      },
+      "med": {
+        "def": "How hard a veteran plans to try to keep attending treatment; the motivational step closest to the behavior.",
+        "src": "Ajzen, 1991"
+      },
+      "out": {
+        "def": "Sustained participation in psychotherapy across an adequate course of care.",
+        "src": "Working definition for this example"
+      },
+      "m0": {
+        "def": "Travel distance from a veteran's home to the clinic that delivers care.",
+        "src": "Working definition for this example"
+      }
+    },
+    "styles": {},
+    "signs": {
+      "c0>med": "+",
+      "c1>med": "-",
+      "c2>med": "+",
+      "med>out": "+",
+      "c2>out": "+"
+    },
+    "bases": {
+      "c0>med": "theory",
+      "c1>med": "theory",
+      "c2>med": "theory",
+      "med>out": "theory",
+      "c2>out": "theory",
+      "m0~": "practice"
+    },
+    "needsSource": {},
+    "openQ": {},
+    "props": [
+      {
+        "text": "",
+        "page": "179",
+        "own": "A more favorable attitude toward a behavior strengthens the intention to perform it.",
+        "from": "Attitude toward the behavior",
+        "to": "Intention to stay in treatment",
+        "sign": "+",
+        "theory": "A",
+        "isNew": false,
+        "src": ""
+      },
+      {
+        "text": "",
+        "page": "179",
+        "own": "Stronger perceived expectations from important others strengthen intention.",
+        "from": "Subjective norm",
+        "to": "Intention to stay in treatment",
+        "sign": "+",
+        "theory": "A",
+        "isNew": false,
+        "src": ""
+      },
+      {
+        "text": "",
+        "page": "179",
+        "own": "Greater perceived control over the behavior strengthens intention.",
+        "from": "Perceived behavioral control",
+        "to": "Intention to stay in treatment",
+        "sign": "+",
+        "theory": "A",
+        "isNew": false,
+        "src": ""
+      },
+      {
+        "text": "",
+        "page": "179",
+        "own": "Intention, with perceived control, predicts whether the behavior happens.",
+        "from": "Intention to stay in treatment",
+        "to": "Treatment engagement",
+        "sign": "+",
+        "theory": "A",
+        "isNew": false,
+        "src": ""
+      },
+      {
+        "text": "",
+        "page": "179",
+        "own": "Perceived behavioral control also predicts the behavior directly, together with intention.",
+        "from": "Perceived behavioral control",
+        "to": "Treatment engagement",
+        "sign": "+",
+        "theory": "A",
+        "isNew": false,
+        "src": ""
+      }
+    ],
+    "propLinks": {
+      "c0>med": 0,
+      "c1>med": 1,
+      "c2>med": 2,
+      "med>out": 3,
+      "c2>out": 4
+    },
+    "returnTo": -1,
+    "reasons": {
+      "c0>med": "Veterans who expect therapy to help them value attending, so they plan to keep going.",
+      "c1>med": "When spouses, fellow veterans, and clinicians endorse treatment, veterans feel supported in planning to continue.",
+      "c2>med": "Veterans who believe they can fit sessions around work, child care, and travel are more likely to plan to stay.",
+      "med>out": "A plan to stay in treatment turns into attendance when the opportunity is there.",
+      "c2>out": "Veterans who can arrange transportation and time off attend more sessions, even if they did not plan to.",
+      "m0~": "Long drives add cost and time to every visit, so intention leads to attendance less often for veterans 30 or more miles away."
+    },
+    "hyps": "",
+    "hypsEdited": false,
+    "hypWord": "H",
+    "showTags": true,
+    "tagMode": "H",
+    "figView": "all",
+    "pos": {},
+    "labels": {},
+    "rq": "Main question: Among post-9/11 U.S. veterans enrolled in VA mental health care, how do attitude toward the behavior, subjective norm, and perceived behavioral control relate to treatment engagement?\n\nSubquestions:\n1. Does intention to stay in treatment explain these relationships?\n2. Does the relationship between intention to stay in treatment and treatment engagement differ by distance to care?",
+    "rqEdited": false,
+    "caption": "Figure 1\nConceptual Model of Treatment Engagement Among Post-9/11 U.S. Veterans Enrolled in VA Mental Health Care, Based on Theory of Planned Behavior",
+    "captionEdited": false,
+    "notes": {
+      "journal": "Journal of Human Behavior in the Social Environment",
+      "phenomenon": "Many post-9/11 veterans who begin VA psychotherapy stop before completing an adequate course of care.",
+      "typical": "Usually defined as dropout or nonadherence, a property of the individual veteran, because clinics track attendance patient by patient.",
+      "alternative": "It can be defined as a mismatch between how care is delivered and veterans' lives: distance, work schedules, and military norms about help-seeking. This moves attention from the veteran to the system and makes room for structural explanations alongside individual ones.",
+      "need": "This example asks whether the theory's individual focus is enough to explain engagement when access barriers such as distance to care are present."
+    },
+    "assume": {
+      "A": {
+        "paradigm": "Postpositivist",
+        "ontology": "Behavior has causes in a person's beliefs that exist independently of the researcher and can be approximated, though never known perfectly.",
+        "epistemology": "Beliefs, intentions, and behavior can be measured with standardized self-report and records and tested with statistical models.",
+        "history": "Extends Fishbein and Ajzen's theory of reasoned action by adding perceived behavioral control; rooted in expectancy-value models of attitudes.",
+        "limits": "Makes individual beliefs and intentions visible. Structural conditions such as distance to care stay outside the model unless they act through perceived control.",
+        "practice": "Points practice toward changing beliefs and perceived control (motivational interviewing, peer veterans, scheduling and travel support) and policy toward reducing access barriers."
+      }
+    },
+    "sel": "",
+    "noAuto": {},
+    "partial": {
+      "c2": true
+    },
+    "qstep": 6,
+    "qmax": 6,
+    "shape": "both",
+    "partialSeen": true,
+    "fromQuick": false,
+    "demoLoaded": true
+  },
+  "generated": {
+    "researchQuestion": "Main question: Among post-9/11 U.S. veterans enrolled in VA mental health care, how do attitude toward the behavior, subjective norm, and perceived behavioral control relate to treatment engagement?\n\nSubquestions:\n1. Does intention to stay in treatment explain these relationships?\n2. Does the relationship between intention to stay in treatment and treatment engagement differ by distance to care?",
+    "hypotheses": "H1 (direct): Higher attitude toward the behavior will be associated with higher intention to stay in treatment.\n\nH2 (direct): Higher subjective norm will be associated with lower intention to stay in treatment.\n\nH3 (direct): Higher perceived behavioral control will be associated with higher intention to stay in treatment.\n\nH4 (direct): Higher intention to stay in treatment will be associated with higher treatment engagement.\n\nH5 (direct): Higher perceived behavioral control will be associated with higher treatment engagement.\n\nH6 (moderation): The link between intention to stay in treatment and treatment engagement will differ by distance to care (under 30 miles vs. 30 or more miles from the clinic).\n\nH7 (mediation): Intention to stay in treatment will completely mediate the links from attitude toward the behavior and subjective norm, and partially mediate the link from perceived behavioral control, to treatment engagement.",
+    "figureCaption": "Figure 1\nConceptual Model of Treatment Engagement Among Post-9/11 U.S. Veterans Enrolled in VA Mental Health Care, Based on Theory of Planned Behavior",
+    "concepts": [
+      {
+        "name": "Attitude toward the behavior",
+        "role": "Cause",
+        "from": "A: Theory of Planned Behavior",
+        "def": "The degree to which a person evaluates staying in treatment favorably or unfavorably.",
+        "src": "Ajzen, 1991"
+      },
+      {
+        "name": "Subjective norm",
+        "role": "Cause",
+        "from": "A: Theory of Planned Behavior",
+        "def": "Perceived social pressure from important others to stay in, or leave, treatment.",
+        "src": "Ajzen, 1991"
+      },
+      {
+        "name": "Perceived behavioral control",
+        "role": "Cause",
+        "from": "A: Theory of Planned Behavior",
+        "def": "Perceived ease or difficulty of attending treatment, reflecting past experience and expected obstacles.",
+        "src": "Ajzen, 1991"
+      },
+      {
+        "name": "Intention to stay in treatment",
+        "role": "In-between",
+        "from": "A: Theory of Planned Behavior",
+        "def": "How hard a veteran plans to try to keep attending treatment; the motivational step closest to the behavior.",
+        "src": "Ajzen, 1991"
+      },
+      {
+        "name": "Treatment engagement",
+        "role": "Outcome",
+        "from": "Not from a theory",
+        "def": "Sustained participation in psychotherapy across an adequate course of care.",
+        "src": "Working definition for this example"
+      },
+      {
+        "name": "Distance to care",
+        "role": "Moderator",
+        "from": "Not from a theory",
+        "def": "Travel distance from a veteran's home to the clinic that delivers care.",
+        "src": "Working definition for this example"
+      }
+    ],
+    "checks": [
+      {
+        "ok": true,
+        "text": "Every arrow has a reason.",
+        "fix": "Why this arrow?",
+        "arrow": ""
+      },
+      {
+        "ok": true,
+        "soft": true,
+        "text": "Every arrow is tied to a proposition or to research or practice.",
+        "fix": "Why this arrow?"
+      },
+      {
+        "ok": false,
+        "soft": true,
+        "text": "Direction differs from the linked proposition: Subjective norm → Intention to stay in treatment is −, but P2 says +. Check the source, then set the direction yourself.",
+        "fix": "Line styles"
+      },
+      {
+        "ok": true,
+        "soft": true,
+        "text": "Every source proposition has a page number.",
+        "fix": "Key propositions"
+      },
+      {
+        "ok": true,
+        "soft": true,
+        "text": "Every concept has a conceptual definition.",
+        "fix": "Define concepts"
+      },
+      {
+        "ok": true,
+        "soft": true,
+        "text": "Every arrow says what its reason is based on.",
+        "fix": "Why this arrow?"
+      },
+      {
+        "ok": true,
+        "text": "No box is both a cause and the outcome.",
+        "fix": "Causes"
+      },
+      {
+        "ok": true,
+        "text": "The in-between differs from the outcome.",
+        "fix": "In-between"
+      },
+      {
+        "ok": true,
+        "soft": true,
+        "text": "Your population names a specific group.",
+        "fix": "Who"
+      },
+      {
+        "ok": true,
+        "text": "4 or fewer causes.",
+        "fix": "Causes"
+      },
+      {
+        "ok": true,
+        "text": "Each moderator has groups described and an arrow chosen.",
+        "fix": "Moderator details"
+      },
+      {
+        "ok": true,
+        "soft": true,
+        "text": "Every proposition is linked to an arrow.",
+        "fix": "Why this arrow?"
+      },
+      {
+        "ok": true,
+        "soft": true,
+        "text": "At least one social determinant is in your model.",
+        "fix": "Causes"
+      },
+      {
+        "ok": true,
+        "text": "Outcome definition is filled in.",
+        "fix": "Define outcome"
+      }
+    ],
+    "mermaid": "flowchart LR\n  c0[\"Attitude toward the behavior\"]\n  c1[\"Subjective norm\"]\n  c2[\"Perceived behavioral control\"]\n  med[\"Intention to stay in treatment\"]\n  out[\"Treatment engagement\"]\n  m0[\"Distance to care\"]\n  c0 -->|\"+\"| med\n  c1 -->|\"-\"| med\n  c2 -->|\"+\"| med\n  med -->|\"+\"| out\n  c2 -->|\"+\"| out\n  m0 -. \"moderates Intention to stay in treatment to Treatment engagement\" .-> out\n  %% Mermaid cannot point an arrow at a path midpoint; moderator arrows point to the path's target box, labeled.",
+    "decisions": [
+      [
+        "Who",
+        "Post-9/11 U.S. veterans enrolled in VA mental health care"
+      ],
+      [
+        "Outcome",
+        "Treatment engagement; counts as: Attending at least 8 psychotherapy sessions within 14 weeks of intake (from clinic records)"
+      ],
+      [
+        "Theory",
+        "A: Theory of Planned Behavior"
+      ],
+      [
+        "Causes",
+        "Attitude toward the behavior; Subjective norm; Perceived behavioral control"
+      ],
+      [
+        "In-between (mediator)",
+        "Intention to stay in treatment"
+      ],
+      [
+        "Moderators",
+        "Distance to care (under 30 miles vs. 30 or more miles from the clinic); changes Intention to stay in treatment → Treatment engagement"
+      ],
+      [
+        "Dashed paths",
+        "Distance to care (moderation)"
+      ]
+    ]
+  }
+}

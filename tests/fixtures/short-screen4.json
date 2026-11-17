@@ -1,0 +1,210 @@
+{
+  "app": "theory-model-app",
+  "appName": "Social Theory Model Builder",
+  "appVersion": "1.4.0",
+  "schemaVersion": 4,
+  "savedAt": "2026-11-17T18:29:30.039Z",
+  "stepName": "Who",
+  "state": {
+    "step": 1,
+    "seen": [],
+    "mode": "quick",
+    "who": "Older adults living alone in rural Ohio",
+    "pop": {
+      "who": "Older adults living alone in rural Ohio",
+      "age": "",
+      "where": "",
+      "when": ""
+    },
+    "popEdited": false,
+    "outcome": "Loneliness",
+    "outcomeDef": "",
+    "approach": "",
+    "integType": "",
+    "theory": "",
+    "theoryCustom": "",
+    "seminal": "",
+    "more": [],
+    "causes": [
+      "Social support",
+      ""
+    ],
+    "causeIds": [
+      "c0",
+      "c1"
+    ],
+    "cseq": 2,
+    "medYN": "yes",
+    "mediator": "Daily social contact",
+    "modYN": "no",
+    "modPicked": [],
+    "modOther": "",
+    "modOthers": [],
+    "modSkip": false,
+    "modDetails": {},
+    "modIds": {},
+    "mseq": 0,
+    "addedAnother": false,
+    "extraMod": "",
+    "ctag": {},
+    "cdef": {},
+    "styles": {},
+    "signs": {},
+    "bases": {},
+    "needsSource": {},
+    "openQ": {},
+    "props": [],
+    "propLinks": {},
+    "returnTo": -1,
+    "reasons": {},
+    "hyps": "",
+    "hypsEdited": false,
+    "hypWord": "H",
+    "showTags": true,
+    "tagMode": "H",
+    "figView": "all",
+    "pos": {},
+    "labels": {},
+    "rq": "",
+    "rqEdited": false,
+    "caption": "",
+    "captionEdited": false,
+    "notes": {},
+    "assume": {},
+    "sel": "",
+    "noAuto": {},
+    "partial": {},
+    "qstep": 4,
+    "qmax": 4,
+    "shape": "med",
+    "partialSeen": false,
+    "fromQuick": false
+  },
+  "generated": {
+    "researchQuestion": "Main question: Among older adults living alone in rural Ohio, how does social support relate to loneliness?\n\nSubquestions:\n1. Does daily social contact explain this relationship?",
+    "hypotheses": "H1 (direct): Higher social support will be associated with higher daily social contact.\n\nH2 (direct): Higher daily social contact will be associated with higher loneliness.\n\nH3 (mediation): Daily social contact will mediate the link from social support to loneliness.",
+    "figureCaption": "Figure 1\nConceptual Model of Loneliness Among Older Adults Living Alone in Rural Ohio, Based on [theory]",
+    "concepts": [
+      {
+        "name": "Social support",
+        "role": "Cause",
+        "from": "Not tagged",
+        "def": "",
+        "src": ""
+      },
+      {
+        "name": "Daily social contact",
+        "role": "In-between",
+        "from": "Not tagged",
+        "def": "",
+        "src": ""
+      },
+      {
+        "name": "Loneliness",
+        "role": "Outcome",
+        "from": "Not tagged",
+        "def": "",
+        "src": ""
+      }
+    ],
+    "checks": [
+      {
+        "ok": false,
+        "text": "Missing a reason for: Social support → Daily social contact; Daily social contact → Loneliness. Each arrow is a claim you will need to defend.",
+        "fix": "Why this arrow?",
+        "arrow": "c0>med"
+      },
+      {
+        "ok": false,
+        "soft": true,
+        "text": "Not linked to a theory proposition: Social support → Daily social contact; Daily social contact → Loneliness. Link one, or note it rests on prior research or practice.",
+        "fix": "Why this arrow?"
+      },
+      {
+        "ok": false,
+        "soft": true,
+        "text": "No conceptual definition yet for: Social support; Daily social contact; Loneliness.",
+        "fix": "Define concepts"
+      },
+      {
+        "ok": false,
+        "soft": true,
+        "text": "No “based on” choice yet for: Social support → Daily social contact; Daily social contact → Loneliness.",
+        "fix": "Why this arrow?"
+      },
+      {
+        "ok": true,
+        "text": "No box is both a cause and the outcome.",
+        "fix": "Causes"
+      },
+      {
+        "ok": true,
+        "text": "The in-between differs from the outcome.",
+        "fix": "In-between"
+      },
+      {
+        "ok": true,
+        "soft": true,
+        "text": "Your population names a specific group.",
+        "fix": "Who"
+      },
+      {
+        "ok": true,
+        "text": "4 or fewer causes.",
+        "fix": "Causes"
+      },
+      {
+        "ok": true,
+        "text": "No moderators (fine).",
+        "fix": "Moderator details"
+      },
+      {
+        "ok": false,
+        "text": "No direction (+ or −) chosen yet for: Social support → Daily social contact; Daily social contact → Loneliness.",
+        "fix": "Line styles"
+      },
+      {
+        "ok": true,
+        "soft": true,
+        "text": "At least one social determinant is in your model.",
+        "fix": "Causes"
+      },
+      {
+        "ok": false,
+        "text": "Say what counts as the outcome so others could measure it the same way.",
+        "fix": "Define outcome"
+      }
+    ],
+    "mermaid": "flowchart LR\n  c0[\"Social support\"]\n  med[\"Daily social contact\"]\n  out[\"Loneliness\"]\n  c0 -->|\"+\"| med\n  med -->|\"+\"| out\n  %% Mermaid cannot point an arrow at a path midpoint; moderator arrows point to the path's target box, labeled.",
+    "decisions": [
+      [
+        "Who",
+        "Older adults living alone in rural Ohio"
+      ],
+      [
+        "Outcome",
+        "Loneliness"
+      ],
+      [
+        "Theory",
+        ""
+      ],
+      [
+        "Causes",
+        "Social support"
+      ],
+      [
+        "In-between (mediator)",
+        "Daily social contact"
+      ],
+      [
+        "Moderators",
+        "None"
+      ],
+      [
+        "Dashed paths",
+        "None"
+      ]
+    ]
+  }
+}

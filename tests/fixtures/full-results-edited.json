@@ -1,0 +1,319 @@
+{
+  "app": "theory-model-app",
+  "appName": "Social Theory Model Builder",
+  "appVersion": "1.4.0",
+  "schemaVersion": 4,
+  "savedAt": "2026-11-17T18:29:35.647Z",
+  "stepName": "Results",
+  "state": {
+    "step": 13,
+    "seen": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      15,
+      10,
+      11,
+      16,
+      12,
+      13
+    ],
+    "mode": "own",
+    "who": "Women veterans using VA primary care in Texas",
+    "pop": {
+      "who": "Women veterans",
+      "age": "",
+      "where": "using VA primary care in Texas",
+      "when": ""
+    },
+    "popEdited": false,
+    "outcome": "Mental health service use",
+    "outcomeDef": "Any VA mental health visit within 12 months of a positive screen, from VA records",
+    "approach": "",
+    "integType": "",
+    "theory": "HBM",
+    "theoryCustom": "",
+    "seminal": "Rosenstock, I. M. (1966). Why people use health services. The Milbank Memorial Fund Quarterly, 44(3, Pt. 2), 94–127. https://doi.org/10.2307/3348967",
+    "more": [],
+    "causes": [
+      "Perceived barriers",
+      "Perceived benefits",
+      "Cues to action"
+    ],
+    "causeIds": [
+      "c1",
+      "c2",
+      "c3"
+    ],
+    "cseq": 4,
+    "medYN": "no",
+    "mediator": "",
+    "modYN": "no",
+    "modPicked": [],
+    "modOther": "",
+    "modOthers": [],
+    "modSkip": false,
+    "modDetails": {},
+    "modIds": {},
+    "mseq": 0,
+    "addedAnother": false,
+    "extraMod": "",
+    "ctag": {
+      "c1": "A",
+      "c2": "A",
+      "c3": "A"
+    },
+    "cdef": {
+      "c1": {
+        "def": "A working definition.",
+        "src": "Rosenstock, 1966"
+      },
+      "c2": {
+        "def": "A working definition.",
+        "src": "Rosenstock, 1966"
+      },
+      "c3": {
+        "def": "A working definition.",
+        "src": "Rosenstock, 1966"
+      },
+      "out": {
+        "def": "A working definition.",
+        "src": "Rosenstock, 1966"
+      }
+    },
+    "styles": {},
+    "signs": {
+      "c1>out": "+",
+      "c2>out": "+",
+      "c3>out": "+"
+    },
+    "bases": {
+      "c1>out": "theory",
+      "c2>out": "theory",
+      "c3>out": "theory"
+    },
+    "needsSource": {},
+    "openQ": {},
+    "props": [
+      {
+        "text": "Perceived barriers reduce the likelihood of taking action.",
+        "page": "98",
+        "own": "",
+        "from": "Perceived barriers",
+        "to": "Mental health service use",
+        "sign": "-",
+        "theory": "A",
+        "isNew": false,
+        "src": ""
+      },
+      {
+        "text": "Perceived benefits increase the likelihood of taking action.",
+        "page": "98",
+        "own": "",
+        "from": "Perceived benefits",
+        "to": "Mental health service use",
+        "sign": "+",
+        "theory": "A",
+        "isNew": false,
+        "src": ""
+      },
+      {
+        "text": "Cues to action prompt the decision to act.",
+        "page": "99",
+        "own": "",
+        "from": "Cues to action",
+        "to": "Mental health service use",
+        "sign": "+",
+        "theory": "A",
+        "isNew": false,
+        "src": ""
+      }
+    ],
+    "propLinks": {
+      "c1>out": 0,
+      "c2>out": 1,
+      "c3>out": 2
+    },
+    "returnTo": -1,
+    "reasons": {
+      "c1>out": "Reason 1 from the theory.",
+      "c2>out": "Reason 2 from the theory.",
+      "c3>out": "Reason 3 from the theory."
+    },
+    "hyps": "H1 (direct): Higher perceived barriers will predict higher mental health service use.\n\nH2 (direct): Higher perceived benefits will be associated with higher mental health service use.\n\nH3 (direct): Higher cues to action will be associated with higher mental health service use.",
+    "hypsEdited": true,
+    "hypWord": "H",
+    "showTags": true,
+    "tagMode": "H",
+    "figView": "all",
+    "pos": {},
+    "labels": {},
+    "rq": "Main question: Among women veterans using VA primary care in Texas, how do perceived barriers, perceived benefits, and cues to action relate to mental health service use?",
+    "rqEdited": false,
+    "caption": "Figure 1\nConceptual Model of Mental Health Service Use Among Women Veterans Using VA Primary Care in Texas, Based on Health Belief Model\nNote. VA = U.S. Department of Veterans Affairs.",
+    "captionEdited": true,
+    "notes": {},
+    "assume": {},
+    "sel": "",
+    "noAuto": {},
+    "partial": {},
+    "qstep": 1,
+    "qmax": 1,
+    "shape": "",
+    "partialSeen": true,
+    "fromQuick": false,
+    "medAuto": false
+  },
+  "generated": {
+    "researchQuestion": "Main question: Among women veterans using VA primary care in Texas, how do perceived barriers, perceived benefits, and cues to action relate to mental health service use?",
+    "hypotheses": "H1 (direct): Higher perceived barriers will predict higher mental health service use.\n\nH2 (direct): Higher perceived benefits will be associated with higher mental health service use.\n\nH3 (direct): Higher cues to action will be associated with higher mental health service use.",
+    "figureCaption": "Figure 1\nConceptual Model of Mental Health Service Use Among Women Veterans Using VA Primary Care in Texas, Based on Health Belief Model\nNote. VA = U.S. Department of Veterans Affairs.",
+    "concepts": [
+      {
+        "name": "Perceived barriers",
+        "role": "Cause",
+        "from": "A: Health Belief Model",
+        "def": "A working definition.",
+        "src": "Rosenstock, 1966"
+      },
+      {
+        "name": "Perceived benefits",
+        "role": "Cause",
+        "from": "A: Health Belief Model",
+        "def": "A working definition.",
+        "src": "Rosenstock, 1966"
+      },
+      {
+        "name": "Cues to action",
+        "role": "Cause",
+        "from": "A: Health Belief Model",
+        "def": "A working definition.",
+        "src": "Rosenstock, 1966"
+      },
+      {
+        "name": "Mental health service use",
+        "role": "Outcome",
+        "from": "Not tagged",
+        "def": "A working definition.",
+        "src": "Rosenstock, 1966"
+      }
+    ],
+    "checks": [
+      {
+        "ok": true,
+        "text": "Every arrow has a reason.",
+        "fix": "Why this arrow?",
+        "arrow": ""
+      },
+      {
+        "ok": true,
+        "soft": true,
+        "text": "Every arrow is tied to a proposition or to research or practice.",
+        "fix": "Why this arrow?"
+      },
+      {
+        "ok": false,
+        "soft": true,
+        "text": "Direction differs from the linked proposition: Perceived barriers → Mental health service use is +, but P1 says −. Check the source, then set the direction yourself.",
+        "fix": "Line styles"
+      },
+      {
+        "ok": true,
+        "soft": true,
+        "text": "Every source proposition has a page number.",
+        "fix": "Key propositions"
+      },
+      {
+        "ok": true,
+        "soft": true,
+        "text": "Every concept has a conceptual definition.",
+        "fix": "Define concepts"
+      },
+      {
+        "ok": true,
+        "soft": true,
+        "text": "Every arrow says what its reason is based on.",
+        "fix": "Why this arrow?"
+      },
+      {
+        "ok": true,
+        "text": "No box is both a cause and the outcome.",
+        "fix": "Causes"
+      },
+      {
+        "ok": true,
+        "text": "No in-between (fine).",
+        "fix": "In-between"
+      },
+      {
+        "ok": true,
+        "soft": true,
+        "text": "Your population names a specific group.",
+        "fix": "Who"
+      },
+      {
+        "ok": true,
+        "text": "4 or fewer causes.",
+        "fix": "Causes"
+      },
+      {
+        "ok": true,
+        "text": "No moderators (fine).",
+        "fix": "Moderator details"
+      },
+      {
+        "ok": true,
+        "soft": true,
+        "text": "Every proposition is linked to an arrow.",
+        "fix": "Why this arrow?"
+      },
+      {
+        "ok": false,
+        "soft": true,
+        "text": "Have you considered a social determinant, such as income, housing, discrimination, or access to services? Person-in-environment thinking asks what conditions around people shape this outcome.",
+        "fix": "Causes"
+      },
+      {
+        "ok": true,
+        "text": "Outcome definition is filled in.",
+        "fix": "Define outcome"
+      }
+    ],
+    "mermaid": "flowchart LR\n  c1[\"Perceived barriers\"]\n  c2[\"Perceived benefits\"]\n  c3[\"Cues to action\"]\n  out[\"Mental health service use\"]\n  c1 -->|\"+\"| out\n  c2 -->|\"+\"| out\n  c3 -->|\"+\"| out\n  %% Mermaid cannot point an arrow at a path midpoint; moderator arrows point to the path's target box, labeled.",
+    "decisions": [
+      [
+        "Who",
+        "Women veterans using VA primary care in Texas"
+      ],
+      [
+        "Outcome",
+        "Mental health service use; counts as: Any VA mental health visit within 12 months of a positive screen, from VA records"
+      ],
+      [
+        "Theory",
+        "A: Health Belief Model"
+      ],
+      [
+        "Causes",
+        "Perceived barriers; Perceived benefits; Cues to action"
+      ],
+      [
+        "In-between (mediator)",
+        "None for now"
+      ],
+      [
+        "Moderators",
+        "None"
+      ],
+      [
+        "Dashed paths",
+        "None"
+      ]
+    ]
+  }
+}

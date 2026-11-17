@@ -1,0 +1,254 @@
+{
+  "app": "theory-model-app",
+  "appName": "Social Theory Model Builder",
+  "appVersion": "1.3.0",
+  "schemaVersion": 4,
+  "savedAt": "2026-11-17T18:29:42.768Z",
+  "stepName": "Results",
+  "state": {
+    "step": 13,
+    "seen": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      15,
+      10,
+      11,
+      16,
+      12,
+      13
+    ],
+    "mode": "own",
+    "who": "Refugee women in resettled in Chicago",
+    "pop": {
+      "who": "Refugee women",
+      "age": "",
+      "where": "resettled in Chicago",
+      "when": ""
+    },
+    "popEdited": false,
+    "outcome": "Depressive symptoms",
+    "outcomeDef": "PHQ-9 score at 6 months after arrival",
+    "approach": "",
+    "integType": "",
+    "theory": "TPB",
+    "theoryCustom": "",
+    "seminal": "Ajzen, I. (1991). The theory of planned behavior. Organizational Behavior and Human Decision Processes, 50(2), 179–211. https://doi.org/10.1016/0749-5978(91)90020-T",
+    "more": [],
+    "causes": [
+      "Social isolation",
+      "English language use"
+    ],
+    "causeIds": [
+      "c0",
+      "c1"
+    ],
+    "cseq": 2,
+    "medYN": "yes",
+    "mediator": "Loneliness",
+    "modYN": "no",
+    "modPicked": [],
+    "modOther": "",
+    "modOthers": [],
+    "modSkip": false,
+    "modDetails": {},
+    "modIds": {},
+    "mseq": 0,
+    "addedAnother": false,
+    "extraMod": "",
+    "ctag": {},
+    "cdef": {
+      "c0": {
+        "def": "A working definition."
+      },
+      "c1": {
+        "def": "A working definition."
+      },
+      "med": {
+        "def": "A working definition."
+      },
+      "out": {
+        "def": "A working definition."
+      }
+    },
+    "styles": {},
+    "signs": {
+      "c0>med": "+",
+      "c1>med": "+",
+      "med>out": "+"
+    },
+    "bases": {
+      "c0>med": "research",
+      "c1>med": "research",
+      "med>out": "research"
+    },
+    "needsSource": {},
+    "openQ": {},
+    "props": [],
+    "propLinks": {},
+    "returnTo": -1,
+    "reasons": {
+      "c0>med": "Reason 1 from prior research.",
+      "c1>med": "Reason 2 from prior research.",
+      "med>out": "Reason 3 from prior research."
+    },
+    "hyps": "",
+    "hypsEdited": false,
+    "hypWord": "H",
+    "showTags": true,
+    "tagMode": "H",
+    "figView": "all",
+    "pos": {},
+    "labels": {},
+    "rq": "Main question: Among refugee women in resettled in Chicago, how do social isolation and english language use relate to depressive symptoms?\n\nSubquestions:\n1. Does loneliness explain these relationships?",
+    "rqEdited": false,
+    "caption": "Figure 1\nConceptual Model of Depressive Symptoms Among Refugee Women in Resettled in Chicago, Based on Theory of Planned Behavior",
+    "captionEdited": false,
+    "notes": {},
+    "assume": {},
+    "sel": "",
+    "noAuto": {},
+    "partial": {},
+    "medAuto": false
+  },
+  "generated": {
+    "researchQuestion": "Main question: Among refugee women in resettled in Chicago, how do social isolation and english language use relate to depressive symptoms?\n\nSubquestions:\n1. Does loneliness explain these relationships?",
+    "hypotheses": "H1 (direct): Higher social isolation will be associated with higher loneliness.\n\nH2 (direct): Higher english language use will be associated with higher loneliness.\n\nH3 (direct): Higher loneliness will be associated with higher depressive symptoms.\n\nH4 (mediation): Loneliness will completely mediate the links from social isolation and english language use to depressive symptoms.",
+    "figureCaption": "Figure 1\nConceptual Model of Depressive Symptoms Among Refugee Women in Resettled in Chicago, Based on Theory of Planned Behavior",
+    "concepts": [
+      {
+        "name": "Social isolation",
+        "role": "Cause",
+        "from": "Not tagged",
+        "def": "A working definition.",
+        "src": ""
+      },
+      {
+        "name": "English language use",
+        "role": "Cause",
+        "from": "Not tagged",
+        "def": "A working definition.",
+        "src": ""
+      },
+      {
+        "name": "Loneliness",
+        "role": "In-between",
+        "from": "Not tagged",
+        "def": "A working definition.",
+        "src": ""
+      },
+      {
+        "name": "Depressive symptoms",
+        "role": "Outcome",
+        "from": "Not tagged",
+        "def": "A working definition.",
+        "src": ""
+      }
+    ],
+    "checks": [
+      {
+        "ok": true,
+        "text": "Every arrow has a reason.",
+        "fix": "Why this arrow?",
+        "arrow": ""
+      },
+      {
+        "ok": true,
+        "soft": true,
+        "text": "Every arrow is tied to a proposition or to research or practice.",
+        "fix": "Why this arrow?"
+      },
+      {
+        "ok": true,
+        "soft": true,
+        "text": "Every concept has a conceptual definition.",
+        "fix": "Define concepts"
+      },
+      {
+        "ok": true,
+        "soft": true,
+        "text": "Every arrow says what its reason is based on.",
+        "fix": "Why this arrow?"
+      },
+      {
+        "ok": true,
+        "text": "No box is both a cause and the outcome.",
+        "fix": "Causes"
+      },
+      {
+        "ok": true,
+        "text": "The in-between differs from the outcome.",
+        "fix": "In-between"
+      },
+      {
+        "ok": true,
+        "soft": true,
+        "text": "Your population names a specific group.",
+        "fix": "Who"
+      },
+      {
+        "ok": true,
+        "text": "4 or fewer causes.",
+        "fix": "Causes"
+      },
+      {
+        "ok": true,
+        "text": "No moderators (fine).",
+        "fix": "Moderator details"
+      },
+      {
+        "ok": false,
+        "soft": true,
+        "text": "No source for the definition of: Social isolation; English language use; Loneliness; Depressive symptoms. Add the author, year, and page.",
+        "fix": "Define concepts"
+      },
+      {
+        "ok": false,
+        "soft": true,
+        "text": "Have you considered a social determinant, such as income, housing, discrimination, or access to services? Person-in-environment thinking asks what conditions around people shape this outcome.",
+        "fix": "Causes"
+      },
+      {
+        "ok": true,
+        "text": "Outcome definition is filled in.",
+        "fix": "Define outcome"
+      }
+    ],
+    "mermaid": "flowchart LR\n  c0[\"Social isolation\"]\n  c1[\"English language use\"]\n  med[\"Loneliness\"]\n  out[\"Depressive symptoms\"]\n  c0 -->|\"+\"| med\n  c1 -->|\"+\"| med\n  med -->|\"+\"| out\n  %% Mermaid cannot point an arrow at a path midpoint; moderator arrows point to the path's target box, labeled.",
+    "decisions": [
+      [
+        "Who",
+        "Refugee women in resettled in Chicago"
+      ],
+      [
+        "Outcome",
+        "Depressive symptoms; counts as: PHQ-9 score at 6 months after arrival"
+      ],
+      [
+        "Theory",
+        "A: Theory of Planned Behavior"
+      ],
+      [
+        "Causes",
+        "Social isolation; English language use"
+      ],
+      [
+        "In-between (mediator)",
+        "Loneliness"
+      ],
+      [
+        "Moderators",
+        "None"
+      ],
+      [
+        "Dashed paths",
+        "None"
+      ]
+    ]
+  }
+}
