@@ -1,6 +1,18 @@
 {
   "short-done-both": {
     "researchQuestion": "1.5.0 keeps capital letters inside box names: old \"years in the united states\", new \"years in the United States\".",
-    "hypotheses": "1.5.0 keeps capital letters inside box names: old \"years in the united states\", new \"years in the United States\"."
+    "hypotheses": "1.5.0 keeps capital letters inside box names: old \"years in the united states\", new \"years in the United States\". Also: 1.6.0 states each mediation hypothesis as an indirect effect, one per cause: old \"M will completely mediate the links from X1 and X2 to Y\", new \"H4a (mediation): Higher X1 will be associated with higher Y through M (indirect effect).\""
+  },
+  "example-copy": {
+    "hypotheses": "1.6.0 states each mediation hypothesis as an indirect effect, one per cause: old \"M will completely mediate the links from X1 and X2 to Y\", new \"H4a (mediation): Higher X1 will be associated with higher Y through M (indirect effect).\""
+  },
+  "full-two-theories": {
+    "hypotheses": "1.6.0 states each mediation hypothesis as an indirect effect, one per cause: old \"M will completely mediate the links from X1 and X2 to Y\", new \"H4a (mediation): Higher X1 will be associated with higher Y through M (indirect effect).\""
+  },
+  "legacy-1.3": {
+    "hypotheses": "1.6.0 states each mediation hypothesis as an indirect effect, one per cause: old \"M will completely mediate the links from X1 and X2 to Y\", new \"H4a (mediation): Higher X1 will be associated with higher Y through M (indirect effect).\""
+  },
+  "short-screen4": {
+    "hypotheses": "1.6.0 states each mediation hypothesis as an indirect effect, one per cause: old \"M will completely mediate the links from X1 and X2 to Y\", new \"H4a (mediation): Higher X1 will be associated with higher Y through M (indirect effect).\""
   }
 }
