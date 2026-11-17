@@ -324,7 +324,94 @@ function ensureIds(st){
 var S;
 try { S = upgrade(JSON.parse(localStorage.getItem(KEY))); } catch(e){ S = fresh(); }
 function rawSave(){ try { localStorage.setItem(KEY, JSON.stringify(S)); } catch(e){} }
-var save = function(){ rawSave(); showSaved(); };
+var save = function(){ rawSave(); showSaved(); track(); };
+
+/* ======================= Undo and Redo =======================
+   Up to 50 snapshots of the answers, kept in memory for this tab only and never saved. Moving between steps or
+   screens is not a change. Typing in one box within 800 ms of the last keystroke updates the same snapshot. */
+var UNDO = {stack: [], i: -1, field: "", t: 0}, TYPING = null, RESTORING = false, AFTER_START_OVER = false;
+var NAVKEYS = ["step", "qstep", "qmax", "seen", "sel", "mode", "fromQuick", "returnTo"];
+function contentKey(st){
+  var c = clone(st);
+  NAVKEYS.concat(["partialSeen", "hypsBase", "medAuto", "causeIds", "cseq", "modIds", "mseq"]).forEach(function(k){ delete c[k]; });
+  if(!c.rqEdited) delete c.rq; if(!c.hypsEdited) delete c.hyps; if(!c.captionEdited) delete c.caption;
+  return JSON.stringify(c);
+}
+document.addEventListener("input", function(e){ var t = e.target; TYPING = {id: t.id || (t.dataset && JSON.stringify(t.dataset)) || "", t: Date.now()}; }, true);
+function track(){
+  if(RESTORING || typeof S !== "object") return;
+  var now = Date.now(), snapS = JSON.stringify(S), key = contentKey(S), top = UNDO.stack[UNDO.i];
+  if(top && top.key === key) return;
+  var typed = TYPING && now - TYPING.t < 40 ? TYPING.id : "";
+  if(top && typed && typed === UNDO.field && now - UNDO.t < 800 && UNDO.i === UNDO.stack.length - 1 && UNDO.i > 0){ top.snap = snapS; top.key = key; }
+  else {
+    UNDO.stack.length = UNDO.i + 1;
+    UNDO.stack.push({snap: snapS, key: key});
+    if(UNDO.stack.length > 50) UNDO.stack.shift();
+    UNDO.i = UNDO.stack.length - 1;
+  }
+  UNDO.field = typed; UNDO.t = now;
+  undoUI();
+}
+function undoReset(){ UNDO = {stack: [{snap: JSON.stringify(S), key: contentKey(S)}], i: 0, field: "", t: 0}; AFTER_START_OVER = false; undoUI(); }
+function canUndo(){ return UNDO.i > 0; }
+function canRedo(){ return UNDO.i < UNDO.stack.length - 1; }
+function undoButtons(){
+  return '<span class="undoredo"><button type="button" class="btn ghost sm" id="undoBtn"' + (canUndo() ? '' : ' aria-disabled="true"') + ' aria-keyshortcuts="Control+Z">↶ Undo</button>' +
+    '<button type="button" class="btn ghost sm" id="redoBtn"' + (canRedo() ? '' : ' hidden') + ' aria-keyshortcuts="Control+Shift+Z">↷ Redo</button></span>';
+}
+function undoUI(){ var u = $("undoBtn"), r = $("redoBtn"); if(u){ if(canUndo()) u.removeAttribute("aria-disabled"); else u.setAttribute("aria-disabled", "true"); } if(r) r.hidden = !canRedo(); }
+/* Say what changed, for the common cases. a = before, b = after. */
+function undoSay(a, b){
+  function cs(st){ return (st.causes || []).map(function(c){ return (c || "").trim(); }).filter(Boolean); }
+  var ca = cs(a), cb = cs(b), back = cb.filter(function(c){ return ca.indexOf(c) < 0; }), gone = ca.filter(function(c){ return cb.indexOf(c) < 0; });
+  if(back.length && !gone.length) return joinList(back) + (back.length > 1 ? " are" : " is") + " back.";
+  if(gone.length && !back.length) return joinList(gone) + (gone.length > 1 ? " are" : " is") + " removed.";
+  if(a.shape !== b.shape && b.shape){ var sh = SHAPES.filter(function(x){ return x[0] === b.shape; })[0]; if(sh) return "The shape is " + sh[1] + "."; }
+  if(a.theory !== b.theory) return b.theory && LIB[b.theory] ? "The theory is " + LIB[b.theory].name + "." : b.theory ? "The theory changed." : "No theory is chosen.";
+  var sk = Object.keys(Object.assign({}, a.signs, b.signs)).filter(function(k){ return (a.signs || {})[k] !== (b.signs || {})[k]; });
+  if(sk.length === 1){ var v = (b.signs || {})[sk[0]]; return "The direction of " + edgeLabel(sk[0]) + " is " + (v === "-" ? "−" : v === "+" ? "+" : "not chosen") + "."; }
+  if(JSON.stringify(a.modOthers) !== JSON.stringify(b.modOthers) || JSON.stringify(a.modPicked) !== JSON.stringify(b.modPicked)) return "The group or condition changed back.";
+  return "";
+}
+function restoreSnap(st){
+  RESTORING = true; S = upgrade(st);
+  if(document.body.classList.contains("splashing") && !hasProgress()) showSplash(false); else render();
+  rawSave(); showSaved(); RESTORING = false; undoUI();
+}
+function doUndo(){
+  if(!canUndo()) return;
+  var cur = JSON.parse(UNDO.stack[UNDO.i].snap), prev = JSON.parse(UNDO.stack[UNDO.i - 1].snap), before = clone(S);
+  /* Show the screen where the change was made. After Start over, return to the screen the student was on. */
+  if(AFTER_START_OVER) prev = JSON.parse(AFTER_START_OVER);
+  else NAVKEYS.forEach(function(k){ if(k in cur) prev[k] = cur[k]; });
+  AFTER_START_OVER = false;
+  UNDO.i--; UNDO.field = "";
+  restoreSnap(prev);
+  var m = undoSay(before, S); announce("Undone." + (m ? " " + m : ""));
+  var u = $("undoBtn"); if(u && !canUndo()){ var b = $("back") || $("qBack"); if(b && !b.disabled) b.focus(); } else if(u) u.focus();
+}
+function doRedo(){
+  if(!canRedo()) return;
+  var before = clone(S);
+  UNDO.i++; UNDO.field = "";
+  restoreSnap(JSON.parse(UNDO.stack[UNDO.i].snap));
+  var m = undoSay(before, S); announce("Redone." + (m ? " " + m : ""));
+  var r = $("redoBtn"); if(r && !r.hidden) r.focus(); else if($("undoBtn")) $("undoBtn").focus();
+}
+document.addEventListener("click", function(ev){
+  var t = ev.target.closest("button"); if(!t) return;
+  if(t.id === "undoBtn" || t.id === "spUndo"){ if(t.getAttribute("aria-disabled") !== "true") doUndo(); return; }
+  if(t.id === "redoBtn"){ doRedo(); return; }
+});
+document.addEventListener("keydown", function(e){
+  if(!(e.ctrlKey || e.metaKey) || e.altKey || (e.key !== "z" && e.key !== "Z")) return;
+  var t = e.target, tag = t && t.tagName;
+  if(tag === "TEXTAREA" || tag === "SELECT" || (tag === "INPUT" && !/^(button|checkbox|radio|submit|reset|file|range|color)$/i.test(t.type)) || (t && t.isContentEditable)) return;
+  if(document.querySelector("dialog[open]")) return;
+  e.preventDefault();
+  if(e.shiftKey) doRedo(); else doUndo();
+});
 
 /* Short directions shown at the top of each step. Plain words, short sentences. */
 var TODO = {
@@ -1070,7 +1157,7 @@ function render(){
   var pct = Math.round(100 * (npos + 1) / num.length);
   $("mbar").style.width = pct + "%"; $("mtext").textContent = "Step " + (npos + 1) + " of " + num.length + ": " + st.t;
   renderRail(num, npos, pct);
-  var nav = '<div class="nav noprint"><button class="btn sec" type="button" id="back" ' + (pos === 0 ? "disabled" : "") + '>← Back</button><div class="r">' +
+  var nav = '<div class="nav noprint"><button class="btn sec" type="button" id="back" ' + (pos === 0 ? "disabled" : "") + '>← Back</button>' + undoButtons() + '<div class="r">' +
     (S.returnTo >= 0 && S.returnTo !== S.step ? '<button class="btn sec" type="button" id="retWhy">↩ Return to Why this arrow?</button>' : '') +
     (res ? '' : '<button class="btn" type="button" id="next">' + (st.next ? st.next() : "Next →") + '</button>') + '</div></div>';
   $("screen").innerHTML = '<p class="eyebrow"><span class="pill">Step ' + (npos + 1) + ' of ' + num.length + '</span>' + esc(st.g || "") + '</p>' + withTodo(st.t, st.r()) + '<p class="err" id="err" role="alert"></p>' + nav;
@@ -1620,7 +1707,7 @@ document.addEventListener("click", function(ev){
   if(t.dataset.toarrow){ var ap = $(t.dataset.toarrow); if(ap){ ap.scrollIntoView({block: "start"}); var fb = ap.querySelector("[data-basis]"); if(fb) fb.focus({preventScroll: true}); } return; }
   if(id === "railToggle"){ var op = $("app").classList.toggle("railopen"); t.setAttribute("aria-expanded", op); t.textContent = op ? "Hide steps" : "All steps"; if(op){ var cs = $("rail").querySelector("[aria-current=step]") || $("rail").querySelector("button"); if(cs) cs.focus(); } return; }
   if(ds.goto){ $("app").classList.remove("railopen"); var rt = $("railToggle"); if(rt){ rt.setAttribute("aria-expanded", "false"); rt.textContent = "All steps"; } return jumpTo(+ds.goto); }
-  if(id === "startOver"){ askOK("Start over? This clears your work in this browser. Use Save my work first to keep a copy.", "Start over", function(){ S = fresh(); save(); showSplash(false); }); return; }
+  if(id === "startOver"){ askOK("Start over? This clears your work in this browser. Use Save my work first to keep a copy.", "Start over", function(){ var had = hasProgress() ? JSON.stringify(S) : false; S = fresh(); save(); AFTER_START_OVER = had && canUndo() ? had : false; showSplash(false); }); return; }
   if(ds.figsize){ if(t.getAttribute("aria-disabled") === "true") return; if(setFigSize(ds.figsize)) announce(ds.figsize === "up" ? "Bigger picture." : ds.figsize === "down" ? "Smaller picture." : "The picture fits the screen."); return; }
   if(id === "viewFigBig" || ds.figbig){ $("dlgBody").innerHTML = '<p class="small mob-only" style="margin:0 0 8px">Swipe left to see the rest of the figure, or turn your phone sideways.</p>' + buildSVG({mode: "dialog", uid: "d"}); $("figDlg").showModal(); $("dlgClose").focus(); return; }
   if(id === "viewFig"){ $("dlgBody").innerHTML = buildSVG({mode: "dialog", uid: "d"}); $("figDlg").showModal(); return; }
@@ -1957,7 +2044,7 @@ function renderQuick(){
   banner();
   var next = n === 2 && !S.theory ? "Skip for now →" : n === 5 ? "See my model →" : "Next →";
   $("screen").innerHTML = qDots() + QR[n]() +
-    '<p class="err" id="err" role="alert"></p><div class="nav noprint"><button class="btn sec" type="button" id="qBack"' + (n === 1 ? " disabled" : "") + '>← Back</button><div class="r">' + (n < 6 ? '<button class="btn" type="button" id="qNext">' + next + '</button>' : '') + '</div></div>';
+    '<p class="err" id="err" role="alert"></p><div class="nav noprint"><button class="btn sec" type="button" id="qBack"' + (n === 1 ? " disabled" : "") + '>← Back</button>' + undoButtons() + '<div class="r">' + (n < 6 ? '<button class="btn" type="button" id="qNext">' + next + '</button>' : '') + '</div></div>';
   growAll($("screen"));
   if(n === 6 && !window._gcFin){ window._gcFin = 1; gcEvent("model-finished"); }
   save();
@@ -2057,6 +2144,7 @@ function showSplash(focusCite){
   b.innerHTML = hasProgress()
     ? (S.demoLoaded && hasBackup() ? '<button class="btn yel" type="button" id="exBack">Continue my model</button><button class="btn sec" type="button" id="spCont">Back to the example</button>' : '<button class="btn yel" type="button" id="spCont">' + (S.demoLoaded ? "Back to the example" : "Continue my model") + '</button>') + '<button class="btn sec" type="button" id="spNew">Start a new model</button>' + (S.demoLoaded ? '' : '<button class="btn sec" type="button" id="spDemo">See a finished example</button>') + '<button class="btn ghost" type="button" id="spOpen">Open saved work</button>'
     : '<button class="btn yel" type="button" id="spStart">Start (5 short screens)</button><button class="btn sec" type="button" id="spDemo">See a finished example</button><button class="btn ghost" type="button" id="spOpen">Open saved work</button>';
+  if(AFTER_START_OVER && canUndo()) b.innerHTML += '<button class="btn ghost" type="button" id="spUndo">↶ Undo Start over</button>';
   window.scrollTo(0, 0);
   if(focusCite){ $("about").scrollIntoView(); } else $("spT").focus({preventScroll: true});
 }
@@ -2068,7 +2156,7 @@ function openExample(){
   S = fresh(); Object.assign(S, clone(DEMO)); S.causeIds = []; S.cseq = 0; S.modIds = {}; S.mseq = 0; S.demoLoaded = true;
   S.mode = "quick"; S.shape = "both"; S.qstep = 1; S.qmax = 6;
   ensureIds(S); S.seen = ORDER.slice(); S.step = stepIdx("Who");
-  render(); focusH(); announce("Opened the finished example at screen 1.");
+  undoReset(); render(); focusH(); announce("Opened the finished example at screen 1.");
 }
 /* In-page confirmation. Browser pop-ups (confirm) are blocked in some in-app and phone browsers, which made buttons appear to do nothing. */
 var ASK = null;
@@ -2103,7 +2191,7 @@ document.addEventListener("click", function(ev){
   if(t.dataset.toquick){ $("app").classList.remove("railopen"); toQuick(); return; }
   if(id === "fqClose"){ S.fromQuick = false; save(); banner(); var hh = $("screen").querySelector("h2"); if(hh) hh.focus(); return; }
   if(id === "spDemo"){ openExample(); return; }
-  if(id === "exBack"){ var b = null; try { b = JSON.parse(localStorage.getItem(BK)); } catch(e){} try { localStorage.removeItem(BK); } catch(e){} S = b ? upgrade(b) : fresh(); render(); focusH(); announce("Back to your model."); return; }
+  if(id === "exBack"){ var b = null; try { b = JSON.parse(localStorage.getItem(BK)); } catch(e){} try { localStorage.removeItem(BK); } catch(e){} S = b ? upgrade(b) : fresh(); undoReset(); render(); focusH(); announce("Back to your model."); return; }
   if(id === "exitPreview"){ try { sessionStorage.removeItem("stmbPreview"); } catch(e){} location.href = location.pathname; return; }
   if(id === "exNew"){ try { localStorage.removeItem(BK); } catch(e){} startQuick(); return; }
   if(id === "spOpen" || id === "openFile"){ $("fileIn").value = ""; $("fileIn").click(); return; }
@@ -2153,7 +2241,7 @@ $("fileIn").onchange = function(){
   r.onload = function(){
     var d; try { d = JSON.parse(r.result); } catch(e){ $("fileErr").textContent = "Sorry, that file couldn't be read. Choose a .json file saved with “Save my work.”"; return; }
     var e = validate(d); if(e){ $("fileErr").textContent = "Sorry, couldn't open that file: " + e; return; }
-    var openIt = function(){ S = upgrade(d.state); FS = {snap: snap(), at: Date.parse(d.savedAt) || Date.now()};
+    var openIt = function(){ S = upgrade(d.state); undoReset(); FS = {snap: snap(), at: Date.parse(d.savedAt) || Date.now()};
       try { localStorage.setItem(FK, JSON.stringify(FS)); } catch(x){}
       $("fileErr").textContent = ""; render(); focusH(); announce("Opened your saved work."); };
     if(hasProgress() && FS.snap !== snap()) askOK("Replace your current unsaved work with this file?", "Open the file", openIt); else openIt();
@@ -2169,6 +2257,7 @@ $("figDlg").addEventListener("click", function(e){ if(e.target === this) this.cl
 window.addEventListener("storage", function(e){
   if(e.key !== KEY || !e.newValue) return;
   try { S = upgrade(JSON.parse(e.newValue)); } catch(x){ return; }
+  undoReset();
   if(document.body.classList.contains("splashing")) showSplash(false); else render();
 });
 /* index.html?theory=KEY from the theory library: use that theory. */
@@ -2194,6 +2283,7 @@ $("spVer").textContent = "Version " + VERSION;
 (function(){ function lk(id, u){ var e = $(id); if(u && /^https?:\/\//i.test(u)){ e.querySelector("a").href = u; e.hidden = false; } } lk("aboutSurvey", SURVEY_URL); lk("adoptLink", ADOPTION_URL); if(GOATCOUNTER_CODE) $("gcNote").hidden = false; })();
 if(window.matchMedia && window.matchMedia("(max-width: 900px)").matches) $("pvDetails").open = false;
 showSaved();
+undoReset();
 if(!theoryFromURL()) showSplash(false);
 gcEvent("app-start");
 })();

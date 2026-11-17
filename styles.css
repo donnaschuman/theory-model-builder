@@ -681,3 +681,8 @@ body.demo #saveFile,body.demo #lastSaved{display:none}
 .qsofar{margin:20px 0 0}
 .qsofar>summary{cursor:pointer;margin:0 0 8px;font-size:.8rem;font-weight:800;text-transform:uppercase;letter-spacing:.05em;color:var(--muted)}
 @media print{.figscroll svg{width:100%!important}.figsize,.figswipe{display:none!important}}
+/* Undo and Redo (A5) */
+.undoredo{display:flex;gap:6px;align-items:center}
+.undoredo [aria-disabled=true]{opacity:.45;cursor:default}
+.undoredo [hidden]{display:none}
+#spUndo{width:100%}
