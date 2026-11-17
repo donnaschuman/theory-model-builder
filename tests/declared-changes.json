@@ -1,0 +1,6 @@
+{
+  "short-done-both": {
+    "researchQuestion": "1.5.0 keeps capital letters inside box names: old \"years in the united states\", new \"years in the United States\".",
+    "hypotheses": "1.5.0 keeps capital letters inside box names: old \"years in the united states\", new \"years in the United States\"."
+  }
+}

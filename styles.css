@@ -657,3 +657,10 @@ body.demo #saveFile,body.demo #lastSaved{display:none}
   .qarrow{transform:rotate(90deg);align-self:center;margin:0}
   .qdots button{padding:3px 8px 3px 3px;font-size:.82rem}
 }
+
+/* ---------- 1.5.0 ---------- */
+.hstale{font-weight:500}
+.hstale p{margin:0 0 6px}
+.hstale ul{margin:0 0 8px 1.2em;padding:0}
+.hstale li{margin:2px 0}
+.hstale .btnrow{margin-top:8px}
