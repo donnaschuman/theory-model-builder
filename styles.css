@@ -686,3 +686,15 @@ body.demo #saveFile,body.demo #lastSaved{display:none}
 .undoredo [aria-disabled=true]{opacity:.45;cursor:default}
 .undoredo [hidden]{display:none}
 #spUndo{width:100%}
+/* Direction on the figure (A6), status line (A8), picture style (A7) */
+.qcirc{cursor:pointer}
+.qcirc:focus{outline:none}
+.qcirc:hover .ring{stroke:#5b5fd6;stroke-width:2}
+.qcirc:focus-visible .ring{stroke:var(--focus);stroke-width:3.5}
+.qpop{position:absolute;z-index:30;background:#fff;border:1px solid var(--line-2);border-radius:14px;padding:10px 12px;box-shadow:var(--sh-2);display:flex;flex-direction:column;gap:8px}
+.qpop .choice{width:100%;text-align:left}
+.qpop-h{margin:0;font-size:.95rem}
+.qpop [data-qpclose]{align-self:flex-end}
+.figstatus{margin:0 0 8px;font-weight:700;color:var(--ink-2)}
+.figstatus .linkbtn{font-weight:700}
+.figstyle{margin:14px 0 0}

@@ -269,7 +269,7 @@ function fresh(){
     props: [], propLinks: {}, returnTo: -1, reasons: {}, hyps: "", hypsEdited: false, hypsBase: "", hypWord: "H",
     showTags: true, tagMode: "H", figView: "all", pos: {}, labels: {}, rq: "", rqEdited: false,
     caption: "", captionEdited: false, notes: {}, assume: {}, sel: "", noAuto: {}, partial: {},
-    qstep: 1, qmax: 1, shape: "", partialSeen: true, fromQuick: false};
+    qstep: 1, qmax: 1, shape: "", partialSeen: true, fromQuick: false, figStyle: ""};
 }
 function isObj(x){ return x && typeof x === "object" && !Array.isArray(x); }
 function upgrade(st){
@@ -693,7 +693,13 @@ function hypsStale(){
   if(now.length !== was.length) return ["all"];
   return now.map(function(t, i){ return t === was[i] ? "" : hlabel(H[i]); }).filter(Boolean);
 }
-function baseHyps(){ if(S.hypsEdited && !S.hypsBase) S.hypsBase = hypText(); }
+function baseHyps(){
+  if(!S.hypsEdited || S.hypsBase) return;
+  /* Setting the baseline is not a student change, so a file that was just opened still counts as saved. */
+  var same = typeof FS === "object" && FS && FS.snap === JSON.stringify(S);
+  S.hypsBase = hypText();
+  if(same){ FS.snap = JSON.stringify(S); try { localStorage.setItem(FK, JSON.stringify(FS)); } catch(e){} }
+}
 function staleList(st){ return st[0] === "all" ? "every " + (S.hypWord === "P" ? "statement" : "hypothesis") : joinList(st); }
 function staleHTML(){
   var st = hypsStale(); if(!st.length) return "";
@@ -1146,6 +1152,7 @@ function banner(){
 }
 function render(){
   if(S.mode === "quick") return renderQuick();
+  if(QPOP) closeSignPop(false);
   hideSplash(); ensureIds(S); normalizeStep();
   autoLink(); baseHyps();
   if(S.seen.indexOf(S.step) < 0) S.seen.push(S.step);
@@ -1282,6 +1289,29 @@ function ghostModel(){
   }
   return {ns: ns, ps: ps, me: me};
 }
+/* Role colors (A7). Each pairs the plain word with the course term; role is also carried by the tag text and,
+   for moderators, by the dashed outline, so color is never the only cue. */
+var ROLE = {
+  cause: {fill: "#e6e7fd", line: "#2f31b8", tag: "#1f2190"},
+  med: {fill: "#f0e9fb", line: "#6a3fb8", tag: "#4b2a8a"},
+  out: {fill: "#fff3b8", line: "#8a6d00", tag: "#5c4700"},
+  mod: {fill: "#f4f5fb", line: "#555c7a", tag: "#343b5e"}
+};
+function roleTag(kind){
+  var q = S.mode === "quick";
+  return {cause: "CAUSE", med: q ? "MIDDLE STEP \u00b7 MEDIATOR" : "IN-BETWEEN \u00b7 MEDIATOR", out: q ? "RESULT \u00b7 OUTCOME" : "OUTCOME", mod: q ? "GROUP \u00b7 MODERATOR" : "MODERATOR"}[kind] || "";
+}
+/* One-line model status above each figure (A8). It counts and checks completeness; it does not judge the theory. */
+function figStatus(full){
+  var nb = nodes().length, ne = allEdges().length, need = paths().filter(function(p){ return !signSet(p.id); }).length;
+  var t = nb + (nb === 1 ? " box, " : " boxes, ") + ne + (ne === 1 ? " arrow. " : " arrows. ") + (need ? need + (need === 1 ? " arrow still needs" : " arrows still need") + " + or \u2212." : "Every arrow has a direction.");
+  var h = esc(t);
+  if(full){ var n = checks().filter(function(c){ return !c.ok; }).length; if(n) h += ' <button type="button" class="linkbtn" data-fix="' + stepIdx("Self-check") + '">' + n + (n === 1 ? " item" : " items") + ' in Self-check ' + (n === 1 ? "needs" : "need") + ' attention</button>'; }
+  return h;
+}
+function figStyleBar(){
+  return '<div class="segrow figstyle noprint"><span class="lbl">Picture style</span>' + seg("data-figstyle", "s", S.figStyle === "color" ? "color" : "", [["", "Black and white (APA)"], ["color", "Color"]], "Picture style for downloads") + '</div>';
+}
 /* Picture size (view only, never saved). Phones start wider than the screen so the words are readable. */
 var FIGSIZES = ["fit", "768", "960", "1200"];
 var FIGSIZE = window.matchMedia && window.matchMedia("(max-width: 599px)").matches ? "768" : "fit";
@@ -1309,6 +1339,8 @@ function setFigSize(v){
 }
 function buildSVG(o){
   o = o || {}; var mode = o.mode || "export", screen = mode === "screen", uid = o.uid || "x", view = o.view || figView();
+  /* Role colors and tags on screen; exports stay black and white unless the student chooses Color. */
+  var color = o.color !== undefined ? !!o.color : (mode !== "export" || S.figStyle === "color");
   var all = nodes(), hidden = hiddenIn(view);
   var ns = all.filter(function(n){ return !hidden[n.id]; });
   var L = layout(ns), P = L.P, letters = showLetters();
@@ -1317,10 +1349,10 @@ function buildSVG(o){
   if(o.ghost){ var G = ghostModel(); ns = G.ns; ps = G.ps; me = G.me; L = layout(ns); P = L.P; }
   var bypass = ps.some(function(p){ return p.bypass; });
   var tagsOn = S.tagMode !== "none" && !o.ghost;
-  var legendLines = 3 + (letters ? 1 : 0) + (tagsOn ? 1 : 0) + (bypass ? 1 : 0);
+  var legendLines = 3 + (letters ? 1 : 0) + (tagsOn ? 1 : 0) + (bypass ? 1 : 0) + (color ? 1 : 0);
   var H = L.H + 30 + legendLines * 19, out = [];
   var title = "Path figure: " + rqMain() + (view !== "all" ? " (" + tName(theoryById(view)) + " only)" : "");
-  out.push('<svg xmlns="http://www.w3.org/2000/svg"' + (screen ? ' id="fig"' : '') + ' viewBox="0 0 ' + W + ' ' + H + '" width="' + W + '" height="' + H + '" ' + (screen ? 'role="group" aria-roledescription="interactive figure"' : 'role="img"') + ' aria-labelledby="t' + uid + '" font-family="Georgia, \'Times New Roman\', serif">');
+  out.push('<svg xmlns="http://www.w3.org/2000/svg"' + (screen ? ' id="fig"' : '') + ' viewBox="0 0 ' + W + ' ' + H + '" width="' + W + '" height="' + H + '" ' + (screen ? 'role="group" aria-roledescription="interactive figure"' : o.signs ? 'role="group"' : 'role="img"') + ' aria-labelledby="t' + uid + '" font-family="Georgia, \'Times New Roman\', serif">');
   out.push('<title id="t' + uid + '">' + esc(title) + '</title><defs><marker id="ah' + uid + '" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="userSpaceOnUse" markerWidth="16" markerHeight="16" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#222"/></marker>' + (o.ghost ? '<marker id="ahg' + uid + '" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="userSpaceOnUse" markerWidth="14" markerHeight="14" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#8a90a8"/></marker>' : '') + '</defs>');
   if(!screen) out.push('<rect width="100%" height="100%" fill="#fff"/>');
   var mids = {}, segs = {};
@@ -1336,7 +1368,9 @@ function buildSVG(o){
     if(p.ghost){ out.push('<' + tag + ' ' + geo + ' stroke="#8a90a8" stroke-width="1.6" marker-end="url(#ahg' + uid + ')"/>'); return; }
     out.push('<g' + attrs + '>' + (screen ? '<' + tag + ' class="halo" ' + geo + ' stroke="transparent" stroke-width="18" stroke-linecap="round"/>' : '') + '<' + tag + ' class="vis" ' + geo + ' stroke="#222" stroke-width="2"' + (d ? ' stroke-dasharray="8 6"' : '') + ' marker-end="url(#ah' + uid + ')"/></g>');
     var m = mids[p.id], cx = m[0] + 14, cy = m[1] + 17;
-    out.push('<g pointer-events="none"><circle cx="' + cx + '" cy="' + cy + '" r="9" fill="' + (sg === "-" ? "#e6e7ee" : "#fff") + '" stroke="#222" stroke-width="1.3"/><text x="' + cx + '" y="' + (cy + 5) + '" text-anchor="middle" font-size="16" font-weight="bold" font-family="Arial, sans-serif" fill="#111">' + (signSet(p.id) ? signChar(sg) : "?") + '</text></g>');
+    var circ = '<circle cx="' + cx + '" cy="' + cy + '" r="9" fill="' + (sg === "-" ? "#e6e7ee" : "#fff") + '" stroke="#222" stroke-width="1.3"/><text x="' + cx + '" y="' + (cy + 5) + '" text-anchor="middle" font-size="16" font-weight="bold" font-family="Arial, sans-serif" fill="#111">' + (signSet(p.id) ? signChar(sg) : "?") + '</text>';
+    if(o.signs) out.push('<g class="qcirc" data-qcirc="' + esc(p.id) + '" role="button" tabindex="0" aria-haspopup="dialog" aria-label="' + esc("Arrow from " + nodeLabel(p.from) + " to " + nodeLabel(p.to) + ". Direction: " + (!signSet(p.id) ? "not chosen" : sg === "-" ? "minus" : "plus") + ". Press Enter to change.") + '"><circle class="ring" cx="' + cx + '" cy="' + cy + '" r="16" fill="transparent" stroke="none"/><g pointer-events="none">' + circ + '</g></g>');
+    else out.push('<g pointer-events="none">' + circ + '</g>');
   });
   me.forEach(function(e){
     var a = P[e.from], sx = a.x + BW / 2, sy = a.y + BH, m = modTo[e.id], d = style(e.id, "dashed") === "dashed";
@@ -1357,10 +1391,12 @@ function buildSVG(o){
     var p = P[n.id], lines = wrap(n.label, 24), fs = 15, lh = 17;
     if(n.ghost){ out.push('<g transform="translate(' + p.x + ',' + p.y + ')"><rect width="' + BW + '" height="' + BH + '" fill="#fff" stroke="#8a90a8" stroke-width="1.5" stroke-dasharray="6 4"/><text x="' + BW / 2 + '" y="' + (BH / 2 + 5) + '" text-anchor="middle" font-size="15" font-style="italic" fill="#5c6178">' + esc(n.label) + '</text></g>'); return; }
     if(/\u2026$/.test(lines[lines.length - 1] || "")){ lines = wrap4(n.label, 30); fs = 12.5; lh = 14; }
-    var fill = n.kind === "mod" ? "#f3f3f7" : n.kind === "out" ? "#e6e7ee" : "#fff", Lt = letters ? letterOf(n.id) : "";
+    var fill = n.kind === "mod" ? "#f3f3f7" : n.kind === "out" ? "#e6e7ee" : "#fff", Lt = letters ? letterOf(n.id) : "", RC = color ? ROLE[n.kind] : null;
+    if(RC) fill = RC.fill;
     var attrs = screen ? ' class="node" data-node="' + n.id + '" tabindex="0" role="button" aria-roledescription="movable box" aria-label="' + esc(lines.join(" ") + (Lt ? " " + Lt : "") + ". " + KIND[n.kind] + (Lt ? ", from " + tagLabel(S.ctag[n.id]) : "") + ". Drag, or use arrow keys, to move.") + '"' : '';
-    out.push('<g' + attrs + ' transform="translate(' + p.x + ',' + p.y + ')">' + (/\u2026$/.test(lines[lines.length - 1] || "") ? '<title>' + esc(n.label) + '</title>' : '') + '<rect class="box" width="' + BW + '" height="' + BH + '" fill="' + fill + '" stroke="#222" stroke-width="1.5"/>');
-    lines.forEach(function(l, i){ out.push('<text x="' + BW / 2 + '" y="' + (BH / 2 + (i - (lines.length - 1) / 2) * lh + 5) + '" text-anchor="middle" font-size="' + fs + '" fill="#111">' + esc(l) + (i < lines.length - 1 || Lt ? " " : "") + '</text>'); });
+    out.push('<g' + attrs + ' transform="translate(' + p.x + ',' + p.y + ')">' + (/\u2026$/.test(lines[lines.length - 1] || "") ? '<title>' + esc(n.label) + '</title>' : '') + '<rect class="box" width="' + BW + '" height="' + BH + '" fill="' + fill + '" stroke="' + (RC ? RC.line : "#222") + '" stroke-width="1.5"' + (RC && n.kind === "mod" ? ' stroke-dasharray="6 4"' : '') + '/>' +
+      (RC ? '<text x="' + BW / 2 + '" y="12" text-anchor="middle" font-size="10.5" letter-spacing="0.8" font-weight="bold" font-family="Arial, sans-serif" fill="' + RC.tag + '">' + esc(roleTag(n.kind)) + '</text>' : ''));
+    lines.forEach(function(l, i){ out.push('<text x="' + BW / 2 + '" y="' + (BH / 2 + (i - (lines.length - 1) / 2) * lh + 5 + (RC ? 5 : 0)) + '" text-anchor="middle" font-size="' + fs + '" fill="#111">' + esc(l) + (i < lines.length - 1 || Lt ? " " : "") + '</text>'); });
     if(Lt) out.push('<g class="lt lt-' + Lt + '" pointer-events="none"><circle cx="' + (BW - 1) + '" cy="1" r="10" fill="#fff" stroke="#222" stroke-width="1.2"/><text x="' + (BW - 1) + '" y="5.5" text-anchor="middle" font-size="12" font-weight="bold" font-family="Arial, sans-serif" fill="#111">' + Lt + '</text></g>');
     out.push('</g>');
   });
@@ -1370,6 +1406,7 @@ function buildSVG(o){
   var thn = view !== "all" ? tName(theoryById(view)) : theoryNames();
   out.push('<text x="30" y="' + ty + '" fill="#444">' + (thn ? 'Theory: ' + esc(thn) + '. ' : '') + 'Dashed arrows into an arrow = the moderator changes that arrow\'s strength.</text>'); ty += 19;
   out.push('<text x="30" y="' + ty + '" fill="#444">Circled + / −: direction. + = more of one leads to more of the next; − = more of one leads to less.</text>'); ty += 19;
+  if(color){ out.push('<text x="30" y="' + ty + '" fill="#444">Box colors show each box\'s role.</text>'); ty += 19; }
   if(bypass){ out.push('<text x="30" y="' + ty + '" fill="#444">Curved arrow: a direct effect that does not pass through the in-between concept (partial mediation).</text>'); ty += 19; }
   if(letters){ var ls = theoryList().map(function(t){ return t.id + " = " + tName(t); }); if(all.some(function(n){ return S.ctag[n.id] === "new"; })) ls.push("N = new concept"); out.push('<text x="30" y="' + ty + '" fill="#444">Circled letters: source of each concept. ' + esc(ls.join("; ")) + '.</text>'); ty += 19; }
   if(S.tagMode === "H" && tagsOn) out.push('<text x="30" y="' + ty + '" fill="#444">' + (S.hypWord === "P" ? "S numbers on arrows match the numbered statements in the text." : "H numbers on arrows match the hypotheses in the text.") + '</text>');
@@ -1496,9 +1533,9 @@ function renderResults(){
       '<h4 style="margin:16px 0 6px">Where each one comes from</h4><div class="tablewrap" id="htab">' + hypTable(false) + '</div>') +
     rsec("Path figure", "",
       '<div class="toolbar noprint"><span class="lbl">Arrow labels</span>' + seg("data-tagmode", "t", S.tagMode, [["H", S.hypWord === "P" ? "S numbers" : "H numbers"], ["P", "P numbers (theory propositions)"], ["none", "None"]], "Arrow labels") + viewBar() + '</div>' +
-      '<p class="small noprint" style="margin:0 0 8px">Drag a box to move it. Click an arrow to change it; its settings open in the panel below the figure.</p>' + sizeBar(true) + '<div class="figgrid"><div class="figcol">' + figFrame(buildSVG({mode: "screen", uid: "f"}), "figwrap") + '</div><div class="inspector noprint" id="insp">' + inspHTML() + '</div></div>' +
+      '<p class="small noprint" style="margin:0 0 8px">Drag a box to move it. Click an arrow to change it; its settings open in the panel below the figure.</p>' + sizeBar(true) + '<p class="figstatus noprint" id="figstatus" role="status">' + figStatus(true) + '</p>' + '<div class="figgrid"><div class="figcol">' + figFrame(buildSVG({mode: "screen", uid: "f"}), "figwrap") + '</div><div class="inspector noprint" id="insp">' + inspHTML() + '</div></div>' +
       '<details class="noprint" style="margin-top:12px"><summary>Edit box labels</summary>' + nodes().map(function(n){ return '<label for="lab_' + n.id + '">' + esc(KIND[n.kind]) + '</label><input type="text" id="lab_' + n.id + '" data-lab="' + n.id + '" value="' + esc(n.label) + '">'; }).join("") + '</details>' +
-      '<div class="btnrow noprint" style="margin-top:14px"><button class="btn" type="button" id="dlPNG">Download picture (PNG)</button><button class="btn sec" type="button" id="print">Print or save as PDF</button><button class="btn ghost" type="button" id="resetLayout">Reset layout</button></div>' +
+      figStyleBar() + '<div class="btnrow noprint" style="margin-top:8px"><button class="btn" type="button" id="dlPNG">Download picture (PNG)</button><button class="btn sec" type="button" id="print">Print or save as PDF</button><button class="btn ghost" type="button" id="resetLayout">Reset layout</button></div>' +
       '<details class="noprint" style="margin-top:8px"><summary>More formats (for advanced users)</summary><p class="small">SVG is a picture you can resize without blur, for editing in drawing software. Mermaid is text that some writing tools turn into a figure.</p><div class="btnrow"><button class="btn sec sm" type="button" id="dlSVG">Download SVG</button><button class="btn sec sm" type="button" id="cpMer">Copy Mermaid text</button></div><pre id="mer" class="mer">' + esc(mermaid()) + '</pre></details>') +
     rsec("For your paper", "",
       '<h4 style="margin:0 0 4px">Figure caption</h4><p class="small noprint" style="margin:0 0 10px">How Figure 1 looks in an APA 7 paper. The legend inside the figure explains the lines, signs, and labels, so no note is added. To add one, click Edit and type a last line that starts with <strong>Note.</strong> Use a note only for what the figure does not show, such as an abbreviation or a permission statement (“Adapted from …”).</p>' +
@@ -1518,7 +1555,7 @@ function refreshText(){
   if(!S.hypsEdited) $("hyps").value = hypText();
   if(!S.captionEdited){ S.caption = autoCaption(); $("cap").value = S.caption; }
   syncViews();
-  $("hstale").innerHTML = staleHTML();
+  $("hstale").innerHTML = staleHTML(); if($("figstatus")) $("figstatus").innerHTML = figStatus(true);
   $("sum").innerHTML = sumHTML(); $("htab").innerHTML = hypTable(false); $("chk").innerHTML = checkHTML(checks(), true); $("ctab").innerHTML = conceptsTable(false);
   growAll($("screen")); save();
 }
@@ -1589,6 +1626,57 @@ document.addEventListener("click", function(ev){
   var t = ev.target.closest("button"); if(!t) return;
   if(t.dataset.hkeep){ S.hypsBase = hypText(); if(S.mode === "quick") renderQuick(); else if(isResults()) refreshText(); announce("Kept your wording."); return; }
   if(t.dataset.hrebuild){ rebuildHyps(); return; }
+  if(t.dataset.figstyle !== undefined){
+    S.figStyle = t.dataset.val; save();
+    t.parentNode.querySelectorAll("button").forEach(function(x){ x.setAttribute("aria-pressed", x === t); });
+    if(isResults() && S.mode !== "quick") syncViews();
+    announce(S.figStyle === "color" ? "Downloads will be in color." : "Downloads will be black and white.");
+    return;
+  }
+});
+/* Short version, screens 5 and 6: change + or - from the figure. The panel offers the same two choices as screen 5. */
+var QPOP = null;
+function closeSignPop(back){ var p = $("qpop"); if(p) p.remove(); var id = QPOP; QPOP = null; if(back && id){ var c = document.querySelector('[data-qcirc="' + CSS.escape(id) + '"]'); if(c) c.focus(); } }
+function openSignPop(c){
+  closeSignPop(false);
+  var id = c.dataset.qcirc, p = paths().filter(function(x){ return x.id === id; })[0]; if(!p) return;
+  var a = nodeLabel(p.from), b = nodeLabel(p.to), v = S.signs[id] || "", frame = c.closest(".figscroll");
+  var r = c.getBoundingClientRect();
+  var d = document.createElement("div"); d.id = "qpop"; d.className = "qpop"; d.setAttribute("role", "dialog"); d.setAttribute("aria-label", "Direction of the arrow from " + a + " to " + b);
+  d.innerHTML = '<p class="qpop-h"><strong>' + esc(a) + '</strong> → <strong>' + esc(b) + '</strong></p>' +
+    '<button type="button" class="choice" data-qpsign="' + esc(id) + '" data-val="+" aria-pressed="' + (v === "+") + '"><strong>+</strong> More ' + esc(lcLabel(a)) + ' leads to more ' + esc(lcLabel(b)) + '</button>' +
+    '<button type="button" class="choice" data-qpsign="' + esc(id) + '" data-val="-" aria-pressed="' + (v === "-") + '"><strong>−</strong> More ' + esc(lcLabel(a)) + ' leads to less ' + esc(lcLabel(b)) + '</button>' +
+    '<button type="button" class="btn ghost sm" data-qpclose="1">Close</button>';
+  document.body.appendChild(d);
+  var w = Math.min(300, document.documentElement.clientWidth - 16), left = r.left + r.width / 2 - w / 2;
+  left = Math.max(8, Math.min(left, document.documentElement.clientWidth - w - 8));
+  d.style.width = w + "px"; d.style.left = (left + window.scrollX) + "px"; d.style.top = (r.bottom + window.scrollY + 6) + "px";
+  frame.addEventListener("scroll", function once(){ frame.removeEventListener("scroll", once); closeSignPop(false); });
+  QPOP = id;
+  d.querySelector("[data-qpsign]").focus();
+}
+document.addEventListener("click", function(ev){
+  if(S.mode !== "quick") return;
+  var c = ev.target.closest && ev.target.closest(".qcirc");
+  if(c){ openSignPop(c); return; }
+  var t = ev.target.closest("button");
+  if(t && t.dataset.qpclose){ closeSignPop(true); return; }
+  if(t && t.dataset.qpsign){
+    var id = t.dataset.qpsign, v = t.dataset.val, fr = t.closest(".figscroll"), sx = fr ? fr.scrollLeft : 0, y = window.scrollY;
+    S.signs[id] = v; if(!S.hypsEdited) S.hyps = ""; QPOP = null;
+    renderQuick(); window.scrollTo(0, y);
+    var f2 = document.querySelector(".qfig.figscroll"); if(f2) f2.scrollLeft = sx;
+    var c2 = document.querySelector('[data-qcirc="' + CSS.escape(id) + '"]'); if(c2) c2.focus({preventScroll: true});
+    announce(v === "-" ? "Set to minus: more leads to less." : "Set to plus: more leads to more.");
+    return;
+  }
+  if(QPOP && !(ev.target.closest && ev.target.closest("#qpop"))) closeSignPop(false);
+});
+document.addEventListener("keydown", function(ev){
+  if(S.mode !== "quick") return;
+  if(ev.key === "Escape" && QPOP){ ev.preventDefault(); closeSignPop(true); return; }
+  var c = ev.target.closest && ev.target.closest(".qcirc");
+  if(c && (ev.key === "Enter" || ev.key === " ")){ ev.preventDefault(); openSignPop(c); }
 });
 function wireResults(){
   var wrap = $("figwrap");
@@ -1993,12 +2081,14 @@ var QR = {
         '<button type="button" class="choice" data-qsign="' + esc(p.id) + '" data-val="-" aria-pressed="' + (v === "-") + '"><strong>−</strong> More ' + esc(lcLabel(a)) + ' leads to less ' + esc(lcLabel(b)) + '</button></div></div>';
     });
     if(me.length) h += '<p class="small">The dashed arrow from ' + esc(me[0].name) + ' does not need + or −. It shows that an arrow may be stronger for some groups.</p>';
-    return h + '<p class="qcap" style="margin-top:20px">Your figure so far</p>' + sizeBar(true) + figFrame(buildSVG({mode: "dialog", uid: "q"}), "", "qfig");
+    return h + '<p class="qcap" style="margin-top:20px">Your figure so far</p>' + sizeBar(true) + '<p class="figstatus" role="status">' + figStatus(false) + '</p><p class="small noprint" style="margin:0 0 8px">You can also click a circled + or − in the figure to change it.</p>' + figFrame(buildSVG({mode: "dialog", uid: "q", signs: true}), "", "qfig");
   },
   6: function(){
     var rq = (S.rqEdited && S.rq) || autoRQ(), hy = (S.hypsEdited && S.hyps) || hypText();
     var h = '<h2 id="stepTitle">Your model</h2><p class="lede">Your figure, research question, and hypotheses are ready to use.</p>' +
-      sizeBar(true) + figFrame(buildSVG({mode: "export", uid: "r"}), "", "qfig") + '<div class="btnrow noprint" style="margin-top:12px"><button class="btn" type="button" id="qPNG">Download picture (PNG)</button><button class="btn sec" type="button" id="qPrint">Print or save as PDF</button></div>' +
+      sizeBar(true) + '<p class="figstatus" role="status">' + figStatus(false) + '</p>' + figFrame(buildSVG({mode: "export", uid: "r", color: true, signs: true}), "", "qfig") +
+      '<p class="small noprint" style="margin:8px 0 0">To change a direction, click a circled + or − in the figure, or <button type="button" class="linkbtn" data-qgo="5">change + or −</button> on screen 5.</p>' +
+      figStyleBar() + '<div class="btnrow noprint" style="margin-top:8px"><button class="btn" type="button" id="qPNG">Download picture (PNG)</button><button class="btn sec" type="button" id="qPrint">Print or save as PDF</button></div>' +
       '<h3 class="qh">Research question</h3><div class="fv">' + fmtLines(rq) + '</div><div class="btnrow noprint"><button class="btn sec sm" type="button" id="qCopyRQ">Copy</button></div>' +
       '<h3 class="qh">Hypotheses</h3><p class="small" style="margin:0 0 8px">One for each arrow. The H numbers match the numbers on the figure.</p><div role="status">' + staleHTML() + '</div><div class="fv">' + fmtLines(hy) + '</div><div class="btnrow noprint"><button class="btn sec sm" type="button" id="qCopyH">Copy</button></div>';
     if(!S.demoLoaded) h += '<p class="savehint noprint" style="margin-top:20px"><strong>Save my work</strong> so you can open this model later on any computer. <button type="button" class="btn yel sm" data-savefile="1">Save my work</button></p>';
@@ -2035,6 +2125,7 @@ function qDots(){
   }).join("") + '</ol>';
 }
 function renderQuick(){
+  if(QPOP) closeSignPop(false);
   hideSplash(); ensureIds(S); baseHyps();
   if(!(S.qstep >= 1 && S.qstep <= 6)) S.qstep = 1;
   if(S.qstep > S.qmax) S.qmax = S.qstep;
