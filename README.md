@@ -40,7 +40,8 @@ D. L. Schuman designed the tool, its teaching approach, and its coaching content
 - No build step: Netlify publishes the repo root (`index.html`, `guide.html`, `library.html`, `theories.js`, `styles.css`, `fonts/`).
 - Fonts are self-hosted under the SIL Open Font License (see `fonts/`): Atkinson Hyperlegible Next (body) and Bricolage Grotesque (headings and numerals).
 - No data leaves the browser. Work saves in the browser and in "Save my work" JSON files. Files saved by version 1.0 open in 1.2 with every reason, direction, style, and link attached to the right arrow.
-- Accessibility: every drag action has a keyboard alternative (move buttons, menus, arrow keys on figure boxes). Automated axe-core checks against WCAG 2.2 AA report no violations on any screen.
+- Accessibility: every drag action has a keyboard alternative (move buttons, menus, arrow keys on figure boxes). Automated axe-core checks against WCAG 2.2 AA report no violations on the home page, every short-version screen, and six full-version steps including Results, at 1440 and 390 pixels wide.
+- Regression test: `node tests/regress.js` opens each saved-work file in `tests/fixtures` and compares the research question, hypotheses, caption, and exported figure with the 1.4.0 baseline in `tests/baseline`. Add `--old <address of a 1.4.0 copy>` to check that work saved by the new build still opens in 1.4.0, so a rollback loses no work. Wording changes must be declared in `tests/declared-changes.json`. The test needs a globally installed Playwright; the repository has no `package.json`, so Netlify installs nothing.
 
 ## Optional settings
 
@@ -52,7 +53,7 @@ At the top of the first `<script>` in `index.html`:
 
 ## How to cite
 
-Schuman, D. L. (2026). *Social theory model builder* (Version 1.4.0) [Web application]. The University of Texas at Arlington. https://doi.org/10.5281/zenodo.23423388
+Schuman, D. L. (2026). *Social theory model builder* (Version 1.5.0) [Web application]. The University of Texas at Arlington. https://doi.org/10.5281/zenodo.23423388
 
 In-text: (Schuman, 2026). Machine-readable metadata is in `CITATION.cff` (GitHub's "Cite this repository") and `.zenodo.json`.
 

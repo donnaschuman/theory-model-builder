@@ -1,5 +1,29 @@
 # Changelog
 
+## 1.5.0 (2026-11-17)
+
+Release A of the ranked improvement spec (November 14, 2026). Students are using the app this semester, so every change keeps saved work safe: the saved-file format is still schema 4, the two new fields are optional, and work saved by 1.5.0 opens in 1.4.0.
+
+### Fixes to text students paste into papers
+- **Edited hypotheses that no longer match the figure.** Once a student edits the hypotheses, the app stops rewriting them, so a later change to the model (an arrow's + or −, a cause, the shape) left the text and the figure saying different things, with no warning. The app now remembers its own sentences at the first edit. When the model changes afterward, Results and the short version's Your model screen say "Your model changed after you edited these sentences," name the hypotheses to check, show what the figure now says, and offer **Keep my wording** and **Rebuild from my answers**. Self-check flags it too. Files saved before 1.5.0 start from the text as it is when they are first opened, so they show no warning until the model changes again.
+- **Capital letters in box names.** Research subquestions and hypotheses lowercased whole box names. They now lowercase only the first letter, and not even that when the name starts with an acronym or abbreviation (VA, PTSD, U.S.). Old: "differ by years in the united states." New: "differ by years in the United States." A name that starts with a proper adjective ("Chinese cultural values") still starts with a small letter; the note under the hypotheses already asks students to read and reword each sentence. This changes the unedited text of saved models that have such names the next time they open; edited text is never rewritten.
+
+### The figure
+- **Readable on phones.** Every figure on screen has **Bigger**, **Smaller**, and **Fit to screen**. On phones it starts 768 pixels wide, so box names are 12 pixels tall, and the student swipes sideways to see the rest. The page itself never scrolls sideways. Short-version screens 5 and 6 have **View figure full screen**.
+- **Wider on Results.** The Change an arrow panel moved below the figure, so the figure uses the full width (box names 14.7 pixels at 1440 pixels wide, up from 9.7). Clicking an arrow scrolls the panel into view.
+- **Your figure so far, from screen 3.** After the student picks a shape, the short version draws their own figure, with dashed placeholder boxes (Cause 1, Middle step, Group or condition) for parts still empty. On screen 4 it changes as they type. Placeholders are drawing only and never reach the research question or hypotheses.
+- **Change + or − on the figure.** On short-version screens 5 and 6, each circled direction is a button. It opens the same two choices as screen 5 ("More social support leads to more loneliness" or "…less loneliness"). Nothing is preset. Screen 6 also links back to screen 5.
+- **Role in words and color.** On screen, each box shows its role above its name: CAUSE; MIDDLE STEP · MEDIATOR (IN-BETWEEN · MEDIATOR in the 15 steps); RESULT · OUTCOME (OUTCOME); GROUP · MODERATOR (MODERATOR, with a dashed outline). Every color pair passes WCAG contrast (labels 15.5:1 or higher, role words 8.0:1 or higher). Downloads stay black and white for APA unless the student chooses **Picture style: Color**.
+- **Model status line** above each figure: "4 boxes, 3 arrows. 1 arrow still needs + or −." On Results it also links to the Self-check items that need attention. It counts and checks completeness; it does not judge whether the model is theoretically sound.
+
+### Undo and Redo
+- **Undo** and **Redo** on every screen, beside Back, and Ctrl+Z or Command+Z (with Shift for Redo) when the cursor is not in a text box. Undo returns to the screen where the change was made and says what came back ("Undone. Acculturative stress is back."). A removed cause returns with its direction, reason, and definition. **Start over** can be undone from the home page. The history (up to 50 changes) is kept only in the open tab.
+
+### Compatibility and testing
+- New optional fields: `hypsBase` (the app's sentences at the first edit) and `figStyle` (empty for black and white). Version 1.4.0 keeps both when it opens work saved by 1.5.0, so a rollback loses nothing.
+- New regression test (`tests/regress.js`) with seven saved-work files made with invented topics. Each opens with no error, and its research question, hypotheses, caption, and exported figure match 1.4.0 except the capital-letter fix above. Work saved by 1.5.0 opens in 1.4.0 from a file and from browser storage.
+- Automated axe-core checks (WCAG 2.2 AA) report no violations on the home page, every short-version screen, and six full-version steps including Results, at 1440 and 390 pixels wide. The short version can be finished, a direction changed on the figure, a change undone and redone, and the figure resized with the keyboard alone.
+
 ## 1.4.0 (2026-10-25)
 
 Students found the 15 steps too dense to start: too much reading before they saw a model. This release adds a short version and makes it the starting point.
