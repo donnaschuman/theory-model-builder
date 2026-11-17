@@ -171,7 +171,7 @@ var PROPOSITIONS_VIDEO_URL = ''; // older setting; used for the propositions slo
 /* Preview key: add ?preview to the address to move through every step without answering.
    It lasts for the browser tab; "Exit preview" turns it off. */
 var PREVIEW = (function(){ var on = /[?&](preview|demo)(=|&|$)/i.test(location.search); try { if(on) sessionStorage.setItem("stmbPreview", "1"); on = on || sessionStorage.getItem("stmbPreview") === "1"; } catch(e){} return on; })();
-var KEY = "theoryModelApp.v1", VERSION = "1.5.0", SCHEMA = 4;
+var KEY = "theoryModelApp.v1", VERSION = "1.6.0", SCHEMA = 4;
 var APP_URL = "https://social-theory-model-builder.netlify.app";
 var DOI_URL = "https://doi.org/10.5281/zenodo.23423388";
 var CITE = "Schuman, D. L. (2026). Social theory model builder (Version " + VERSION + ") [Web application]. The University of Texas at Arlington. " + DOI_URL;
@@ -446,7 +446,8 @@ var GLOSSARY = [
   ["Proposition (P1, P2…)", "A sentence from the theory that says how two concepts are related, such as “the more X, the more Y.” You copy it from the source with its page number."],
   ["Cause", "A concept that changes the outcome. An arrow goes from the cause to the outcome."],
   ["In-between (mediator)", "A concept that the cause changes first, and that then changes the outcome. It explains why the cause works."],
-  ["Complete or partial mediation", "Complete: the cause works only through the in-between concept. Partial: the cause also has its own arrow straight to the outcome."],
+  ["Complete or partial mediation", "Complete: the cause works only through the in-between concept. Partial: the cause also has its own arrow straight to the outcome. Many current methods texts test the indirect effect instead of using these labels."],
+  ["Indirect effect", "The part of a cause's effect that passes through the in-between concept. Your mediation hypothesis states it: the cause is associated with the outcome through the mediator."],
   ["Moderator", "A characteristic or condition that makes an arrow stronger or weaker for some groups (for example, distance to care)."],
   ["Social determinant", "A condition where people are born, live, learn, work, and age (income, housing, discrimination) that shapes their outcomes."],
   ["Arrow direction (+ or −)", "+ means more of one concept leads to more of the next. − means more of one leads to less of the next."],
@@ -671,14 +672,18 @@ function hypList(){
   function ex(id, def){ return style(id, def) === "dashed" ? " (exploratory)" : ""; }
   ps.forEach(function(p){ n++; H.push({n: n, edge: p.id, kind: "direct", text: hn(n) + " (direct" + (style(p.id, "solid") === "dashed" ? ", exploratory" : "") + "): Higher " + lcLabel(nodeLabel(p.from)) + " will be associated with " + hl(sign(p.id)) + " " + lcLabel(nodeLabel(p.to)) + "."}); });
   modEdges().forEach(function(e){ var p = ps.filter(function(x){ return x.id === e.path; })[0]; if(!p) return; n++; var d = S.modDetails[e.name] || {}; H.push({n: n, edge: e.id, kind: "moderation", text: hn(n) + " (moderation): The link between " + lcLabel(nodeLabel(p.from)) + " and " + lcLabel(nodeLabel(p.to)) + " will differ by " + lcLabel(e.name) + (d.groups ? " (" + d.groups + ")" : "") + "."}); });
+  /* Mediation: one sentence per cause, stated as an indirect effect (Hayes, 2022; Rucker et al., 2011). Its direction is
+     the product of the two arrows' directions: + and + or - and - give "higher"; one of each gives "lower". With a
+     direction missing, the sentence names no direction. A cause with its own arrow to the outcome (partial mediation)
+     already has a direct hypothesis for that arrow, so the sentence adds no "partially". */
   if(hasMed() && causeNodes().length){
     n++;
-    var ex2 = causeNodes().some(function(c){ return style(c.id + ">med", "solid") === "dashed"; }) || style("med>out", "solid") === "dashed";
-    var pi = partialIds(), comp = causeNodes().filter(function(c){ return pi.indexOf(c.id) < 0; }), part = causeNodes().filter(function(c){ return pi.indexOf(c.id) >= 0; });
-    function names(l){ return joinList(l.map(function(c){ return lcLabel(c.label); })); }
-    /* Short-version models have not chosen complete or partial mediation yet, so the sentence does not claim either. */
-    var body = !S.partialSeen && !part.length ? "will mediate the " + (comp.length > 1 ? "links" : "link") + " from " + names(comp) + " to " : comp.length && part.length ? "will completely mediate the " + (comp.length > 1 ? "links" : "link") + " from " + names(comp) + ", and partially mediate the " + (part.length > 1 ? "links" : "link") + " from " + names(part) + ", to " : (part.length ? "will partially mediate the " + (part.length > 1 ? "links" : "link") + " from " + names(part) + " to " : "will completely mediate the " + (comp.length > 1 ? "links" : "link") + " from " + names(comp) + " to ");
-    H.push({n: n, edge: null, kind: "mediation", text: hn(n) + " (mediation" + (ex2 ? ", exploratory" : "") + "): " + nodeLabel("med") + " " + body + lcLabel(nodeLabel("out")) + "."});
+    var cs = causeNodes(), m = lcLabel(nodeLabel("med")), o = lcLabel(nodeLabel("out"));
+    cs.forEach(function(c, k){
+      var a = c.id + ">med", ex2 = style(a, "solid") === "dashed" || style("med>out", "solid") === "dashed", sub = cs.length > 1 ? "abcdefghijklmnopqrstuvwxyz".charAt(k) : "";
+      var body = signSet(a) && signSet("med>out") ? "Higher " + lcLabel(c.label) + " will be associated with " + (S.signs[a] === S.signs["med>out"] ? "higher " : "lower ") + o : c.label + " will be associated with " + o;
+      H.push({n: n, sub: sub, edge: null, cause: c.id, kind: "mediation", text: hn(n) + sub + " (mediation" + (ex2 ? ", exploratory" : "") + "): " + body + " through " + m + " (indirect effect)."});
+    });
   }
   return H;
 }
@@ -713,12 +718,12 @@ function staleHTML(){
     '<div class="btnrow noprint"><button type="button" class="btn sec sm" data-hkeep="1">Keep my wording</button><button type="button" class="btn ghost sm" data-hrebuild="1">Rebuild from my answers</button></div></div>';
 }
 function hnumBadge(id){ var h = hypList().filter(function(x){ return x.edge === id; })[0]; return h ? '<span class="arrow-lbl">Arrow</span><span class="badge hnum" title="' + (S.hypWord === "P" ? "Statement " : "Hypothesis ") + h.n + '">' + hlabel(h) + '</span>' : ''; }
-function hlabel(h){ return S.hypWord === "P" ? "S" + h.n : "H" + h.n; }
+function hlabel(h){ return (S.hypWord === "P" ? "S" : "H") + h.n + (h.sub || ""); }
 function srcOf(id){ var k = linkOf(id); if(k >= 0) return propShort(k); return basisLabel(id) || (ask(id) ? "Needs a source" : "Not linked"); }
 function hypRows(){
   var H = hypList(), direct = H.filter(function(h){ return h.kind === "direct"; });
   return H.map(function(h){
-    if(h.kind === "mediation"){ var ids = direct.map(hlabel); return {h: hlabel(h), src: "Combines " + (ids.length > 1 ? ids[0] + " to " + ids[ids.length - 1] : ids[0] || ""), reason: "See the reasons for " + (ids.length > 1 ? ids[0] + " to " + ids[ids.length - 1] : ids[0] || "the direct paths") + "."}; }
+    if(h.kind === "mediation"){ var ids = direct.filter(function(d){ return d.edge === h.cause + ">med" || d.edge === "med>out"; }).map(hlabel), both = joinList(ids); return {h: hlabel(h), src: "Combines " + (both || "the arrows through the in-between concept"), reason: "See the reasons for " + (both || "those arrows") + "."}; }
     var r = (S.reasons[h.edge] || "").trim();
     return {h: hlabel(h), src: srcOf(h.edge), reason: (ask(h.edge) ? "[Needs a source] " : "") + (r || "Not yet written")};
   });
@@ -1013,9 +1018,9 @@ var STEPS = [
         (sg && mismatch(id) ? '<div class="warn" role="note">This differs from P' + (k + 1) + '. Check the source before you decide.</div>' : '') + '</div>';
     }
     paths().forEach(function(p){ h += row(p.id, pathLabel(p), "solid", true); });
-    var medH = hypList().filter(function(x){ return x.kind === "mediation"; })[0];
+    var medHs = hypList().filter(function(x){ return x.kind === "mediation"; }), medH = medHs[0];
     modEdges().forEach(function(e){ var p = paths().filter(function(x){ return x.id === e.path; })[0]; if(!p) return; h += '<div class="item"><div class="item-h">' + hnumBadge(e.id) + '<strong>' + esc(e.name + " → changes the arrow " + pathLabel(p)) + '</strong></div><p class="small" style="margin:6px 0 0"><strong>Line:</strong> dashed. Moderator arrows are always dashed.</p></div>'; });
-    if(medH) h += '<p class="small">' + hlabel(medH) + ' is your mediation ' + (S.hypWord === "P" ? "statement" : "hypothesis") + '. It has no single arrow because it is about the path through ' + esc(lcLabel(S.mediator.trim())) + '. You will see it on the results page.</p>';
+    if(medH){ var many = medHs.length > 1, w = S.hypWord === "P" ? "statement" : "hypothesis"; h += '<p class="small">' + esc(joinList(medHs.map(hlabel))) + (many ? ' are your mediation ' + w.replace(/is$/, "es").replace(/t$/, "ts") + '. They have' : ' is your mediation ' + w + '. It has') + ' no single arrow because ' + (many ? 'each one is' : 'it is') + ' about the path through ' + esc(lcLabel(S.mediator.trim())) + '. ' + (many ? 'The direction of each one comes from the two arrows on its path' : 'Its direction comes from the two arrows on that path') + '. You will see ' + (many ? 'them' : 'it') + ' on the results page.</p>'; }
     return h + tip("fig");
   }, v: function(){ var m = paths().filter(function(p){ return !signSet(p.id); }); if(!m.length) return ""; var lb = m.map(function(p){ var h = hypList().filter(function(x){ return x.edge === p.id; })[0]; return h ? "Arrow " + hlabel(h) : pathLabel(p); }); return "Choose + or − for " + (m.length > 1 ? "each of these arrows" : "this arrow") + ": " + lb.join(", ") + "."; }},
 /* 11 */ {t: "Why this arrow?", g: "Arrows", r: function(){
@@ -1100,7 +1105,8 @@ function medConceptBox(){
     '<p><strong>A mediator</strong> is the in-between step. The cause changes the mediator first, and the mediator then changes the outcome. It explains <em>why</em> the cause works.</p>' +
     '<p><strong>Test (the why question):</strong> “Why does ___ lead to ' + esc(lcLabel(S.outcome || "the outcome")) + '? Because it changes ___, and that changes ' + esc(lcLabel(S.outcome || "the outcome")) + '.” The answer in the second blank is your mediator (Jaccard &amp; Jacoby, 2020).</p>' + fig +
     '<p><strong>Mediator or moderator?</strong> A mediator is a box <em>on</em> the path and answers “why.” A moderator points <em>at</em> an arrow and answers “for whom, where, or when is the arrow stronger.”</p>' +
-    '<p><strong>Complete or partial?</strong> In <em>complete</em> mediation, the cause changes the outcome only through the mediator. In <em>partial</em> mediation, the cause also changes the outcome directly. Ask: can I name any other way this cause changes the outcome? If yes, it is partial (Jaccard &amp; Jacoby, 2020). You choose this for each cause below.</p>');
+    '<p><strong>Complete or partial?</strong> In <em>complete</em> mediation, the cause changes the outcome only through the mediator. In <em>partial</em> mediation, the cause also changes the outcome directly. Ask: can I name any other way this cause changes the outcome? If yes, it is partial (Jaccard &amp; Jacoby, 2020). You choose this for each cause below.</p>' +
+    '<p><strong>How your hypothesis says it.</strong> The mediation hypothesis states the <em>indirect effect</em>: the cause is associated with the outcome <em>through</em> the mediator. Its direction comes from the two arrows on that path. Two + arrows, or two − arrows, give “higher.” One + and one − give “lower.” Current methods estimate and test the indirect effect itself (Hayes, 2022), and Rucker et al. (2011) recommend that researchers focus on the size and significance of indirect effects rather than on whether mediation is complete or partial. You will still meet complete and partial mediation in theory and in older articles. In your figure, a curved arrow shows a cause that also has a direct effect, and that arrow gets its own direct hypothesis.</p>');
 }
 function modConceptBox(){
   var fig = '<svg viewBox="0 0 640 170" role="img" aria-labelledby="cmT" class="cm-fig"><title id="cmT">Left: income is a cause; an arrow goes from income to health. Right: social support is a moderator; a dashed arrow goes from social support to the middle of the arrow from stress to health.</title>' +

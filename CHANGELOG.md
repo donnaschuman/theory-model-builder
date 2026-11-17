@@ -1,5 +1,15 @@
 # Changelog
 
+## 1.6.0 (release after December 1, 2026)
+
+### Mediation hypotheses state the indirect effect
+- Each mediation hypothesis is now one sentence per cause, numbered H4a, H4b, and so on, and states the indirect effect. Old: "H4 (mediation): Loneliness will completely mediate the links from social isolation and English language use to depressive symptoms." New: "H4a (mediation): Higher social isolation will be associated with higher depressive symptoms through loneliness (indirect effect)."
+- The direction is the product of the two arrows on the path: two + arrows or two − arrows give "higher," one of each gives "lower." When either arrow has no direction yet, the sentence names no direction.
+- A cause with partial mediation already has its own direct hypothesis for its curved arrow, so the mediation sentence no longer says "partially."
+- Why: current methods estimate and test the indirect effect (Hayes, 2022), and Rucker et al. (2011) recommend attention to the size and significance of indirect effects rather than to whether mediation is complete or partial. The sign rule also makes students reason through the chain from cause to mediator to outcome.
+- The In-between step still asks for complete or partial mediation for each cause and still draws the curved arrow; its teaching box adds "How your hypothesis says it." Key terms adds "Indirect effect" and notes that many current methods texts test it instead of using the complete and partial labels. "Where each one comes from" lists each mediation hypothesis with the two arrows it combines.
+- Effect on saved work: every unedited model with a mediator shows the new sentences the next time it opens. Edited hypotheses are never rewritten; for those, the 1.5.0 warning appears ("Your model changed after you edited these sentences") because the number of hypotheses changed.
+
 ## 1.5.0 (2026-11-17)
 
 Release A of the ranked improvement spec (November 14, 2026). Students are using the app this semester, so every change keeps saved work safe: the saved-file format is still schema 4, the two new fields are optional, and work saved by 1.5.0 opens in 1.4.0.
