@@ -1,0 +1,291 @@
+{
+  "app": "theory-model-app",
+  "appName": "Social Theory Model Builder",
+  "appVersion": "1.4.0",
+  "schemaVersion": 4,
+  "savedAt": "2026-11-17T18:29:33.959Z",
+  "stepName": "In-between",
+  "state": {
+    "step": 7,
+    "seen": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7
+    ],
+    "mode": "own",
+    "who": "Women veterans using VA primary care in Texas",
+    "pop": {
+      "who": "Women veterans",
+      "age": "",
+      "where": "using VA primary care in Texas",
+      "when": ""
+    },
+    "popEdited": false,
+    "outcome": "Mental health service use",
+    "outcomeDef": "Any VA mental health visit within 12 months of a positive screen, from VA records",
+    "approach": "",
+    "integType": "",
+    "theory": "HBM",
+    "theoryCustom": "",
+    "seminal": "Rosenstock, I. M. (1966). Why people use health services. The Milbank Memorial Fund Quarterly, 44(3, Pt. 2), 94–127. https://doi.org/10.2307/3348967",
+    "more": [],
+    "causes": [
+      "Perceived barriers",
+      "Perceived benefits",
+      "Cues to action"
+    ],
+    "causeIds": [
+      "c1",
+      "c2",
+      "c3"
+    ],
+    "cseq": 4,
+    "medYN": "",
+    "mediator": "",
+    "modYN": "",
+    "modPicked": [],
+    "modOther": "",
+    "modOthers": [],
+    "modSkip": false,
+    "modDetails": {},
+    "modIds": {},
+    "mseq": 0,
+    "addedAnother": false,
+    "extraMod": "",
+    "ctag": {
+      "c1": "A",
+      "c2": "A",
+      "c3": "A"
+    },
+    "cdef": {},
+    "styles": {},
+    "signs": {},
+    "bases": {
+      "c1>out": "theory",
+      "c2>out": "theory",
+      "c3>out": "theory"
+    },
+    "needsSource": {},
+    "openQ": {},
+    "props": [
+      {
+        "text": "Perceived barriers reduce the likelihood of taking action.",
+        "page": "98",
+        "own": "",
+        "from": "Perceived barriers",
+        "to": "Mental health service use",
+        "sign": "-",
+        "theory": "A",
+        "isNew": false,
+        "src": ""
+      },
+      {
+        "text": "Perceived benefits increase the likelihood of taking action.",
+        "page": "98",
+        "own": "",
+        "from": "Perceived benefits",
+        "to": "Mental health service use",
+        "sign": "+",
+        "theory": "A",
+        "isNew": false,
+        "src": ""
+      },
+      {
+        "text": "Cues to action prompt the decision to act.",
+        "page": "99",
+        "own": "",
+        "from": "Cues to action",
+        "to": "Mental health service use",
+        "sign": "+",
+        "theory": "A",
+        "isNew": false,
+        "src": ""
+      }
+    ],
+    "propLinks": {
+      "c1>out": 0,
+      "c2>out": 1,
+      "c3>out": 2
+    },
+    "returnTo": -1,
+    "reasons": {},
+    "hyps": "",
+    "hypsEdited": false,
+    "hypWord": "H",
+    "showTags": true,
+    "tagMode": "H",
+    "figView": "all",
+    "pos": {},
+    "labels": {},
+    "rq": "",
+    "rqEdited": false,
+    "caption": "",
+    "captionEdited": false,
+    "notes": {},
+    "assume": {},
+    "sel": "",
+    "noAuto": {},
+    "partial": {},
+    "qstep": 1,
+    "qmax": 1,
+    "shape": "",
+    "partialSeen": true,
+    "fromQuick": false
+  },
+  "generated": {
+    "researchQuestion": "Main question: Among women veterans using VA primary care in Texas, how do perceived barriers, perceived benefits, and cues to action relate to mental health service use?",
+    "hypotheses": "H1 (direct): Higher perceived barriers will be associated with higher mental health service use.\n\nH2 (direct): Higher perceived benefits will be associated with higher mental health service use.\n\nH3 (direct): Higher cues to action will be associated with higher mental health service use.",
+    "figureCaption": "Figure 1\nConceptual Model of Mental Health Service Use Among Women Veterans Using VA Primary Care in Texas, Based on Health Belief Model",
+    "concepts": [
+      {
+        "name": "Perceived barriers",
+        "role": "Cause",
+        "from": "A: Health Belief Model",
+        "def": "",
+        "src": ""
+      },
+      {
+        "name": "Perceived benefits",
+        "role": "Cause",
+        "from": "A: Health Belief Model",
+        "def": "",
+        "src": ""
+      },
+      {
+        "name": "Cues to action",
+        "role": "Cause",
+        "from": "A: Health Belief Model",
+        "def": "",
+        "src": ""
+      },
+      {
+        "name": "Mental health service use",
+        "role": "Outcome",
+        "from": "Not tagged",
+        "def": "",
+        "src": ""
+      }
+    ],
+    "checks": [
+      {
+        "ok": false,
+        "text": "Missing a reason for: Perceived barriers → Mental health service use; Perceived benefits → Mental health service use; Cues to action → Mental health service use. Each arrow is a claim you will need to defend.",
+        "fix": "Why this arrow?",
+        "arrow": "c1>out"
+      },
+      {
+        "ok": true,
+        "soft": true,
+        "text": "Every arrow is tied to a proposition or to research or practice.",
+        "fix": "Why this arrow?"
+      },
+      {
+        "ok": true,
+        "soft": true,
+        "text": "Every linked arrow matches its proposition's direction.",
+        "fix": "Line styles"
+      },
+      {
+        "ok": true,
+        "soft": true,
+        "text": "Every source proposition has a page number.",
+        "fix": "Key propositions"
+      },
+      {
+        "ok": false,
+        "soft": true,
+        "text": "No conceptual definition yet for: Perceived barriers; Perceived benefits; Cues to action; Mental health service use.",
+        "fix": "Define concepts"
+      },
+      {
+        "ok": true,
+        "soft": true,
+        "text": "Every arrow says what its reason is based on.",
+        "fix": "Why this arrow?"
+      },
+      {
+        "ok": true,
+        "text": "No box is both a cause and the outcome.",
+        "fix": "Causes"
+      },
+      {
+        "ok": true,
+        "text": "No in-between (fine).",
+        "fix": "In-between"
+      },
+      {
+        "ok": true,
+        "soft": true,
+        "text": "Your population names a specific group.",
+        "fix": "Who"
+      },
+      {
+        "ok": true,
+        "text": "4 or fewer causes.",
+        "fix": "Causes"
+      },
+      {
+        "ok": true,
+        "text": "No moderators (fine).",
+        "fix": "Moderator details"
+      },
+      {
+        "ok": false,
+        "text": "No direction (+ or −) chosen yet for: Perceived barriers → Mental health service use; Perceived benefits → Mental health service use; Cues to action → Mental health service use.",
+        "fix": "Line styles"
+      },
+      {
+        "ok": true,
+        "soft": true,
+        "text": "Every proposition is linked to an arrow.",
+        "fix": "Why this arrow?"
+      },
+      {
+        "ok": false,
+        "soft": true,
+        "text": "Have you considered a social determinant, such as income, housing, discrimination, or access to services? Person-in-environment thinking asks what conditions around people shape this outcome.",
+        "fix": "Causes"
+      },
+      {
+        "ok": true,
+        "text": "Outcome definition is filled in.",
+        "fix": "Define outcome"
+      }
+    ],
+    "mermaid": "flowchart LR\n  c1[\"Perceived barriers\"]\n  c2[\"Perceived benefits\"]\n  c3[\"Cues to action\"]\n  out[\"Mental health service use\"]\n  c1 -->|\"+\"| out\n  c2 -->|\"+\"| out\n  c3 -->|\"+\"| out\n  %% Mermaid cannot point an arrow at a path midpoint; moderator arrows point to the path's target box, labeled.",
+    "decisions": [
+      [
+        "Who",
+        "Women veterans using VA primary care in Texas"
+      ],
+      [
+        "Outcome",
+        "Mental health service use; counts as: Any VA mental health visit within 12 months of a positive screen, from VA records"
+      ],
+      [
+        "Theory",
+        "A: Health Belief Model"
+      ],
+      [
+        "Causes",
+        "Perceived barriers; Perceived benefits; Cues to action"
+      ],
+      [
+        "In-between (mediator)",
+        "None for now"
+      ],
+      [
+        "Moderators",
+        "None"
+      ],
+      [
+        "Dashed paths",
+        "None"
+      ]
+    ]
+  }
+}

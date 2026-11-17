@@ -1,0 +1,234 @@
+{
+  "app": "theory-model-app",
+  "appName": "Social Theory Model Builder",
+  "appVersion": "1.4.0",
+  "schemaVersion": 4,
+  "savedAt": "2026-11-17T18:29:31.830Z",
+  "stepName": "Who",
+  "state": {
+    "step": 1,
+    "seen": [],
+    "mode": "quick",
+    "who": "First-generation college students in Texas",
+    "pop": {
+      "who": "First-generation college students in Texas",
+      "age": "",
+      "where": "",
+      "when": ""
+    },
+    "popEdited": false,
+    "outcome": "Academic burnout",
+    "outcomeDef": "",
+    "approach": "",
+    "integType": "",
+    "theory": "SCT",
+    "theoryCustom": "",
+    "seminal": "Bandura, A. (1986). Social foundations of thought and action: A social cognitive theory. Prentice-Hall.",
+    "more": [],
+    "causes": [
+      "Financial strain",
+      "Faculty support"
+    ],
+    "causeIds": [
+      "c0",
+      "c1"
+    ],
+    "cseq": 2,
+    "medYN": "yes",
+    "mediator": "Academic self-efficacy",
+    "modYN": "yes",
+    "modPicked": [
+      "__other"
+    ],
+    "modOther": "Years in the United States",
+    "modOthers": [
+      "Years in the United States"
+    ],
+    "modSkip": false,
+    "modDetails": {
+      "Years in the United States": {
+        "groups": "under 5 years vs. 5 or more years",
+        "path": "med>out"
+      }
+    },
+    "modIds": {
+      "__other0": "m0"
+    },
+    "mseq": 1,
+    "addedAnother": false,
+    "extraMod": "",
+    "ctag": {},
+    "cdef": {},
+    "styles": {},
+    "signs": {
+      "c0>med": "-",
+      "c1>med": "+",
+      "med>out": "-"
+    },
+    "bases": {},
+    "needsSource": {},
+    "openQ": {},
+    "props": [],
+    "propLinks": {},
+    "returnTo": -1,
+    "reasons": {},
+    "hyps": "",
+    "hypsEdited": false,
+    "hypWord": "H",
+    "showTags": true,
+    "tagMode": "H",
+    "figView": "all",
+    "pos": {},
+    "labels": {},
+    "rq": "",
+    "rqEdited": false,
+    "caption": "",
+    "captionEdited": false,
+    "notes": {},
+    "assume": {},
+    "sel": "",
+    "noAuto": {},
+    "partial": {},
+    "qstep": 6,
+    "qmax": 6,
+    "shape": "both",
+    "partialSeen": false,
+    "fromQuick": false
+  },
+  "generated": {
+    "researchQuestion": "Main question: Among first-generation college students in Texas, how do financial strain and faculty support relate to academic burnout?\n\nSubquestions:\n1. Does academic self-efficacy explain these relationships?\n2. Does the relationship between academic self-efficacy and academic burnout differ by years in the united states?",
+    "hypotheses": "H1 (direct): Higher financial strain will be associated with lower academic self-efficacy.\n\nH2 (direct): Higher faculty support will be associated with higher academic self-efficacy.\n\nH3 (direct): Higher academic self-efficacy will be associated with lower academic burnout.\n\nH4 (moderation): The link between academic self-efficacy and academic burnout will differ by years in the united states (under 5 years vs. 5 or more years).\n\nH5 (mediation): Academic self-efficacy will mediate the links from financial strain and faculty support to academic burnout.",
+    "figureCaption": "Figure 1\nConceptual Model of Academic Burnout Among First-generation College Students in Texas, Based on Social Cognitive Theory",
+    "concepts": [
+      {
+        "name": "Financial strain",
+        "role": "Cause",
+        "from": "Not tagged",
+        "def": "",
+        "src": ""
+      },
+      {
+        "name": "Faculty support",
+        "role": "Cause",
+        "from": "Not tagged",
+        "def": "",
+        "src": ""
+      },
+      {
+        "name": "Academic self-efficacy",
+        "role": "In-between",
+        "from": "Not tagged",
+        "def": "",
+        "src": ""
+      },
+      {
+        "name": "Academic burnout",
+        "role": "Outcome",
+        "from": "Not tagged",
+        "def": "",
+        "src": ""
+      },
+      {
+        "name": "Years in the United States",
+        "role": "Moderator",
+        "from": "Not tagged",
+        "def": "",
+        "src": ""
+      }
+    ],
+    "checks": [
+      {
+        "ok": false,
+        "text": "Missing a reason for: Financial strain → Academic self-efficacy; Faculty support → Academic self-efficacy; Academic self-efficacy → Academic burnout; Years in the United States → moderates Academic self-efficacy → Academic burnout. Each arrow is a claim you will need to defend.",
+        "fix": "Why this arrow?",
+        "arrow": "c0>med"
+      },
+      {
+        "ok": false,
+        "soft": true,
+        "text": "Not linked to a theory proposition: Financial strain → Academic self-efficacy; Faculty support → Academic self-efficacy; Academic self-efficacy → Academic burnout. Link one, or note it rests on prior research or practice.",
+        "fix": "Why this arrow?"
+      },
+      {
+        "ok": false,
+        "soft": true,
+        "text": "No conceptual definition yet for: Financial strain; Faculty support; Academic self-efficacy; Academic burnout; Years in the United States.",
+        "fix": "Define concepts"
+      },
+      {
+        "ok": false,
+        "soft": true,
+        "text": "No “based on” choice yet for: Financial strain → Academic self-efficacy; Faculty support → Academic self-efficacy; Academic self-efficacy → Academic burnout; Years in the United States → moderates Academic self-efficacy → Academic burnout.",
+        "fix": "Why this arrow?"
+      },
+      {
+        "ok": true,
+        "text": "No box is both a cause and the outcome.",
+        "fix": "Causes"
+      },
+      {
+        "ok": true,
+        "text": "The in-between differs from the outcome.",
+        "fix": "In-between"
+      },
+      {
+        "ok": true,
+        "soft": true,
+        "text": "Your population names a specific group.",
+        "fix": "Who"
+      },
+      {
+        "ok": true,
+        "text": "4 or fewer causes.",
+        "fix": "Causes"
+      },
+      {
+        "ok": true,
+        "text": "Each moderator has groups described and an arrow chosen.",
+        "fix": "Moderator details"
+      },
+      {
+        "ok": true,
+        "soft": true,
+        "text": "At least one social determinant is in your model.",
+        "fix": "Causes"
+      },
+      {
+        "ok": false,
+        "text": "Say what counts as the outcome so others could measure it the same way.",
+        "fix": "Define outcome"
+      }
+    ],
+    "mermaid": "flowchart LR\n  c0[\"Financial strain\"]\n  c1[\"Faculty support\"]\n  med[\"Academic self-efficacy\"]\n  out[\"Academic burnout\"]\n  m0[\"Years in the United States\"]\n  c0 -->|\"-\"| med\n  c1 -->|\"+\"| med\n  med -->|\"-\"| out\n  m0 -. \"moderates Academic self-efficacy to Academic burnout\" .-> out\n  %% Mermaid cannot point an arrow at a path midpoint; moderator arrows point to the path's target box, labeled.",
+    "decisions": [
+      [
+        "Who",
+        "First-generation college students in Texas"
+      ],
+      [
+        "Outcome",
+        "Academic burnout"
+      ],
+      [
+        "Theory",
+        "A: Social Cognitive Theory"
+      ],
+      [
+        "Causes",
+        "Financial strain; Faculty support"
+      ],
+      [
+        "In-between (mediator)",
+        "Academic self-efficacy"
+      ],
+      [
+        "Moderators",
+        "Years in the United States (under 5 years vs. 5 or more years); changes Academic self-efficacy → Academic burnout"
+      ],
+      [
+        "Dashed paths",
+        "Years in the United States (moderation)"
+      ]
+    ]
+  }
+}
